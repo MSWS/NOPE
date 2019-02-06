@@ -51,6 +51,8 @@ public class GeneralMovement1 implements Check, Listener {
 			return;
 		if (cp.timeSince("lastVehicle") < 1000)
 			return;
+		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
 
 		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
 			return;

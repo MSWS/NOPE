@@ -95,7 +95,11 @@ public class CPlayer {
 
 	public void clearSaveData() {
 		saveFile.delete();
-		saveFile.mkdir();
+		try {
+			saveFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		data = YamlConfiguration.loadConfiguration(saveFile);
 	}
 

@@ -57,6 +57,8 @@ public class Scaffold4 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 
 		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
+		if (avgPitches == null)
+			return;
 		if (avgPitches.size() < size)
 			return;
 

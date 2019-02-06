@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,6 +40,8 @@ public class ClonedMovement1 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		if (cp.isInClimbingBlock())
 			return;
+		if (cp.isBlockNearby(Material.WEB))
+			return;
 		if (cp.timeSince("lastBlockPlace") < 500)
 			return;
 
@@ -47,7 +50,7 @@ public class ClonedMovement1 implements Check, Listener {
 
 		Location from = event.getFrom(), to = event.getTo();
 
-		double dist = from.distanceSquared(to);
+		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
 		List<Double> distances = (ArrayList<Double>) cp.getTempData("teleportDistances");
 		if (distances == null)
@@ -55,10 +58,7 @@ public class ClonedMovement1 implements Check, Listener {
 
 		int amo = 0;
 		for (double d : distances) {
-			if (d == 0 || d == .08199265046323716 || d == .08783953834102082 || d == 0.004193324542371745
-					|| d == 0.11102223575784649)
-				continue;
-			if ((d + "").startsWith("0.0787") || (d + "").startsWith("0.04659") || (d + "").startsWith("0.00838712"))
+			if (d == 0)
 				continue;
 			if (d == dist)
 				amo++;

@@ -46,6 +46,9 @@ public class Step1 implements Check, Listener {
 		if (cp.timeSince("lastVehicle") < 1000)
 			return;
 
+		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
+		
 		Location to = event.getTo(), from = event.getFrom();
 
 		if (to.getY() == from.getY())
