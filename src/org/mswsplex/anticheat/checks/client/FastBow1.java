@@ -65,4 +65,9 @@ public class FastBow1 implements Check, Listener {
 	public String getDebugName() {
 		return "FastBow#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return false;
+	}
 }

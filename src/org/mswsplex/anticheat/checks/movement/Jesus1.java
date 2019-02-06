@@ -93,4 +93,9 @@ public class Jesus1 implements Check, Listener {
 	public String getDebugName() {
 		return "Jesus#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

@@ -63,4 +63,9 @@ public class Speed2 implements Check, Listener {
 	public String getDebugName() {
 		return "Speed#2";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

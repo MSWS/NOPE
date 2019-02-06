@@ -90,4 +90,9 @@ public class Timer1 implements Check, Listener {
 	public String getDebugName() {
 		return "Timer#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

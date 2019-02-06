@@ -10,4 +10,6 @@ public interface Check {
 	public String getCategory();
 	
 	public String getDebugName();
+	
+	public boolean lagBack();
 }

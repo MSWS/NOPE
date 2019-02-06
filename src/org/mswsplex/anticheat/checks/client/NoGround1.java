@@ -52,4 +52,9 @@ public class NoGround1 implements Check, Listener {
 	public String getDebugName() {
 		return "NoGround#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

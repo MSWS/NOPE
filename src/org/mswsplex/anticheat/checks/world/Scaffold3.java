@@ -79,4 +79,10 @@ public class Scaffold3 implements Check, Listener {
 	public String getDebugName() {
 		return "Scaffold#3";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
+
 }

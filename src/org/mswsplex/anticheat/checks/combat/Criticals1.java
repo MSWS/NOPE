@@ -51,4 +51,9 @@ public class Criticals1 implements Check, Listener {
 	public String getDebugName() {
 		return "Criticals#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return false;
+	}
 }

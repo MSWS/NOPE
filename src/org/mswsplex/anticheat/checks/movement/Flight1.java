@@ -33,7 +33,7 @@ public class Flight1 implements Check, Listener {
 
 		if (cp.isOnGround())
 			return;
-		if (player.isFlying() || cp.isInClimbingBlock())
+		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
 			return;
 		if (cp.timeSince("lastLiquid") < 400)
 			return;
@@ -63,5 +63,10 @@ public class Flight1 implements Check, Listener {
 	@Override
 	public String getDebugName() {
 		return "Flight#1";
+	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
 	}
 }

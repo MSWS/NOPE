@@ -31,7 +31,7 @@ public class Flight2 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock())
+		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
@@ -68,5 +68,10 @@ public class Flight2 implements Check, Listener {
 	@Override
 	public String getDebugName() {
 		return "Flight#2";
+	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
 	}
 }

@@ -40,6 +40,12 @@ public class Step1 implements Check, Listener {
 		if (cp.timeSince("lastSlimeBlock") < 1000)
 			return;
 
+		if (cp.timeSince("lastDamageTaken") < 500)
+			return;
+
+		if (cp.timeSince("lastVehicle") < 1000)
+			return;
+
 		Location to = event.getTo(), from = event.getFrom();
 
 		if (to.getY() == from.getY())
@@ -57,10 +63,11 @@ public class Step1 implements Check, Listener {
 				// Regular movement
 				0.41999998688697815, -0.015555072702198913, -0.07840000152587834, 0.2000000476837016,
 				0.20000004768311896, 0.12160004615724063, 0.20000004768371582, 0.20000004768371582, 0.2000000476836732,
-				0.20000004768365898, -0.07840000152587923,
+				0.20000004768365898, -0.07840000152587923, -0.07840000152587878, -0.35489329934835556,
 
 				// Slab interactions
-				.5, -0.03584062504455687,
+				.5, -0.03584062504455687, -0.6517088341626174, -0.0358406250445551, -0.6537296175885947,
+				-0.1537296175885947,
 
 				// Climbing interactions
 				0.1176000022888175, 0.07248412919149416, 0.11760000228882461 };
@@ -91,5 +98,10 @@ public class Step1 implements Check, Listener {
 	@Override
 	public String getDebugName() {
 		return "Step#1";
+	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
 	}
 }

@@ -13,8 +13,9 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
-public class Teleport1 implements Check, Listener {
+public class ClonedMovement1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -31,7 +32,7 @@ public class Teleport1 implements Check, Listener {
 
 	private final int size = 20;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -39,6 +40,9 @@ public class Teleport1 implements Check, Listener {
 		if (cp.isInClimbingBlock())
 			return;
 		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
+
+		if (player.isOnGround() && cp.isOnGround())
 			return;
 
 		Location from = event.getFrom(), to = event.getTo();
@@ -51,7 +55,8 @@ public class Teleport1 implements Check, Listener {
 
 		int amo = 0;
 		for (double d : distances) {
-			if (d == 0 || d == .08199265046323716 || d == .08783953834102082 || d == 0.004193324542371745)
+			if (d == 0 || d == .08199265046323716 || d == .08783953834102082 || d == 0.004193324542371745
+					|| d == 0.11102223575784649)
 				continue;
 			if ((d + "").startsWith("0.0787") || (d + "").startsWith("0.04659") || (d + "").startsWith("0.00838712"))
 				continue;
@@ -69,16 +74,24 @@ public class Teleport1 implements Check, Listener {
 		if (amo < size / 4)
 			return;
 
+		if (plugin.devMode())
+			MSG.tell(player, "&9" + dist);
+
 		cp.flagHack(this, 5);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Teleport";
+		return "ClonedMovements";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Teleport#1";
+		return "ClonedMovement#1";
+	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
 	}
 }

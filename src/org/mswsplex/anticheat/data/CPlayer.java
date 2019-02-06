@@ -41,12 +41,11 @@ public class CPlayer {
 		dataFile.mkdir();
 
 		saveFile = new File(plugin.getDataFolder() + "/data/" + (uuid + "").replace("-", "") + ".yml");
-		if (!saveFile.exists())
-			try {
-				saveFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			saveFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		data = YamlConfiguration.loadConfiguration(saveFile);
 	}
 
@@ -159,28 +158,29 @@ public class CPlayer {
 
 		double lastSent = timeSince(color + check.getCategory());
 
-		if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack"))
+		if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack") && check.lagBack())
 			((Player) player).teleport(lastSafe);
 
-		if (lastSent > plugin.config.getDouble("SecondsMinimum") && !plugin.devMode()
-				&& nVl > plugin.config.getInt("Minimum")) {
+		if (!plugin.devMode()) {
+			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
 
-			MSG.announce("&1&l[&9&lANTI&1&l] &c" + player.getName() + " &3failed a " + color + check.getCategory()
-					+ " &7check. (VL: &7&o" + nVl + "&7)");
+				MSG.announce("&1&l[&9&lANTI&1&l] &c" + player.getName() + " &3failed a " + color + check.getCategory()
+						+ " &7check. (VL: &7&o" + nVl + "&7)");
 
-			setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
+				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
+			}
 		}
 
 		if (nVl >= plugin.config.getInt("BanAtVl")) {
-			for (String line : plugin.config.getStringList("CommandsForBan")) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
-			}
+			if (!plugin.devMode())
+				for (String line : plugin.config.getStringList("CommandsForBan")) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+							line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
+				}
 			clearSaveData();
 		}
 
-		setSaveData("vls." + check.getCategory().toLowerCase(),
-				getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl);
+		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 	}
 
 	public Location getLastSafeLocation() {

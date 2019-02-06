@@ -58,4 +58,9 @@ public class NoFall1 implements Check, Listener {
 	public String getDebugName() {
 		return "NoFall#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

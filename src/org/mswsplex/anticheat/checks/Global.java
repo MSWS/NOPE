@@ -53,6 +53,9 @@ public class Global implements Listener {
 		if (weirdBlock)
 			cp.setTempData("lastWeirdBlock", (double) System.currentTimeMillis());
 
+		if (player.isInsideVehicle())
+			cp.setTempData("lastVehicle", (double) System.currentTimeMillis());
+
 		Location vertLine = player.getLocation();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
 			vertLine.subtract(0, 1, 0);

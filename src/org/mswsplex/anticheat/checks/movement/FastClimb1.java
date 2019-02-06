@@ -81,4 +81,9 @@ public class FastClimb1 implements Check, Listener {
 	public String getDebugName() {
 		return "FastClimb#1";
 	}
+
+	@Override
+	public boolean lagBack() {
+		return true;
+	}
 }

@@ -8,6 +8,7 @@ import org.mswsplex.anticheat.checks.client.NoFall1;
 import org.mswsplex.anticheat.checks.client.NoGround1;
 import org.mswsplex.anticheat.checks.combat.Criticals1;
 import org.mswsplex.anticheat.checks.movement.FastClimb1;
+import org.mswsplex.anticheat.checks.movement.FastSneak1;
 import org.mswsplex.anticheat.checks.movement.Flight1;
 import org.mswsplex.anticheat.checks.movement.Flight2;
 import org.mswsplex.anticheat.checks.movement.GeneralMovement1;
@@ -15,7 +16,9 @@ import org.mswsplex.anticheat.checks.movement.Jesus1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
 import org.mswsplex.anticheat.checks.movement.Speed2;
 import org.mswsplex.anticheat.checks.movement.Step1;
-import org.mswsplex.anticheat.checks.movement.Teleport1;
+import org.mswsplex.anticheat.checks.render.InvalidMovement1;
+import org.mswsplex.anticheat.checks.render.Spinbot1;
+import org.mswsplex.anticheat.checks.movement.ClonedMovement1;
 import org.mswsplex.anticheat.checks.tick.Timer1;
 import org.mswsplex.anticheat.checks.world.Scaffold1;
 import org.mswsplex.anticheat.checks.world.Scaffold2;
@@ -33,11 +36,10 @@ public class Checks {
 	}
 
 	public void registerChecks() {
-		Check[] checks = { // new GeneralMovement1()
-
-				new Flight1(), new Flight2(), new NoGround1(), new Speed1(), new Speed2(), new GeneralMovement1(),
-				new Teleport1(), new Timer1(), new Step1(), new Criticals1(), new NoFall1(), new Scaffold1(),
-				new Scaffold2(), new Scaffold3(), new Scaffold4(), new FastClimb1(), new Jesus1(), new FastBow1() };
+		Check[] checks = { new Flight1(), new Flight2(), new NoGround1(), new Speed1(), new Speed2(),
+				new GeneralMovement1(), new ClonedMovement1(), new Timer1(), new Step1(), new Criticals1(),
+				new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new Scaffold4(), new FastClimb1(),
+				new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);
