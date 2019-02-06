@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
 import org.mswsplex.anticheat.checks.TPSChecker;
+import org.mswsplex.anticheat.commands.AntiCheatCommand;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.data.PlayerManager;
 import org.mswsplex.anticheat.utils.MSG;
@@ -21,6 +22,7 @@ public class AntiCheat extends JavaPlugin {
 
 	private PlayerManager pManager;
 	private TPSChecker tpsChecker;
+	private Checks checks;
 
 	public void onEnable() {
 		if (!configYml.exists())
@@ -38,9 +40,11 @@ public class AntiCheat extends JavaPlugin {
 		pManager = new PlayerManager(this);
 		tpsChecker = new TPSChecker(this);
 
-		new Checks(this).registerChecks();
+		checks = new Checks(this);
+		checks.registerChecks();
 
 		new Global(this);
+		new AntiCheatCommand(this);
 
 		MSG.log("&aSuccessfully Enabled!");
 	}
@@ -80,8 +84,16 @@ public class AntiCheat extends JavaPlugin {
 		}
 	}
 
+	public Checks getChecks() {
+		return this.checks;
+	}
+
 	public PlayerManager getPlayerManager() {
 		return pManager;
+	}
+
+	public boolean devMode() {
+		return config.getBoolean("DevMode");
 	}
 
 	public CPlayer getCPlayer(Player player) {

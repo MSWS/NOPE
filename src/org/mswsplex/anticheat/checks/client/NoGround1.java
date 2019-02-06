@@ -1,7 +1,6 @@
-package org.mswsplex.anticheat.checks.movement;
+package org.mswsplex.anticheat.checks.client;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,13 +10,13 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
-public class Speed1 implements Check, Listener {
+public class NoGround1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
 	@Override
 	public CheckType getType() {
-		return CheckType.MOVEMENT;
+		return CheckType.CLIENT;
 	}
 
 	@Override
@@ -26,40 +25,31 @@ public class Speed1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		if (player.isFlying() || player.isInsideVehicle())
+
+		if (!player.isOnGround()) // If the client SAYS they're not on the ground, return
 			return;
 
-		if (cp.timeSince("disableFlight") < 2000)
-			return;
-		if (cp.hasMovementRelatedPotion())
+		if (cp.isOnGround())
 			return;
 
-		Location to = event.getTo(), from = event.getFrom();
-		if (to.getY() != from.getY())
+		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 
-		if (cp.timeSince("lastYChange") < 1000)
-			return;
-
-		double dist = to.distanceSquared(from);
-
-		if (dist <= .08199265663630222)
-			return;
-
-		cp.flagHack(this, 10);
+		cp.flagHack(this, 1);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Speed";
+		return "NoGround";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Speed#1";
+		return "NoGround#1";
 	}
 }

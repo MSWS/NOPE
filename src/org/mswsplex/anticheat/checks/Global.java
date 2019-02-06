@@ -8,8 +8,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
@@ -27,7 +29,7 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		boolean onGround = cp.isOnGround(), weirdBlock = cp.isInWeirdBlock();
+		boolean onGround = cp.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
 		Location from = event.getFrom(), to = event.getTo();
 
@@ -39,11 +41,15 @@ public class Global implements Listener {
 
 		if (onGround) {
 			cp.setTempData("lastOnGround", (double) System.currentTimeMillis());
-			if (!weirdBlock)
+			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid())
 				cp.setLastSafeLocation(player.getLocation());
 		} else {
 			cp.setTempData("lastInAir", (double) System.currentTimeMillis());
 		}
+
+		if (climbing)
+			cp.setTempData("lastInClimbing", (double) System.currentTimeMillis());
+
 		if (weirdBlock)
 			cp.setTempData("lastWeirdBlock", (double) System.currentTimeMillis());
 
@@ -59,6 +65,13 @@ public class Global implements Listener {
 	}
 
 	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		cp.setTempData("lastBlockPlace", (double) System.currentTimeMillis());
+	}
+
+	@EventHandler
 	public void onToggleFlight(PlayerToggleFlightEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
@@ -70,6 +83,14 @@ public class Global implements Listener {
 		} else {
 			cp.setTempData("enableFlight", (double) System.currentTimeMillis());
 		}
+	}
+
+	@EventHandler
+	public void onTeleport(PlayerTeleportEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+
+		cp.setTempData("lastTeleport", (double) System.currentTimeMillis());
 	}
 
 	@EventHandler

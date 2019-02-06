@@ -1,6 +1,7 @@
 package org.mswsplex.anticheat.checks.client;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +11,7 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
-public class NoGround implements Check, Listener {
+public class NoFall1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -25,29 +26,36 @@ public class NoGround implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!player.isOnGround()) // If the client SAYS they're not on the ground, return
+		if (!cp.isOnGround())
 			return;
 
-		if (cp.isOnGround())
+		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
 			return;
 
-		cp.flagHack(this, 1);
+		if (cp.isBlockNearby("SLAB") || cp.isBlockNearby("STEP"))
+			return;
 
+		if (cp.timeSince("lastTeleport") < 500)
+			return;
+
+		if (player.getFallDistance() == 0)
+			return;
+
+		cp.flagHack(this, 5);
 	}
 
 	@Override
 	public String getCategory() {
-		return "NoGround";
+		return "NoFall";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "CPlayerNoGround";
+		return "NoFall#1";
 	}
 }

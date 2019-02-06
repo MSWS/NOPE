@@ -33,7 +33,7 @@ public class Flight1 implements Check, Listener {
 
 		if (cp.isOnGround())
 			return;
-		if (player.isFlying())
+		if (player.isFlying() || cp.isInClimbingBlock())
 			return;
 		if (cp.timeSince("lastLiquid") < 400)
 			return;
@@ -44,6 +44,9 @@ public class Flight1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastOnGround") <= 300)
+			return;
+
+		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 
 		if (player.getVelocity().getY() > 0)
@@ -59,6 +62,6 @@ public class Flight1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "Flight1";
+		return "Flight#1";
 	}
 }

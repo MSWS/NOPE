@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 public class Teleport1 implements Check, Listener {
 
@@ -37,6 +36,10 @@ public class Teleport1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+		if (cp.isInClimbingBlock())
+			return;
+		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
 
 		Location from = event.getFrom(), to = event.getTo();
 
@@ -48,9 +51,9 @@ public class Teleport1 implements Check, Listener {
 
 		int amo = 0;
 		for (double d : distances) {
-			if (d == 0 || d == .08199265046323716 || d == .08783953834102082)
+			if (d == 0 || d == .08199265046323716 || d == .08783953834102082 || d == 0.004193324542371745)
 				continue;
-			if ((d + "").startsWith("0.0787"))
+			if ((d + "").startsWith("0.0787") || (d + "").startsWith("0.04659") || (d + "").startsWith("0.00838712"))
 				continue;
 			if (d == dist)
 				amo++;
@@ -63,10 +66,8 @@ public class Teleport1 implements Check, Listener {
 
 		cp.setTempData("teleportDistances", distances);
 
-		if (amo < 5)
+		if (amo < size / 4)
 			return;
-
-		MSG.tell(player, amo + " (" + dist + ")");
 
 		cp.flagHack(this, 5);
 	}

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
@@ -26,7 +28,10 @@ public class CPlayer {
 
 	private Location lastSafe;
 
+	private AntiCheat plugin;
+
 	public CPlayer(OfflinePlayer player, AntiCheat plugin) {
+		this.plugin = plugin;
 		this.player = player;
 		this.uuid = player.getUniqueId();
 
@@ -144,8 +149,35 @@ public class CPlayer {
 	}
 
 	public void flagHack(Check check, int vl) {
-		MSG.announce(
-				"&e" + player.getName() + "&7 failed &c" + check.getCategory() + " (&4" + check.getDebugName() + "&c)");
+
+		if (plugin.devMode()) {
+			MSG.announce("&e" + player.getName() + " &7flagged &c" + check.getDebugName());
+		}
+
+		int nVl = getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl;
+		String color = MSG.getVlColor(nVl);
+
+		double lastSent = timeSince(color + check.getCategory());
+		if (lastSent > plugin.config.getDouble("SecondsMinimum") && !plugin.devMode()
+				&& nVl > plugin.config.getInt("Minimum")) {
+			MSG.announce("&1&l[&9&lANTI&1&l] &c" + player.getName() + " &3failed a " + color + check.getCategory()
+					+ " &7check. (VL: &7&o" + nVl + "&7)");
+
+			if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack"))
+				((Player) player).teleport(lastSafe);
+
+			if (nVl >= plugin.config.getInt("BanAtVl")) {
+				for (String line : plugin.config.getStringList("CommandsForBan")) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+							line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
+				}
+				clearSaveData();
+			}
+
+			setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
+		}
+		setSaveData("vls." + check.getCategory().toLowerCase(),
+				getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl);
 	}
 
 	public Location getLastSafeLocation() {
@@ -171,7 +203,7 @@ public class CPlayer {
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
-				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS" };
+				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB" };
 
 		Material type = online.getLocation().getBlock().getType();
 		for (String mat : nonfull) {
@@ -186,6 +218,58 @@ public class CPlayer {
 					if (material.toString().contains(mat))
 						return true;
 				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isBlockNearby(Material mat) {
+		return isBlockNearby(mat, 0);
+	}
+
+	public boolean isBlockNearby(String mat) {
+		return isBlockNearby(mat, 0);
+	}
+
+	public boolean isBlockNearby(Material mat, int range) {
+		return isBlockNearby(mat, 1, 0);
+	}
+
+	public boolean isBlockNearby(String mat, int range) {
+		return isBlockNearby(mat, 1, 0);
+	}
+
+	public boolean isBlockNearby(Material mat, double yOffset) {
+		return isBlockNearby(mat, 1, yOffset);
+	}
+
+	public boolean isBlockNearby(String mat, double yOffset) {
+		return isBlockNearby(mat, 1, yOffset);
+	}
+
+	public boolean isBlockNearby(Material mat, int range, double yOffset) {
+		if (!player.isOnline())
+			return false;
+		Player online = (Player) player;
+		for (int x = -range; x <= range; x++) {
+			for (int z = -range; z <= range; z++) {
+				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
+				if (material == mat)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isBlockNearby(String mat, int range, double yOffset) {
+		if (!player.isOnline())
+			return false;
+		Player online = (Player) player;
+		for (int x = -range; x <= range; x++) {
+			for (int z = -range; z <= range; z++) {
+				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
+				if (material.toString().contains(mat))
+					return true;
 			}
 		}
 		return false;
@@ -211,6 +295,32 @@ public class CPlayer {
 				return true;
 		}
 
+		return false;
+	}
+
+	public boolean isInClimbingBlock() {
+		if (!player.isOnline())
+			return false;
+
+		Player online = (Player) player;
+
+		Block block = online.getLocation().getBlock();
+
+		return block.getType() == Material.LADDER || block.getType() == Material.VINE;
+	}
+
+	public boolean isBlockAbove() {
+		if (!player.isOnline())
+			return false;
+		Player online = (Player) player;
+
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				if (online.getLocation().clone().add(x, 2, z).getBlock().getType().isSolid()) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 

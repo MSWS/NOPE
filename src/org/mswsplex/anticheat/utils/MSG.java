@@ -306,4 +306,14 @@ public class MSG {
 		}
 		return mills;
 	}
+
+	public static String getVlColor(int vl) {
+		int maxVl = plugin.config.getInt("BanAtVl");
+		vl = Math.min(vl, maxVl);
+		List<String> colors = plugin.config.getStringList("VlColors");
+		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size() - 1));
+		String color = colors.get(index);
+
+		return color;
+	}
 }

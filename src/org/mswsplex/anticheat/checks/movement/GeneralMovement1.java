@@ -11,7 +11,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 public class GeneralMovement1 implements Check, Listener {
 
@@ -39,7 +38,7 @@ public class GeneralMovement1 implements Check, Listener {
 			return;
 		if (player.getFallDistance() > 4)
 			return;
-		if (cp.hasMovementRelatedPotion())
+		if (cp.hasMovementRelatedPotion() || cp.isInClimbingBlock())
 			return;
 		if (cp.timeSince("lastLiquid") < 400)
 			return;
@@ -96,8 +95,6 @@ public class GeneralMovement1 implements Check, Listener {
 
 		if (normal)
 			return;
-
-		MSG.tell(player, "&c" + distFromLast);
 
 		cp.flagHack(this, 5);
 	}
