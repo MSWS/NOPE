@@ -158,24 +158,27 @@ public class CPlayer {
 		String color = MSG.getVlColor(nVl);
 
 		double lastSent = timeSince(color + check.getCategory());
+
+		if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack"))
+			((Player) player).teleport(lastSafe);
+
 		if (lastSent > plugin.config.getDouble("SecondsMinimum") && !plugin.devMode()
 				&& nVl > plugin.config.getInt("Minimum")) {
+
 			MSG.announce("&1&l[&9&lANTI&1&l] &c" + player.getName() + " &3failed a " + color + check.getCategory()
 					+ " &7check. (VL: &7&o" + nVl + "&7)");
 
-			if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack"))
-				((Player) player).teleport(lastSafe);
-
-			if (nVl >= plugin.config.getInt("BanAtVl")) {
-				for (String line : plugin.config.getStringList("CommandsForBan")) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-							line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
-				}
-				clearSaveData();
-			}
-
 			setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 		}
+
+		if (nVl >= plugin.config.getInt("BanAtVl")) {
+			for (String line : plugin.config.getStringList("CommandsForBan")) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
+			}
+			clearSaveData();
+		}
+
 		setSaveData("vls." + check.getCategory().toLowerCase(),
 				getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl);
 	}
@@ -204,7 +207,6 @@ public class CPlayer {
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
 				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB" };
-
 		Material type = online.getLocation().getBlock().getType();
 		for (String mat : nonfull) {
 			if (type.toString().contains(mat))
@@ -213,11 +215,14 @@ public class CPlayer {
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
-				Material material = online.getLocation().clone().add(x, 0, z).getBlock().getType();
-				for (String mat : nonfull) {
-					if (material.toString().contains(mat))
-						return true;
+				for (int y = -1; y <= 1; y++) {
+					Material material = online.getLocation().clone().add(x, y, z).getBlock().getType();
+					for (String mat : nonfull) {
+						if (material.toString().contains(mat))
+							return true;
+					}
 				}
+
 			}
 		}
 		return false;

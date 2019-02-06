@@ -10,6 +10,7 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
 public class Step1 implements Check, Listener {
 
@@ -56,7 +57,7 @@ public class Step1 implements Check, Listener {
 				// Regular movement
 				0.41999998688697815, -0.015555072702198913, -0.07840000152587834, 0.2000000476837016,
 				0.20000004768311896, 0.12160004615724063, 0.20000004768371582, 0.20000004768371582, 0.2000000476836732,
-				0.20000004768365898,
+				0.20000004768365898, -0.07840000152587923,
 
 				// Slab interactions
 				.5, -0.03584062504455687,
@@ -75,6 +76,9 @@ public class Step1 implements Check, Listener {
 
 		if (normal)
 			return;
+
+		if (plugin.devMode())
+			MSG.tell(player, "&8" + diff);
 
 		cp.flagHack(this, 5);
 	}

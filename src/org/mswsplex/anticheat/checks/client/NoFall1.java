@@ -37,7 +37,7 @@ public class NoFall1 implements Check, Listener {
 		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
 			return;
 
-		if (cp.isBlockNearby("SLAB") || cp.isBlockNearby("STEP"))
+		if (cp.isBlockNearby("SLAB") || cp.isBlockNearby("STEP") || cp.isInWeirdBlock())
 			return;
 
 		if (cp.timeSince("lastTeleport") < 500)

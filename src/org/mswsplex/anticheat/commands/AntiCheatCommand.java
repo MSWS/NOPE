@@ -84,6 +84,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "dev: " + MSG.TorF(plugin.devMode()));
 			plugin.saveConfig();
 			break;
+		case "lagback":
+			plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
+			MSG.tell(sender, "lagback: " + MSG.TorF(plugin.config.getBoolean("LagBack")));
+			plugin.saveConfig();
+			break;
 		case "reset":
 			plugin.saveResource("config.yml", true);
 			plugin.saveResource("lang.yml", true);
@@ -106,7 +111,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear" }) {
+			for (String res : new String[] { "clear", "vl", "lagback", "reset" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}

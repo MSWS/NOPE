@@ -10,7 +10,7 @@ import org.mswsplex.anticheat.checks.combat.Criticals1;
 import org.mswsplex.anticheat.checks.movement.FastClimb1;
 import org.mswsplex.anticheat.checks.movement.Flight1;
 import org.mswsplex.anticheat.checks.movement.Flight2;
-import org.mswsplex.anticheat.checks.movement.GeneralMovement2;
+import org.mswsplex.anticheat.checks.movement.GeneralMovement1;
 import org.mswsplex.anticheat.checks.movement.Jesus1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
 import org.mswsplex.anticheat.checks.movement.Speed2;
@@ -35,7 +35,7 @@ public class Checks {
 	public void registerChecks() {
 		Check[] checks = { // new GeneralMovement1()
 
-				new Flight1(), new Flight2(), new NoGround1(), new Speed1(), new Speed2(), new GeneralMovement2(),
+				new Flight1(), new Flight2(), new NoGround1(), new Speed1(), new Speed2(), new GeneralMovement1(),
 				new Teleport1(), new Timer1(), new Step1(), new Criticals1(), new NoFall1(), new Scaffold1(),
 				new Scaffold2(), new Scaffold3(), new Scaffold4(), new FastClimb1(), new Jesus1(), new FastBow1() };
 

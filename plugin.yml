@@ -5,3 +5,4 @@ description: Default Plugin Outline
 commands:
    anticheat:
       usage: /<command>
+      aliases: [ac]

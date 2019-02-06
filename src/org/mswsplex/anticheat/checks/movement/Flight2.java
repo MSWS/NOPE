@@ -26,19 +26,15 @@ public class Flight2 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying())
+		if (player.isFlying() || cp.isInWeirdBlock())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
-
-		if (to.getY() != from.getY())
-			return;
 
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
@@ -50,7 +46,15 @@ public class Flight2 implements Check, Listener {
 			}
 		}
 
-		if (isBlockNearby || !player.isOnGround())
+		if (isBlockNearby) {
+			cp.setTempData("lastFlightGrounded", (double) System.currentTimeMillis());
+			return;
+		}
+
+		if (to.getY() != from.getY())
+			return;
+
+		if (cp.timeSince("lastFlightGrounded") < 500)
 			return;
 
 		cp.flagHack(this, 5);
