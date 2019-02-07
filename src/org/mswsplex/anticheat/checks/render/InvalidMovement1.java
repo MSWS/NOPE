@@ -30,10 +30,14 @@ public class InvalidMovement1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (cp.timeSince("lastTeleport") < 60000)
+			return;
+
 		double pitch = player.getLocation().getPitch();
 
 		if (pitch >= -90 && pitch <= 90)
 			return;
+
 		cp.flagHack(this, plugin.config.getInt("BanAtVl"));
 	}
 

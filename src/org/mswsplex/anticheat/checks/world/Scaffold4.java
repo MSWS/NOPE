@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,6 +63,9 @@ public class Scaffold4 implements Check, Listener {
 		if (avgPitches.size() < size)
 			return;
 
+		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+			return;
+
 		double total = 0;
 		for (double d : avgPitches)
 			total += d;
@@ -72,7 +76,7 @@ public class Scaffold4 implements Check, Listener {
 		if (diff < 30)
 			return;
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (int) Math.round((diff - 30) / 5));
 	}
 
 	@Override

@@ -67,9 +67,10 @@ public class Spinbot1 implements Check, Listener {
 		if (amo < size / 2)
 			return;
 
-		MSG.tell(player, "&c" + amo + " (" + diff + ")");
+		if (plugin.devMode())
+			MSG.tell(player, "&c" + amo + " (" + diff + ")");
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (amo - size / 2) * 5);
 	}
 
 	@Override

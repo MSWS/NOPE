@@ -75,7 +75,7 @@ public class FastSneak1 implements Check, Listener {
 
 		MSG.tell(player, "&e" + avg);
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (int) Math.round((avg - .08) * 20));
 	}
 
 	@Override

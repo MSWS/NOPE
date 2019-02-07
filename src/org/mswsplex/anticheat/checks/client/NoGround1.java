@@ -40,7 +40,7 @@ public class NoGround1 implements Check, Listener {
 		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 
-		cp.flagHack(this, 1);
+		cp.flagHack(this, 5);
 	}
 
 	@Override

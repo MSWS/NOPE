@@ -44,8 +44,7 @@ public class AutoWalk1 implements Check, Listener {
 
 		if (cp.timeSince("lastWalkChat") > 50)
 			return;
-
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 20);
 	}
 
 	@EventHandler

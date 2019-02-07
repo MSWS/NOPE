@@ -81,7 +81,7 @@ public class Jesus1 implements Check, Listener {
 		if (amo < size / 5)
 			return;
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (amo - (size / 5)) * 10);
 	}
 
 	@Override

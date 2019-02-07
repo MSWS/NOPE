@@ -1,7 +1,10 @@
 package org.mswsplex.anticheat.checks.movement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +15,7 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
-public class NoWeb1 implements Check, Listener {
+public class Speed3 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -27,41 +30,64 @@ public class NoWeb1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	private final int size = 15;
+
+	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince("wasFlying") < 500)
+		if (cp.timeSince("disableFlight") < 2000)
+			return;
+		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 500)
+		Location to = event.getTo(), from = event.getFrom();
+
+		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
+
+		List<Double> distances = (List<Double>) cp.getTempData("bunnyHopDistances");
+		if (distances == null)
+			distances = new ArrayList<>();
+
+		distances.add(0, dist);
+
+		for (int i = size; i < distances.size(); i++) {
+			distances.remove(i);
+		}
+
+		cp.setTempData("bunnyHopDistances", distances);
+
+		if (distances.size() < size)
 			return;
 
-		if (player.getLocation().getBlock().getType() != Material.WEB)
-			return;
+		double avg = 0;
 
-		double diff = event.getTo().distanceSquared(event.getFrom());
+		for (double d : distances)
+			avg += d;
 
-		if (diff < .009)
+		avg /= distances.size();
+
+		if (avg < .53)
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&5" + diff);
-		cp.flagHack(this, (int) Math.round((diff - .009) * 20));
+			MSG.tell(player, "&2" + avg);
+
+		cp.flagHack(this, (int) Math.round((avg - .53) * 20));
 	}
 
 	@Override
 	public String getCategory() {
-		return "NoWeb";
+		return "Speed";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "NoWeb#1";
+		return "Speed#3";
 	}
 
 	@Override

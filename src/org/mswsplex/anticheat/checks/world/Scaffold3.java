@@ -65,8 +65,6 @@ public class Scaffold3 implements Check, Listener {
 		if (event.getBlockFace() == face)
 			return;
 
-		//MSG.tell(player, "&9event: " + event.getBlockFace() + " actual? " + face);
-
 		cp.flagHack(this, 5);
 	}
 

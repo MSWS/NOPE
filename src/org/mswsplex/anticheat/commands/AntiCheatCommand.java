@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.checks.Check;
@@ -28,47 +29,86 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
+			MSG.sendHelp(sender, 0, "default");
 			return true;
 		}
 		switch (args[0].toLowerCase()) {
 		case "clear":
-			// /anticheat clear [player/all] [hack/all]
 			if (args.length < 3) {
 				MSG.tell(sender, "/anticheat clear [player/all] [hack/all]");
 				return true;
 			}
 
+			String target = "", hack = "";
+
 			if (args[1].equalsIgnoreCase("all")) {
+				target = "everyone's";
+
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(p);
 					if (args[2].equalsIgnoreCase("all")) {
 						for (Check c : plugin.getChecks().getActiveChecks())
 							cp.setSaveData("vls." + c.getCategory().toLowerCase(), 0);
-						MSG.tell(sender, "You cleared everyone's VLs for all hacks");
+						hack = "all hacks";
 					} else {
 						cp.setSaveData("vls." + args[2].toLowerCase(), 0);
-						MSG.tell(sender, "You cleared everyone's VLs for " + args[2]);
+						hack = MSG.camelCase(args[2]);
 					}
+				}
+			} else {
+				if (Bukkit.getPlayer(args[1]) == null) {
+					MSG.tell(sender, "&cUnknown Player.");
+					return true;
+				}
+				CPlayer cp = plugin.getCPlayer(Bukkit.getPlayer(args[1]));
+
+				target = Bukkit.getPlayer(args[1]).getName() + "'"
+						+ (Bukkit.getPlayer(args[1]).getName().toLowerCase().endsWith("s") ? "" : "s");
+
+				if (args[2].equalsIgnoreCase("all")) {
+					for (Check c : plugin.getChecks().getActiveChecks())
+						cp.setSaveData("vls." + c.getCategory().toLowerCase(), 0);
+					hack = "all hacks";
+				} else {
+					cp.setSaveData("vls." + args[2].toLowerCase(), 0);
+					hack = MSG.camelCase(args[2]);
+				}
+			}
+
+			MSG.tell(sender, "&7You cleared &e" + target + "&7 VLs for &c" + hack);
+			break;
+		case "vl":
+			if (args.length == 1) {
+				boolean shown = false;
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					CPlayer cp = plugin.getCPlayer(p);
+					String vls = formatVls(p);
+					if (vls.isEmpty())
+						continue;
+					shown = true;
+					MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + p.getName() + "&7: " + formatVls(p));
+				}
+				if (!shown) {
+					MSG.tell(sender, "&5[&dVLS&5] &cThere are no VLs.");
 				}
 				return true;
 			}
 
-			CPlayer cp = plugin.getCPlayer(Bukkit.getPlayer(args[1]));
-			if (args[2].equalsIgnoreCase("all")) {
-				for (Check c : plugin.getChecks().getActiveChecks())
-					cp.setSaveData("vls." + c.getCategory().toLowerCase(), 0);
-				MSG.tell(sender, "You cleared " + cp.getPlayer().getName() + "'s VLs for all hacks");
-			} else {
-				cp.setSaveData("vls." + args[2].toLowerCase(), 0);
-				MSG.tell(sender, "You cleared " + cp.getPlayer().getName() + "'s VLs for " + args[2]);
+			Player t = Bukkit.getPlayer(args[1]);
+
+			if (t == null) {
+				MSG.tell(sender, "&cUnknown Player");
+				return true;
 			}
 
-			break;
-		case "vl":
-			if (args.length == 1) {
-				for (Player p : Bukkit.getOnlinePlayers())
-					MSG.tell(sender, p.getName() + ": " + formatVls(p));
+			CPlayer cp = plugin.getCPlayer(t);
+
+			if (formatVls(t).isEmpty()) {
+				MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + t.getName() + " &chas no VLs.");
+				return true;
 			}
+
+			MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + t.getName() + "&7: " + formatVls(t));
 			break;
 		case "reload":
 			plugin.configYml = new File(plugin.getDataFolder(), "config.yml");
@@ -141,12 +181,13 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	private String formatVls(OfflinePlayer player) {
 		CPlayer cp = plugin.getPlayerManager().getPlayer(player);
 		HashMap<String, Integer> vls = new HashMap<>();
-		for (Check c : plugin.getChecks().getActiveChecks()) {
-			if (cp.getSaveInteger("vls." + c.getCategory().toLowerCase()) != 0) {
-				vls.put(c.getCategory(),
-						vls.containsKey(c.getCategory())
-								? vls.get(c.getCategory()) + cp.getSaveInteger("vls." + c.getCategory().toLowerCase())
-								: cp.getSaveInteger("vls." + c.getCategory().toLowerCase()));
+		ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
+		if (vlSection == null)
+			return "";
+
+		for (String hack : vlSection.getKeys(false)) {
+			if (vlSection.getInt(hack) > 0) {
+				vls.put(MSG.camelCase(hack), vlSection.getInt(hack));
 			}
 		}
 

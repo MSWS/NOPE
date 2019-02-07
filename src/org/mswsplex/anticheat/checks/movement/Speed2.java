@@ -51,7 +51,7 @@ public class Speed2 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&e" + dist);
 
-		cp.flagHack(this, 10);
+		cp.flagHack(this, (int) Math.round((dist-.7) * 20));
 	}
 
 	@Override

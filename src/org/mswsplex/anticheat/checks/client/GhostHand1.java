@@ -5,6 +5,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +42,9 @@ public class GhostHand1 implements Check, Listener {
 			return;
 		if (!targetBlock.getType().isSolid())
 			return;
-		
+		if (!event.getClickedBlock().getRelative(BlockFace.UP).getType().isSolid())
+			return;
+
 		cp.flagHack(this, 5);
 	}
 

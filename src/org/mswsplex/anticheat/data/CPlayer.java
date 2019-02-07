@@ -2,7 +2,9 @@ package org.mswsplex.anticheat.data;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -10,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
@@ -51,6 +54,10 @@ public class CPlayer {
 
 	public OfflinePlayer getPlayer() {
 		return this.player;
+	}
+
+	public List<String> getTempEntries() {
+		return new ArrayList<>(tempData.keySet());
 	}
 
 	public YamlConfiguration getDataFile() {
@@ -151,11 +158,22 @@ public class CPlayer {
 		return hasSaveData(id) ? (int) getSaveData(id) : 0;
 	}
 
-	public void flagHack(Check check, int vl) {
+	public int getTotalVL() {
+		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
+		if (vlSection == null)
+			return 0;
 
-		if (plugin.devMode()) {
-			MSG.announce("&e" + player.getName() + " &7flagged &c" + check.getDebugName());
+		int amo = 0;
+		for (String hack : vlSection.getKeys(false)) {
+			amo += vlSection.getInt(hack);
 		}
+		return amo;
+	}
+
+	public void flagHack(Check check, int vl) {
+		if (plugin.devMode())
+			MSG.tell("anticheat.message.dev",
+					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
 
 		int nVl = getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl;
 		String color = MSG.getVlColor(nVl);
@@ -167,13 +185,13 @@ public class CPlayer {
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-
-				MSG.announce("&1&l[&9&lANTI&1&l] &c" + player.getName() + " &3failed a " + color + check.getCategory()
-						+ " &7check. (VL: &7&o" + nVl + "&7)");
-
+				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &cfailed a " + color
+						+ check.getCategory() + " &ccheck. &7(VL: &o" + nVl + "&7)");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}
+
+		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 
 		if (nVl >= plugin.config.getInt("BanAtVl")) {
 			if (!plugin.devMode())
@@ -182,9 +200,12 @@ public class CPlayer {
 							line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
 				}
 			clearSaveData();
+			for (String hack : getTempEntries()) {
+				if (hack.contains(check.getCategory()))
+					removeTempData(hack);
+			}
 		}
 
-		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 	}
 
 	public Location getLastSafeLocation() {

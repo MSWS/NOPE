@@ -5,6 +5,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +35,9 @@ public class Scaffold1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 		Block targetBlock = player.getTargetBlock((Set<Material>) null, 10);
-		if (targetBlock.equals(event.getBlockPlaced()))
+		if (targetBlock.equals(event.getBlockPlaced()) || targetBlock.isLiquid())
+			return;
+		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
 			return;
 		cp.flagHack(this, 5);
 	}

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,22 @@ public class Global implements Listener {
 	public Global(AntiCheat plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				CPlayer cp = plugin.getCPlayer(p);
+				ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
+				if (vlSection == null)
+					continue;
+				for (String hack : vlSection.getKeys(false)) {
+					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - 5);
+					if (cp.getSaveInteger("vls." + hack) < 0) {
+						cp.setSaveData("vls." + hack, 0);
+					}
+				}
+			}
+		}, 0, 100);
 	}
 
 	@EventHandler

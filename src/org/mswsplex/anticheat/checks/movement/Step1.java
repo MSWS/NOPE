@@ -48,7 +48,7 @@ public class Step1 implements Check, Listener {
 
 		if (cp.timeSince("lastBlockPlace") < 500)
 			return;
-		
+
 		Location to = event.getTo(), from = event.getFrom();
 
 		if (to.getY() == from.getY())
@@ -73,7 +73,12 @@ public class Step1 implements Check, Listener {
 				-0.1537296175885947,
 
 				// Climbing interactions
-				0.1176000022888175, 0.07248412919149416, 0.11760000228882461 };
+				0.1176000022888175, 0.07248412919149416, 0.11760000228882461,
+
+				// Odd superflat
+				-0.40739540236493843, 0.3331999936342238, 0.24813599859094593, -0.015555072702201134,
+				-0.23152379758701125, -0.5546255304958936, -0.05462553049589314, -0.01555507270220069,
+				-0.7170746714356024 };
 
 		boolean normal = false;
 

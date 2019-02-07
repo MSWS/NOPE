@@ -12,6 +12,7 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
 public class Timer1 implements Check, Listener {
 
@@ -35,6 +36,9 @@ public class Timer1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (cp.timeSince("lastTeleport") < 2000)
+			return;
 
 		List<Double> timings = (ArrayList<Double>) cp.getTempData("timerTimings");
 		List<Integer> averageTimings = (ArrayList<Integer>) cp.getTempData("averageTimings");
@@ -60,11 +64,11 @@ public class Timer1 implements Check, Listener {
 				for (double time : averageTimings)
 					avg += time;
 				avg /= averageTimings.size();
-				// if (Math.round(lagTicks - avg) > Math.ceil(((20 - plugin.getTPS())) / +
-				// avgSize / 10)) {
+
 				if (Math.round(lagTicks - avg) > 5) {
-					//MSG.tell(player, "&2Lag (avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
-					cp.flagHack(this, 5);
+					if (plugin.devMode())
+						MSG.tell(player, "&2Lag (avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
+					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 5);
 				}
 			}
 			averageTimings.add(0, lagTicks);

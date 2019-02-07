@@ -49,7 +49,7 @@ public class Scaffold2 implements Check, Listener {
 		if (blocksPlaced <= 5)
 			return;
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (blocksPlaced - 5) * 10);
 	}
 
 	@Override

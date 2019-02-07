@@ -38,11 +38,15 @@ public class ClonedMovement1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+		if (player.isFlying())
+			return;
 		if (cp.isInClimbingBlock())
 			return;
 		if (cp.isBlockNearby(Material.WEB))
 			return;
 		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
+		if (cp.timeSince("lastTeleported") < 1000)
 			return;
 
 		if (player.isOnGround() && cp.isOnGround())
@@ -77,7 +81,7 @@ public class ClonedMovement1 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&9" + dist);
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (amo - (size / 4)) * 2);
 	}
 
 	@Override

@@ -39,7 +39,11 @@ public class Flight2 implements Check, Listener {
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
-				if (player.getLocation().clone().add(x, -.01, z).getBlock().getType().isSolid()) {
+				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
 					isBlockNearby = true;
 					break;
 				}
@@ -54,10 +58,10 @@ public class Flight2 implements Check, Listener {
 		if (to.getY() != from.getY())
 			return;
 
-		if (cp.timeSince("lastFlightGrounded") < 500)
+		if (cp.timeSince("lastFlightGrounded") < 1000)
 			return;
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 20);
 	}
 
 	@Override
