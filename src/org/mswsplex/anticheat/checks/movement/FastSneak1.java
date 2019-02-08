@@ -46,7 +46,13 @@ public class FastSneak1 implements Check, Listener {
 		if (!player.isSneaking())
 			return;
 
+		if (cp.timeSince("lastLiquid") < 500)
+			return;
+
 		Location to = event.getTo(), from = event.getFrom();
+
+		if (to.getY() != from.getY())
+			return;
 
 		double dist = from.distanceSquared(to);
 
@@ -70,13 +76,13 @@ public class FastSneak1 implements Check, Listener {
 		if (distances.size() < size)
 			return;
 
-		if (avg < .08)
+		if (avg < .01)
 			return;
 
 		if (plugin.devMode())
 			MSG.tell(player, "&e" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg - .08) * 20));
+		cp.flagHack(this, (int) Math.round((avg / .01) * 20.0) + 5);
 	}
 
 	@Override
