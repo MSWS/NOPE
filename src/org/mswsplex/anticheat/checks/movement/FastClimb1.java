@@ -84,7 +84,7 @@ public class FastClimb1 implements Check, Listener {
 
 		if (plugin.devMode())
 			MSG.tell(player, "&a" + dist);
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 15);
 	}
 
 	@Override

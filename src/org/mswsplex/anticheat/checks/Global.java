@@ -58,8 +58,9 @@ public class Global implements Listener {
 
 		if (onGround) {
 			cp.setTempData("lastOnGround", (double) System.currentTimeMillis());
-			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid())
+			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid()) {
 				cp.setLastSafeLocation(player.getLocation());
+			}
 		} else {
 			cp.setTempData("lastInAir", (double) System.currentTimeMillis());
 		}

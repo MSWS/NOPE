@@ -223,6 +223,8 @@ public class CPlayer {
 		Player online = (Player) player;
 		if (isInWeirdBlock())
 			return true;
+		if (online.isFlying())
+			return false;
 
 		return online.getLocation().getY() % .5 == 0;
 	}

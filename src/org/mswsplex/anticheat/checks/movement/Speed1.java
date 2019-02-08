@@ -50,7 +50,7 @@ public class Speed1 implements Check, Listener {
 		if (dist <= .08199265663630222)
 			return;
 
-		cp.flagHack(this, (int) Math.round((dist - .08199265663630222) * 20));
+		cp.flagHack(this, (int) Math.round((dist - .08199265663630222) * 20) + 5);
 	}
 
 	@Override

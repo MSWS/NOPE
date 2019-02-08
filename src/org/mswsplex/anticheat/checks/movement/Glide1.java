@@ -1,7 +1,6 @@
 package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,8 +9,9 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
-public class Flight3 implements Check, Listener {
+public class Glide1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -26,42 +26,51 @@ public class Flight3 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || cp.isInClimbingBlock())
+		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || cp.isOnGround()
+				|| player.isOnGround())
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 2000)
+		if (cp.timeSince("wasFlying") < 1000)
 			return;
 
-		if (cp.timeSince("wasFlying") < 2000)
-			return;
-		
-		if(cp.timeSince("lastBlockPlace")<1000)
-			return;
-		
-		Location safe = cp.getLastSafeLocation();
-
-		if (event.getTo().getY() - 3 < safe.getY())
+		if (cp.timeSince("lastOnGround") < 500 || cp.timeSince("lastFlightGrounded") < 1000)
 			return;
 
-		if (event.getTo().getY() <= event.getFrom().getY())
+		double fallDist = event.getFrom().getY() - event.getTo().getY();
+
+		if (!cp.hasTempData("previousFall")) {
+			cp.setTempData("previousFall", fallDist);
+			return;
+		}
+
+		if (fallDist == 0 || player.getFallDistance() == 0) {
+			cp.removeTempData("previousFall");
+			return;
+		}
+
+		double previousFall = cp.getTempDouble("previousFall");
+
+		if (fallDist >= previousFall)
 			return;
 
-		cp.flagHack(this, 10);
+		MSG.tell(player, "fall: " + player.getFallDistance() + " dist: " + fallDist + " previous: " + previousFall);
+		cp.flagHack(this, 5);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Flight";
+		return "Glide";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Flight#3";
+		return "Glide#1";
 	}
 
 	@Override

@@ -38,6 +38,9 @@ public class Scaffold2 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (player.isFlying())
+			return;
+
 		Block placed = event.getBlockPlaced();
 
 		if (!player.getLocation().subtract(0, 1, 0).getBlock().equals(placed))

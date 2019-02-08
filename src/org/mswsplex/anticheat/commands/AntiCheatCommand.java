@@ -141,6 +141,12 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			plugin.gui = YamlConfiguration.loadConfiguration(plugin.guiYml);
 			MSG.tell(sender, "Succesfully reset.");
 			break;
+		case "warn":
+			// /ac warn MSWS h:test v:5
+			if(args.length<4)
+				return true;
+			
+			break;
 		default:
 			return false;
 		}
