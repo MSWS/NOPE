@@ -1,21 +1,21 @@
 package org.mswsplex.anticheat.checks.render;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
-public class Spinbot1 implements Check, Listener {
+public class AutoSneak1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -30,60 +30,44 @@ public class Spinbot1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 40;
-
 	@SuppressWarnings("unchecked")
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
+	public void onToggleSneak(PlayerToggleSneakEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		Location to = event.getTo(), from = event.getFrom();
+		List<Double> sneakTimings = (List<Double>) cp.getTempData("autoSneakTimings");
+		if (sneakTimings == null)
+			sneakTimings = new ArrayList<>();
 
-		if (to.distanceSquared(from) == 0 )
-			return;
-
-		double diff = to.getYaw() - from.getYaw();
-
-		List<Double> yaws = (List<Double>) cp.getTempData("spinbotYaws");
-
-		if (yaws == null)
-			yaws = new ArrayList<>();
-
-		yaws.add(0, diff);
-
-		for (int i = size; i < yaws.size(); i++) {
-			yaws.remove(i);
+		sneakTimings.add((double) System.currentTimeMillis());
+		Iterator<Double> it = sneakTimings.iterator();
+		while (it.hasNext()) {
+			double d = it.next();
+			if (System.currentTimeMillis() - d > 1000) {
+				it.remove();
+				continue;
+			}
 		}
 
-		cp.setTempData("spinbotYaws", yaws);
+		cp.setTempData("autoSneakTimings", sneakTimings);
 
-		if (yaws.size() < size)
-			return;
-
-		int amo = 0;
-		for (double d : yaws) {
-			if (d == diff && d != 0)
-				amo++;
-		}
-
-		if (amo < size / 2)
+		if (sneakTimings.size() < 20)
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&c" + amo + " (" + diff + ")");
-
-		cp.flagHack(this, (amo - size / 2) * 5);
+			MSG.tell(player, "&csneak times: " + sneakTimings.size());
+		cp.flagHack(this, (sneakTimings.size() - 20) * 2);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Spinbot";
+		return "AutoSneak";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Spinbot#1";
+		return "AutoSneak#1";
 	}
 
 	@Override

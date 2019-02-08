@@ -185,8 +185,11 @@ public class CPlayer {
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &cfailed a " + color
-						+ check.getCategory() + " &ccheck. &7(VL: &o" + nVl + "&7)");
+				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &cfailed a"
+
+						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
+
+						+ color + check.getCategory() + " &ccheck. &7(VL: &o" + nVl + "&7)");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}

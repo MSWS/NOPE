@@ -29,7 +29,7 @@ public class Timer1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 20, avgSize = 1000;
+	private final int size = 20, avgSize = 50;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -51,7 +51,7 @@ public class Timer1 implements Check, Listener {
 
 		int lagTicks = 0;
 
-		if (timings.size() == size) {
+		if (timings.size() >= size) {
 			double last = System.currentTimeMillis();
 			for (double d : timings) {
 				double diff = last - d;
@@ -59,7 +59,7 @@ public class Timer1 implements Check, Listener {
 					lagTicks++;
 				last = d;
 			}
-			if (averageTimings.size() == avgSize) {
+			if (averageTimings.size() >= avgSize) {
 				double avg = 0;
 				for (double time : averageTimings)
 					avg += time;
@@ -67,7 +67,8 @@ public class Timer1 implements Check, Listener {
 
 				if (Math.round(lagTicks - avg) > 5) {
 					if (plugin.devMode())
-						MSG.tell(player, "&2Lag (avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
+						MSG.tell(player,
+								"&2Lag &a(avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
 					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 5);
 				}
 			}

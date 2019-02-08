@@ -311,8 +311,8 @@ public class MSG {
 		int maxVl = plugin.config.getInt("BanAtVl");
 		vl = Math.min(vl, maxVl);
 		List<String> colors = plugin.config.getStringList("VlColors");
-		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size() - 1));
-		String color = colors.get(index);
+		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size()));
+		String color = colors.get(Math.min(index, colors.size() - 1));
 
 		return color;
 	}

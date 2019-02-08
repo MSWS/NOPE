@@ -46,12 +46,12 @@ public class NoWeb1 implements Check, Listener {
 
 		double diff = event.getTo().distanceSquared(event.getFrom());
 
-		if (diff < .009)
+		if (diff < .012)
 			return;
 
 		if (plugin.devMode())
 			MSG.tell(player, "&5" + diff);
-		cp.flagHack(this, (int) Math.round((diff - .009) * 20));
+		cp.flagHack(this, (int) Math.round((diff / .013) * 10.0));
 	}
 
 	@Override

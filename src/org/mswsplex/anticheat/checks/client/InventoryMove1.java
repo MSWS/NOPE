@@ -1,23 +1,22 @@
-package org.mswsplex.anticheat.checks.movement;
+package org.mswsplex.anticheat.checks.client;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
-public class Flight3 implements Check, Listener {
+public class InventoryMove1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
 	@Override
 	public CheckType getType() {
-		return CheckType.MOVEMENT;
+		return CheckType.CLIENT;
 	}
 
 	@Override
@@ -27,25 +26,20 @@ public class Flight3 implements Check, Listener {
 	}
 
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
+	public void onInventoryClick(InventoryClickEvent event) {
+		if (!(event.getWhoClicked() instanceof Player))
+			return;
+
+		Player player = (Player) event.getWhoClicked();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || cp.isInClimbingBlock())
+		if (cp.timeSince("lastYChange") < 1000)
 			return;
-
-		if (cp.timeSince("lastDamageTaken") < 2000)
+		if (cp.timeSince("lastTeleport") < 1000)
 			return;
-
-		if (cp.timeSince("wasFlying") < 2000)
+		if (cp.timeSince("lastOnGround") > 500)
 			return;
-
-		Location safe = cp.getLastSafeLocation();
-
-		if (event.getTo().getY() - 3 < safe.getY())
-			return;
-
-		if (event.getTo().getY() <= event.getFrom().getY())
+		if (cp.timeSince("lastLiquid") < 1000)
 			return;
 
 		cp.flagHack(this, 10);
@@ -53,16 +47,16 @@ public class Flight3 implements Check, Listener {
 
 	@Override
 	public String getCategory() {
-		return "Flight";
+		return "InventoryMove";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Flight#3";
+		return "InventoryMove#1";
 	}
 
 	@Override
 	public boolean lagBack() {
-		return true;
+		return false;
 	}
 }
