@@ -69,7 +69,7 @@ public class Timer1 implements Check, Listener {
 					if (plugin.devMode())
 						MSG.tell(player,
 								"&2Lag &a(avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
-					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 5);
+					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 4) * 6);
 				}
 			}
 			averageTimings.add(0, lagTicks);

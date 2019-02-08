@@ -42,6 +42,9 @@ public class Glide1 implements Check, Listener {
 		if (cp.timeSince("lastOnGround") < 500 || cp.timeSince("lastFlightGrounded") < 1000)
 			return;
 
+		if (cp.timeSince("lastLiquid") < 500)
+			return;
+
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 
 		if (!cp.hasTempData("previousFall")) {

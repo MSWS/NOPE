@@ -76,7 +76,7 @@ public class FastSneak1 implements Check, Listener {
 		if (distances.size() < size)
 			return;
 
-		if (avg < .01)
+		if (avg < .012)
 			return;
 
 		if (plugin.devMode())

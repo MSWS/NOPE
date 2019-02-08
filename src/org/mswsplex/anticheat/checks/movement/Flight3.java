@@ -39,10 +39,13 @@ public class Flight3 implements Check, Listener {
 
 		if (cp.timeSince("wasFlying") < 2000)
 			return;
-		
-		if(cp.timeSince("lastBlockPlace")<1000)
+
+		if (cp.timeSince("lastBlockPlace") < 1000)
 			return;
-		
+
+		if (cp.timeSince("lastLiquid") < 1000)
+			return;
+
 		Location safe = cp.getLastSafeLocation();
 
 		if (event.getTo().getY() - 3 < safe.getY())
