@@ -13,6 +13,7 @@ import org.mswsplex.anticheat.checks.combat.Criticals1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
 import org.mswsplex.anticheat.checks.combat.HighCPS2;
 import org.mswsplex.anticheat.checks.combat.HighCPS3;
+import org.mswsplex.anticheat.checks.combat.KillAura1;
 import org.mswsplex.anticheat.checks.combat.Reach1;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
@@ -56,7 +57,7 @@ public class Checks {
 				new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
 				new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
 				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
-				new Reach1() };
+				new Reach1(), new KillAura1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

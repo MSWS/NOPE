@@ -2,9 +2,13 @@ package org.mswsplex.anticheat.msws;
 
 import java.io.File;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mswsplex.anticheat.checks.Checks;
@@ -60,6 +64,17 @@ public class AntiCheat extends JavaPlugin {
 	public void onDisable() {
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p);
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			p.removeMetadata("lastEntityHit", this);
+		}
+
+		for (World w : Bukkit.getWorlds()) {
+			for (Entity ent : w.getEntitiesByClass(ArmorStand.class)) {
+				if (!ent.hasMetadata("killAuraMark"))
+					continue;
+				ent.remove();
+			}
+		}
 	}
 
 	public void saveData() {

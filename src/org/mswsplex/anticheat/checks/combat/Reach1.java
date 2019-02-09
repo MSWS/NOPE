@@ -2,7 +2,6 @@ package org.mswsplex.anticheat.checks.combat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -39,10 +38,6 @@ public class Reach1 implements Check, Listener {
 
 		double dist = Math.abs(damager.getLocation().getX() - event.getEntity().getLocation().getX())
 				+ Math.abs(damager.getLocation().getZ() - event.getEntity().getLocation().getZ());
-
-		if (event.getEntity() instanceof Damageable) {
-			((Damageable) event.getEntity()).setHealth(((Damageable) event.getEntity()).getMaxHealth());
-		}
 
 		double maxDist = -1;
 
@@ -182,8 +177,9 @@ public class Reach1 implements Check, Listener {
 		if (dist <= maxDist)
 			return;
 
-		MSG.tell(damager, "&9" + MSG.camelCase(event.getEntityType().toString()) + ": &b" + dist + "/&3" + maxDist
-				+ " &e" + (dist - maxDist));
+		if (plugin.devMode())
+			MSG.tell(damager, "&9" + MSG.camelCase(event.getEntityType().toString()) + ": &b" + dist + "/&3" + maxDist
+					+ " &e" + (dist - maxDist));
 
 		cp.flagHack(this, (int) (Math.round((dist - maxDist) * 15) + 5));
 	}

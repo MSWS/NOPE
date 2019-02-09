@@ -172,7 +172,7 @@ public class CPlayer {
 	}
 
 	public void flagHack(Check check, int vl) {
-		if (timeSince("joinTime") < 500) {
+		if (timeSince("joinTime") < 2000) {
 			if (plugin.devMode())
 				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
 						+ check.getDebugName() + " &8[CANCELLED]");

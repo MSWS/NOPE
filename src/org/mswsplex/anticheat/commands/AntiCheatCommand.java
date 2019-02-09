@@ -204,6 +204,23 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
 			break;
+		case "checks":
+			HashMap<String, Integer> checks = new HashMap<>();
+			for (Check check : plugin.getChecks().getActiveChecks())
+				checks.put(check.getCategory(),
+						checks.containsKey(check.getCategory()) ? checks.get(check.getCategory()) + 1 : 1);
+			StringBuilder builder = new StringBuilder();
+
+			String[] colors = { "&f", "&7", "&8", "&e", "&6", "&c" };
+
+			for (int i = 0; i < checks.keySet().size(); i++) {
+				builder.append(colors[i % colors.length] + checks.keySet().toArray()[i] + " "
+						+ checks.values().toArray()[i] + " ");
+			}
+
+			MSG.tell(sender, builder.toString().substring(0, builder.toString().length() - 1));
+
+			break;
 		default:
 			return false;
 		}
