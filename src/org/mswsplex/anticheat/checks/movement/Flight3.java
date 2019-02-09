@@ -46,6 +46,12 @@ public class Flight3 implements Check, Listener {
 		if (cp.timeSince("lastLiquid") < 1000)
 			return;
 
+		if (cp.timeSince("lastTeleport") < 1000)
+			return;
+
+		if (cp.timeSince("lastFlightGrounded") < 500)
+			return;
+
 		Location safe = cp.getLastSafeLocation();
 
 		if (event.getTo().getY() - 3 < safe.getY())

@@ -1,6 +1,8 @@
 package org.mswsplex.anticheat.checks.client;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,6 +40,9 @@ public class NoGround1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastBlockPlace") < 1500)
+			return;
+		
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SLIME_BLOCK)
 			return;
 
 		cp.flagHack(this, 5);

@@ -36,6 +36,9 @@ public class Flight2 implements Check, Listener {
 
 		Location to = event.getTo(), from = event.getFrom();
 
+		if (to.getY() != from.getY())
+			return;
+
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
@@ -51,12 +54,8 @@ public class Flight2 implements Check, Listener {
 		}
 
 		if (isBlockNearby) {
-			cp.setTempData("lastFlightGrounded", (double) System.currentTimeMillis());
 			return;
 		}
-
-		if (to.getY() != from.getY())
-			return;
 
 		if (cp.timeSince("lastFlightGrounded") < 1000)
 			return;

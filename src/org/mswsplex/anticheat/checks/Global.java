@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -38,7 +39,7 @@ public class Global implements Listener {
 					}
 				}
 			}
-		}, 0, 100);
+		}, 0, 200);
 	}
 
 	@EventHandler
@@ -65,6 +66,24 @@ public class Global implements Listener {
 			cp.setTempData("lastInAir", (double) System.currentTimeMillis());
 		}
 
+		boolean isBlockNearby = false;
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+			}
+		}
+
+		if (isBlockNearby) {
+			cp.setTempData("lastFlightGrounded", (double) System.currentTimeMillis());
+		}
+
 		if (climbing)
 			cp.setTempData("lastInClimbing", (double) System.currentTimeMillis());
 
@@ -77,7 +96,7 @@ public class Global implements Listener {
 		if (player.isFlying())
 			cp.setTempData("wasFlying", (double) System.currentTimeMillis());
 
-		Location vertLine = player.getLocation();
+		Location vertLine = player.getLocation().clone();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
 			vertLine.subtract(0, 1, 0);
 		}
@@ -125,5 +144,12 @@ public class Global implements Listener {
 		Player player = (Player) ent;
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setTempData("lastDamageTaken", (double) System.currentTimeMillis());
+	}
+
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		cp.setLastSafeLocation(player.getLocation());
 	}
 }

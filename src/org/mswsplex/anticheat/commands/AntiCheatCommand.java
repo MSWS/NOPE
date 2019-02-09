@@ -15,6 +15,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.checks.Check;
+import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
@@ -38,7 +39,6 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, "/anticheat clear [player/all] [hack/all]");
 				return true;
 			}
-
 			String target = "", hack = "";
 
 			if (args[1].equalsIgnoreCase("all")) {
@@ -143,9 +143,66 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			break;
 		case "warn":
 			// /ac warn MSWS h:test v:5
-			if(args.length<4)
+			if (args.length < 4) {
+				MSG.sendHelp(sender, 0, "default");
 				return true;
-			
+			}
+			t = Bukkit.getPlayer(args[1]);
+			if (t == null) {
+				MSG.tell(sender, "unknown player");
+				return true;
+			}
+			cp = plugin.getCPlayer(t);
+
+			String hackName = "", stringVl = "", current = "";
+			for (int i = 2; i < args.length; i++) {
+				String arg = args[i];
+				if (arg.startsWith("h:")) {
+					current = "hack";
+					hackName += arg.substring(2);
+					continue;
+				} else if (arg.startsWith("v:")) {
+					current = "vl";
+					stringVl += arg.substring(2);
+					continue;
+				}
+
+				if (current.equals("hack")) {
+					hackName += " " + arg;
+				} else if (current.equals("vl")) {
+					stringVl += " " + arg;
+				}
+			}
+
+			final String hackNameFinal = hackName;
+
+			cp.flagHack(new Check() {
+				@Override
+				public boolean lagBack() {
+					return true;
+				}
+
+				@Override
+				public CheckType getType() {
+					return CheckType.MISC;
+				}
+
+				@Override
+				public String getDebugName() {
+					return "ManuallyIssued";
+				}
+
+				@Override
+				public String getCategory() {
+					return hackNameFinal;
+				}
+
+				@Override
+				public void register(AntiCheat plugin) {
+				}
+			}, Integer.parseInt(stringVl));
+
+			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
 			break;
 		default:
 			return false;
@@ -157,7 +214,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear", "vl", "lagback", "reset" }) {
+			for (String res : new String[] { "clear", "vl", "lagback", "reset", "dev", "warn" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}
@@ -173,12 +230,12 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							&& !result.contains(c.getCategory()))
 						result.add(c.getCategory());
 				}
-
-				for (Player target : Bukkit.getOnlinePlayers()) {
-					if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-						result.add(target.getName());
-				}
 			}
+		}
+
+		for (Player target : Bukkit.getOnlinePlayers()) {
+			if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+				result.add(target.getName());
 		}
 
 		return result;
