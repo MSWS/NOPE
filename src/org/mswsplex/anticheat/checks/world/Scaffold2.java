@@ -1,11 +1,15 @@
 package org.mswsplex.anticheat.checks.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -24,35 +28,55 @@ public class Scaffold2 implements Check, Listener {
 	public void register(AntiCheat plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				CPlayer cp = plugin.getCPlayer(p);
-				cp.setTempData("scaffoldBlocksPlaced", 0);
-			}
-		}, 0, 40);
 	}
 
+	private final int size = 20;
+
+	@SuppressWarnings("unchecked")
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
+		if (avgPitches == null)
+			avgPitches = new ArrayList<>();
+
+		avgPitches.add(0, (double) player.getLocation().getPitch());
+
+		for (int i = size; i < avgPitches.size(); i++) {
+			avgPitches.remove(i);
+		}
+
+		cp.setTempData("averageScaffoldPitches", avgPitches);
+
+	}
+
+	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying())
+		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
+		if (avgPitches == null)
+			return;
+		if (avgPitches.size() < size)
 			return;
 
-		Block placed = event.getBlockPlaced();
-
-		if (!player.getLocation().subtract(0, 1, 0).getBlock().equals(placed))
+		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
 			return;
 
-		int blocksPlaced = cp.getTempInteger("scaffoldBlocksPlaced");
-		cp.setTempData("scaffoldBlocksPlaced", blocksPlaced + 1);
+		double total = 0;
+		for (double d : avgPitches)
+			total += d;
+		total /= avgPitches.size();
 
-		if (blocksPlaced <= 5)
+		double diff = Math.abs((player.getLocation().getPitch() - total));
+
+		if (diff < 30)
 			return;
 
-		cp.flagHack(this, (blocksPlaced - 5) * 10);
+		cp.flagHack(this, (int) Math.round((diff - 30) / 5));
 	}
 
 	@Override

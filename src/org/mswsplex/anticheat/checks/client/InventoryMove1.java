@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
@@ -32,6 +34,9 @@ public class InventoryMove1 implements Check, Listener {
 
 		Player player = (Player) event.getWhoClicked();
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (event.getClick() == ClickType.CREATIVE && event.getAction() == InventoryAction.PLACE_ALL)
+			return;
 
 		if (cp.timeSince("lastYChange") < 1000)
 			return;

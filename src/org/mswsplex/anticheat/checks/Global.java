@@ -49,21 +49,23 @@ public class Global implements Listener {
 
 		boolean onGround = cp.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
+		double time = System.currentTimeMillis();
+
 		Location from = event.getFrom(), to = event.getTo();
 
 		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
-			cp.setTempData("lastLiquid", (double) System.currentTimeMillis());
+			cp.setTempData("lastLiquid", (double) time);
 
 		if (from.getY() != to.getY())
-			cp.setTempData("lastYChange", (double) System.currentTimeMillis());
+			cp.setTempData("lastYChange", (double) time);
 
 		if (onGround) {
-			cp.setTempData("lastOnGround", (double) System.currentTimeMillis());
+			cp.setTempData("lastOnGround", (double) time);
 			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid()) {
 				cp.setLastSafeLocation(player.getLocation());
 			}
 		} else {
-			cp.setTempData("lastInAir", (double) System.currentTimeMillis());
+			cp.setTempData("lastInAir", (double) time);
 		}
 
 		boolean isBlockNearby = false;
@@ -81,20 +83,20 @@ public class Global implements Listener {
 		}
 
 		if (isBlockNearby) {
-			cp.setTempData("lastFlightGrounded", (double) System.currentTimeMillis());
+			cp.setTempData("lastFlightGrounded", (double) time);
 		}
 
 		if (climbing)
-			cp.setTempData("lastInClimbing", (double) System.currentTimeMillis());
+			cp.setTempData("lastInClimbing", (double) time);
 
 		if (weirdBlock)
-			cp.setTempData("lastWeirdBlock", (double) System.currentTimeMillis());
+			cp.setTempData("lastWeirdBlock", (double) time);
 
 		if (player.isInsideVehicle())
-			cp.setTempData("lastVehicle", (double) System.currentTimeMillis());
+			cp.setTempData("lastVehicle", (double) time);
 
 		if (player.isFlying())
-			cp.setTempData("wasFlying", (double) System.currentTimeMillis());
+			cp.setTempData("wasFlying", (double) time);
 
 		Location vertLine = player.getLocation().clone();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
@@ -104,7 +106,10 @@ public class Global implements Listener {
 		Block lowestBlock = vertLine.getBlock();
 
 		if (lowestBlock.getType() == Material.SLIME_BLOCK)
-			cp.setTempData("lastSlimeBlock", (double) System.currentTimeMillis());
+			cp.setTempData("lastSlimeBlock", (double) time);
+
+		if (cp.isRedstoneNearby())
+			cp.setTempData("lastNearbyRedstone", (double) time);
 	}
 
 	@EventHandler
@@ -151,5 +156,6 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setLastSafeLocation(player.getLocation());
+		cp.setTempData("joinTime", (double) System.currentTimeMillis());
 	}
 }

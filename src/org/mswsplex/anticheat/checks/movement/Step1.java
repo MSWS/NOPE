@@ -32,7 +32,7 @@ public class Step1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying())
+		if (player.isFlying() || cp.hasMovementRelatedPotion())
 			return;
 		if (cp.timeSince("lastLiquid") < 400)
 			return;

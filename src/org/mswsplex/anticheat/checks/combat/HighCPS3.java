@@ -75,7 +75,7 @@ public class HighCPS3 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "HighCPS#2";
+		return "HighCPS#3";
 	}
 
 	@Override

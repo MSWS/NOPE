@@ -1,11 +1,7 @@
 package org.mswsplex.anticheat.checks.world;
 
-import java.util.Set;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,18 +24,35 @@ public class Scaffold1 implements Check, Listener {
 	public void register(AntiCheat plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				CPlayer cp = plugin.getCPlayer(p);
+				cp.setTempData("scaffoldBlocksPlaced", 0);
+			}
+		}, 0, 40);
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		Block targetBlock = player.getTargetBlock((Set<Material>) null, 10);
-		if (targetBlock.equals(event.getBlockPlaced()) || targetBlock.isLiquid())
+
+		if (player.isFlying())
 			return;
-		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+
+		Block placed = event.getBlockPlaced();
+
+		if (!player.getLocation().subtract(0, 1, 0).getBlock().equals(placed))
 			return;
-		cp.flagHack(this, 5);
+
+		int blocksPlaced = cp.getTempInteger("scaffoldBlocksPlaced");
+		cp.setTempData("scaffoldBlocksPlaced", blocksPlaced + 1);
+
+		if (blocksPlaced <= 5)
+			return;
+
+		cp.flagHack(this, (blocksPlaced - 5) * 10);
 	}
 
 	@Override

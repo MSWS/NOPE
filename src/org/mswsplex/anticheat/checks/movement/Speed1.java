@@ -35,6 +35,8 @@ public class Speed1 implements Check, Listener {
 
 		if (cp.timeSince("disableFlight") < 2000)
 			return;
+		if (cp.isRedstoneNearby())
+			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
 

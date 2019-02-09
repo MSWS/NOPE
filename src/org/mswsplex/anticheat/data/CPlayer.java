@@ -3,6 +3,7 @@ package org.mswsplex.anticheat.data;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -171,6 +172,12 @@ public class CPlayer {
 	}
 
 	public void flagHack(Check check, int vl) {
+		if (timeSince("joinTime") < 500) {
+			if (plugin.devMode())
+				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
+						+ check.getDebugName() + " &8[CANCELLED]");
+			return;
+		}
 		if (plugin.devMode())
 			MSG.tell("anticheat.message.dev",
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
@@ -185,11 +192,11 @@ public class CPlayer {
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &cfailed a"
+				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
 
 						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
 
-						+ color + check.getCategory() + " &ccheck. &7(VL: &o" + nVl + "&7)");
+						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}
@@ -236,7 +243,7 @@ public class CPlayer {
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
-				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB" };
+				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER" };
 		Material type = online.getLocation().getBlock().getType();
 		for (String mat : nonfull) {
 			if (type.toString().contains(mat))
@@ -369,5 +376,23 @@ public class CPlayer {
 			vertLine.subtract(0, 1, 0);
 		}
 		return online.getLocation().distance(vertLine);
+	}
+
+	public boolean isRedstoneNearby() {
+		if (!player.isOnline())
+			return false;
+		Player online = (Player) player;
+
+		List<Material> blockTypes = Arrays.asList(Material.PISTON_BASE, Material.PISTON_STICKY_BASE);
+		int range = 2;
+		for (int x = -range; x <= range; x++) {
+			for (int y = -range; y <= range; y++) {
+				for (int z = -range; z <= range; z++) {
+					if (blockTypes.contains(online.getLocation().clone().add(x, y, z).getBlock().getType()))
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 }

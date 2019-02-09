@@ -66,7 +66,7 @@ public class HighCPS1 implements Check, Listener {
 			MSG.tell(player, "clicks: " + cp.getTempInteger("highCpsClicks") + " (cps: "
 					+ cp.getTempInteger("highCpsClicks") / (checkEvery / 20) + ")");
 
-		cp.flagHack(this, (cp.getTempInteger("highCpsClicks") - ((checkEvery / 20) * maxCps)) * 3);
+		cp.flagHack(this, (cp.getTempInteger("highCpsClicks") - ((checkEvery / 20) * maxCps)) * 3 + 5);
 
 	}
 

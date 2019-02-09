@@ -13,6 +13,7 @@ import org.mswsplex.anticheat.checks.combat.Criticals1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
 import org.mswsplex.anticheat.checks.combat.HighCPS2;
 import org.mswsplex.anticheat.checks.combat.HighCPS3;
+import org.mswsplex.anticheat.checks.combat.Reach1;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
 import org.mswsplex.anticheat.checks.movement.ClonedMovement1;
@@ -37,7 +38,6 @@ import org.mswsplex.anticheat.checks.world.IllegalBlockPlace1;
 import org.mswsplex.anticheat.checks.world.Scaffold1;
 import org.mswsplex.anticheat.checks.world.Scaffold2;
 import org.mswsplex.anticheat.checks.world.Scaffold3;
-import org.mswsplex.anticheat.checks.world.Scaffold4;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
 public class Checks {
@@ -52,11 +52,11 @@ public class Checks {
 	public void registerChecks() {
 		Check[] checks = { new Flight1(), new Flight2(), new Flight3(), new NoGround1(), new Speed1(), new Speed2(),
 				new Speed3(), new Movement1(), new ClonedMovement1(), new Timer1(), new Step1(), new Criticals1(),
-				new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new Scaffold4(), new FastClimb1(),
-				new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
-				new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(),
-				new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
-				new InventoryMove1() };
+				new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(), new Jesus1(),
+				new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
+				new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
+				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
+				new Reach1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

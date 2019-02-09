@@ -38,7 +38,7 @@ public class ClonedMovement1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		if (player.isFlying())
+		if (player.isFlying() || player.isInsideVehicle())
 			return;
 		if (cp.isInClimbingBlock())
 			return;
