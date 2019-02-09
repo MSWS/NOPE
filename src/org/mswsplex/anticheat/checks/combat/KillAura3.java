@@ -17,12 +17,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
-public class KillAura1 implements Check, Listener {
+public class KillAura3 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -42,7 +43,7 @@ public class KillAura1 implements Check, Listener {
 	}
 
 	private final double CHECK_EVERY = 20000;
-	private final int TICKS_TO_WAIT = 100;
+	private final int TICKS_TO_WAIT = 200;
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -52,27 +53,20 @@ public class KillAura1 implements Check, Listener {
 		Player player = (Player) event.getDamager();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (event.getEntity().hasMetadata("killAuraMark")) {
-			if (!event.getEntity().getMetadata("killAuraMark").get(0).asString()
+		if (event.getEntity().hasMetadata("antiKillAuraMark")) {
+			if (!event.getEntity().getMetadata("antiKillAuraMark").get(0).asString()
 					.equals(player.getUniqueId().toString())) {
 				event.setCancelled(true);
+			} else {
+				cp.flagHack(this, 20);
 			}
 		}
 
 		if (stands.containsKey(player)) {
-			if (!player.hasMetadata("lastEntityHit"))
-				return;
-			if (!player.getMetadata("lastEntityHit").get(0).asString()
-					.equals(event.getEntity().getUniqueId().toString())) {
-				stands.get(player).remove();
-				stands.remove(player);
-				return;
-			}
-			cp.setTempData("hasHitTarget", true);
 			return;
 		}
 
-		if (cp.timeSince("lastKillAuraCheck") < CHECK_EVERY)
+		if (cp.timeSince("lastKillAuraCheck1") < CHECK_EVERY)
 			return;
 
 		Random rnd = new Random();
@@ -80,19 +74,19 @@ public class KillAura1 implements Check, Listener {
 		if (rnd.nextDouble() < .60)
 			return;
 
-		if (event.getEntity().hasMetadata("killAuraMark"))
+		if (event.getEntity().hasMetadata("antiKillAuraMark"))
 			return;
 
-		Location mid = event.getEntity().getLocation().add(player.getLocation()).multiply(.5).add(0, .5, 0);
+		Location mid = event.getEntity().getLocation();
 
 		ArmorStand stand = (ArmorStand) player.getWorld().spawnEntity(mid, EntityType.ARMOR_STAND);
 
 		stand.setGravity(false);
 		stand.setVisible(false);
+		stand.setSmall(true);
 		stand.setBasePlate(false);
 
-		stand.setMetadata("killAuraMark", new FixedMetadataValue(plugin, player.getUniqueId().toString()));
-		player.setMetadata("lastEntityHit", new FixedMetadataValue(plugin, event.getEntity().getUniqueId().toString()));
+		stand.setMetadata("antiKillAuraMark", new FixedMetadataValue(plugin, player.getUniqueId().toString()));
 
 		stands.put(player, stand);
 
@@ -101,24 +95,16 @@ public class KillAura1 implements Check, Listener {
 
 		Bukkit.getScheduler().runTaskLater(plugin, () -> {
 			Bukkit.getScheduler().cancelTask(id);
-			player.removeMetadata("lastEntityHit", plugin);
 
 			if (stands.get(player) == null) {
 				stands.remove(player);
 				return;
 			}
-
 			stands.get(player).remove();
 			stands.remove(player);
-
-			if (cp.hasTempData("hasHitTarget")) {
-				cp.flagHack(this, 50);
-				cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis() - CHECK_EVERY);
-			}
-			cp.removeTempData("hasHitTarget");
 		}, TICKS_TO_WAIT);
 
-		cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis());
+		cp.setTempData("lastKillAuraCheck1", (double) System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -126,7 +112,7 @@ public class KillAura1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis() - 20000);
+		cp.setTempData("lastKillAuraCheck1", (double) System.currentTimeMillis() - 20000);
 	}
 
 	@Override
@@ -136,7 +122,7 @@ public class KillAura1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "KillAura#1";
+		return "KillAura#3";
 	}
 
 	@Override
@@ -152,7 +138,14 @@ public class KillAura1 implements Check, Listener {
 						.filter((entity) -> entity instanceof Projectile).collect(Collectors.toList()).size() > 0))
 					stand.remove();
 
-				Location m = target.getLocation().add(player.getLocation()).multiply(.5).add(0, .5, 0);
+				Location m = target.getLocation();
+
+				Vector pToT = player.getLocation().clone().toVector().subtract(target.getLocation().clone().toVector());
+
+				m.subtract(pToT.multiply(.25));
+
+				m.setY(target.getLocation().getY());
+
 				stand.teleport(m);
 			}
 		};

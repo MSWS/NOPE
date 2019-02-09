@@ -91,7 +91,7 @@ public class AutoClicker1 implements Check, Listener {
 				return;
 			if (plugin.devMode())
 				MSG.tell(player, "&7similar values: " + biggest);
-			cp.flagHack(this, (int) Math.round(biggest - (size * .3)) * 5);
+			cp.flagHack(this, (int) Math.round(biggest - (size * .3)) * 5 + 5);
 		}
 
 	}
