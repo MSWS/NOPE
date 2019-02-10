@@ -71,29 +71,27 @@ public class AutoClicker1 implements Check, Listener {
 
 		cp.setTempData("autoClickerTimes", clickTimings);
 
-		if (clickTimings.size() >= SIZE) {
-			HashMap<Double, Integer> repeats = new HashMap<>();
-			double last = System.currentTimeMillis();
+		if (clickTimings.size() < SIZE)
+			return;
+		HashMap<Double, Integer> repeats = new HashMap<>();
+		double last = System.currentTimeMillis();
 
-			for (int i = 0; i < clickTimings.size(); i++) {
-				double diff = last - clickTimings.get(i);
-				repeats.put(diff, repeats.containsKey(diff) ? repeats.get(diff) + 1 : 1);
-
-				last = clickTimings.get(i);
-			}
-
-			repeats = repeats.entrySet().stream().sorted(Entry.comparingByValue())
-					.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-			int biggest = (int) repeats.values().toArray()[repeats.values().size() - 1];
-
-			if (biggest < SIZE * .3)
-				return;
-			if (plugin.devMode())
-				MSG.tell(player, "&7similar values: " + biggest);
-			cp.flagHack(this, (int) Math.round(biggest - (SIZE * .3)) * 5 + 5);
+		for (int i = 0; i < clickTimings.size(); i++) {
+			double diff = last - clickTimings.get(i);
+			repeats.put(diff, repeats.containsKey(diff) ? repeats.get(diff) + 1 : 1);
+			last = clickTimings.get(i);
 		}
 
+		repeats = repeats.entrySet().stream().sorted(Entry.comparingByValue())
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+		int biggest = (int) repeats.values().toArray()[repeats.values().size() - 1];
+
+		if (biggest < SIZE * .3)
+			return;
+		if (plugin.devMode())
+			MSG.tell(player, "&7similar values: " + biggest);
+		cp.flagHack(this, (int) Math.round(biggest - (SIZE * .3)) * 5 + 5);
 	}
 
 	@Override

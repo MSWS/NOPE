@@ -1,8 +1,8 @@
 package org.mswsplex.anticheat.checks.render;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -41,14 +41,9 @@ public class AutoSneak1 implements Check, Listener {
 			sneakTimings = new ArrayList<>();
 
 		sneakTimings.add((double) System.currentTimeMillis());
-		Iterator<Double> it = sneakTimings.iterator();
-		while (it.hasNext()) {
-			double d = it.next();
-			if (System.currentTimeMillis() - d > 1000) {
-				it.remove();
-				continue;
-			}
-		}
+
+		sneakTimings = sneakTimings.stream().filter((val) -> System.currentTimeMillis() - val < 1000)
+				.collect(Collectors.toList());
 
 		cp.setTempData("autoSneakTimings", sneakTimings);
 
