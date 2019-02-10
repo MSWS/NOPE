@@ -180,7 +180,7 @@ public class CPlayer {
 	}
 
 	public void flagHack(Check check, int vl) {
-		if (timeSince("joinTime") < 2000) {
+		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
 				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
 						+ check.getDebugName() + " &8[CANCELLED]");
@@ -200,11 +200,10 @@ public class CPlayer {
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-				MSG.tell("anticheat.message.normal", "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
-
-						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
-
-						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)");
+				MSG.tell("anticheat.message.normal",
+						"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
+								+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
+								+ " " + color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}

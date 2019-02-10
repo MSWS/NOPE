@@ -10,6 +10,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if block broken if liquid
+ * 
+ * @author imodm
+ *
+ */
 public class IllegalBlockBreak1 implements Check, Listener {
 
 	private AntiCheat plugin;

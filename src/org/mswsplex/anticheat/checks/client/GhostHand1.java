@@ -16,6 +16,14 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if a block that a player clicked on is the same that the player is
+ * looking at In addition, checks if the block above the clicked block is air
+ * (if it is, return - this is to avoid false flags)
+ * 
+ * @author imodm
+ *
+ */
 public class GhostHand1 implements Check, Listener {
 
 	private AntiCheat plugin;

@@ -11,6 +11,13 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks if a player's fall velocity is less than the player's previous fall
+ * velocity
+ * 
+ * @author imodm
+ *
+ */
 public class Glide1 implements Check, Listener {
 
 	private AntiCheat plugin;

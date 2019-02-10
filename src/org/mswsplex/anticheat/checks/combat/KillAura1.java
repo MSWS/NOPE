@@ -22,6 +22,13 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Creates an armorstand IN FRONT of the player, this stand SHOULD be hit if it
+ * isn't then flag
+ * 
+ * @author imodm
+ *
+ */
 public class KillAura1 implements Check, Listener {
 
 	private AntiCheat plugin;

@@ -12,6 +12,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks jumping speed
+ * 
+ * @author imodm
+ *
+ */
 public class Speed2 implements Check, Listener {
 
 	private AntiCheat plugin;

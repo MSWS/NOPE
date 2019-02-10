@@ -1,10 +1,7 @@
 package org.mswsplex.anticheat.checks.movement;
 
-import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,14 +10,17 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks if a player moves completely horizontally without being on the ground
+ * 
+ * Checks if the player's last ongrond position is too low and too far away
+ * <i>conveniently</i> also checks Jesus
  * 
  * @author imodm
- *
+ * 
  */
-public class Flight1 implements Check, Listener {
+public class Flight4 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -40,32 +40,26 @@ public class Flight1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.isOnGround())
-			return;
-		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
-			return;
-		if (cp.timeSince("lastLiquid") < 400)
+		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || cp.isOnGround()
+				|| cp.timeSince("lastTeleport") < 500 || cp.timeSince("lastFlightGrounded") < 500)
 			return;
 
-		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
-				.collect(Collectors.toList()).size() > 0)
+		Location safe = cp.getLastSafeLocation();
+
+		double yDiff = safe.getY() - player.getLocation().getY();
+
+		if (yDiff >= 0)
 			return;
 
-		Location to = event.getTo(), from = event.getFrom();
+		double dist = safe.distanceSquared(player.getLocation());
 
-		if (to.getY() != from.getY())
+		if (dist < 20)
 			return;
 
-		if (cp.timeSince("lastOnGround") <= 300)
-			return;
+		if (plugin.devMode())
+			MSG.tell(player, "&3dist: " + safe.distanceSquared(player.getLocation()) + " y: " + yDiff);
 
-		if (cp.timeSince("lastBlockPlace") < 1500)
-			return;
-
-		if (player.getVelocity().getY() > 0)
-			return;
-
-		cp.flagHack(this, 5);
+		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 20) * 10.0), 50), 10));
 	}
 
 	@Override
@@ -75,7 +69,7 @@ public class Flight1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "Flight#1";
+		return "Flight#4";
 	}
 
 	@Override

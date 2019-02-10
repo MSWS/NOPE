@@ -11,6 +11,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Same as @see Flight1 but different onGround detection
+ * 
+ * @author imodm
+ *
+ */
 public class Flight2 implements Check, Listener {
 
 	private AntiCheat plugin;

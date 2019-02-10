@@ -10,6 +10,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if pitch is invalid
+ * 
+ * @author imodm
+ *
+ */
 public class InvalidMovement1 implements Check, Listener {
 
 	private AntiCheat plugin;

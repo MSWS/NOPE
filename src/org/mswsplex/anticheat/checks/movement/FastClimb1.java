@@ -12,6 +12,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks Y differences and flags if they aren't <i>normal</i>
+ * 
+ * @author imodm
+ *
+ */
 public class FastClimb1 implements Check, Listener {
 
 	private AntiCheat plugin;

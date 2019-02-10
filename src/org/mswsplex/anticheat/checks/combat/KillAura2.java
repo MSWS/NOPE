@@ -16,6 +16,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Compares yaw rates right before a player hits an entity
+ * 
+ * @author imodm
+ *
+ */
 public class KillAura2 implements Check, Listener {
 
 	private AntiCheat plugin;

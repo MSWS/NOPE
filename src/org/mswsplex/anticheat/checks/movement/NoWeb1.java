@@ -12,6 +12,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks the speed in a snapshot of time
+ * 
+ * @author imodm
+ *
+ */
 public class NoWeb1 implements Check, Listener {
 
 	private AntiCheat plugin;
@@ -50,7 +56,7 @@ public class NoWeb1 implements Check, Listener {
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&5" + diff);
+			MSG.tell(player, "&d" + diff);
 		cp.flagHack(this, (int) Math.round((diff / .013) * 10.0));
 	}
 

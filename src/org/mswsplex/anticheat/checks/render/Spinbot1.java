@@ -16,6 +16,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks if yaw differences is constant
+ * 
+ * @author imodm
+ *
+ */
 public class Spinbot1 implements Check, Listener {
 
 	private AntiCheat plugin;

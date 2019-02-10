@@ -12,6 +12,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if a player sends a chat message while moving
+ * 
+ * @author imodm
+ *
+ */
 public class AutoWalk1 implements Check, Listener {
 
 	private AntiCheat plugin;

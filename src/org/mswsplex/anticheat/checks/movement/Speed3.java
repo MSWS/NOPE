@@ -15,6 +15,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks average speeds
+ * 
+ * @author imodm
+ *
+ */
 public class Speed3 implements Check, Listener {
 
 	private AntiCheat plugin;

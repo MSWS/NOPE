@@ -10,6 +10,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Basically {@link NoFall} but when the player hits an entity
+ * 
+ * @author imodm
+ *
+ */
 public class Criticals1 implements Check, Listener {
 
 	private AntiCheat plugin;

@@ -10,6 +10,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if the block that a player places a block against is liquid
+ * 
+ * @author imodm
+ *
+ */
 public class IllegalBlockPlace1 implements Check, Listener {
 
 	private AntiCheat plugin;
@@ -34,7 +40,6 @@ public class IllegalBlockPlace1 implements Check, Listener {
 
 		cp.flagHack(this, 50);
 	}
-
 
 	@Override
 	public String getCategory() {

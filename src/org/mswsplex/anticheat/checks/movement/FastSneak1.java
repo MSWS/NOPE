@@ -15,6 +15,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Gets the average speed while a player is sneaking and flags if too high
+ * 
+ * @author imodm
+ *
+ */
 public class FastSneak1 implements Check, Listener {
 
 	private AntiCheat plugin;

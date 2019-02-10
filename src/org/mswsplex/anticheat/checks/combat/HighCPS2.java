@@ -16,6 +16,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks CPS over slightly longer period of time
+ * 
+ * @author imodm
+ *
+ */
 public class HighCPS2 implements Check, Listener {
 
 	private AntiCheat plugin;

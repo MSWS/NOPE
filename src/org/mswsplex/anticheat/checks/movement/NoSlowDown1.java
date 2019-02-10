@@ -1,10 +1,10 @@
 package org.mswsplex.anticheat.checks.movement;
 
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,14 +13,15 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks if a player moves completely horizontally without being on the ground
+ * Checks the average speed of a player while they're blocking
  * 
  * @author imodm
  *
  */
-public class Flight1 implements Check, Listener {
+public class NoSlowDown1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -35,47 +36,66 @@ public class Flight1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	private final int SIZE = 40;
+
+	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
-		if (cp.isOnGround())
-			return;
-		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
-			return;
-		if (cp.timeSince("lastLiquid") < 400)
+		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
-				.collect(Collectors.toList()).size() > 0)
+		if (cp.timeSince("disableFlight") < 2000)
+			return;
+
+		if (!player.isBlocking())
+			return;
+
+		if (cp.timeSince("lastLiquid") < 500)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
-		if (to.getY() != from.getY())
+		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
+
+		List<Double> distances = (ArrayList<Double>) cp.getTempData("noSlowDistances");
+		if (distances == null)
+			distances = new ArrayList<>();
+
+		double avg = 0;
+		for (double d : distances)
+			avg += d;
+
+		avg /= distances.size();
+
+		distances.add(0, dist);
+
+		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
+			distances.remove(i);
+
+		cp.setTempData("noSlowDistances", distances);
+
+		if (distances.size() < SIZE)
 			return;
 
-		if (cp.timeSince("lastOnGround") <= 300)
+		if (avg <= .1262)
 			return;
 
-		if (cp.timeSince("lastBlockPlace") < 1500)
-			return;
+		if (plugin.devMode())
+			MSG.tell(player, "&e" + avg);
 
-		if (player.getVelocity().getY() > 0)
-			return;
-
-		cp.flagHack(this, 5);
+		cp.flagHack(this, (int) Math.round((avg - .1262) * 400.0));
 	}
 
 	@Override
 	public String getCategory() {
-		return "Flight";
+		return "NoSlowDown";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Flight#1";
+		return "NoSlowDown#1";
 	}
 
 	@Override

@@ -11,6 +11,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if a player moves vertically straight up
+ * 
+ * @author imodm
+ *
+ */
 public class Flight3 implements Check, Listener {
 
 	private AntiCheat plugin;

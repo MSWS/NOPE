@@ -17,6 +17,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if the placed blockface is the same as the face interacted iwth
+ * 
+ * @author imodm
+ *
+ */
 public class Scaffold3 implements Check, Listener {
 
 	private AntiCheat plugin;

@@ -17,6 +17,13 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks recent movements, their differences, and flags if there are too many
+ * duplicate differences
+ * 
+ * @author imodm
+ *
+ */
 public class ClonedMovement1 implements Check, Listener {
 
 	private AntiCheat plugin;

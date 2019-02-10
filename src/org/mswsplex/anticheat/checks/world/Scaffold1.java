@@ -11,6 +11,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks how many blocks a player places right below themselves
+ * 
+ * @author imodm
+ *
+ */
 public class Scaffold1 implements Check, Listener {
 
 	private AntiCheat plugin;

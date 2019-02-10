@@ -14,6 +14,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks distance over certain amount of time
+ * 
+ * @author imodm
+ *
+ */
 public class Timer2 implements Check, Listener {
 
 	private AntiCheat plugin;

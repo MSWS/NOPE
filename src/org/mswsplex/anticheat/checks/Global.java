@@ -47,9 +47,10 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		double time = System.currentTimeMillis();
 		boolean onGround = cp.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
-		double time = System.currentTimeMillis();
+		cp.setTempData("lastMove", (double) time);
 
 		Location from = event.getFrom(), to = event.getTo();
 

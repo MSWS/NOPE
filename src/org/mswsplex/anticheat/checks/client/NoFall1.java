@@ -11,6 +11,14 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Uh I have no idea how this check works. Will likely be rewritten soon
+ * 
+ * @author imodm
+ * @deprecated Outdated and unreliable - likely to be rewritten
+ *
+ */
+@Deprecated
 public class NoFall1 implements Check, Listener {
 
 	private AntiCheat plugin;

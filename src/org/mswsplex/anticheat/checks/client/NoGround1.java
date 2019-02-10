@@ -13,6 +13,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Compares if the server onGround and player onGround is different
+ * 
+ * @author imodm
+ *
+ */
 public class NoGround1 implements Check, Listener {
 
 	private AntiCheat plugin;

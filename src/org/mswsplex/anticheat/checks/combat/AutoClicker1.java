@@ -23,6 +23,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Compares timings between clicks
+ * 
+ * @author imodm
+ *
+ */
 public class AutoClicker1 implements Check, Listener {
 
 	private AntiCheat plugin;

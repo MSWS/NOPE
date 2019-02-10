@@ -211,7 +211,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						checks.containsKey(check.getCategory()) ? checks.get(check.getCategory()) + 1 : 1);
 			StringBuilder builder = new StringBuilder();
 
-			String[] colors = { "&f", "&7", "&8", "&e", "&6", "&c" };
+			String[] colors = { "&f", "&7", "&8" };
 
 			for (int i = 0; i < checks.keySet().size(); i++) {
 				builder.append(colors[i % colors.length] + checks.keySet().toArray()[i] + " "
@@ -231,7 +231,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear", "vl", "lagback", "reset", "dev", "warn" }) {
+			for (String res : new String[] { "clear", "vl", "lagback", "reset", "dev", "warn", "checks" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}

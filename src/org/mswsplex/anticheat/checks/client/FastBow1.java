@@ -12,6 +12,13 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Gets the average velocities of arrows shot within 100 ticks and compares them
+ * to a regular max value
+ * 
+ * @author imodm
+ *
+ */
 public class FastBow1 implements Check, Listener {
 
 	private AntiCheat plugin;

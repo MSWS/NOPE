@@ -14,6 +14,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Compares distances
+ * 
+ * @author imodm
+ *
+ */
 public class Reach1 implements Check, Listener {
 
 	private AntiCheat plugin;

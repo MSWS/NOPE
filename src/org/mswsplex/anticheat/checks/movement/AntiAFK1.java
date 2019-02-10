@@ -16,6 +16,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks if a player moves their yaw without changing their pitch
+ * 
+ * @author imodm
+ *
+ */
 public class AntiAFK1 implements Check, Listener {
 
 	private AntiCheat plugin;
@@ -53,7 +59,7 @@ public class AntiAFK1 implements Check, Listener {
 
 		if (to.getPitch() != 0)
 			return;
-		
+
 		List<Double> samePitchTimings = cp.getTempData("afkPitchTimings", List.class);
 		if (samePitchTimings == null)
 			samePitchTimings = new ArrayList<>();

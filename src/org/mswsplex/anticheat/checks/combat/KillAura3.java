@@ -24,6 +24,13 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 
 import io.netty.util.internal.ThreadLocalRandom;
 
+/**
+ * Creates a mini armorstand right behind an entity that the player has hit,
+ * this stand SHOULD NOT be hit (legimiately)
+ * 
+ * @author imodm
+ *
+ */
 public class KillAura3 implements Check, Listener {
 
 	private AntiCheat plugin;

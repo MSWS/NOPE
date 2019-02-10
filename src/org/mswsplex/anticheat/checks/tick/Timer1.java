@@ -14,6 +14,12 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
+/**
+ * Checks average "lag ticks" and flags erroneous behavior
+ * 
+ * @author imodm
+ *
+ */
 public class Timer1 implements Check, Listener {
 
 	private AntiCheat plugin;

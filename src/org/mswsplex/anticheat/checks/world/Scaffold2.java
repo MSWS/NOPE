@@ -15,6 +15,13 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if a player places a block right below themselves right after quickly
+ * changing pitch
+ * 
+ * @author imodm
+ *
+ */
 public class Scaffold2 implements Check, Listener {
 
 	private AntiCheat plugin;

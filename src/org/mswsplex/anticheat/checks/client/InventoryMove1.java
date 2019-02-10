@@ -12,6 +12,13 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks for everytime the player clicks within their inventory if they haven't
+ * jumped but they are on the ground and has moved
+ * 
+ * @author imodm
+ *
+ */
 public class InventoryMove1 implements Check, Listener {
 
 	private AntiCheat plugin;

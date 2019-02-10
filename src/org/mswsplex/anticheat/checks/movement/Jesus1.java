@@ -15,6 +15,12 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+/**
+ * Checks if a player's Y differences are too similar
+ * 
+ * @author imodm
+ *
+ */
 public class Jesus1 implements Check, Listener {
 
 	private AntiCheat plugin;
@@ -78,7 +84,7 @@ public class Jesus1 implements Check, Listener {
 		if (amo < SIZE / 5)
 			return;
 
-		cp.flagHack(this, (amo - (SIZE / 5)) * 10);
+		cp.flagHack(this, (amo - (SIZE / 5)) * 10 + 5);
 	}
 
 	@Override
