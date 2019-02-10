@@ -159,6 +159,14 @@ public class CPlayer {
 		return hasSaveData(id) ? (int) getSaveData(id) : 0;
 	}
 
+	public <T> T getSaveData(String id, Class<T> cast) {
+		return cast.cast(getSaveData(id));
+	}
+
+	public <T> T getTempData(String id, Class<T> cast) {
+		return cast.cast(getTempData(id));
+	}
+
 	public int getTotalVL() {
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)

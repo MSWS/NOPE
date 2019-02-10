@@ -53,8 +53,8 @@ public class AntiAFK1 implements Check, Listener {
 
 		if (to.getPitch() != 0)
 			return;
-
-		List<Double> samePitchTimings = (List<Double>) cp.getTempData("afkPitchTimings");
+		
+		List<Double> samePitchTimings = cp.getTempData("afkPitchTimings", List.class);
 		if (samePitchTimings == null)
 			samePitchTimings = new ArrayList<>();
 
