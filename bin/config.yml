@@ -1,0 +1,14 @@
+BanAtVl: 500
+Minimum: 20
+SecondsMinimum: 5000
+DevMode: false
+VlColors:
+- '&a'
+- '&e'
+- '&6'
+- '&c'
+- '&4'
+LagBack: false
+CommandsForBan:
+- 'ban %player% Hacking (%hack%)'
+- 'say %player% was banned for %hack%'
