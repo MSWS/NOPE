@@ -37,10 +37,10 @@ public class Timer2 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.timeSince("lastTeleport") < 2000)
+		if (player.isInsideVehicle())
 			return;
 
-		if (player.isInsideVehicle())
+		if (cp.timeSince("wasFlying") < 1000)
 			return;
 
 		List<Double> horizontalTimings = (List<Double>) cp.getTempData("timer2BlockTimings");
@@ -48,11 +48,11 @@ public class Timer2 implements Check, Listener {
 		if (horizontalTimings == null)
 			horizontalTimings = new ArrayList<>();
 
-		horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
+		if (cp.timeSince("lastTeleport") > 500)
+			horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
 
-		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++) {
+		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++)
 			horizontalTimings.remove(i);
-		}
 
 		cp.setTempData("timer2BlockTimings", horizontalTimings);
 

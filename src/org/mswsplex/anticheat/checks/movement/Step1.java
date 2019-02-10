@@ -34,7 +34,7 @@ public class Step1 implements Check, Listener {
 
 		if (player.isFlying() || cp.hasMovementRelatedPotion())
 			return;
-		if (cp.timeSince("lastLiquid") < 400)
+		if (cp.timeSince("lastLiquid") < 500)
 			return;
 
 		if (cp.timeSince("lastSlimeBlock") < 1000)
@@ -47,6 +47,9 @@ public class Step1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastBlockPlace") < 500)
+			return;
+
+		if (cp.timeSince("lastTeleport") < 500)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

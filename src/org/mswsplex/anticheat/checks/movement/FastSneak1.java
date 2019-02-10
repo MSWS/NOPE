@@ -30,7 +30,7 @@ public class FastSneak1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 20;
+	private final int SIZE = 20;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -68,12 +68,12 @@ public class FastSneak1 implements Check, Listener {
 
 		distances.add(0, dist);
 
-		for (int i = distances.size() - size; i < distances.size() && i > size; i++)
+		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
 			distances.remove(i);
 
 		cp.setTempData("sneakDistances", distances);
 
-		if (distances.size() < size)
+		if (distances.size() < SIZE)
 			return;
 
 		if (avg < .012)

@@ -30,7 +30,7 @@ public class Speed3 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 15;
+	private final int SIZE = 15;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -57,13 +57,13 @@ public class Speed3 implements Check, Listener {
 
 		distances.add(0, dist);
 
-		for (int i = size; i < distances.size(); i++) {
+		for (int i = SIZE; i < distances.size(); i++) {
 			distances.remove(i);
 		}
 
 		cp.setTempData("speedDistances", distances);
 
-		if (distances.size() < size)
+		if (distances.size() < SIZE)
 			return;
 
 		double avg = 0;

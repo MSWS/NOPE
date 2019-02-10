@@ -31,7 +31,7 @@ public class ClonedMovement1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 20;
+	private final int SIZE = 20;
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@EventHandler
@@ -76,12 +76,12 @@ public class ClonedMovement1 implements Check, Listener {
 
 		distances.add(0, dist);
 
-		for (int i = distances.size() - size; i < distances.size() && i > size; i++)
+		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
 			distances.remove(i);
 
 		cp.setTempData("teleportDistances", distances);
 
-		if (amo < size / 4)
+		if (amo < SIZE / 4)
 			return;
 
 		if (plugin.devMode()) {
@@ -89,7 +89,7 @@ public class ClonedMovement1 implements Check, Listener {
 			MSG.tell(player, "&9" + dist);
 		}
 
-		cp.flagHack(this, (amo - (size / 4)) * 2 + 5);
+		cp.flagHack(this, (amo - (SIZE / 4)) * 2 + 5);
 	}
 
 	@Override

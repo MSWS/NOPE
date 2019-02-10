@@ -29,7 +29,7 @@ public class Jesus1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 50;
+	private final int SIZE = 50;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -66,7 +66,7 @@ public class Jesus1 implements Check, Listener {
 		if (diff != -0.10000000596046732 && diff != 0.10000000149011612)
 			lastDiffs.add(0, diff);
 
-		for (int i = size; i < lastDiffs.size(); i++) {
+		for (int i = SIZE; i < lastDiffs.size(); i++) {
 			lastDiffs.remove(i);
 		}
 
@@ -78,10 +78,10 @@ public class Jesus1 implements Check, Listener {
 
 		cp.setTempData("jesusDiffs", lastDiffs);
 
-		if (amo < size / 5)
+		if (amo < SIZE / 5)
 			return;
 
-		cp.flagHack(this, (amo - (size / 5)) * 10);
+		cp.flagHack(this, (amo - (SIZE / 5)) * 10);
 	}
 
 	@Override

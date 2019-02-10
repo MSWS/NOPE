@@ -30,7 +30,7 @@ public class Scaffold2 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 20;
+	private final int SIZE = 20;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -43,7 +43,7 @@ public class Scaffold2 implements Check, Listener {
 
 		avgPitches.add(0, (double) player.getLocation().getPitch());
 
-		for (int i = size; i < avgPitches.size(); i++) {
+		for (int i = SIZE; i < avgPitches.size(); i++) {
 			avgPitches.remove(i);
 		}
 
@@ -60,7 +60,7 @@ public class Scaffold2 implements Check, Listener {
 		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
 		if (avgPitches == null)
 			return;
-		if (avgPitches.size() < size)
+		if (avgPitches.size() < SIZE)
 			return;
 
 		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())

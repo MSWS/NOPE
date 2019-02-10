@@ -30,7 +30,7 @@ public class Spinbot1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 40;
+	private final int SIZE = 40;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -52,13 +52,13 @@ public class Spinbot1 implements Check, Listener {
 
 		yaws.add(0, diff);
 
-		for (int i = size; i < yaws.size(); i++) {
+		for (int i = SIZE; i < yaws.size(); i++) {
 			yaws.remove(i);
 		}
 
 		cp.setTempData("spinbotYaws", yaws);
 
-		if (yaws.size() < size)
+		if (yaws.size() < SIZE)
 			return;
 
 		int amo = 0;
@@ -67,13 +67,13 @@ public class Spinbot1 implements Check, Listener {
 				amo++;
 		}
 
-		if (amo < size / 2)
+		if (amo < SIZE / 2)
 			return;
 
 		if (plugin.devMode())
 			MSG.tell(player, "&c" + amo + " (" + diff + ")");
 
-		cp.flagHack(this, (amo - size / 2) * 5);
+		cp.flagHack(this, (amo - SIZE / 2) * 5);
 	}
 
 	@Override

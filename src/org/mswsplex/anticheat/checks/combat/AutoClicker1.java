@@ -38,7 +38,7 @@ public class AutoClicker1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 100;
+	private final int SIZE = 100;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
@@ -66,12 +66,12 @@ public class AutoClicker1 implements Check, Listener {
 
 		clickTimings.add(0, (double) System.currentTimeMillis());
 
-		for (int i = size; i < clickTimings.size(); i++)
+		for (int i = SIZE; i < clickTimings.size(); i++)
 			clickTimings.remove(i);
 
 		cp.setTempData("autoClickerTimes", clickTimings);
 
-		if (clickTimings.size() >= size) {
+		if (clickTimings.size() >= SIZE) {
 			HashMap<Double, Integer> repeats = new HashMap<>();
 			double last = System.currentTimeMillis();
 
@@ -87,11 +87,11 @@ public class AutoClicker1 implements Check, Listener {
 
 			int biggest = (int) repeats.values().toArray()[repeats.values().size() - 1];
 
-			if (biggest < size * .3)
+			if (biggest < SIZE * .3)
 				return;
 			if (plugin.devMode())
 				MSG.tell(player, "&7similar values: " + biggest);
-			cp.flagHack(this, (int) Math.round(biggest - (size * .3)) * 5 + 5);
+			cp.flagHack(this, (int) Math.round(biggest - (SIZE * .3)) * 5 + 5);
 		}
 
 	}

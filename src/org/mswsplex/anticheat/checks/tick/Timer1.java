@@ -29,16 +29,13 @@ public class Timer1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 20, avgSize = 50;
+	private final int SIZE = 20, AVG_SIZE = 50;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
-		if (cp.timeSince("lastTeleport") < 2000)
-			return;
 
 		List<Double> timings = (ArrayList<Double>) cp.getTempData("timerTimings");
 		List<Integer> averageTimings = (ArrayList<Integer>) cp.getTempData("averageTimings");
@@ -51,7 +48,7 @@ public class Timer1 implements Check, Listener {
 
 		int lagTicks = 0;
 
-		if (timings.size() >= size) {
+		if (timings.size() >= SIZE) {
 			double last = System.currentTimeMillis();
 			for (double d : timings) {
 				double diff = last - d;
@@ -59,7 +56,7 @@ public class Timer1 implements Check, Listener {
 					lagTicks++;
 				last = d;
 			}
-			if (averageTimings.size() >= avgSize) {
+			if (averageTimings.size() >= AVG_SIZE) {
 				double avg = 0;
 				for (double time : averageTimings)
 					avg += time;
@@ -73,13 +70,13 @@ public class Timer1 implements Check, Listener {
 				}
 			}
 			averageTimings.add(0, lagTicks);
-			for (int i = avgSize; i < averageTimings.size(); i++)
+			for (int i = AVG_SIZE; i < averageTimings.size(); i++)
 				averageTimings.remove(i);
 		}
 
 		timings.add(0, (double) System.currentTimeMillis());
 
-		for (int i = size; i < timings.size(); i++)
+		for (int i = SIZE; i < timings.size(); i++)
 			timings.remove(i);
 
 		cp.setTempData("timerTimings", timings);
