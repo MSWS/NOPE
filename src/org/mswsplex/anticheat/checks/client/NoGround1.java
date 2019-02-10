@@ -45,6 +45,9 @@ public class NoGround1 implements Check, Listener {
 		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 
+		if (cp.timeSince("wasFlying") < 2000)
+			return;
+
 		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
 				.collect(Collectors.toList()).size() > 0)
 			return;

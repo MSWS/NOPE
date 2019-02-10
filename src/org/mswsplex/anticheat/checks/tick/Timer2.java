@@ -1,10 +1,9 @@
-package org.mswsplex.anticheat.checks.movement;
+package org.mswsplex.anticheat.checks.tick;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,13 +14,13 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
-public class Speed3 implements Check, Listener {
+public class Timer2 implements Check, Listener {
 
 	private AntiCheat plugin;
 
 	@Override
 	public CheckType getType() {
-		return CheckType.MOVEMENT;
+		return CheckType.TICK;
 	}
 
 	@Override
@@ -30,66 +29,60 @@ public class Speed3 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int size = 15;
+	private final int SAMPLE_SIZE = 150;
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		if (player.isFlying() || player.isInsideVehicle())
+
+		if (cp.timeSince("lastTeleport") < 2000)
 			return;
 
-		if (cp.timeSince("disableFlight") < 2000)
-			return;
-		if (cp.timeSince("iceAndTrapdoor") < 1000)
-			return;
-		if (cp.hasMovementRelatedPotion())
+		if (player.isInsideVehicle())
 			return;
 
-		Location to = event.getTo(), from = event.getFrom();
+		List<Double> horizontalTimings = (List<Double>) cp.getTempData("timer2BlockTimings");
 
-		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
+		if (horizontalTimings == null)
+			horizontalTimings = new ArrayList<>();
 
-		List<Double> distances = (List<Double>) cp.getTempData("speedDistances");
-		if (distances == null)
-			distances = new ArrayList<>();
+		horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
 
-		distances.add(0, dist);
-
-		for (int i = size; i < distances.size(); i++) {
-			distances.remove(i);
+		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++) {
+			horizontalTimings.remove(i);
 		}
 
-		cp.setTempData("speedDistances", distances);
+		cp.setTempData("timer2BlockTimings", horizontalTimings);
 
-		if (distances.size() < size)
+		if (horizontalTimings.size() < SAMPLE_SIZE)
 			return;
 
 		double avg = 0;
 
-		for (double d : distances)
+		for (double d : horizontalTimings)
 			avg += d;
 
-		avg /= distances.size();
+		avg /= horizontalTimings.size();
 
-		if (avg < .53)
+		if (avg > 85)
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&2" + avg);
+			MSG.tell(player, "&eavg: &7" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg - .53) * 20));
+		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Speed";
+		return "Timer";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Speed#3";
+		return "Timer#2";
 	}
 
 	@Override

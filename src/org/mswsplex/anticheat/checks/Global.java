@@ -68,6 +68,11 @@ public class Global implements Listener {
 			cp.setTempData("lastInAir", (double) time);
 		}
 
+		if (player.getLocation().subtract(0, .01, 0).getBlock().getType().toString().contains("TRAP")
+				&& cp.isBlockAbove()) {
+			cp.setTempData("iceAndTrapdoor", (double) System.currentTimeMillis());
+		}
+
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
@@ -97,6 +102,9 @@ public class Global implements Listener {
 
 		if (player.isFlying())
 			cp.setTempData("wasFlying", (double) time);
+
+		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
+			cp.setTempData("lastHorizontalBlockChange", (double) System.currentTimeMillis());
 
 		Location vertLine = player.getLocation().clone();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {

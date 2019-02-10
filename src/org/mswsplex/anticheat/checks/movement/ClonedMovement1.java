@@ -54,7 +54,13 @@ public class ClonedMovement1 implements Check, Listener {
 
 		Location from = event.getFrom(), to = event.getTo();
 
+		if (cp.timeSince("lastHorizontalBlockChange") > 500)
+			return;
+
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
+
+		if (player.getLocation().getBlock().getType() == Material.WEB && dist <= 0.06586018003872596)
+			return;
 
 		List<Double> distances = (ArrayList<Double>) cp.getTempData("teleportDistances");
 		if (distances == null)
@@ -78,10 +84,12 @@ public class ClonedMovement1 implements Check, Listener {
 		if (amo < size / 4)
 			return;
 
-		if (plugin.devMode())
+		if (plugin.devMode()) {
+			MSG.tell(player, "&7lastblock: &3" + cp.timeSince("lastHorizontalBlockChange"));
 			MSG.tell(player, "&9" + dist);
+		}
 
-		cp.flagHack(this, (amo - (size / 4)) * 2);
+		cp.flagHack(this, (amo - (size / 4)) * 2 + 5);
 	}
 
 	@Override

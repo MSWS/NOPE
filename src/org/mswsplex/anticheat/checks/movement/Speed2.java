@@ -36,6 +36,8 @@ public class Speed2 implements Check, Listener {
 
 		if (cp.timeSince("disableFlight") < 2000)
 			return;
+		if (cp.timeSince("iceAndTrapdoor") < 1000)
+			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
 		if (player.getFallDistance() > 4)
@@ -47,11 +49,11 @@ public class Speed2 implements Check, Listener {
 
 		if (dist < .7)
 			return;
-		
+
 		if (plugin.devMode())
 			MSG.tell(player, "&e" + dist);
 
-		cp.flagHack(this, (int) Math.round((dist-.7) * 20));
+		cp.flagHack(this, (int) Math.round((dist - .7) * 20));
 	}
 
 	@Override
