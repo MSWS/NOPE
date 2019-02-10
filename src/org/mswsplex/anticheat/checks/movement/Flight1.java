@@ -1,7 +1,10 @@
 package org.mswsplex.anticheat.checks.movement;
 
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +39,10 @@ public class Flight1 implements Check, Listener {
 		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
 			return;
 		if (cp.timeSince("lastLiquid") < 400)
+			return;
+
+		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
+				.collect(Collectors.toList()).size() > 0)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

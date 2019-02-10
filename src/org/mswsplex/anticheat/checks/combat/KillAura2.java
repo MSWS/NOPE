@@ -86,7 +86,7 @@ public class KillAura2 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&3" + fastTimings.size());
 
-		cp.flagHack(this, 20);
+		cp.flagHack(this, 50);
 	}
 
 	@Override

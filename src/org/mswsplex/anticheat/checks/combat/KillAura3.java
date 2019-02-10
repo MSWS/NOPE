@@ -42,8 +42,8 @@ public class KillAura3 implements Check, Listener {
 		stands = new HashMap<>();
 	}
 
-	private final double CHECK_EVERY = 20000;
-	private final int TICKS_TO_WAIT = 200;
+	private final double CHECK_EVERY = 10000;
+	private final int TICKS_TO_WAIT = 100;
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -59,19 +59,21 @@ public class KillAura3 implements Check, Listener {
 				event.setCancelled(true);
 			} else {
 				cp.flagHack(this, 20);
+				cp.setTempData("lastKillAuraCheck1", (double) System.currentTimeMillis() - CHECK_EVERY);
+				stands.remove(player);
+				event.getEntity().remove();
 			}
 		}
 
-		if (stands.containsKey(player)) {
+		if (stands.containsKey(player))
 			return;
-		}
 
 		if (cp.timeSince("lastKillAuraCheck1") < CHECK_EVERY)
 			return;
 
 		Random rnd = new Random();
 
-		if (rnd.nextDouble() < .60)
+		if (rnd.nextDouble() < .20)
 			return;
 
 		if (event.getEntity().hasMetadata("antiKillAuraMark"))
@@ -142,9 +144,7 @@ public class KillAura3 implements Check, Listener {
 
 				Vector pToT = player.getLocation().clone().toVector().subtract(target.getLocation().clone().toVector());
 
-				m.subtract(pToT.multiply(.25));
-
-				m.setY(target.getLocation().getY());
+				m.subtract(pToT.multiply(.4));
 
 				stand.teleport(m);
 			}

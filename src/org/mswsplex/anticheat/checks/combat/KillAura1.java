@@ -69,6 +69,7 @@ public class KillAura1 implements Check, Listener {
 				return;
 			}
 			cp.setTempData("hasHitTarget", true);
+			cp.flagHack(this, 5);
 			return;
 		}
 

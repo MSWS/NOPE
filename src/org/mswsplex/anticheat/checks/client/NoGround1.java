@@ -1,8 +1,11 @@
 package org.mswsplex.anticheat.checks.client;
 
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +44,11 @@ public class NoGround1 implements Check, Listener {
 
 		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
-		
+
+		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
+				.collect(Collectors.toList()).size() > 0)
+			return;
+
 		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SLIME_BLOCK)
 			return;
 

@@ -70,7 +70,7 @@ public class AntiCheat extends JavaPlugin {
 
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity ent : w.getEntitiesByClass(ArmorStand.class)) {
-				if (!ent.hasMetadata("killAuraMark"))
+				if (!ent.hasMetadata("killAuraMark") && !ent.hasMetadata("antiKillAuraMark"))
 					continue;
 				ent.remove();
 			}
