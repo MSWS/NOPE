@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.movement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -70,11 +71,7 @@ public class Jesus1 implements Check, Listener {
 			lastDiffs.remove(i);
 		}
 
-		int amo = 0;
-		for (double d : lastDiffs) {
-			if (d == diff)
-				amo++;
-		}
+		int amo = lastDiffs.stream().filter((val) -> diff == val).collect(Collectors.toList()).size();
 
 		cp.setTempData("jesusDiffs", lastDiffs);
 

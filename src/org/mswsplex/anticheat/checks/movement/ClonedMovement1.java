@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.movement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -59,6 +60,9 @@ public class ClonedMovement1 implements Check, Listener {
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
+		if (dist == 0)
+			return;
+
 		if (player.getLocation().getBlock().getType() == Material.WEB && dist <= 0.06586018003872596)
 			return;
 
@@ -66,13 +70,7 @@ public class ClonedMovement1 implements Check, Listener {
 		if (distances == null)
 			distances = new ArrayList<>();
 
-		int amo = 0;
-		for (double d : distances) {
-			if (d == 0)
-				continue;
-			if (d == dist)
-				amo++;
-		}
+		int amo = distances.stream().filter((val) -> val == dist).collect(Collectors.toList()).size();
 
 		distances.add(0, dist);
 

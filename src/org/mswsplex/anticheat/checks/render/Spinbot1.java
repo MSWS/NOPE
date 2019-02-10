@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.render;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,10 +41,13 @@ public class Spinbot1 implements Check, Listener {
 
 		Location to = event.getTo(), from = event.getFrom();
 
-		if (to.distanceSquared(from) == 0 )
+		if (to.distanceSquared(from) == 0)
 			return;
 
 		double diff = to.getYaw() - from.getYaw();
+
+		if (diff == 0)
+			return;
 
 		List<Double> yaws = (List<Double>) cp.getTempData("spinbotYaws");
 
@@ -61,11 +65,7 @@ public class Spinbot1 implements Check, Listener {
 		if (yaws.size() < SIZE)
 			return;
 
-		int amo = 0;
-		for (double d : yaws) {
-			if (d == diff && d != 0)
-				amo++;
-		}
+		int amo = yaws.stream().filter((val) -> val == diff).collect(Collectors.toList()).size();
 
 		if (amo < SIZE / 2)
 			return;

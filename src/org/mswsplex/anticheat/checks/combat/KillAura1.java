@@ -1,7 +1,7 @@
 package org.mswsplex.anticheat.checks.combat;
 
 import java.util.HashMap;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -76,7 +76,7 @@ public class KillAura1 implements Check, Listener {
 		if (cp.timeSince("lastKillAuraCheck") < CHECK_EVERY)
 			return;
 
-		Random rnd = new Random();
+		ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
 		if (rnd.nextDouble() < .60)
 			return;

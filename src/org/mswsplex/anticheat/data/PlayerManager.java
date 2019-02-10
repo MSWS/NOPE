@@ -2,6 +2,8 @@ package org.mswsplex.anticheat.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bukkit.OfflinePlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
@@ -9,7 +11,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 public class PlayerManager {
 	private AntiCheat plugin;
 
-	private HashMap<OfflinePlayer, CPlayer> players;
+	private Map<OfflinePlayer, CPlayer> players;
 
 	public PlayerManager(AntiCheat plugin) {
 		this.plugin = plugin;
@@ -22,7 +24,7 @@ public class PlayerManager {
 		return players.get(player);
 	}
 
-	public ArrayList<OfflinePlayer> getLoadedPlayers() {
+	public List<OfflinePlayer> getLoadedPlayers() {
 		return new ArrayList<OfflinePlayer>(players.keySet());
 	}
 

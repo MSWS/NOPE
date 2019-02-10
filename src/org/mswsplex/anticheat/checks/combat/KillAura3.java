@@ -1,7 +1,6 @@
 package org.mswsplex.anticheat.checks.combat;
 
 import java.util.HashMap;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -22,6 +21,8 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
+
+import io.netty.util.internal.ThreadLocalRandom;
 
 public class KillAura3 implements Check, Listener {
 
@@ -71,7 +72,7 @@ public class KillAura3 implements Check, Listener {
 		if (cp.timeSince("lastKillAuraCheck1") < CHECK_EVERY)
 			return;
 
-		Random rnd = new Random();
+		ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
 		if (rnd.nextDouble() < .20)
 			return;
