@@ -11,9 +11,10 @@ VlColors:
 - '&c'
 - '&4'
 LagBack: false
+Log: true
 CommandsForBan:
-- 'ban %player% Hacking (%hack%)'
-- 'say %player% was banned for %hack%'
+- ban %player% Hacking (%hack%)
+- say %player% was banned for %hack%
 CommandsForBanwave:
-- 'ban %player% Hacking - Banwave (%hack%)'
-- 'say %player% was banwaved for %hack%'
+- ban %player% Hacking - Banwave (%hack%)
+- say %player% was banwaved for %hack%

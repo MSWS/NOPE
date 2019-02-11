@@ -90,7 +90,6 @@ public class ClonedMovement1 implements Check, Listener {
 			return;
 
 		if (plugin.devMode()) {
-			MSG.tell(player, "&7lastblock: &3" + cp.timeSince("lastHorizontalBlockChange"));
 			MSG.tell(player, "&9" + dist);
 		}
 

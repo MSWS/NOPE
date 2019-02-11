@@ -47,8 +47,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(p);
 					if (args[2].equalsIgnoreCase("all")) {
-						for (Check c : plugin.getChecks().getActiveChecks())
-							cp.setSaveData("vls." + c.getCategory().toLowerCase(), 0);
+						cp.clearVls();
 						hack = "all hacks";
 					} else {
 						cp.setSaveData("vls." + args[2].toLowerCase(), 0);
@@ -66,8 +65,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						+ (Bukkit.getPlayer(args[1]).getName().toLowerCase().endsWith("s") ? "" : "s");
 
 				if (args[2].equalsIgnoreCase("all")) {
-					for (Check c : plugin.getChecks().getActiveChecks())
-						cp.setSaveData("vls." + c.getCategory().toLowerCase(), 0);
+					cp.clearVls();
 					hack = "all hacks";
 				} else {
 					cp.setSaveData("vls." + args[2].toLowerCase(), 0);
@@ -120,12 +118,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 			break;
 		case "toggle":
-			// /ac toggle [setting]
 			if (args.length < 2) {
 				MSG.sendHelp(sender, 0, "default");
 				return true;
 			}
-
 			switch (args[1].toLowerCase()) {
 			case "dev":
 				plugin.config.set("DevMode", !plugin.devMode());
@@ -136,6 +132,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			case "cancel":
 				plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
 				MSG.tell(sender, "cancel: " + MSG.TorF(plugin.config.getBoolean("LagBack")));
+				plugin.saveConfig();
+				break;
+			case "logs":
+				plugin.config.set("Log", !plugin.config.getBoolean("Log"));
+				MSG.tell(sender, "logs: " + MSG.TorF(plugin.config.getBoolean("Log")));
 				plugin.saveConfig();
 				break;
 			}
@@ -280,7 +281,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev" }) {
+				for (String res : new String[] { "cancel", "dev", "logs" }) {
 					if (res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);
 				}

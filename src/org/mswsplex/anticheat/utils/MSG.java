@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+import io.netty.util.internal.ThreadLocalRandom;
+
 public class MSG {
 	public static AntiCheat plugin;
 
@@ -315,5 +317,22 @@ public class MSG {
 		String color = colors.get(Math.min(index, colors.size() - 1));
 
 		return color;
+	}
+
+	public static String genUUID(int length) {
+		String[] keys = new String[100];
+		int pos = 0;
+		for (int i = 0; i < 26; i++) {
+			keys[i + pos] = ((char) (i + 65)) + "";
+		}
+		pos += 26;
+		for (int i = 0; i < 10; i++) {
+			keys[i + pos] = i + "";
+		}
+		pos += 10;
+		String res = "";
+		for (int i = 0; i < length; i++)
+			res = res + keys[(int) Math.floor(ThreadLocalRandom.current().nextDouble() * pos)];
+		return res;
 	}
 }

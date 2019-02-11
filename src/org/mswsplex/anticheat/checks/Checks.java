@@ -42,6 +42,8 @@ import org.mswsplex.anticheat.checks.movement.Step1;
 import org.mswsplex.anticheat.checks.render.AutoSneak1;
 import org.mswsplex.anticheat.checks.render.InvalidMovement1;
 import org.mswsplex.anticheat.checks.render.Spinbot1;
+import org.mswsplex.anticheat.checks.tick.Regen1;
+import org.mswsplex.anticheat.checks.tick.Regen2;
 import org.mswsplex.anticheat.checks.tick.Timer1;
 import org.mswsplex.anticheat.checks.tick.Timer2;
 import org.mswsplex.anticheat.checks.world.IllegalBlockBreak1;
@@ -69,7 +71,7 @@ public class Checks {
 				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
 				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
 				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
-				new KillAura4(), new AntiRotate1(), new NoSlowDown1(), new FastEat1() };
+				new KillAura4(), new AntiRotate1(), new NoSlowDown1(), new FastEat1(), new Regen1(), new Regen2() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

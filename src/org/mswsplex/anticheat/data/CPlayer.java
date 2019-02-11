@@ -2,11 +2,20 @@ package org.mswsplex.anticheat.data;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -180,6 +189,7 @@ public class CPlayer {
 		return amo;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl) {
 		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
@@ -211,23 +221,173 @@ public class CPlayer {
 
 		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 
-		if (nVl >= plugin.config.getInt("VlForInstaBan")) {
-			ban(check, Timing.INSTANT);
-		}
+		int ping = getPing();
+
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
 			MSG.tell("anticheat.message.banwave",
 					"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.");
+			addLogMessage("");
+			addLogMessage("BANWAVE check:" + check.getDebugName() + " ping: " + ping + " VL: " + (nVl - vl) + " (+" + vl
+					+ ") time:" + System.currentTimeMillis());
+			addLogMessage("");
 			setSaveData("isBanwaved", check.getCategory());
+		} else {
+			addLogMessage("Flagged check:" + check.getDebugName() + " ping: " + ping + " VL: " + (nVl - vl) + " (+" + vl
+					+ ") time:" + System.currentTimeMillis());
 		}
+
+		if (nVl >= plugin.config.getInt("VlForInstaBan")) {
+			ban(check, Timing.INSTANT);
+		}
+
+		List<String> lines = getSaveData("log", List.class);
+		if (lines == null)
+			lines = new ArrayList<>();
+
+		setSaveData("log", lines);
+	}
+
+	public int getPing() {
+		int ping = 0;
+
+		try {
+			Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
+			ping = (int) entityPlayer.getClass().getField("ping").get(entityPlayer);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		return ping;
 	}
 
 	public void ban(Check check, Timing timing) {
 		ban(check.getCategory(), timing);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void ban(String check, Timing timing) {
-		clearSaveData();
+		File logFolder = new File(plugin.getDataFolder(), "logs/");
+		logFolder.mkdir();
+
+		String token = MSG.genUUID(16);
+
+		File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
+
+		List<String> prefix = new ArrayList<>();
+
+		List<String> lines = getSaveData("log", List.class);
+		if (lines == null)
+			lines = new ArrayList<>();
+
+		List<String> revised = new ArrayList<>();
+
+		int longest = 0;
+
+		double timeElapsed = 0;
+
+		for (int i = 0; i < lines.size(); i++) {
+			String line = lines.get(i);
+
+			double time = 0;
+			for (String k : line.split(" ")) {
+				if (k.startsWith("time:")) {
+					time = System.currentTimeMillis() - Double.parseDouble(k.substring("time:".length()));
+					line = line.replace(k, MSG.getTime(time).replace("millisecond", "m"));
+					break;
+				}
+				if (k.startsWith("check:")) {
+					if (k.split("check:")[1].length() > longest)
+						longest = k.split("check:")[1].length();
+				}
+			}
+			if (time < 120000) {
+				if (time > timeElapsed)
+					timeElapsed = time;
+				revised.add(line);
+			}
+		}
+
+		longest++;
+
+		Map<String, Integer> flags = new HashMap<>();
+
+		for (int i = 0; i < revised.size(); i++) {
+			String line = revised.get(i);
+
+			for (String k : line.split(" ")) {
+				if (!k.startsWith("check:"))
+					continue;
+
+				String checkName = k.substring("check:".length());
+
+				flags.put(checkName, flags.containsKey(checkName) ? flags.get(checkName) + 1 : 1);
+
+				String replace = "";
+
+				for (int a = checkName.length(); a < longest; a++) {
+					replace += " ";
+				}
+
+				line = line.replace(k, checkName + replace);
+
+				revised.set(i, line);
+			}
+		}
+
+		Date now = new Date(System.currentTimeMillis());
+
+		SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss aaa z '-' MM/dd/yyyy");
+
+		int totalFlags = 0;
+		for (Entry<String, Integer> entry : flags.entrySet()) {
+			totalFlags += entry.getValue();
+		}
+
+		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
+		prefix.add("Hack: " + check + " (Total VL of ALL hacks: " + getTotalVL() + ")");
+		prefix.add("Timing: " + MSG.camelCase(timing + ""));
+		prefix.add("Date: " + format.format(now));
+		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
+
+		double hackScore = totalFlags * getTotalVL();
+
+		prefix.add("Hack Score: " + hackScore);
+
+		prefix.add("");
+
+		prefix.add("Total amount of checks");
+
+		flags = flags.entrySet().stream().sorted(Entry.comparingByValue())
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e2, e1) -> e1, LinkedHashMap::new));
+
+		for (Entry<String, Integer> entry : flags.entrySet()) {
+			prefix.add(entry.getKey() + ": " + entry.getValue());
+		}
+
+		prefix.add("");
+
+		revised.addAll(0, prefix);
+
+		revised.add("");
+		revised.add("Banning " + player.getName() + " for " + check);
+
+		for (int i = 1; i < revised.size(); i++) {
+			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty())
+				revised.remove(i);
+		}
+
+		try {
+			logFolder.mkdirs();
+			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		removeSaveData("log");
+		removeSaveData("isBanwaved");
 		removeTempData("autoClickerTimes");
+
+		clearVls();
 
 		if (plugin.devMode())
 			return;
@@ -235,14 +395,24 @@ public class CPlayer {
 		if (timing == Timing.BANWAVE) {
 			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						line.replace("%player%", player.getName()).replace("%hack%", check));
+						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
 		} else {
 			for (String line : plugin.config.getStringList("CommandsForBan")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						line.replace("%player%", player.getName()).replace("%hack%", check));
+						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addLogMessage(String msg) {
+		List<String> lines = getSaveData("log", List.class);
+		if (lines == null)
+			lines = new ArrayList<>();
+
+		lines.add(msg);
+		setSaveData("log", lines);
 	}
 
 	public Location getLastSafeLocation() {
@@ -261,6 +431,11 @@ public class CPlayer {
 			return false;
 
 		return online.getLocation().getY() % .5 == 0;
+	}
+
+	public void clearVls() {
+		for (Check c : plugin.getChecks().getActiveChecks())
+			setSaveData("vls." + c.getCategory().toLowerCase(), 0);
 	}
 
 	public boolean isInWeirdBlock() {
