@@ -1,7 +1,6 @@
 package org.mswsplex.anticheat.checks.client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -20,8 +19,7 @@ import org.mswsplex.anticheat.utils.Cuboid;
 
 /**
  * 
- * Compares a player's previous fire ticks and flags if they've dropped too
- * suddenly this WILL flag commands such as /heal
+ * Sends fake block change packets to a player
  * 
  * @author imodm
  * 
@@ -37,60 +35,66 @@ public class XRay1 implements Check, Listener {
 	public void register(AntiCheat plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
-		List<Material> ores = Arrays.asList(new Material[] { Material.COAL_ORE, Material.DIAMOND_ORE,
-				Material.EMERALD_ORE, Material.GOLD_ORE, Material.QUARTZ_ORE, Material.IRON_ORE, Material.REDSTONE_ORE,
-				Material.LAPIS_ORE, Material.CHEST, Material.MOSSY_COBBLESTONE, Material.TRAPPED_CHEST, Material.LAVA,
-				Material.STATIONARY_LAVA, Material.MOB_SPAWNER, Material.SMOOTH_BRICK });
-		
-		new BukkitRunnable() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void run() {
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					// CPlayer cp = plugin.getCPlayer(player);
-					Cuboid cube = new Cuboid(player.getLocation().clone().subtract(100, 50, 100),
-							player.getLocation().clone().add(100, 50, 100));
+		List<Material> ores = new ArrayList<>();
 
-					List<Block> chunkOres = new ArrayList<>();
+		for (String mat : plugin.config.getStringList("AntiXRay.Blocks")) {
+			ores.add(Material.valueOf(mat.toUpperCase()));
+		}
 
-					List<Block> cubeBlocks = cube.getBlocks();
+//		List<Material> ores = Arrays.asList(new Material[] { Material.COAL_ORE, Material.DIAMOND_ORE,
+//				Material.EMERALD_ORE, Material.GOLD_ORE, Material.QUARTZ_ORE, Material.IRON_ORE, Material.REDSTONE_ORE,
+//				Material.LAPIS_ORE, Material.CHEST, Material.MOSSY_COBBLESTONE, Material.TRAPPED_CHEST, Material.LAVA,
+//				Material.STATIONARY_LAVA, Material.MOB_SPAWNER, Material.SMOOTH_BRICK });
+		if (plugin.config.getBoolean("AntiXRay.Enabled"))
+			new BukkitRunnable() {
+				@SuppressWarnings("deprecation")
+				@Override
+				public void run() {
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						// CPlayer cp = plugin.getCPlayer(player);
+						Cuboid cube = new Cuboid(player.getLocation().clone().subtract(100, 50, 100),
+								player.getLocation().clone().add(100, 50, 100));
 
-					int[] startPos = { 0 };
+						List<Block> chunkOres = new ArrayList<>();
 
-					final int iterate = 100000;
+						List<Block> cubeBlocks = cube.getBlocks();
 
-					new BukkitRunnable() {
-						@Override
-						public void run() {
-							if (startPos[0] >= cubeBlocks.size()) {
-								new BukkitRunnable() {
-									@Override
-									public void run() {
-										for (Block block : chunkOres) {
-											player.sendBlockChange(block.getLocation(), Material.STONE, (byte) 0);
+						int[] startPos = { 0 };
+
+						final int iterate = 100000;
+
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								if (startPos[0] >= cubeBlocks.size()) {
+									new BukkitRunnable() {
+										@Override
+										public void run() {
+											for (Block block : chunkOres) {
+												player.sendBlockChange(block.getLocation(), Material.STONE, (byte) 0);
+											}
 										}
-									}
-								}.run();
-								cancel();
-								return;
-							}
+									}.run();
+									cancel();
+									return;
+								}
 
 //							chunkOres.addAll(cubeBlocks
 //									.subList(startPos[0], Math.min(startPos[0] + iterate, cubeBlocks.size())).stream()
 //									.filter((block) -> ores.contains(block.getType())).collect(Collectors.toList()));
 
-							for (int i = 0; i < iterate && startPos[0] + i < cubeBlocks.size(); i++) {
-								Block block = cubeBlocks.get(startPos[0] + i);
-								if (!ores.contains(block.getType()))
-									continue;
-								chunkOres.add(block);
+								for (int i = 0; i < iterate && startPos[0] + i < cubeBlocks.size(); i++) {
+									Block block = cubeBlocks.get(startPos[0] + i);
+									if (!ores.contains(block.getType()))
+										continue;
+									chunkOres.add(block);
+								}
+								startPos[0] += iterate;
 							}
-							startPos[0] += iterate;
-						}
-					}.runTaskTimer(plugin, 0, 1);
+						}.runTaskTimer(plugin, 0, 1);
+					}
 				}
-			}
-		}.runTaskTimer(plugin, 0, 500);
+			}.runTaskTimer(plugin, 0, 500);
 	}
 
 	@SuppressWarnings("deprecation")
