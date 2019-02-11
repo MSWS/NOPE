@@ -26,6 +26,8 @@ public class Banwave {
 					if (!cp.hasSaveData("isBanwaved"))
 						continue;
 					cp.ban(cp.getSaveString("isBanwaved"), Timing.BANWAVE);
+					cp.removeSaveData("isBanwaved");
+					cp.saveData();
 				}
 				if (!forced)
 					lastBanwave = System.currentTimeMillis();

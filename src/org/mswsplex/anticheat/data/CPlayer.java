@@ -221,19 +221,17 @@ public class CPlayer {
 
 		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 
-		int ping = getPing();
-
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
 			MSG.tell("anticheat.message.banwave",
 					"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.");
 			addLogMessage("");
-			addLogMessage("BANWAVE check:" + check.getDebugName() + " ping: " + ping + " VL: " + (nVl - vl) + " (+" + vl
-					+ ") time:" + System.currentTimeMillis());
+			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
+					+ System.currentTimeMillis());
 			addLogMessage("");
 			setSaveData("isBanwaved", check.getCategory());
 		} else {
-			addLogMessage("Flagged check:" + check.getDebugName() + " ping: " + ping + " VL: " + (nVl - vl) + " (+" + vl
-					+ ") time:" + System.currentTimeMillis());
+			addLogMessage("Flagged check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
+					+ System.currentTimeMillis());
 		}
 
 		if (nVl >= plugin.config.getInt("VlForInstaBan")) {
@@ -271,7 +269,6 @@ public class CPlayer {
 			saveLog(check, timing, token);
 
 		removeSaveData("log");
-		removeSaveData("isBanwaved");
 		removeTempData("autoClickerTimes");
 
 		clearVls();
@@ -318,7 +315,8 @@ public class CPlayer {
 			for (String k : line.split(" ")) {
 				if (k.startsWith("time:")) {
 					time = System.currentTimeMillis() - Double.parseDouble(k.substring("time:".length()));
-					line = line.replace(k, MSG.getTime(time).replace("millisecond", "m"));
+					line = line.replace(k,
+							MSG.getTime(time).replace("milliseconds", "ms").replace("milliseconds", "ms"));
 					break;
 				}
 				if (k.startsWith("check:")) {
@@ -327,7 +325,7 @@ public class CPlayer {
 				}
 			}
 			if (time < 120000) {
-				if (time > timeElapsed)
+				if (time > timeElapsed && line.startsWith("Flagged "))
 					timeElapsed = time;
 				revised.add(line);
 			}
@@ -370,7 +368,7 @@ public class CPlayer {
 		}
 
 		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
-		prefix.add("Hack: " + check + " (Total VL of ALL hacks: " + getTotalVL() + ")");
+		prefix.add("Hack: " + check + " (Total VL of all hacks: " + getTotalVL() + ")");
 		prefix.add("Timing: " + MSG.camelCase(timing + ""));
 		prefix.add("Date: " + format.format(now));
 		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
@@ -390,16 +388,16 @@ public class CPlayer {
 			prefix.add(entry.getKey() + ": " + entry.getValue());
 		}
 
-		prefix.add("");
-
 		revised.addAll(0, prefix);
 
 		revised.add("");
 		revised.add("Banning " + player.getName() + " for " + check);
 
 		for (int i = 1; i < revised.size(); i++) {
-			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty())
+			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty()) {
 				revised.remove(i);
+				i--;
+			}
 		}
 
 		try {

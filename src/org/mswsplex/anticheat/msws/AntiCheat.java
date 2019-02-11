@@ -74,10 +74,10 @@ public class AntiCheat extends JavaPlugin {
 	public void onDisable() {
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p);
-		for (Player p : Bukkit.getOnlinePlayers()) {
+		
+		for (Player p : Bukkit.getOnlinePlayers())
 			p.removeMetadata("lastEntityHit", this);
-		}
-
+		
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity ent : w.getEntitiesByClass(ArmorStand.class)) {
 				if (ent.hasMetadata("killAuraMark") || ent.hasMetadata("antiKillAuraMark")
