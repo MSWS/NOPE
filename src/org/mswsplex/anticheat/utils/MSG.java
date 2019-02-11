@@ -169,7 +169,7 @@ public class MSG {
 		for (String line : list) {
 			tell(sender, line);
 		}
-		if (command.equals("default")) // TODO
+		if (command.equals("default"))
 			tell(sender, "&d&l" + plugin.getDescription().getName() + " &ev" + plugin.getDescription().getVersion()
 					+ " &7created by &bMSWS");
 	}
@@ -308,7 +308,7 @@ public class MSG {
 	}
 
 	public static String getVlColor(int vl) {
-		int maxVl = plugin.config.getInt("BanAtVl");
+		int maxVl = plugin.config.getInt("VlForBanwave");
 		vl = Math.min(vl, maxVl);
 		List<String> colors = plugin.config.getStringList("VlColors");
 		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size()));

@@ -85,7 +85,7 @@ public class Speed3 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&2" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg - .53) * 20));
+		cp.flagHack(this, (int) Math.round((avg - .53) * 20) + 5);
 	}
 
 	@Override

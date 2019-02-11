@@ -18,6 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.checks.Check;
+import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
@@ -210,19 +211,38 @@ public class CPlayer {
 
 		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
 
-		if (nVl >= plugin.config.getInt("BanAtVl")) {
-			if (!plugin.devMode())
-				for (String line : plugin.config.getStringList("CommandsForBan")) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-							line.replace("%player%", player.getName()).replace("%hack%", check.getCategory()));
-				}
-			clearSaveData();
-			for (String hack : getTempEntries()) {
-				if (hack.contains(check.getCategory()))
-					removeTempData(hack);
+		if (nVl >= plugin.config.getInt("VlForInstaBan")) {
+			ban(check, Timing.INSTANT);
+		}
+		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
+			MSG.tell("anticheat.message.banwave",
+					"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.");
+			setSaveData("isBanwaved", check.getCategory());
+		}
+	}
+
+	public void ban(Check check, Timing timing) {
+		ban(check.getCategory(), timing);
+	}
+
+	public void ban(String check, Timing timing) {
+		clearSaveData();
+		removeTempData("autoClickerTimes");
+
+		if (plugin.devMode())
+			return;
+
+		if (timing == Timing.BANWAVE) {
+			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						line.replace("%player%", player.getName()).replace("%hack%", check));
+			}
+		} else {
+			for (String line : plugin.config.getStringList("CommandsForBan")) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						line.replace("%player%", player.getName()).replace("%hack%", check));
 			}
 		}
-
 	}
 
 	public Location getLastSafeLocation() {

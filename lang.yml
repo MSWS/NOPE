@@ -3,5 +3,7 @@ Help:
   default:
   - '&c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players'
   - '&c/ac vl <Player> &7- Tells you VLs'
-  - '&c/ac [Setting] &7- Toggle lagbacks, devmode, etc.'
+  - '&c/ac toggle [Setting] &7- Toggle lagbacks, devmode, etc.'
   - '&c/ac reset &7- Reset configs'
+  - '&c/ac banwave &7- Manually initiates a banwave'
+  - '&c/ac time &7- Shows time to next banwave'

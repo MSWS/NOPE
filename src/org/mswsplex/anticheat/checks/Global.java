@@ -33,10 +33,11 @@ public class Global implements Listener {
 				if (vlSection == null)
 					continue;
 				for (String hack : vlSection.getKeys(false)) {
+					if (cp.getSaveInteger("vls." + hack) >= plugin.config.getInt("VlForBanwave"))
+						continue;
 					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - 5);
-					if (cp.getSaveInteger("vls." + hack) < 0) {
+					if (cp.getSaveInteger("vls." + hack) < 0)
 						cp.setSaveData("vls." + hack, 0);
-					}
 				}
 			}
 		}, 0, 200);

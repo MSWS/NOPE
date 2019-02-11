@@ -168,8 +168,6 @@ public class Reach1 implements Check, Listener {
 				maxDist = (.51 + slime.getSize() * .55) + 3.7845;
 				break;
 			}
-			MSG.tell(damager,
-					"reg: " + maxDist + " math: " + ((.51 + slime.getSize() * .55) + 3.7845) + " dist: " + dist);
 			break;
 		default:
 			if (plugin.devMode())

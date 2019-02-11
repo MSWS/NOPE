@@ -1,10 +1,13 @@
 package org.mswsplex.anticheat.checks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mswsplex.anticheat.checks.client.AntiRotate1;
 import org.mswsplex.anticheat.checks.client.FastBow1;
+import org.mswsplex.anticheat.checks.client.FastEat1;
 import org.mswsplex.anticheat.checks.client.GhostHand1;
 import org.mswsplex.anticheat.checks.client.InventoryMove1;
 import org.mswsplex.anticheat.checks.client.NoFall1;
@@ -17,6 +20,7 @@ import org.mswsplex.anticheat.checks.combat.HighCPS3;
 import org.mswsplex.anticheat.checks.combat.KillAura1;
 import org.mswsplex.anticheat.checks.combat.KillAura2;
 import org.mswsplex.anticheat.checks.combat.KillAura3;
+import org.mswsplex.anticheat.checks.combat.KillAura4;
 import org.mswsplex.anticheat.checks.combat.Reach1;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
@@ -65,7 +69,7 @@ public class Checks {
 				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
 				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
 				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
-				new AntiRotate1(), new NoSlowDown1() };
+				new KillAura4(), new AntiRotate1(), new NoSlowDown1(), new FastEat1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);
@@ -75,6 +79,14 @@ public class Checks {
 
 	public List<Check> getActiveChecks() {
 		return activeChecks;
+	}
+
+	public List<CheckType> getCheckTypes() {
+		return Arrays.asList(CheckType.values());
+	}
+
+	public List<Check> getChecksWithType(CheckType type) {
+		return getActiveChecks().stream().filter((check) -> check.getType() == type).collect(Collectors.toList());
 	}
 
 	public void registerCheck(Check check) {

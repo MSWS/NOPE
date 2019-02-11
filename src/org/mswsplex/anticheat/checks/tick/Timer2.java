@@ -78,6 +78,8 @@ public class Timer2 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&eavg: &7" + avg);
 
+		horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
+		cp.setTempData("timer2BlockTimings", horizontalTimings);
 		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5);
 	}
 

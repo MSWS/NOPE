@@ -23,21 +23,22 @@ public class AntiRotate1 implements Check {
 		return CheckType.CLIENT;
 	}
 
-	private final int CHECK_PER = 40;
+	private final int CHECK_PER = 200;
 
 	@Override
 	public void register(AntiCheat plugin) {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				CPlayer cp = plugin.getCPlayer(player);
-
+				if (player.getSpectatorTarget() != null)
+					return;
+				if (player.getOpenInventory() != null)
+					return;
 				if (cp.timeSince("lastMove") <= 100)
 					return;
-
 				Location modified = player.getLocation();
-				double original = modified.getYaw();
-				modified.setYaw(modified.getYaw() - .001f);
+				float original = modified.getYaw();
+				modified.setYaw(modified.getYaw() - .0001f);
 
 				player.teleport(modified);
 
@@ -47,7 +48,7 @@ public class AntiRotate1 implements Check {
 					cp.flagHack(this, 50);
 				}, 1);
 			}
-		}, 0, CHECK_PER);
+		}, CHECK_PER, CHECK_PER);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mswsplex.anticheat.checks.Banwave;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
 import org.mswsplex.anticheat.checks.TPSChecker;
@@ -27,6 +28,7 @@ public class AntiCheat extends JavaPlugin {
 	private PlayerManager pManager;
 	private TPSChecker tpsChecker;
 	private Checks checks;
+	private Banwave banwave;
 
 	public void onEnable() {
 		if (!configYml.exists())
@@ -43,6 +45,8 @@ public class AntiCheat extends JavaPlugin {
 		MSG.plugin = this;
 		pManager = new PlayerManager(this);
 		tpsChecker = new TPSChecker(this);
+
+		banwave = new Banwave(this);
 
 		checks = new Checks(this);
 		checks.registerChecks();
@@ -70,9 +74,9 @@ public class AntiCheat extends JavaPlugin {
 
 		for (World w : Bukkit.getWorlds()) {
 			for (Entity ent : w.getEntitiesByClass(ArmorStand.class)) {
-				if (!ent.hasMetadata("killAuraMark") && !ent.hasMetadata("antiKillAuraMark"))
-					continue;
-				ent.remove();
+				if (ent.hasMetadata("killAuraMark") || ent.hasMetadata("antiKillAuraMark")
+						|| ent.hasMetadata("lowerKillAuraMark"))
+					ent.remove();
 			}
 		}
 	}
@@ -113,5 +117,9 @@ public class AntiCheat extends JavaPlugin {
 
 	public CPlayer getCPlayer(Player player) {
 		return pManager.getPlayer(player);
+	}
+
+	public Banwave getBanwave() {
+		return this.banwave;
 	}
 }

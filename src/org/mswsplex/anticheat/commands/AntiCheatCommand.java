@@ -119,15 +119,26 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			plugin.gui = YamlConfiguration.loadConfiguration(plugin.guiYml);
 			MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 			break;
-		case "dev":
-			plugin.config.set("DevMode", !plugin.devMode());
-			MSG.tell(sender, "dev: " + MSG.TorF(plugin.devMode()));
-			plugin.saveConfig();
-			break;
-		case "lagback":
-			plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
-			MSG.tell(sender, "lagback: " + MSG.TorF(plugin.config.getBoolean("LagBack")));
-			plugin.saveConfig();
+		case "toggle":
+			// /ac toggle [setting]
+			if (args.length < 2) {
+				MSG.sendHelp(sender, 0, "default");
+				return true;
+			}
+
+			switch (args[1].toLowerCase()) {
+			case "dev":
+				plugin.config.set("DevMode", !plugin.devMode());
+				MSG.tell(sender, "dev: " + MSG.TorF(plugin.devMode()));
+				plugin.saveConfig();
+				break;
+			case "lagback":
+			case "cancel":
+				plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
+				MSG.tell(sender, "cancel: " + MSG.TorF(plugin.config.getBoolean("LagBack")));
+				plugin.saveConfig();
+				break;
+			}
 			break;
 		case "reset":
 			plugin.saveResource("config.yml", true);
@@ -141,8 +152,15 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			plugin.gui = YamlConfiguration.loadConfiguration(plugin.guiYml);
 			MSG.tell(sender, "Succesfully reset.");
 			break;
+		case "time":
+			MSG.tell(sender, "&4&l[&c&lNOPE&4&l] &7Next banwave: &e"
+					+ MSG.getTime((double) plugin.getBanwave().timeToNextBanwave()));
+			break;
+		case "banwave":
+			plugin.getBanwave().runBanwave(true).run();
+			MSG.tell(sender, "&cSuccessfully initiated banwave.");
+			break;
 		case "warn":
-			// /ac warn MSWS h:test v:5
 			if (args.length < 4) {
 				MSG.sendHelp(sender, 0, "default");
 				return true;
@@ -200,29 +218,39 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				@Override
 				public void register(AntiCheat plugin) {
 				}
+
 			}, Integer.parseInt(stringVl));
 
 			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
 			break;
 		case "checks":
-			HashMap<String, Integer> checks = new HashMap<>();
-			for (Check check : plugin.getChecks().getActiveChecks())
-				checks.put(check.getCategory(),
-						checks.containsKey(check.getCategory()) ? checks.get(check.getCategory()) + 1 : 1);
-			StringBuilder builder = new StringBuilder();
+			for (CheckType type : plugin.getChecks().getCheckTypes()) {
+				HashMap<String, Integer> checks = new HashMap<>();
+				for (Check check : plugin.getChecks().getChecksWithType(type))
+					checks.put(check.getCategory(),
+							checks.containsKey(check.getCategory()) ? checks.get(check.getCategory()) + 1 : 1);
 
-			String[] colors = { "&f", "&7", "&8" };
+				if (checks.isEmpty())
+					continue;
+				MSG.tell(sender, " ");
 
-			for (int i = 0; i < checks.keySet().size(); i++) {
-				builder.append(colors[i % colors.length] + checks.keySet().toArray()[i] + " "
-						+ checks.values().toArray()[i] + " ");
+				StringBuilder builder = new StringBuilder();
+
+				String[] colors = { "&2", "&9" };
+
+				for (int i = 0; i < checks.keySet().size(); i++) {
+					builder.append(colors[i % colors.length] + checks.keySet().toArray()[i] + " "
+							+ checks.values().toArray()[i] + " ");
+				}
+
+				MSG.tell(sender, "&6&l" + MSG.camelCase(type + "") + " &7(&e&l"
+						+ plugin.getChecks().getChecksWithType(type).size() + "&7)");
+				MSG.tell(sender, builder.toString());
 			}
-
-			MSG.tell(sender, builder.toString().substring(0, builder.toString().length() - 1));
-
 			break;
 		default:
-			return false;
+			MSG.sendHelp(sender, 0, "default");
+			return true;
 		}
 		return true;
 	}
@@ -231,7 +259,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear", "vl", "lagback", "reset", "dev", "warn", "checks" }) {
+			for (String res : new String[] { "clear", "vl", "toggle", "reset", "warn", "checks", "banwave", "time" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}
@@ -246,6 +274,15 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					if (c.getCategory().toLowerCase().startsWith(args[args.length - 1])
 							&& !result.contains(c.getCategory()))
 						result.add(c.getCategory());
+				}
+			}
+		}
+
+		if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("toggle")) {
+				for (String res : new String[] { "cancel", "dev" }) {
+					if (res.toLowerCase().startsWith(args[1].toLowerCase()))
+						result.add(res);
 				}
 			}
 		}
@@ -266,9 +303,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			return "";
 
 		for (String hack : vlSection.getKeys(false)) {
-			if (vlSection.getInt(hack) > 0) {
+			if (vlSection.getInt(hack) > 0)
 				vls.put(MSG.camelCase(hack), vlSection.getInt(hack));
-			}
 		}
 
 		String result = "";
