@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.mswsplex.anticheat.checks.client.AntiFire1;
 import org.mswsplex.anticheat.checks.client.AntiRotate1;
+import org.mswsplex.anticheat.checks.client.SelfHarm1;
+import org.mswsplex.anticheat.checks.client.XRay1;
 import org.mswsplex.anticheat.checks.client.ChestStealer1;
 import org.mswsplex.anticheat.checks.client.FastBow1;
 import org.mswsplex.anticheat.checks.client.FastEat1;
@@ -14,6 +16,7 @@ import org.mswsplex.anticheat.checks.client.GhostHand1;
 import org.mswsplex.anticheat.checks.client.InventoryMove1;
 import org.mswsplex.anticheat.checks.client.NoFall1;
 import org.mswsplex.anticheat.checks.client.NoGround1;
+import org.mswsplex.anticheat.checks.combat.AntiKB1;
 import org.mswsplex.anticheat.checks.combat.AutoClicker1;
 import org.mswsplex.anticheat.checks.combat.Criticals1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
@@ -81,7 +84,7 @@ public class Checks {
 				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
 				new KillAura4(), new KillAura5(), new AntiRotate1(), new NoSlowDown1(), new FastEat1(), new Regen1(),
 				new Regen2(), new SkinBlinker1(), new NoSwing1(), new ServerCrasher1(), new ServerCrasher2(),
-				new ChestStealer1(), new AntiFire1(), new MultiUse1() };
+				new ChestStealer1(), new AntiFire1(), new MultiUse1(), new SelfHarm1(), new AntiKB1(), new XRay1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

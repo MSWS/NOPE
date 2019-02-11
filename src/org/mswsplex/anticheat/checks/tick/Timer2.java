@@ -46,6 +46,9 @@ public class Timer2 implements Check, Listener {
 		if (player.isInsideVehicle())
 			return;
 
+		if (cp.hasMovementRelatedPotion())
+			return;
+
 		if (cp.timeSince("wasFlying") < 1000)
 			return;
 
