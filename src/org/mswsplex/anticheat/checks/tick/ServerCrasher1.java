@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.misc;
+package org.mswsplex.anticheat.checks.tick;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class ServerCrasher1 implements Check {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.MISC;
+		return CheckType.TICK;
 	}
 
 	@Override
