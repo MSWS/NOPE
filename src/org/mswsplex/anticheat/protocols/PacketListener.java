@@ -3,7 +3,6 @@ package org.mswsplex.anticheat.protocols;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 import io.netty.channel.Channel;
 
@@ -36,7 +35,6 @@ public class PacketListener {
 				default:
 					return super.onPacketInAsync(sender, channel, packet);
 				}
-				MSG.log("Packet: " + name);
 				return super.onPacketInAsync(sender, channel, packet);
 			}
 		};
