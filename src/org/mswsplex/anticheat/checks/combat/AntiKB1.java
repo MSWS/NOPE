@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Basically {@link NoFall} but when the player hits an entity
@@ -36,11 +35,12 @@ public class AntiKB1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		if (!(event.getEntity() instanceof Player))
 			return;
 		Player player = (Player) event.getEntity();
+
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (player.isInsideVehicle())
@@ -61,14 +61,11 @@ public class AntiKB1 implements Check, Listener {
 			@Override
 			public void run() {
 				double dist = player.getLocation().distanceSquared(origin);
-				if (dist > .3)
+				if (dist > 0)
 					return;
-				MSG.tell(player, "&6dist: " + dist);
 				cp.flagHack(AntiKB1.this, 10);
 			}
-		}.runTaskLater(plugin, 2);
-
-		// cp.flagHack(this, 5);
+		}.runTaskLater(plugin, 5);
 	}
 
 	@Override

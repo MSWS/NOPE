@@ -10,6 +10,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
@@ -17,13 +18,17 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.Cuboid;
 
+import io.netty.util.internal.ThreadLocalRandom;
+
 /**
  * 
- * Sends fake block change packets to a player
+ * Hides ores with fake block packets
  * 
  * @author imodm
+ * @deprecated causes 1 tick delays between block modifications
  * 
  */
+@Deprecated
 public class XRay1 implements Check, Listener {
 
 	@Override
@@ -31,82 +36,65 @@ public class XRay1 implements Check, Listener {
 		return CheckType.CLIENT;
 	}
 
+	private List<Block> ignoreBlocks;
+
 	@Override
 	public void register(AntiCheat plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
 		List<Material> ores = new ArrayList<>();
+		ignoreBlocks = new ArrayList<>();
 
-		for (String mat : plugin.config.getStringList("AntiXRay.Blocks")) {
+		for (String mat : plugin.config.getStringList("AntiXRay1.Blocks")) {
 			ores.add(Material.valueOf(mat.toUpperCase()));
 		}
 
-//		List<Material> ores = Arrays.asList(new Material[] { Material.COAL_ORE, Material.DIAMOND_ORE,
-//				Material.EMERALD_ORE, Material.GOLD_ORE, Material.QUARTZ_ORE, Material.IRON_ORE, Material.REDSTONE_ORE,
-//				Material.LAPIS_ORE, Material.CHEST, Material.MOSSY_COBBLESTONE, Material.TRAPPED_CHEST, Material.LAVA,
-//				Material.STATIONARY_LAVA, Material.MOB_SPAWNER, Material.SMOOTH_BRICK });
-		if (plugin.config.getBoolean("AntiXRay.Enabled"))
+		ThreadLocalRandom rnd = ThreadLocalRandom.current();
+
+		if (plugin.config.getBoolean("AntiXRay1.Enabled"))
 			new BukkitRunnable() {
-				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					for (Player player : Bukkit.getOnlinePlayers()) {
-						// CPlayer cp = plugin.getCPlayer(player);
-						Cuboid cube = new Cuboid(player.getLocation().clone().subtract(100, 50, 100),
-								player.getLocation().clone().add(100, 50, 100));
-
-						List<Block> chunkOres = new ArrayList<>();
-
-						List<Block> cubeBlocks = cube.getBlocks();
-
-						int[] startPos = { 0 };
-
-						final int iterate = 100000;
-
-						new BukkitRunnable() {
-							@Override
-							public void run() {
-								if (startPos[0] >= cubeBlocks.size()) {
-									new BukkitRunnable() {
-										@Override
-										public void run() {
-											for (Block block : chunkOres) {
-												player.sendBlockChange(block.getLocation(), Material.STONE, (byte) 0);
-											}
+						for (int x = -200; x <= 200; x += rnd.nextInt(5) + 5) {
+							for (int z = -200; z <= 200; z += rnd.nextInt(5) + 5) {
+								yLoop: for (int y = -100; y <= 20; y += rnd.nextInt(5) + 5) {
+									Block block = player.getLocation().clone().add(x, y, z).getBlock();
+									for (BlockFace face : new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH,
+											BlockFace.EAST, BlockFace.WEST, BlockFace.UP, BlockFace.DOWN }) {
+										if (!block.getRelative(face).getType().isSolid()
+												|| block.getRelative(face).isLiquid()) {
+											continue yLoop;
 										}
-									}.run();
-									cancel();
-									return;
+									}
+									player.sendBlockChange(block.getLocation(), ores.get(rnd.nextInt(ores.size())),
+											(byte) 0);
 								}
-
-//							chunkOres.addAll(cubeBlocks
-//									.subList(startPos[0], Math.min(startPos[0] + iterate, cubeBlocks.size())).stream()
-//									.filter((block) -> ores.contains(block.getType())).collect(Collectors.toList()));
-
-								for (int i = 0; i < iterate && startPos[0] + i < cubeBlocks.size(); i++) {
-									Block block = cubeBlocks.get(startPos[0] + i);
-									if (!ores.contains(block.getType()))
-										continue;
-									chunkOres.add(block);
-								}
-								startPos[0] += iterate;
 							}
-						}.runTaskTimer(plugin, 0, 1);
+						}
 					}
 				}
-			}.runTaskTimer(plugin, 0, 500);
+			}.runTaskTimer(plugin, 0, 20 * 30);
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		int range = 10;
+		revealBlocks(player, 10);
+	}
 
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		ignoreBlocks.add(event.getBlock());
+	}
+
+	private void revealBlocks(Player player, int range) {
 		Cuboid cube = new Cuboid(player.getLocation().clone().subtract(range, range, range),
 				player.getLocation().clone().add(range, range, range));
 
 		for (Block block : cube) {
+			if (ignoreBlocks.contains(block))
+				continue;
 			for (BlockFace face : new BlockFace[] { BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST,
 					BlockFace.UP, BlockFace.DOWN }) {
 				if (!block.getRelative(face).getType().isSolid()) {
@@ -114,7 +102,6 @@ public class XRay1 implements Check, Listener {
 					break;
 				}
 			}
-
 		}
 	}
 
@@ -125,7 +112,7 @@ public class XRay1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "XRay#1";
+		return "XRay#2";
 	}
 
 	@Override

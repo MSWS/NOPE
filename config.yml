@@ -18,8 +18,19 @@ CommandsForBan:
 CommandsForBanwave:
 - ban %player% Hacking - Banwave (%hack%)
 - say %player% was banwaved for %hack%
-AntiXRay:
+AntiXRay1:
   Enabled: true
+  Blocks:
+  - 'COAL_ORE'
+  - 'DIAMOND_ORE'
+  - 'EMERALD_ORE'
+  - 'GOLD_ORE'
+  - 'QUARTZ_ORE'
+  - 'IRON_ORE'
+  - 'REDSTONE_ORE'
+  - 'LAPIS_ORE'
+AntiXRay2: #Dont enable this unless you like lag
+  Enabled: false
   Blocks:
   - 'COAL_ORE'
   - 'DIAMOND_ORE'

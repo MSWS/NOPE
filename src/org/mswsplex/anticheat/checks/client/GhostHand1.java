@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -45,6 +46,9 @@ public class GhostHand1 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK)
 			return;
+		if (player.hasPotionEffect(PotionEffectType.FAST_DIGGING))
+			return;
+
 		Block targetBlock = player.getTargetBlock((Set<Material>) null, 10);
 		if (targetBlock.equals(event.getClickedBlock()))
 			return;
