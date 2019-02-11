@@ -15,8 +15,10 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
+
 /**
  * Checks CPS over small period of time
+ * 
  * @author imodm
  *
  */

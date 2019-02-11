@@ -13,8 +13,8 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
 /**
- * Checks for everytime the player clicks within their inventory if they haven't
- * jumped but they are on the ground and has moved
+ * Checks for everytime the player clicks within their inventory are on the
+ * ground and has moved
  * 
  * @author imodm
  *
@@ -45,14 +45,14 @@ public class InventoryMove1 implements Check, Listener {
 		if (event.getClick() == ClickType.CREATIVE && event.getAction() == InventoryAction.PLACE_ALL)
 			return;
 
-		if (cp.timeSince("lastYChange") < 1000)
-			return;
 		if (cp.timeSince("lastTeleport") < 1000)
 			return;
-		if (cp.timeSince("lastOnGround") > 500)
+		if (cp.timeSince("lastOnGround") > 100)
 			return;
 		if (cp.timeSince("lastLiquid") < 1000)
 			return;
+
+		event.setCancelled(true);
 
 		cp.flagHack(this, 10);
 	}

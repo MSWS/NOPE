@@ -237,7 +237,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 				StringBuilder builder = new StringBuilder();
 
-				String[] colors = { "&2", "&9" };
+				String[] colors = { "&b", "&a" };
 
 				for (int i = 0; i < checks.keySet().size(); i++) {
 					builder.append(colors[i % colors.length] + checks.keySet().toArray()[i] + " "

@@ -3,6 +3,7 @@ package org.mswsplex.anticheat.checks.render;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -33,12 +34,15 @@ public class NoSwing1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (event.getAction() == Action.RIGHT_CLICK_AIR)
+			return;
+
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.isBlockInHand())
 			return;
 
 		if (cp.timeSince("lastSwing") < 1000)

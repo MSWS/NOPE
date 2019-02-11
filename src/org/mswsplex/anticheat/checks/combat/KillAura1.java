@@ -160,6 +160,11 @@ public class KillAura1 implements Check, Listener {
 						.filter((entity) -> entity instanceof Projectile).collect(Collectors.toList()).size() > 0))
 					stand.remove();
 
+				if (target.getWorld() != player.getWorld()) {
+					stand.remove();
+					return;
+				}
+
 				Location m = target.getLocation().add(player.getLocation()).multiply(.5).add(0, .5, 0);
 				stand.teleport(m);
 			}
