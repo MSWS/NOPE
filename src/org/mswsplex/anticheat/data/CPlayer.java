@@ -264,12 +264,38 @@ public class CPlayer {
 		ban(check.getCategory(), timing);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void ban(String check, Timing timing) {
+		String token = MSG.genUUID(16);
+
+		if (plugin.config.getBoolean("Log"))
+			saveLog(check, timing, token);
+
+		removeSaveData("log");
+		removeSaveData("isBanwaved");
+		removeTempData("autoClickerTimes");
+
+		clearVls();
+
+		if (plugin.devMode())
+			return;
+
+		if (timing == Timing.BANWAVE) {
+			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
+			}
+		} else {
+			for (String line : plugin.config.getStringList("CommandsForBan")) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void saveLog(String check, Timing timing, String token) {
 		File logFolder = new File(plugin.getDataFolder(), "logs/");
 		logFolder.mkdir();
-
-		String token = MSG.genUUID(16);
 
 		File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
 
@@ -381,27 +407,6 @@ public class CPlayer {
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		removeSaveData("log");
-		removeSaveData("isBanwaved");
-		removeTempData("autoClickerTimes");
-
-		clearVls();
-
-		if (plugin.devMode())
-			return;
-
-		if (timing == Timing.BANWAVE) {
-			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
-			}
-		} else {
-			for (String line : plugin.config.getStringList("CommandsForBan")) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
-			}
 		}
 	}
 

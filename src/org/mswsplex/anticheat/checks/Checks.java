@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mswsplex.anticheat.checks.client.AntiRotate1;
+import org.mswsplex.anticheat.checks.client.ChestStealer1;
 import org.mswsplex.anticheat.checks.client.FastBow1;
 import org.mswsplex.anticheat.checks.client.FastEat1;
 import org.mswsplex.anticheat.checks.client.GhostHand1;
@@ -21,7 +22,10 @@ import org.mswsplex.anticheat.checks.combat.KillAura1;
 import org.mswsplex.anticheat.checks.combat.KillAura2;
 import org.mswsplex.anticheat.checks.combat.KillAura3;
 import org.mswsplex.anticheat.checks.combat.KillAura4;
+import org.mswsplex.anticheat.checks.combat.KillAura5;
 import org.mswsplex.anticheat.checks.combat.Reach1;
+import org.mswsplex.anticheat.checks.misc.ServerCrasher1;
+import org.mswsplex.anticheat.checks.misc.ServerCrasher2;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
 import org.mswsplex.anticheat.checks.movement.ClonedMovement1;
@@ -41,6 +45,8 @@ import org.mswsplex.anticheat.checks.movement.Speed3;
 import org.mswsplex.anticheat.checks.movement.Step1;
 import org.mswsplex.anticheat.checks.render.AutoSneak1;
 import org.mswsplex.anticheat.checks.render.InvalidMovement1;
+import org.mswsplex.anticheat.checks.render.NoSwing1;
+import org.mswsplex.anticheat.checks.render.SkinBlinker1;
 import org.mswsplex.anticheat.checks.render.Spinbot1;
 import org.mswsplex.anticheat.checks.tick.Regen1;
 import org.mswsplex.anticheat.checks.tick.Regen2;
@@ -71,7 +77,9 @@ public class Checks {
 				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
 				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
 				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
-				new KillAura4(), new AntiRotate1(), new NoSlowDown1(), new FastEat1(), new Regen1(), new Regen2() };
+				new KillAura4(), new KillAura5(), new AntiRotate1(), new NoSlowDown1(), new FastEat1(), new Regen1(),
+				new Regen2(), new SkinBlinker1(), new NoSwing1(), new ServerCrasher1(), new ServerCrasher2(),
+				new ChestStealer1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

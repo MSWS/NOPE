@@ -19,6 +19,7 @@ import org.mswsplex.anticheat.commands.AntiCheatCommand;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.data.PlayerManager;
 import org.mswsplex.anticheat.listeners.LogImplementation;
+import org.mswsplex.anticheat.protocols.PacketListener;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class AntiCheat extends JavaPlugin {
@@ -56,6 +57,8 @@ public class AntiCheat extends JavaPlugin {
 		new AntiCheatCommand(this);
 
 		new LogImplementation(this);
+
+		new PacketListener(this);
 
 		MSG.log("&aSuccessfully Enabled!");
 	}
