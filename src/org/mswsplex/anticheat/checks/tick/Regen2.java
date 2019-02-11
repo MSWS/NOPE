@@ -14,7 +14,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks how many regen ticks within a time period
+ * Checks how recently the last regen tick was
  * 
  * @author imodm
  *
@@ -50,10 +50,11 @@ public class Regen2 implements Check, Listener {
 		double last = cp.timeSince("lastRegen");
 		cp.setTempData("lastRegen", (double) System.currentTimeMillis());
 
-		MSG.tell(player, "&clastRegen: " + last);
-
 		if (last > 3500)
 			return;
+
+		if (plugin.devMode())
+			MSG.tell(player, "&clastRegen: " + last);
 
 		cp.flagHack(this, (int) Math.round(3500 - last) / 50 + 5);
 	}
