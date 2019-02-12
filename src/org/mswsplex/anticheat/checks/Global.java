@@ -32,15 +32,30 @@ public class Global implements Listener {
 				ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
 				if (vlSection == null)
 					continue;
+
+				double lastFlag = cp.timeSince("lastFlag");
+
+				int diff = 1;
+
+				if (lastFlag > 1.8e+6) {
+					diff = 20;
+				} else if (lastFlag > 600000) {
+					diff = 10;
+				} else if (lastFlag > 300000) {
+					diff = 5;
+				} else if (lastFlag > 50000) {
+					diff = 3;
+				} else if (lastFlag > 10000) {
+					diff = 2;
+				}
+
 				for (String hack : vlSection.getKeys(false)) {
-					if (cp.getSaveInteger("vls." + hack) >= plugin.config.getInt("VlForBanwave"))
-						continue;
-					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - 5);
+					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - diff);
 					if (cp.getSaveInteger("vls." + hack) < 0)
 						cp.setSaveData("vls." + hack, 0);
 				}
 			}
-		}, 0, 200);
+		}, 0, 40);
 	}
 
 	@EventHandler

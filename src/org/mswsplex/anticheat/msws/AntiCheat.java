@@ -20,6 +20,7 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.data.PlayerManager;
 import org.mswsplex.anticheat.listeners.LogImplementation;
 import org.mswsplex.anticheat.protocols.PacketListener;
+import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class AntiCheat extends JavaPlugin {
@@ -59,7 +60,9 @@ public class AntiCheat extends JavaPlugin {
 		new LogImplementation(this);
 
 		new PacketListener(this);
-
+		
+		new SBoard(this);
+		
 		MSG.log("&aSuccessfully Enabled!");
 	}
 
@@ -121,8 +124,8 @@ public class AntiCheat extends JavaPlugin {
 		return config.getBoolean("DevMode");
 	}
 
-	public CPlayer getCPlayer(Player player) {
-		return pManager.getPlayer(player);
+	public CPlayer getCPlayer(OfflinePlayer off) {
+		return pManager.getPlayer(off);
 	}
 
 	public Banwave getBanwave() {

@@ -28,7 +28,8 @@ public class LogImplementation implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.addLogMessage("Player sent chat message: " + event.getMessage() + " time:" + System.currentTimeMillis());
+		cp.addLogMessage(
+				player.getName() + " sent chat message: " + event.getMessage() + " time:" + System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -42,6 +43,8 @@ public class LogImplementation implements Listener {
 		for (String word : event.getMessage().split(" ")) {
 			List<Player> players = Bukkit.matchPlayer(word);
 			for (Player target : players) {
+				if (target.equals(player))
+					continue;
 				CPlayer ct = plugin.getCPlayer(target);
 				ct.addLogMessage(player.getName() + " ran command: " + event.getMessage() + " time:"
 						+ System.currentTimeMillis());

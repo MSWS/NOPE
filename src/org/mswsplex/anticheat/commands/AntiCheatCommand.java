@@ -28,11 +28,15 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		plugin.getCommand("anticheat").setExecutor(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length == 0) {
 			MSG.sendHelp(sender, 0, "default");
 			return true;
 		}
+		OfflinePlayer off;
+		CPlayer cp;
+
 		switch (args[0].toLowerCase()) {
 		case "clear":
 			if (args.length < 3) {
@@ -45,13 +49,18 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				target = "everyone's";
 
 				for (Player p : Bukkit.getOnlinePlayers()) {
-					CPlayer cp = plugin.getCPlayer(p);
+					cp = plugin.getCPlayer(p);
 					if (args[2].equalsIgnoreCase("all")) {
 						cp.clearVls();
 						hack = "all hacks";
 					} else {
-						cp.setSaveData("vls." + args[2].toLowerCase(), 0);
-						hack = MSG.camelCase(args[2]);
+						for (String h : cp.getHackVls()) {
+							if (args[2].equalsIgnoreCase(h)) {
+								cp.setSaveData("vls." + h, 0);
+								hack = h;
+								break;
+							}
+						}
 					}
 				}
 			} else {
@@ -59,7 +68,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					MSG.tell(sender, "&cUnknown Player.");
 					return true;
 				}
-				CPlayer cp = plugin.getCPlayer(Bukkit.getPlayer(args[1]));
+				cp = plugin.getCPlayer(Bukkit.getPlayer(args[1]));
 
 				target = Bukkit.getPlayer(args[1]).getName() + "'"
 						+ (Bukkit.getPlayer(args[1]).getName().toLowerCase().endsWith("s") ? "" : "s");
@@ -68,8 +77,13 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					cp.clearVls();
 					hack = "all hacks";
 				} else {
-					cp.setSaveData("vls." + args[2].toLowerCase(), 0);
-					hack = MSG.camelCase(args[2]);
+					for (String h : cp.getHackVls()) {
+						if (args[2].equalsIgnoreCase(h)) {
+							cp.setSaveData("vls." + h, 0);
+							hack = h;
+							break;
+						}
+					}
 				}
 			}
 
@@ -79,7 +93,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			if (args.length == 1) {
 				boolean shown = false;
 				for (Player p : Bukkit.getOnlinePlayers()) {
-					CPlayer cp = plugin.getCPlayer(p);
+					cp = plugin.getCPlayer(p);
 					String vls = formatVls(p);
 					if (vls.isEmpty())
 						continue;
@@ -99,7 +113,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				return true;
 			}
 
-			CPlayer cp = plugin.getCPlayer(t);
+			cp = plugin.getCPlayer(t);
 
 			if (formatVls(t).isEmpty()) {
 				MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + t.getName() + " &chas no VLs.");
@@ -144,6 +158,17 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, "global: " + MSG.TorF(plugin.config.getBoolean("Global")));
 				plugin.saveConfig();
 				break;
+			case "scoreboard":
+				if (!(sender instanceof Player)) {
+					MSG.tell(sender, "no scoreboard 4 u");
+					return true;
+				}
+				cp = plugin.getCPlayer(((Player) sender));
+				cp.setSaveData("scoreboard",
+						cp.hasSaveData("scoreboard") ? !cp.getSaveData("scoreboard", Boolean.class) : true);
+				MSG.tell(sender, "Scoreboard: " + MSG.TorF(cp.getSaveData("scoreboard", Boolean.class)));
+				((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+				break;
 			}
 			break;
 		case "reset":
@@ -163,8 +188,32 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					+ MSG.getTime((double) plugin.getBanwave().timeToNextBanwave()));
 			break;
 		case "banwave":
+			// /ac banwave [player]
+
+			if (args.length > 1) {
+				off = Bukkit.getOfflinePlayer(args[1]);
+				cp = plugin.getCPlayer(off);
+				cp.setSaveData("isBanwaved", "Manual [" + sender.getName() + "]");
+				MSG.tell(sender, "Added " + off.getName() + " to the banwave.");
+				return true;
+			}
 			plugin.getBanwave().runBanwave(true).run();
 			MSG.tell(sender, "&cSuccessfully initiated banwave.");
+			break;
+		case "removebanwave":
+			if (args.length < 2) {
+				MSG.tell(sender, "You must specify a player");
+				return true;
+			}
+			off = Bukkit.getOfflinePlayer(args[1]);
+
+			cp = plugin.getCPlayer(off);
+			if (!cp.hasSaveData("isBanwaved")) {
+				MSG.tell(sender, off.getName() + " is not banwaved.");
+				return true;
+			}
+			cp.removeSaveData("isBanwaved");
+			MSG.tell(sender, "Removed " + off.getName() + " from the banwave.");
 			break;
 		case "warn":
 			if (args.length < 4) {
@@ -265,10 +314,16 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear", "vl", "toggle", "reset", "warn", "checks", "banwave", "time" }) {
+			for (String res : new String[] { "clear", "vl", "toggle", "reset", "warn", "checks", "banwave",
+					"removebanwave", "time" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}
+		}
+
+		for (Player target : Bukkit.getOnlinePlayers()) {
+			if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+				result.add(target.getName());
 		}
 
 		if (args.length >= 2 && args.length <= 3) {
@@ -286,18 +341,12 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "logs", "global" }) {
+				for (String res : new String[] { "cancel", "dev", "logs", "global", "scoreboard" }) {
 					if (res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);
 				}
 			}
 		}
-
-		for (Player target : Bukkit.getOnlinePlayers()) {
-			if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-				result.add(target.getName());
-		}
-
 		return result;
 	}
 

@@ -42,7 +42,11 @@ public class AutoArmor1 implements Check, Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
-		new BukkitRunnable() {
+		runCheck().runTaskTimer(plugin, 0, CHECK_EVERY);
+	}
+
+	private BukkitRunnable runCheck() {
+		return new BukkitRunnable() {
 			public void run() {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(target);
@@ -85,7 +89,7 @@ public class AutoArmor1 implements Check, Listener {
 					}
 				}
 			}
-		}.runTaskTimer(plugin, 0, CHECK_EVERY);
+		};
 	}
 
 	@EventHandler
@@ -102,7 +106,7 @@ public class AutoArmor1 implements Check, Listener {
 			return;
 
 		event.setCancelled(true);
-
+		runCheck().runTaskLater(plugin, ThreadLocalRandom.current().nextInt(10 * 20, 30 * 20));
 		cp.flagHack(this, 100);
 	}
 

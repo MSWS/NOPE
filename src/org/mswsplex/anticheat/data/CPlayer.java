@@ -195,6 +195,35 @@ public class CPlayer {
 		return amo;
 	}
 
+	public String getHighestHack() {
+		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
+		if (vlSection == null)
+			return "None";
+
+		int high = 0;
+		String highest = "None";
+		for (String hack : vlSection.getKeys(false)) {
+			if (vlSection.getInt(hack) > high) {
+				high = vlSection.getInt(hack);
+				highest = hack;
+			}
+		}
+		return highest;
+	}
+
+	public List<String> getHackVls() {
+		List<String> result = new ArrayList<>();
+
+		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
+		if (vlSection == null)
+			return null;
+		for (String hack : vlSection.getKeys(false)) {
+			result.add(hack);
+		}
+
+		return result;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl) {
 		if (!plugin.config.getBoolean("Global"))
@@ -205,17 +234,20 @@ public class CPlayer {
 						+ check.getDebugName() + " &8[CANCELLED]");
 			return;
 		}
-		
+
 		if (bypassCheck(check)) {
 			addLogMessage(
 					"Flagged check:" + check.getDebugName() + " [PERM-BYPASSED] time:" + System.currentTimeMillis());
 			return;
 		}
+
+		setTempData("lastFlag", (double) System.currentTimeMillis());
+
 		if (plugin.devMode())
 			MSG.tell("anticheat.message.dev",
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
 
-		int nVl = getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl;
+		int nVl = getSaveInteger("vls." + check.getCategory()) + vl;
 
 		String color = MSG.getVlColor(nVl);
 
@@ -234,7 +266,7 @@ public class CPlayer {
 			}
 		}
 
-		setSaveData("vls." + check.getCategory().toLowerCase(), nVl);
+		setSaveData("vls." + check.getCategory(), nVl);
 
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
 			MSG.tell("anticheat.message.banwave",
@@ -399,7 +431,7 @@ public class CPlayer {
 		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
 		if (plugin.devMode())
 			prefix.add("[WARNING] Developer Mode WAS Enabled During This Ban");
-		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check.toLowerCase()) + "/" + getTotalVL() + ")");
+		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check) + "/" + getTotalVL() + ")");
 		prefix.add("Timing: " + MSG.camelCase(timing + ""));
 		prefix.add("Date: " + format.format(now));
 		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
@@ -424,8 +456,7 @@ public class CPlayer {
 		revised.addAll(0, prefix);
 
 		revised.add("");
-		revised.add("Banning " + player.getName() + " for " + check + " (VL: "
-				+ getSaveInteger("vls." + check.toLowerCase()) + ")");
+		revised.add("Banning " + player.getName() + " for " + check + " (VL: " + getSaveInteger("vls." + check) + ")");
 
 		for (int i = 1; i < revised.size(); i++) {
 			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty()) {
@@ -470,8 +501,8 @@ public class CPlayer {
 	}
 
 	public void clearVls() {
-		for (Check c : plugin.getChecks().getActiveChecks())
-			setSaveData("vls." + c.getCategory().toLowerCase(), 0);
+		for (String entry : getHackVls())
+			removeSaveData("vls." + entry);
 	}
 
 	public boolean isInWeirdBlock() {

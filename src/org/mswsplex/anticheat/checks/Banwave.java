@@ -1,7 +1,6 @@
 package org.mswsplex.anticheat.checks;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
@@ -21,7 +20,7 @@ public class Banwave {
 		return new BukkitRunnable() {
 			@Override
 			public void run() {
-				for (Player player : Bukkit.getOnlinePlayers()) {
+				for (OfflinePlayer player : plugin.getPlayerManager().getLoadedPlayers()) {
 					CPlayer cp = plugin.getCPlayer(player);
 					if (!cp.hasSaveData("isBanwaved"))
 						continue;
