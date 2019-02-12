@@ -36,7 +36,8 @@ public class LogImplementation implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.addLogMessage("Player ran command: " + event.getMessage() + " time:" + System.currentTimeMillis());
+		cp.addLogMessage(
+				player.getName() + " ran command: " + event.getMessage() + " time:" + System.currentTimeMillis());
 
 		for (String word : event.getMessage().split(" ")) {
 			List<Player> players = Bukkit.matchPlayer(word);

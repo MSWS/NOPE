@@ -227,8 +227,11 @@ public class CPlayer {
 			addLogMessage("");
 			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
 					+ System.currentTimeMillis());
-			addLogMessage("");
+			String token = MSG.genUUID(16);
+			saveLog(check.getCategory(), Timing.BANWAVE, token);
 			setSaveData("isBanwaved", check.getCategory());
+			addLogMessage("BANWAVE Log ID: " + token);
+			addLogMessage("");
 		} else {
 			addLogMessage("Flagged check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
 					+ System.currentTimeMillis());
@@ -291,10 +294,16 @@ public class CPlayer {
 
 	@SuppressWarnings("unchecked")
 	public void saveLog(String check, Timing timing, String token) {
-		File logFolder = new File(plugin.getDataFolder(), "logs/");
-		logFolder.mkdir();
+		new File(plugin.getDataFolder(), "logs/instant").mkdirs();
+		new File(plugin.getDataFolder(), "logs/banwaves").mkdirs();
 
-		File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
+		File logFile;
+
+		if (timing == Timing.INSTANT) {
+			logFile = new File(plugin.getDataFolder(), "logs/instant/" + token + ".log");
+		} else {
+			logFile = new File(plugin.getDataFolder(), "logs/banwaves/" + token + ".log");
+		}
 
 		List<String> prefix = new ArrayList<>();
 
@@ -312,22 +321,27 @@ public class CPlayer {
 			String line = lines.get(i);
 
 			double time = 0;
+			int tmpLong = 0;
+
 			for (String k : line.split(" ")) {
 				if (k.startsWith("time:")) {
 					time = System.currentTimeMillis() - Double.parseDouble(k.substring("time:".length()));
 					line = line.replace(k,
-							MSG.getTime(time).replace("milliseconds", "ms").replace("milliseconds", "ms"));
+							"[" + MSG.getTime(time).replace("milliseconds", "ms").replace("milliseconds", "ms").trim()
+									+ "]");
 					break;
 				}
 				if (k.startsWith("check:")) {
 					if (k.split("check:")[1].length() > longest)
-						longest = k.split("check:")[1].length();
+						tmpLong = k.split("check:")[1].length();
 				}
 			}
 			if (time < 120000) {
 				if (time > timeElapsed && line.startsWith("Flagged "))
 					timeElapsed = time;
 				revised.add(line);
+				if (tmpLong > longest)
+					longest = tmpLong;
 			}
 		}
 
@@ -352,7 +366,7 @@ public class CPlayer {
 					replace += " ";
 				}
 
-				line = line.replace(k, checkName + replace);
+				line = line.replace(k, checkName + replace + "|");
 
 				revised.set(i, line);
 			}
@@ -368,14 +382,16 @@ public class CPlayer {
 		}
 
 		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
-		prefix.add("Hack: " + check + " (Total VL of all hacks: " + getTotalVL() + ")");
+		if (plugin.devMode())
+			prefix.add("[WARNING] Developer Mode WAS Enabled During This Ban");
+		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check.toLowerCase()) + "/" + getTotalVL() + ")");
 		prefix.add("Timing: " + MSG.camelCase(timing + ""));
 		prefix.add("Date: " + format.format(now));
 		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
 
 		double hackScore = totalFlags * getTotalVL();
 
-		prefix.add("Hack Score: " + hackScore);
+		prefix.add("Hack Score: " + hackScore / (timeElapsed / 120000.0) / 100000.0);
 
 		prefix.add("");
 
@@ -393,7 +409,8 @@ public class CPlayer {
 		revised.addAll(0, prefix);
 
 		revised.add("");
-		revised.add("Banning " + player.getName() + " for " + check);
+		revised.add("Banning " + player.getName() + " for " + check + " (VL: "
+				+ getSaveInteger("vls." + check.toLowerCase()) + ")");
 
 		for (int i = 1; i < revised.size(); i++) {
 			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty()) {
@@ -403,7 +420,6 @@ public class CPlayer {
 		}
 
 		try {
-			logFolder.mkdirs();
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();

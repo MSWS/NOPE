@@ -332,7 +332,7 @@ public class MSG {
 		pos += 10;
 		String res = "";
 		for (int i = 0; i < length; i++)
-			res = res + keys[(int) Math.floor(ThreadLocalRandom.current().nextDouble() * pos)];
+			res = res + keys[(int) Math.floor(ThreadLocalRandom.current().nextDouble(pos))];
 		return res;
 	}
 }
