@@ -139,6 +139,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, "logs: " + MSG.TorF(plugin.config.getBoolean("Log")));
 				plugin.saveConfig();
 				break;
+			case "global":
+				plugin.config.set("Global", !plugin.config.getBoolean("Global"));
+				MSG.tell(sender, "global: " + MSG.TorF(plugin.config.getBoolean("Global")));
+				plugin.saveConfig();
+				break;
 			}
 			break;
 		case "reset":
@@ -281,7 +286,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "logs" }) {
+				for (String res : new String[] { "cancel", "dev", "logs", "global" }) {
 					if (res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);
 				}

@@ -1,8 +1,5 @@
 package org.mswsplex.anticheat.checks.movement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,12 +13,12 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks the average speed of a player while they're blocking and on the ground
+ * Checks the player's speed in a snapshot of time while on ground
  * 
  * @author imodm
  *
  */
-public class NoSlowDown1 implements Check, Listener {
+public class NoSlowDown2 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -36,9 +33,6 @@ public class NoSlowDown1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int SIZE = 40;
-
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -46,13 +40,13 @@ public class NoSlowDown1 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
+		if (!cp.isOnGround())
+			return;
+
 		if (cp.timeSince("disableFlight") < 2000)
 			return;
 
 		if (!player.isBlocking())
-			return;
-
-		if (!cp.isOnGround())
 			return;
 
 		if (cp.timeSince("lastLiquid") < 500)
@@ -62,33 +56,13 @@ public class NoSlowDown1 implements Check, Listener {
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
-		List<Double> distances = (ArrayList<Double>) cp.getTempData("noSlowDistances");
-		if (distances == null)
-			distances = new ArrayList<>();
-
-		double avg = 0;
-		for (double d : distances)
-			avg += d;
-
-		avg /= distances.size();
-
-		distances.add(0, dist);
-
-		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
-			distances.remove(i);
-
-		cp.setTempData("noSlowDistances", distances);
-
-		if (distances.size() < SIZE)
-			return;
-
-		if (avg <= .176)
+		if (dist < .39)
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&e" + avg);
+			MSG.tell(player, "&b" + dist);
 
-		cp.flagHack(this, (int) Math.round((avg - .16) * 400.0));
+		cp.flagHack(this, (int) Math.round((dist - .29) * 400.0));
 	}
 
 	@Override
@@ -98,7 +72,7 @@ public class NoSlowDown1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "NoSlowDown#1";
+		return "NoSlowDown#2";
 	}
 
 	@Override

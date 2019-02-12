@@ -16,12 +16,13 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks the average speed of a player while they're blocking and on the ground
+ * Checks the average speed of a player while they're blocking either in air or
+ * on ground
  * 
  * @author imodm
  *
  */
-public class NoSlowDown1 implements Check, Listener {
+public class NoSlowDown3 implements Check, Listener {
 
 	private AntiCheat plugin;
 
@@ -52,9 +53,6 @@ public class NoSlowDown1 implements Check, Listener {
 		if (!player.isBlocking())
 			return;
 
-		if (!cp.isOnGround())
-			return;
-
 		if (cp.timeSince("lastLiquid") < 500)
 			return;
 
@@ -62,7 +60,7 @@ public class NoSlowDown1 implements Check, Listener {
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
-		List<Double> distances = (ArrayList<Double>) cp.getTempData("noSlowDistances");
+		List<Double> distances = (ArrayList<Double>) cp.getTempData("noSlowAirDistances");
 		if (distances == null)
 			distances = new ArrayList<>();
 
@@ -77,18 +75,18 @@ public class NoSlowDown1 implements Check, Listener {
 		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
 			distances.remove(i);
 
-		cp.setTempData("noSlowDistances", distances);
+		cp.setTempData("noSlowAirDistances", distances);
 
 		if (distances.size() < SIZE)
 			return;
 
-		if (avg <= .176)
+		if (avg <= .43)
 			return;
 
 		if (plugin.devMode())
-			MSG.tell(player, "&e" + avg);
+			MSG.tell(player, "&2" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg - .16) * 400.0));
+		cp.flagHack(this, (int) Math.round((avg - .29) * 400.0));
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class NoSlowDown1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "NoSlowDown#1";
+		return "NoSlowDown#3";
 	}
 
 	@Override

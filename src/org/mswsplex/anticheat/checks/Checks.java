@@ -35,6 +35,9 @@ import org.mswsplex.anticheat.checks.movement.InventoryMove1;
 import org.mswsplex.anticheat.checks.movement.Jesus1;
 import org.mswsplex.anticheat.checks.movement.Movement1;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown1;
+import org.mswsplex.anticheat.checks.movement.NoSlowDown2;
+import org.mswsplex.anticheat.checks.movement.NoSlowDown3;
+import org.mswsplex.anticheat.checks.movement.NoSlowDown4;
 import org.mswsplex.anticheat.checks.movement.NoWeb1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
 import org.mswsplex.anticheat.checks.movement.Speed2;
@@ -83,10 +86,10 @@ public class Checks {
 				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
 				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
 				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
-				new KillAura4(), new KillAura5(), new AntiRotate1(), new NoSlowDown1(), new FastEat1(), new Regen1(),
-				new Regen2(), new SkinBlinker1(), new NoSwing1(), new ServerCrasher1(), new ServerCrasher2(),
-				new ChestStealer1(), new AntiFire1(), new MultiUse1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
-				new AutoArmor1() };
+				new KillAura4(), new KillAura5(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
+				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new Regen1(), new Regen2(), new SkinBlinker1(),
+				new NoSwing1(), new ServerCrasher1(), new ServerCrasher2(), new ChestStealer1(), new AntiFire1(),
+				new MultiUse1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1() };
 
 		for (Check check : checks) {
 			activeChecks.add(check);

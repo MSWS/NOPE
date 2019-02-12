@@ -79,7 +79,13 @@ public class CPlayer {
 		if (!player.isOnline())
 			return false;
 		Player online = (Player) player;
-		return online.hasPermission("anticheat.bypass." + check.getDebugName());
+		if (online.hasPermission("anticheat.bypass." + check.getType()))
+			return true;
+		if (online.hasPermission("anticheat.bypass." + check.getCategory()))
+			return true;
+		if (online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getCategory()))
+			return true;
+		return online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getDebugName());
 	}
 
 	public void setTempData(String id, Object obj) {
@@ -191,10 +197,18 @@ public class CPlayer {
 
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl) {
+		if (!plugin.config.getBoolean("Global"))
+			return;
 		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
 				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
 						+ check.getDebugName() + " &8[CANCELLED]");
+			return;
+		}
+		
+		if (bypassCheck(check)) {
+			addLogMessage(
+					"Flagged check:" + check.getDebugName() + " [PERM-BYPASSED] time:" + System.currentTimeMillis());
 			return;
 		}
 		if (plugin.devMode())
@@ -202,6 +216,7 @@ public class CPlayer {
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
 
 		int nVl = getSaveInteger("vls." + check.getCategory().toLowerCase()) + vl;
+
 		String color = MSG.getVlColor(nVl);
 
 		double lastSent = timeSince(color + check.getCategory());
