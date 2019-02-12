@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ public class FastEat1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.PLAYER;
 	}
 
 	@Override

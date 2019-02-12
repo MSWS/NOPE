@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class InventoryMove1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.MOVEMENT;
 	}
 
 	@Override

@@ -1,10 +1,9 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,7 +29,7 @@ public class ChestStealer1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.PLAYER;
 	}
 
 	@Override
@@ -53,7 +52,7 @@ public class ChestStealer1 implements Check, Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (event.getInventory().getType() == InventoryType.PLAYER && player.getGameMode() == GameMode.CREATIVE)
+		if (event.getInventory().getType() == InventoryType.PLAYER)
 			return;
 
 		List<Double> clickTimings = cp.getTempData("clickTimings", List.class);

@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,7 +21,7 @@ public class AntiFire1 implements Check {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.PLAYER;
 	}
 
 	private final int RATE = 20;

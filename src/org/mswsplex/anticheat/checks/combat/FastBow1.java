@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.combat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -25,7 +25,7 @@ public class FastBow1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.COMBAT;
 	}
 
 	@Override

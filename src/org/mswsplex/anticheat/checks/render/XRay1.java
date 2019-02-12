@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.render;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class XRay1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.RENDER;
 	}
 
 	private List<Block> ignoreBlocks;

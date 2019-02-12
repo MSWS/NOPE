@@ -276,7 +276,7 @@ public class CPlayer {
 		if (plugin.devMode())
 			return;
 
-		if (timing == Timing.BANWAVE) {
+		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE) {
 			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
@@ -387,6 +387,8 @@ public class CPlayer {
 		for (Entry<String, Integer> entry : flags.entrySet()) {
 			prefix.add(entry.getKey() + ": " + entry.getValue());
 		}
+
+		prefix.add("");
 
 		revised.addAll(0, prefix);
 

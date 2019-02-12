@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.player;
 
 import java.util.Collection;
 
@@ -29,7 +29,7 @@ public class Zoot1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.PLAYER;
 	}
 
 	private final int RATE = 20;

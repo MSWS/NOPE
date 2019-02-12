@@ -1,7 +1,9 @@
-package org.mswsplex.anticheat.checks.client;
+package org.mswsplex.anticheat.checks.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,20 +14,18 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
 /**
- * Uh I have no idea how this check works. Will likely be rewritten soon
+ * Compares if the server onGround and player onGround is different
  * 
  * @author imodm
- * @deprecated Outdated and unreliable - likely to be rewritten
  *
  */
-@Deprecated
-public class NoFall1 implements Check, Listener {
+public class NoGround1 implements Check, Listener {
 
 	private AntiCheat plugin;
 
 	@Override
 	public CheckType getType() {
-		return CheckType.CLIENT;
+		return CheckType.PLAYER;
 	}
 
 	@Override
@@ -34,24 +34,28 @@ public class NoFall1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.isOnGround())
+		if (!player.isOnGround()) // If the client SAYS they're not on the ground, return
 			return;
 
-		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
+		if (cp.isOnGround())
 			return;
 
-		if (cp.isBlockNearby("SLAB") || cp.isBlockNearby("STEP") || cp.isInWeirdBlock())
+		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 
-		if (cp.timeSince("lastTeleport") < 500)
+		if (cp.timeSince("wasFlying") < 2000)
 			return;
 
-		if (player.getFallDistance() == 0)
+		if (player.getNearbyEntities(1, 2, 1).stream().anyMatch((entity) -> entity instanceof Boat))
+			return;
+
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SLIME_BLOCK)
 			return;
 
 		cp.flagHack(this, 5);
@@ -59,12 +63,12 @@ public class NoFall1 implements Check, Listener {
 
 	@Override
 	public String getCategory() {
-		return "NoFall";
+		return "NoGround";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "NoFall#1";
+		return "NoGround#1";
 	}
 
 	@Override

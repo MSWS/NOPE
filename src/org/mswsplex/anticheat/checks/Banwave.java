@@ -25,7 +25,7 @@ public class Banwave {
 					CPlayer cp = plugin.getCPlayer(player);
 					if (!cp.hasSaveData("isBanwaved"))
 						continue;
-					cp.ban(cp.getSaveString("isBanwaved"), Timing.BANWAVE);
+					cp.ban(cp.getSaveString("isBanwaved"), forced ? Timing.MANUAL_BANWAVE : Timing.BANWAVE);
 					cp.removeSaveData("isBanwaved");
 					cp.saveData();
 				}

@@ -244,8 +244,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							+ checks.values().toArray()[i] + " ");
 				}
 
-				MSG.tell(sender, "&6&l" + MSG.camelCase(type + "") + " &7(&e&l"
-						+ plugin.getChecks().getChecksWithType(type).size() + "&7)");
+				MSG.tell(sender, "&6&l" + MSG.camelCase(type.toString()) + " &7(&e&l"
+						+ plugin.getChecks().getChecksWithType(type).size() + "&7) " + type.getDescription());
 				MSG.tell(sender, builder.toString());
 			}
 			break;
