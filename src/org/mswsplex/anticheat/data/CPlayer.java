@@ -30,6 +30,7 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
+import org.mswsplex.anticheat.utils.Utils;
 
 public class CPlayer {
 	private OfflinePlayer player;
@@ -465,6 +466,19 @@ public class CPlayer {
 			}
 		}
 
+		if (plugin.config.getBoolean("UploadLogToPastebin")) {
+			StringBuilder raw = new StringBuilder();
+			for (String line : revised)
+				raw.append(line + "\n");
+
+			String link = Utils.uploadPaste(
+					player.getName() + " " + token + " " + format.format(now) + " [" + check + "]", raw.toString());
+			if (link != null) {
+				revised.add(0, link);
+				revised.add("Pastebin Link: " + link);
+				MSG.log("Uploaded Pastebin for " + player.getName() + " link: " + link);
+			}
+		}
 		try {
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {

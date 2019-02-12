@@ -93,11 +93,11 @@ public class AutoClicker1 implements Check, Listener {
 
 		int biggest = (int) repeats.values().toArray()[repeats.values().size() - 1];
 
-		if (biggest < SIZE * .3)
+		if (biggest < SIZE / 2)
 			return;
 		if (plugin.devMode())
 			MSG.tell(player, "&7similar values: " + biggest);
-		cp.flagHack(this, (int) Math.round(biggest - (SIZE * .3)) * 5 + 5);
+		cp.flagHack(this, (int) Math.round(biggest - (SIZE / 2)) * 5 + 5);
 	}
 
 	@Override

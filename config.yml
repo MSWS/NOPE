@@ -1,10 +1,10 @@
 VlForInstaBan: 1000
 VlForBanwave: 500
-BanwaveRate: 6000 #In ticks
-Minimum: 20 #Minimum VL to warn staff members
-SecondsMinimum: 5000 #Delay between warning messages of the same color
+BanwaveRate: 6000
+Minimum: 20
+SecondsMinimum: 5000
 DevMode: false
-Global: true #Whether or not all checks are enabled
+Global: true
 VlColors:
 - '&a'
 - '&e'
@@ -19,3 +19,4 @@ CommandsForBan:
 CommandsForBanwave:
 - kick %player% Hacking - Banwave (%hack%)|%token%
 - say %player% was banwaved for %hack% (%token%
+UploadLogToPastebin: true
