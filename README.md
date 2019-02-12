@@ -1,6 +1,6 @@
 # AntiCheat
-###Permissions
-```
+### Permissions
+```java
 public boolean bypassCheck(Check check) {
 	if (!player.isOnline())
 		return false;
