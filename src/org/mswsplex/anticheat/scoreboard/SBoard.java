@@ -2,10 +2,13 @@ package org.mswsplex.anticheat.scoreboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,10 +18,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
-
-import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Ordering;
 
 public class SBoard {
 	Scoreboard board;
@@ -42,29 +41,41 @@ public class SBoard {
 
 	private List<String> vlRankings;
 
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+		List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+		list.sort(Entry.comparingByValue());
+
+		Map<K, V> result = new LinkedHashMap<>();
+		for (Entry<K, V> entry : list) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+
+		return result;
+	}
+
 	public void register() {
 		new BukkitRunnable() {
 			@SuppressWarnings("unchecked")
 			public void run() {
 				vlRankings = new ArrayList<>();
-				Map<Player, Integer> ranks = new HashMap<>();
+				Map<OfflinePlayer, Integer> ranks = new HashMap<>();
 
-				for (Player player : Bukkit.getOnlinePlayers()) {
+				for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(player);
 					if (cp.getTotalVL() == 0)
 						continue;
 					ranks.put(player, cp.getTotalVL());
 				}
 
-				ranks = ImmutableSortedMap.copyOf(ranks, Ordering.natural().onResultOf(Functions.forMap(ranks)));
+				ranks = sortByValue(ranks);
 
-				for (int i = 0; i < ranks.size(); i++) {
-					Player player = (Player) ranks.keySet().toArray()[i];
+				for (int i = ranks.size() - 1; i >= 0; i--) {
+					OfflinePlayer player = (OfflinePlayer) ranks.keySet().toArray()[i];
 					CPlayer cp = plugin.getCPlayer(player);
 
 					int highVl = cp.getSaveInteger("vls." + cp.getHighestHack());
 
-					String addon = MSG.getVlColor(highVl) + (i + 1) + ": &7" + player.getName() + " &e"
+					String addon = MSG.getVlColor(highVl) + (ranks.size() - i) + ": &7" + player.getName() + " &e"
 							+ cp.getHighestHack() + " " + MSG.getVlColor(highVl)
 							+ cp.getSaveInteger("vls." + cp.getHighestHack());
 

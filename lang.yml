@@ -1,12 +1,13 @@
 NoPermission: '&4&l[&c&lNOPE&4&l] &cYou do not have permission to do this.'
 Help:
   default:
-  - 'perm:anticheat.command.clear &c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players'
-  - 'perm:anticheat.command.vl &c/ac vl <Player> &7- Tells you VLs'
-  - 'perm:anticheat.command.toggle &c/ac toggle [Setting] &7- Toggle lagbacks, devmode, etc.'
-  - 'perm:anticheat.command.reset &c/ac reset &7- Reset configs'
-  - 'perm:anticheat.command.banwave &c/ac banwave &7- Manually initiates a banwave'
-  - 'perm:anticheat.command.banwave.addplayer &c/ac banwave [Player] &7Adds a player to the banwave'
-  - 'perm:anticheat.command.time &c/ac time &7- Shows time to next banwave'
-  - 'perm:anticheat.command.warn &c/ac warn [Player] h:[Hack] v:[VL]'
-  - 'perm:anticheat.command.removebanwave &c/ac removebanwave [Player] &7- Removes a player from the banwave'
+  - perm:anticheat.command.clear &c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players
+  - perm:anticheat.command.vl &c/ac vl <Player> &7- Tells you VLs
+  - perm:anticheat.command.toggle &c/ac toggle [Setting] &7- Toggle lagbacks, devmode, etc.
+  - perm:anticheat.command.reset &c/ac reset &7- Reset configs
+  - perm:anticheat.command.banwave &c/ac banwave &7- Manually initiates a banwave
+  - perm:anticheat.command.banwave.addplayer &c/ac banwave [Player] &7Adds a player to the banwave
+  - perm:anticheat.command.time &c/ac time &7- Shows time to next banwave
+  - perm:anticheat.command.warn &c/ac warn [Player] h:[Hack] v:[VL]
+  - perm:anticheat.command.checks &c/ac checks &7- Lists all checks
+  - perm:anticheat.command.removebanwave &c/ac removebanwave [Player] &7- Removes a player from the banwave

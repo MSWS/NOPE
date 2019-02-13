@@ -10,6 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.msws.AntiCheat;
 
+import com.google.common.collect.Iterables;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
 import io.netty.util.internal.ThreadLocalRandom;
 
 public class MSG {
@@ -333,5 +337,18 @@ public class MSG {
 		for (int i = 0; i < length; i++)
 			res = res + keys[(int) Math.floor(ThreadLocalRandom.current().nextDouble(pos))];
 		return res;
+	}
+
+	public static void sendPluginMessage(Player player, String message) {
+		ByteArrayDataOutput out = ByteStreams.newDataOutput();
+		out.writeUTF("Forward");
+		out.writeUTF("ALL");
+		out.writeUTF("NOPE");
+		out.writeUTF(message);
+		if (player == null)
+			player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+		if (player == null)
+			return;
+		player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
 	}
 }

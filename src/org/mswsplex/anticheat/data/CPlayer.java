@@ -73,13 +73,13 @@ public class CPlayer {
 	}
 
 	public YamlConfiguration getDataFile() {
-		return this.data;
+		return data;
 	}
 
 	public boolean bypassCheck(Check check) {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 		if (online.hasPermission("anticheat.bypass." + check.getType()))
 			return true;
 		if (online.hasPermission("anticheat.bypass." + check.getCategory()))
@@ -255,29 +255,34 @@ public class CPlayer {
 		double lastSent = timeSince(color + check.getCategory());
 
 		if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack") && check.lagBack())
-			((Player) player).teleport(lastSafe);
+			player.getPlayer().teleport(lastSafe);
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-				MSG.tell("anticheat.message.normal",
-						"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
-								+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
-								+ " " + color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)");
+				String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
+						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
+						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)";
+				MSG.tell("anticheat.message.normal", message);
+				MSG.sendPluginMessage(null,
+						"perm:anticheat.message.normal " + message + " &b[" + plugin.getServer().getServerName() + "&b]");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}
 
+		MSG.sendPluginMessage(null, "setvl:" + player.getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
 
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
-			MSG.tell("anticheat.message.banwave",
-					"&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.");
+			String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.";
+			MSG.tell("anticheat.message.banwave", message);
+			MSG.sendPluginMessage(null, "perm:anticheat.message.banwave " + message);
 			addLogMessage("");
 			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
 					+ System.currentTimeMillis());
 			String token = MSG.genUUID(16);
 			saveLog(check.getCategory(), Timing.BANWAVE, token);
 			setSaveData("isBanwaved", check.getCategory());
+			MSG.sendPluginMessage(null, "banwave:" + player.getName() + " " + check.getCategory());
 			addLogMessage("BANWAVE Log ID: " + token);
 			addLogMessage("");
 		} else {
@@ -285,9 +290,8 @@ public class CPlayer {
 					+ System.currentTimeMillis());
 		}
 
-		if (nVl >= plugin.config.getInt("VlForInstaBan")) {
+		if (nVl >= plugin.config.getInt("VlForInstaBan"))
 			ban(check, Timing.INSTANT);
-		}
 
 		List<String> lines = getSaveData("log", List.class);
 		if (lines == null)
@@ -505,7 +509,7 @@ public class CPlayer {
 	public boolean isOnGround() {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 		if (isInWeirdBlock())
 			return true;
 		if (online.isFlying())
@@ -522,7 +526,7 @@ public class CPlayer {
 	public boolean isInWeirdBlock() {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
@@ -575,7 +579,7 @@ public class CPlayer {
 	public boolean isBlockNearby(Material mat, int range, double yOffset) {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 		for (int x = -range; x <= range; x++) {
 			for (int z = -range; z <= range; z++) {
 				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
@@ -589,7 +593,7 @@ public class CPlayer {
 	public boolean isBlockNearby(String mat, int range, double yOffset) {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 		for (int x = -range; x <= range; x++) {
 			for (int z = -range; z <= range; z++) {
 				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
@@ -613,7 +617,7 @@ public class CPlayer {
 			return false;
 		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW };
 
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		for (PotionEffectType type : movement) {
 			if (online.hasPotionEffect(type))
@@ -627,7 +631,7 @@ public class CPlayer {
 		if (!player.isOnline())
 			return false;
 
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		Block block = online.getLocation().getBlock();
 
@@ -637,7 +641,7 @@ public class CPlayer {
 	public boolean isBlockAbove() {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
@@ -652,7 +656,7 @@ public class CPlayer {
 	public double distanceToGround() {
 		if (!player.isOnline())
 			return 0;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		Location vertLine = online.getLocation();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
@@ -664,7 +668,7 @@ public class CPlayer {
 	public boolean isRedstoneNearby() {
 		if (!player.isOnline())
 			return false;
-		Player online = (Player) player;
+		Player online = player.getPlayer();
 
 		List<Material> blockTypes = Arrays.asList(Material.PISTON_BASE, Material.PISTON_STICKY_BASE);
 		int range = 2;

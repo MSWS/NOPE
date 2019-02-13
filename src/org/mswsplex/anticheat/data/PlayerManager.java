@@ -38,10 +38,4 @@ public class PlayerManager {
 		for (OfflinePlayer player : players.keySet())
 			removePlayer(player);
 	}
-
-	public void loadData(OfflinePlayer player) {
-		if (players.containsKey(player))
-			throw new IllegalArgumentException("Player data already loaded");
-		players.put(player, new CPlayer(player, plugin));
-	}
 }
