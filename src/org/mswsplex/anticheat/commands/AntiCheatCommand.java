@@ -52,7 +52,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			if (args[1].equalsIgnoreCase("all")) {
 				target = "everyone's";
 
-				for (Player p : Bukkit.getOnlinePlayers()) {
+				for (OfflinePlayer p : plugin.getPlayerManager().getLoadedPlayers()) {
 					cp = plugin.getCPlayer(p);
 					if (args[2].equalsIgnoreCase("all")) {
 						cp.clearVls();
@@ -70,14 +70,9 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					}
 				}
 			} else {
-				if (Bukkit.getPlayer(args[1]) == null) {
-					MSG.tell(sender, "&cUnknown Player.");
-					return true;
-				}
-				cp = plugin.getCPlayer(Bukkit.getPlayer(args[1]));
-
-				target = Bukkit.getPlayer(args[1]).getName() + "'"
-						+ (Bukkit.getPlayer(args[1]).getName().toLowerCase().endsWith("s") ? "" : "s");
+				cp = plugin.getCPlayer(Bukkit.getOfflinePlayer(args[1]));
+				target = cp.getPlayer().getName() + "'"
+						+ (cp.getPlayer().getName().toLowerCase().endsWith("s") ? "" : "s");
 
 				if (args[2].equalsIgnoreCase("all")) {
 					cp.clearVls();
@@ -104,7 +99,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			}
 			if (args.length == 1) {
 				boolean shown = false;
-				for (OfflinePlayer p : Bukkit.getOfflinePlayers()) {
+				for (OfflinePlayer p : plugin.getPlayerManager().getLoadedPlayers()) {
 					cp = plugin.getCPlayer(p);
 					String vls = formatVls(p);
 					if (vls.isEmpty())
