@@ -113,12 +113,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				return true;
 			}
 
-			OfflinePlayer t = Bukkit.getPlayer(args[1]);
-
-			if (!t.hasPlayedBefore()) {
-				MSG.tell(sender, "&5[&d0&5] &e" + t.getName() + "&7: " + formatVls(t));
-				break;
-			}
+			OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
 
 			cp = plugin.getCPlayer(t);
 
