@@ -263,8 +263,8 @@ public class CPlayer {
 						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
 						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)";
 				MSG.tell("anticheat.message.normal", message);
-				MSG.sendPluginMessage(null,
-						"perm:anticheat.message.normal " + message + " &b[" + plugin.getServer().getServerName() + "&b]");
+				MSG.sendPluginMessage(null, "perm:anticheat.message.normal " + message + " &b["
+						+ plugin.getServer().getServerName() + "&b]");
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}
@@ -324,6 +324,7 @@ public class CPlayer {
 			saveLog(check, timing, token);
 
 		removeSaveData("log");
+		removeSaveData("isBanwaved");
 		removeTempData("autoClickerTimes");
 
 		clearVls();

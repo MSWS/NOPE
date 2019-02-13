@@ -60,7 +60,7 @@ public class SBoard {
 				vlRankings = new ArrayList<>();
 				Map<OfflinePlayer, Integer> ranks = new HashMap<>();
 
-				for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+				for (OfflinePlayer player : plugin.getPlayerManager().getLoadedPlayers()) {
 					CPlayer cp = plugin.getCPlayer(player);
 					if (cp.getTotalVL() == 0)
 						continue;
@@ -115,7 +115,9 @@ public class SBoard {
 					// Anti Lag/Flash Scoreboard functions
 
 					if (board != null && player.getScoreboard().getObjective("anticheat") != null
-							&& cp.hasTempData("oldLines")) {
+							&& cp.hasTempData("oldLines") &&
+
+							((List<String>) cp.getTempData("oldLines", List.class)).size() == vlRankings.size()) {
 						if (board.getObjectives().size() > vlRankings.size()) {
 							continue;
 						}
@@ -138,13 +140,13 @@ public class SBoard {
 						player.setScoreboard(board);
 						obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 						obj.setDisplayName(MSG.color(name));
-						int pos = 1;
+						int pos = 0;
 						for (String res : vlRankings) {
 							String line = parse(player, res);
-							line = line.substring(0, Math.min(40, line.length()));
-							obj.getScore(line).setScore(pos);
+							obj.getScore(line).setScore(pos + 1);
 							lines.add(line);
-							if (pos >= 15 || pos >= vlRankings.size())
+							MSG.announce("adding " + res);
+							if (pos > 15 || pos > vlRankings.size())
 								break;
 							pos++;
 						}

@@ -280,11 +280,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.sendHelp(sender, 0, "default");
 				return true;
 			}
-			t = Bukkit.getPlayer(args[1]);
-			if (t == null) {
-				MSG.tell(sender, "unknown player");
-				return true;
-			}
+			t = Bukkit.getOfflinePlayer(args[1]);
 			cp = plugin.getCPlayer(t);
 
 			String hackName = "", stringVl = "", current = "";
