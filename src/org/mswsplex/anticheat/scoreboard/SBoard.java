@@ -145,7 +145,6 @@ public class SBoard {
 							String line = parse(player, res);
 							obj.getScore(line).setScore(pos + 1);
 							lines.add(line);
-							MSG.announce("adding " + res);
 							if (pos > 15 || pos > vlRankings.size())
 								break;
 							pos++;
