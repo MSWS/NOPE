@@ -115,6 +115,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 			OfflinePlayer t = Bukkit.getPlayer(args[1]);
 
+			if (!t.hasPlayedBefore()) {
+				MSG.tell(sender, "&5[&d0&5] &e" + t.getName() + "&7: " + formatVls(t));
+				break;
+			}
+
 			cp = plugin.getCPlayer(t);
 
 			if (formatVls(t).isEmpty()) {
