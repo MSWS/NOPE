@@ -17,6 +17,6 @@ CommandsForBan:
 - kick %player% Hacking (%hack%)|%token%
 - say %player% was banned for %hack% (%token%)
 CommandsForBanwave:
-- kick %player% Hacking - Banwave (%hack%)|%token%
-- say %player% was banwaved for %hack% (%token%
+- kick %player% Hacking - Banwave (%hack%)|%token%)
+- say %player% was banwaved for %hack% (%token%)
 UploadLogToPastebin: true

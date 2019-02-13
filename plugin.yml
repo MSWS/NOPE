@@ -1,7 +1,7 @@
-name: AntiCheat
+name: NOPE
 main: org.mswsplex.anticheat.msws.AntiCheat
-version: 1.0
-description: Default Plugin Outline
+version: 0.2.1
+description: 1.8 Minecraft Anticheat
 commands:
   anticheat:
     usage: /<command>

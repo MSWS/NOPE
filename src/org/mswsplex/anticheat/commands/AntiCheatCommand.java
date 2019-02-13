@@ -39,6 +39,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		switch (args[0].toLowerCase()) {
 		case "clear":
+			if (!sender.hasPermission("anticheat.command.clear")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length < 3) {
 				MSG.tell(sender, "/anticheat clear [player/all] [hack/all]");
 				return true;
@@ -90,6 +94,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "&7You cleared &e" + target + "&7 VLs for &c" + hack);
 			break;
 		case "vl":
+			if (!sender.hasPermission("anticheat.command.vl")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length == 1) {
 				boolean shown = false;
 				for (Player p : Bukkit.getOnlinePlayers()) {
@@ -123,6 +131,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + t.getName() + "&7: " + formatVls(t));
 			break;
 		case "reload":
+			if (!sender.hasPermission("anticheat.command.reload")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			plugin.configYml = new File(plugin.getDataFolder(), "config.yml");
 			plugin.config = YamlConfiguration.loadConfiguration(plugin.configYml);
 			plugin.langYml = new File(plugin.getDataFolder(), "lang.yml");
@@ -132,33 +144,57 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 			break;
 		case "toggle":
+			if (!sender.hasPermission("anticheat.command.toggle")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length < 2) {
 				MSG.sendHelp(sender, 0, "default");
 				return true;
 			}
 			switch (args[1].toLowerCase()) {
 			case "dev":
+				if (!sender.hasPermission("anticheat.command.toggle.dev")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				plugin.config.set("DevMode", !plugin.devMode());
 				MSG.tell(sender, "dev: " + MSG.TorF(plugin.devMode()));
 				plugin.saveConfig();
 				break;
 			case "lagback":
 			case "cancel":
+				if (!sender.hasPermission("anticheat.command.toggle.cancel")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
 				MSG.tell(sender, "cancel: " + MSG.TorF(plugin.config.getBoolean("LagBack")));
 				plugin.saveConfig();
 				break;
 			case "logs":
+				if (!sender.hasPermission("anticheat.command.toggle.logs")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				plugin.config.set("Log", !plugin.config.getBoolean("Log"));
 				MSG.tell(sender, "logs: " + MSG.TorF(plugin.config.getBoolean("Log")));
 				plugin.saveConfig();
 				break;
 			case "global":
+				if (!sender.hasPermission("anticheat.command.toggle.global")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				plugin.config.set("Global", !plugin.config.getBoolean("Global"));
 				MSG.tell(sender, "global: " + MSG.TorF(plugin.config.getBoolean("Global")));
 				plugin.saveConfig();
 				break;
 			case "scoreboard":
+				if (!sender.hasPermission("anticheat.command.toggle.scoreboard")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				if (!(sender instanceof Player)) {
 					MSG.tell(sender, "no scoreboard 4 u");
 					return true;
@@ -172,6 +208,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			}
 			break;
 		case "reset":
+			if (!sender.hasPermission("anticheat.command.reset")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			plugin.saveResource("config.yml", true);
 			plugin.saveResource("lang.yml", true);
 			plugin.saveResource("guis.yml", true);
@@ -184,13 +224,23 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "Succesfully reset.");
 			break;
 		case "time":
+			if (!sender.hasPermission("anticheat.command.time")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			MSG.tell(sender, "&4&l[&c&lNOPE&4&l] &7Next banwave: &e"
 					+ MSG.getTime((double) plugin.getBanwave().timeToNextBanwave()));
 			break;
 		case "banwave":
-			// /ac banwave [player]
-
+			if (!sender.hasPermission("anticheat.command.banwave")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length > 1) {
+				if (!sender.hasPermission("anticheat.command.banwave.addplayer")) {
+					MSG.noPerm(sender);
+					return true;
+				}
 				off = Bukkit.getOfflinePlayer(args[1]);
 				cp = plugin.getCPlayer(off);
 				cp.setSaveData("isBanwaved", "Manual [" + sender.getName() + "]");
@@ -201,6 +251,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "&cSuccessfully initiated banwave.");
 			break;
 		case "removebanwave":
+			if (!sender.hasPermission("anticheat.command.removebanwave")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length < 2) {
 				MSG.tell(sender, "You must specify a player");
 				return true;
@@ -216,6 +270,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "Removed " + off.getName() + " from the banwave.");
 			break;
 		case "warn":
+			if (!sender.hasPermission("anticheat.command.warn")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			if (args.length < 4) {
 				MSG.sendHelp(sender, 0, "default");
 				return true;
@@ -279,6 +337,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
 			break;
 		case "checks":
+			if (!sender.hasPermission("anticheat.command.checks")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 			for (CheckType type : plugin.getChecks().getCheckTypes()) {
 				HashMap<String, Integer> checks = new HashMap<>();
 				for (Check check : plugin.getChecks().getChecksWithType(type))
@@ -342,7 +404,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
 				for (String res : new String[] { "cancel", "dev", "logs", "global", "scoreboard" }) {
-					if (res.toLowerCase().startsWith(args[1].toLowerCase()))
+					if (sender.hasPermission("anticheat.command.toggle." + res)
+							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);
 				}
 			}

@@ -96,6 +96,9 @@ public class SBoard {
 					if (cp.hasSaveData("scoreboard") && !cp.getSaveData("scoreboard", Boolean.class))
 						continue;
 
+					if (!player.hasPermission("anticheat.scoreboard"))
+						continue;
+
 					List<String> lines = new ArrayList<String>();
 					board = player.getScoreboard();
 					// Anti Lag/Flash Scoreboard functions

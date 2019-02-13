@@ -172,8 +172,7 @@ public class MSG {
 			tell(sender, line);
 		}
 		if (command.equals("default"))
-			tell(sender, "&d&l" + plugin.getDescription().getName() + " &ev" + plugin.getDescription().getVersion()
-					+ " &7created by &bMSWS");
+			tell(sender, "&l&4[&c&lNOPE&4&l] &ev" + plugin.getDescription().getVersion() + " &7created by &bMSWS");
 	}
 
 	/**
