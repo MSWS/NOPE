@@ -95,6 +95,9 @@ public class Checks {
 		for (Check check : checks) {
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				continue;
+			if (!plugin.config
+					.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + check.getCategory() + ".Enabled"))
+				continue;
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
 					+ "." + check.getDebugName() + ".Enabled"))
 				continue;
