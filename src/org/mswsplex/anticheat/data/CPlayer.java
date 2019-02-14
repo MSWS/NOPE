@@ -233,6 +233,9 @@ public class CPlayer {
 		if (!check.getDebugName().equals("ManuallyIssued")) {
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				return;
+			if (!plugin.config.getBoolean(
+					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "." + ".Enabled"))
+				return;
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
 					+ "." + check.getDebugName() + ".Enabled"))
 				return;
