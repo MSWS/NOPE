@@ -249,8 +249,7 @@ public class CPlayer {
 		}
 
 		if (bypassCheck(check)) {
-			addLogMessage(
-					"Flagged check:" + check.getDebugName() + " [PERM-BYPASSED] time:" + System.currentTimeMillis());
+			addLogMessage("Flagged check:" + check.getDebugName() + " [PERM] time:" + System.currentTimeMillis());
 			return;
 		}
 
