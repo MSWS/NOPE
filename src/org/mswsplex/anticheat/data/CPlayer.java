@@ -230,11 +230,13 @@ public class CPlayer {
 		if (!plugin.config.getBoolean("Global"))
 			return;
 
-		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
-			return;
-		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
-				+ check.getDebugName() + ".Enabled"))
-			return;
+		if (!check.getDebugName().equals("ManuallyIssued")) {
+			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+				return;
+			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
+					+ "." + check.getDebugName() + ".Enabled"))
+				return;
+		}
 
 		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
