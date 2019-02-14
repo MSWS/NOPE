@@ -300,9 +300,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			}
 
 			final String hackNameFinal = hackName;
-			
-			
-			
+
 			cp.flagHack(new Check() {
 				@Override
 				public boolean lagBack() {
@@ -400,7 +398,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				if ("all".startsWith(args[args.length - 1].toLowerCase())) {
 					result.add("all");
 				}
-				for (Check c : plugin.getChecks().getActiveChecks()) {
+				for (Check c : plugin.getChecks().getAllChecks()) {
 					if (c.getCategory().toLowerCase().startsWith(args[args.length - 1])
 							&& !result.contains(c.getCategory()))
 						result.add(c.getCategory());

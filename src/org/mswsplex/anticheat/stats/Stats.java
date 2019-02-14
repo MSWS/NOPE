@@ -3,7 +3,6 @@ package org.mswsplex.anticheat.stats;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -69,7 +68,6 @@ public class Stats {
 
 	public Inventory getInventory(CheckType type) {
 		List<String> categories = new ArrayList<>();
-
 		for (Check check : plugin.getChecks().getChecksWithType(type)) {
 			if (!categories.contains(check.getCategory()))
 				categories.add(check.getCategory());
@@ -113,10 +111,7 @@ public class Stats {
 	}
 
 	public Inventory getInventory(String category) {
-		List<Check> checks = new ArrayList<>();
-
-		checks.addAll(plugin.getChecks().getActiveChecks().stream()
-				.filter((check) -> check.getCategory().equals(category)).collect(Collectors.toList()));
+		List<Check> checks = plugin.getChecks().getChecksByCategory("category");
 		int size;
 		for (size = 9; size < 54; size += 9) {
 			if (size > checks.size())
@@ -199,7 +194,7 @@ public class Stats {
 
 	public int getTotalVl(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getActiveChecks()) {
+		for (Check check : plugin.getChecks().getAllChecks()) {
 			if (!check.getCategory().equals(category))
 				continue;
 			vl += getTotalVl(check);
@@ -209,7 +204,7 @@ public class Stats {
 
 	public int getTotalTriggers(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getActiveChecks()) {
+		for (Check check : plugin.getChecks().getAllChecks()) {
 			if (!check.getCategory().equals(category))
 				continue;
 			vl += getTotalTriggers(check);

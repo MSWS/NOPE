@@ -94,7 +94,7 @@ Checks:
         Enabled: true
       NoSlowDown#4:
         Enabled: true
-      Enabled: false
+      Enabled: true
   Player:
     NoGround:
       NoGround#1:

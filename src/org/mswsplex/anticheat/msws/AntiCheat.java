@@ -12,7 +12,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mswsplex.anticheat.checks.Banwave;
-import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
 import org.mswsplex.anticheat.checks.TPSChecker;
@@ -80,14 +79,6 @@ public class AntiCheat extends JavaPlugin {
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
 		MSG.log("&aSuccessfully enabled. &7Please note that NOPE is &cstill in beta&7. Please report bugs at the github. (https://github.com/MSWS/AntiCheat)");
-
-		for (Check check : getChecks().getActiveChecks()) {
-			config.set("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled", true);
-			config.set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled", true);
-			config.set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
-					+ check.getDebugName() + ".Enabled", true);
-		}
-		saveConfig();
 	}
 
 	public TPSChecker getTPSChecker() {
