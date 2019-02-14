@@ -67,6 +67,7 @@ import org.mswsplex.anticheat.checks.world.Scaffold1;
 import org.mswsplex.anticheat.checks.world.Scaffold2;
 import org.mswsplex.anticheat.checks.world.Scaffold3;
 import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.utils.MSG;
 
 @SuppressWarnings("deprecation")
 public class Checks {
@@ -92,9 +93,23 @@ public class Checks {
 				new MultiUse1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1() };
 
 		for (Check check : checks) {
+			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+				continue;
+			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
+					+ "." + check.getDebugName() + ".Enabled"))
+				continue;
+
 			activeChecks.add(check);
 			check.register(plugin);
 		}
+	}
+
+	public Check getCheckByDebug(String debugName) {
+		for (Check check : activeChecks) {
+			if (check.getDebugName().equals(debugName))
+				return check;
+		}
+		return null;
 	}
 
 	public List<Check> getActiveChecks() {
@@ -107,6 +122,11 @@ public class Checks {
 
 	public List<Check> getChecksWithType(CheckType type) {
 		return getActiveChecks().stream().filter((check) -> check.getType() == type).collect(Collectors.toList());
+	}
+
+	public List<Check> getChecksByCategory(String category) {
+		return getActiveChecks().stream().filter((check) -> check.getCategory().equals(category))
+				.collect(Collectors.toList());
 	}
 
 	public void registerCheck(Check check) {

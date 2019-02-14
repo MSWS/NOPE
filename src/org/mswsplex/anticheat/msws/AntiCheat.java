@@ -12,17 +12,20 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mswsplex.anticheat.checks.Banwave;
+import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
 import org.mswsplex.anticheat.checks.TPSChecker;
 import org.mswsplex.anticheat.commands.AntiCheatCommand;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.data.PlayerManager;
+import org.mswsplex.anticheat.listeners.GUIListener;
 import org.mswsplex.anticheat.listeners.LogImplementation;
-import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.listeners.LoginAndQuit;
+import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.protocols.PacketListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
+import org.mswsplex.anticheat.stats.Stats;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class AntiCheat extends JavaPlugin {
@@ -34,6 +37,7 @@ public class AntiCheat extends JavaPlugin {
 	private TPSChecker tpsChecker;
 	private Checks checks;
 	private Banwave banwave;
+	private Stats stats;
 
 	public String serverName = "Unknown Server";
 
@@ -59,12 +63,14 @@ public class AntiCheat extends JavaPlugin {
 		checks.registerChecks();
 
 		serverName = Bukkit.getServerName();
+		stats = new Stats(this);
 
 		new Global(this);
 		new AntiCheatCommand(this);
 
 		new LogImplementation(this);
 		new LoginAndQuit(this);
+		new GUIListener(this);
 
 		new PacketListener(this);
 
@@ -74,10 +80,22 @@ public class AntiCheat extends JavaPlugin {
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
 		MSG.log("&aSuccessfully enabled. &7Please note that NOPE is &cstill in beta&7. Please report bugs at the github. (https://github.com/MSWS/AntiCheat)");
+
+		for (Check check : getChecks().getActiveChecks()) {
+			config.set("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled", true);
+			config.set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled", true);
+			config.set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
+					+ check.getDebugName() + ".Enabled", true);
+		}
+		saveConfig();
 	}
 
 	public TPSChecker getTPSChecker() {
 		return tpsChecker;
+	}
+
+	public Stats getStats() {
+		return stats;
 	}
 
 	public float getTPS() {
@@ -85,6 +103,7 @@ public class AntiCheat extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		stats.saveData();
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p);
 

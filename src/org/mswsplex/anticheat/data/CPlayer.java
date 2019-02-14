@@ -229,6 +229,13 @@ public class CPlayer {
 	public void flagHack(Check check, int vl) {
 		if (!plugin.config.getBoolean("Global"))
 			return;
+
+		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+			return;
+		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
+				+ check.getDebugName() + ".Enabled"))
+			return;
+
 		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
 				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
@@ -271,6 +278,9 @@ public class CPlayer {
 
 		MSG.sendPluginMessage(null, "setvl:" + player.getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
+
+		plugin.getStats().addTrigger(check);
+		plugin.getStats().addVl(check, vl);
 
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
 			String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.";

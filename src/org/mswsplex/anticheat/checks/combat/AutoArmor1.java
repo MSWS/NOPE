@@ -102,6 +102,9 @@ public class AutoArmor1 implements Check, Listener {
 
 		cp.setTempData("lastInventoryClick", (double) System.currentTimeMillis());
 
+		if (!cp.hasTempData("autoArmorSlot"))
+			return;
+
 		if (cp.getTempInteger("autoArmorSlot") != event.getRawSlot())
 			return;
 

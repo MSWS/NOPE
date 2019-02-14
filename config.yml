@@ -20,3 +20,226 @@ CommandsForBanwave:
 - kick %player% Hacking - Banwave (%hack%)|%token%)
 - say %player% was banwaved for %hack% (%token%)
 UploadLogToPastebin: true
+Checks:
+  Movement:
+    Flight:
+      Flight#1:
+        Enabled: true
+      Flight#2:
+        Enabled: true
+      Flight#3:
+        Enabled: true
+      Flight#4:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    Speed:
+      Speed#1:
+        Enabled: true
+      Speed#2:
+        Enabled: true
+      Speed#3:
+        Enabled: true
+      Enabled: true
+    Movement:
+      Movement#1:
+        Enabled: true
+      Enabled: true
+    ClonedMovements:
+      ClonedMovement#1:
+        Enabled: true
+      Enabled: true
+    Step:
+      Step#1:
+        Enabled: true
+      Enabled: true
+    FastClimb:
+      FastClimb#1:
+        Enabled: true
+      Enabled: true
+    Jesus:
+      Jesus#1:
+        Enabled: true
+      Enabled: true
+    FastSneak:
+      FastSneak#1:
+        Enabled: true
+      Enabled: true
+    NoWeb:
+      NoWeb#1:
+        Enabled: true
+      Enabled: true
+    AutoWalk:
+      AutoWalk#1:
+        Enabled: true
+      Enabled: true
+    AntiAFK:
+      AntiAFK#1:
+        Enabled: true
+      Enabled: true
+    InventoryMove:
+      InventoryMove#1:
+        Enabled: true
+      Enabled: true
+    AntiRotate:
+      AntiRotate#1:
+        Enabled: true
+      Enabled: true
+    NoSlowDown:
+      NoSlowDown#1:
+        Enabled: true
+      NoSlowDown#2:
+        Enabled: true
+      NoSlowDown#3:
+        Enabled: true
+      NoSlowDown#4:
+        Enabled: true
+      Enabled: false
+  Player:
+    NoGround:
+      NoGround#1:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    NoFall:
+      NoFall#1:
+        Enabled: true
+      Enabled: true
+    GhostHand:
+      GhostHand#1:
+        Enabled: true
+      Enabled: true
+    FastEat:
+      FastEat#1:
+        Enabled: true
+      Enabled: true
+    ChestStealer:
+      ChestStealer#1:
+        Enabled: true
+      Enabled: true
+    AntiFire:
+      AntiFire#1:
+        Enabled: true
+      Enabled: true
+    SelfHarm:
+      SelfHarm#1:
+        Enabled: true
+      Enabled: true
+    Zoot:
+      Zoot#1:
+        Enabled: true
+      Enabled: true
+  Tick:
+    Timer:
+      Timer#1:
+        Enabled: true
+      Timer#2:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    Regen:
+      Regen#1:
+        Enabled: true
+      Regen#2:
+        Enabled: true
+      Enabled: true
+    MultiUse:
+      MultiUse#1:
+        Enabled: true
+      Enabled: true
+  Combat:
+    Criticals:
+      Criticals#1:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    FastBow:
+      FastBow#1:
+        Enabled: true
+      Enabled: true
+    AutoClicker:
+      AutoClicker#1:
+        Enabled: true
+      Enabled: true
+    HighCPS:
+      HighCPS#1:
+        Enabled: true
+      HighCPS#2:
+        Enabled: true
+      HighCPS#3:
+        Enabled: true
+      Enabled: true
+    Reach:
+      Reach#1:
+        Enabled: true
+      Enabled: true
+    KillAura:
+      KillAura#1:
+        Enabled: true
+      KillAura#2:
+        Enabled: true
+      KillAura#3:
+        Enabled: true
+      KillAura#4:
+        Enabled: true
+      KillAura#5:
+        Enabled: true
+      Enabled: true
+    AntiKB:
+      AntiKB#1:
+        Enabled: true
+      Enabled: true
+    AutoArmor:
+      AutoArmor#1:
+        Enabled: true
+      Enabled: true
+  World:
+    Scaffold:
+      Scaffold#1:
+        Enabled: true
+      Scaffold#2:
+        Enabled: true
+      Scaffold#3:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    IllegalBlockBreak:
+      IllegalBlockBreak#1:
+        Enabled: true
+      Enabled: true
+    IllegalBlockPlace:
+      IllegalBlockPlace#1:
+        Enabled: true
+      Enabled: true
+  Render:
+    InvalidMovement:
+      InvalidMovement#1:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+    Spinbot:
+      Spinbot#1:
+        Enabled: true
+      Enabled: true
+    AutoSneak:
+      AutoSneak#1:
+        Enabled: true
+      Enabled: true
+    SkinBlinker:
+      SkinBlinker#1:
+        Enabled: true
+      Enabled: true
+    NoSwing:
+      NoSwing#1:
+        Enabled: true
+      Enabled: true
+  Exploit:
+    ServerCrasher:
+      ServerCrasher#1:
+        Enabled: true
+      ServerCrasher#2:
+        Enabled: true
+      Enabled: true
+    Enabled: true
+  Misc:
+    Enabled: true

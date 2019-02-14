@@ -267,6 +267,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			MSG.tell(sender, "Removed " + off.getName() + " from the banwave.");
 			break;
 		case "warn":
+		case "flag":
 			if (!sender.hasPermission("anticheat.command.warn")) {
 				MSG.noPerm(sender);
 				return true;
@@ -299,7 +300,9 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			}
 
 			final String hackNameFinal = hackName;
-
+			
+			
+			
 			cp.flagHack(new Check() {
 				@Override
 				public boolean lagBack() {
@@ -358,12 +361,16 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, builder.toString());
 			}
 			break;
-		case "testbungee":
-			String msg = "";
-			for (int i = 1; i < args.length; i++)
-				msg += args[i] + " ";
-			msg = msg.trim();
-			MSG.sendPluginMessage(((Player) sender), msg);
+		case "stats":
+			if (!(sender instanceof Player)) {
+				MSG.tell(sender, "You must be a player.");
+				return true;
+			}
+
+			Player player = (Player) sender;
+			cp = plugin.getCPlayer(player);
+			player.openInventory(plugin.getStats().getInventory());
+			cp.setTempData("openInventory", "stats");
 			break;
 		default:
 			MSG.sendHelp(sender, 0, "default");
@@ -376,7 +383,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
-			for (String res : new String[] { "clear", "vl", "toggle", "reset", "warn", "checks", "banwave",
+			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
 					"removebanwave", "time" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
