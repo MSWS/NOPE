@@ -364,6 +364,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, "You must be a player.");
 				return true;
 			}
+			if (!sender.hasPermission("anticheat.command.stats")) {
+				MSG.noPerm(sender);
+				return true;
+			}
 
 			Player player = (Player) sender;
 			cp = plugin.getCPlayer(player);
@@ -382,7 +386,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
 			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
-					"removebanwave", "time" }) {
+					"removebanwave", "time", "stats" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()))
 					result.add(res);
 			}

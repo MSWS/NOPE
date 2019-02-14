@@ -58,6 +58,7 @@ public class Stats {
 			lore.add(MSG.color("&7Ratio: &e" + ((triggers == 0) ? 0 : (vls / triggers))));
 			lore.add(MSG.color("&7Enabled: "
 					+ MSG.TorF(plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"))));
+			lore.add(MSG.color("&7&o(Right-Click to toggle)"));
 
 			meta.setLore(lore);
 			item.setItemMeta(meta);
@@ -99,6 +100,7 @@ public class Stats {
 			lore.add(MSG.color("&7Enabled: " + MSG.TorF(enabled)));
 
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) {
+				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + MSG.camelCase(type + "") + " check type is disabled"));
 				lore.add(MSG.color("&cenable it to modify these settings."));
 			}
@@ -111,7 +113,7 @@ public class Stats {
 	}
 
 	public Inventory getInventory(String category) {
-		List<Check> checks = plugin.getChecks().getChecksByCategory("category");
+		List<Check> checks = plugin.getChecks().getChecksByCategory(category);
 		int size;
 		for (size = 9; size < 54; size += 9) {
 			if (size > checks.size())
@@ -138,12 +140,14 @@ public class Stats {
 									+ check.getCategory() + ".Enabled"))));
 
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")) {
+				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + MSG.camelCase(check.getType() + "") + " category is disabled"));
 				lore.add(MSG.color("&cenable it to modify these settings"));
 			}
 
 			if (!plugin.config.getBoolean(
 					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled")) {
+				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + check.getCategory() + " hack is disabled"));
 				lore.add(MSG.color("&cenable it to modify these settings"));
 			}

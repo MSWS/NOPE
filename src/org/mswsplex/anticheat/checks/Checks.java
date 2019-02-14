@@ -93,6 +93,7 @@ public class Checks {
 
 	public void registerChecks() {
 		for (Check check : checkList) {
+			activeChecks.add(check);
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				continue;
 			if (!plugin.config.getBoolean(
@@ -101,7 +102,6 @@ public class Checks {
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
 					+ "." + check.getDebugName() + ".Enabled"))
 				continue;
-			activeChecks.add(check);
 			check.register(plugin);
 		}
 	}
@@ -113,8 +113,8 @@ public class Checks {
 		}
 		return null;
 	}
-	
-	public List<Check> getAllChecks(){
+
+	public List<Check> getAllChecks() {
 		return checkList;
 	}
 
