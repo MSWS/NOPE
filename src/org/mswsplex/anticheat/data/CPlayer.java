@@ -337,6 +337,8 @@ public class CPlayer {
 		if (plugin.config.getBoolean("Log"))
 			saveLog(check, timing, token);
 
+		plugin.getStats().addBan();
+
 		removeSaveData("log");
 		removeSaveData("isBanwaved");
 		removeTempData("autoClickerTimes");

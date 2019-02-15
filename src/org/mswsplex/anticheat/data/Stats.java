@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.data;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -69,13 +70,6 @@ public class Stats {
 			lore.add(MSG.color("&e" + ((triggers == 0) ? 0 : (vls / triggers))));
 			lore.add(MSG.color(""));
 
-//			lore.add(MSG.color("&8" + type.getDescription()));
-//			lore.add(MSG.color("&7Number of checks: &e" + plugin.getChecks().getChecksWithType(type).size()));
-//			lore.add(MSG.color(""));
-//			lore.add(MSG.color("&7VLs: &e" + vls));
-//			lore.add(MSG.color("&7Triggers: &e" + triggers));
-//			lore.add(MSG.color("&7Ratio: &e" + ((triggers == 0) ? 0 : (vls / triggers))));
-//			lore.add(MSG.color(""));
 			lore.add(MSG.color("&7Enabled: "
 					+ MSG.TorF(plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"))));
 			lore.add(MSG.color("&7&o(Right-Click to toggle)"));
@@ -84,6 +78,28 @@ public class Stats {
 			item.setItemMeta(meta);
 			inv.addItem(item);
 		}
+
+		ItemStack bans = new ItemStack(Material.IRON_FENCE);
+		ItemMeta meta = bans.getItemMeta();
+
+		meta.setDisplayName(MSG.color("&eBan Statistics"));
+
+		List<String> lore = new ArrayList<>();
+
+		Calendar date = Calendar.getInstance();
+
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		lore.add(MSG.color("&b30 Days: &2" + getBans((long) (System.currentTimeMillis() - 2.628e+9))));
+		lore.add(MSG.color("&b7 Days: &2" + getBans((long) (System.currentTimeMillis() - 6.048e+8))));
+		lore.add(MSG.color("&bStart of day: &2" + getBans(date.getTimeInMillis())));
+		lore.add(MSG.color("&b24 Hours: &2" + getBans((long) (System.currentTimeMillis() - 8.64e+7))));
+		lore.add(MSG.color("&b1 Hour: &2" + getBans((long) (System.currentTimeMillis() - 3.6e+6))));
+		meta.setLore(lore);
+		bans.setItemMeta(meta);
+		inv.addItem(bans);
 		return inv;
 	}
 
@@ -253,4 +269,24 @@ public class Stats {
 		stats.set(check.getDebugName() + ".triggers", stats.getInt(check.getDebugName() + ".triggers") + 1);
 	}
 
+	public int getBans(long sinceTime) {
+		int amo = 0;
+		for (String ban : stats.getStringList("Bans.Timings")) {
+			if (Double.parseDouble(ban) >= sinceTime)
+				amo++;
+		}
+		return amo;
+	}
+
+	public int getAllBans() {
+		return getBans(0);
+	}
+
+	public void addBan() {
+		List<String> timings = stats.getStringList("Bans.Timings");
+		if (timings == null)
+			timings = new ArrayList<>();
+		timings.add(System.currentTimeMillis() + "");
+		stats.set("Bans.Timings", timings);
+	}
 }

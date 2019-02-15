@@ -19,6 +19,7 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
+import org.mswsplex.anticheat.utils.Sounds;
 
 public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	private AntiCheat plugin;
@@ -381,6 +382,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			cp = plugin.getCPlayer(player);
 			player.openInventory(plugin.getStats().getInventory());
+			player.playSound(player.getLocation(), Sounds.CHEST_OPEN.bukkitSound(), 2, 1);
 			cp.setTempData("openInventory", "stats");
 			break;
 		case "enablechecks":
@@ -415,11 +417,14 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if (args.length >= 2 && args.length <= 3) {
-			if (args[0].equalsIgnoreCase("clear")) {
+			if (args[0].matches("(?i)(clear|removebanwave|banwave|flag)")) {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(target.getName());
 				}
+			}
+			if (args[0].equalsIgnoreCase("clear")) {
+
 				if ("all".startsWith(args[args.length - 1].toLowerCase())) {
 					result.add("all");
 				}
