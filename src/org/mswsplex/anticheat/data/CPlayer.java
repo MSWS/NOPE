@@ -485,7 +485,7 @@ public class CPlayer {
 			}
 		}
 
-		if (plugin.config.getBoolean("UploadLogToPastebin")) {
+		if (plugin.config.getBoolean("Pastebin")) {
 			StringBuilder raw = new StringBuilder();
 			for (String line : revised)
 				raw.append(line + "\n");

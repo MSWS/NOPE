@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.stats;
+package org.mswsplex.anticheat.data;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,14 +48,34 @@ public class Stats {
 			ItemStack item = new ItemStack(Material.PAPER,
 					Math.max(plugin.getChecks().getChecksWithType(type).size(), 1));
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(MSG.color("&a&l" + MSG.camelCase(type + "")));
+			meta.setDisplayName(MSG
+					.color(((plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
+							+ "&l" + MSG.camelCase(type + "")));
 			int vls = getTotalVl(type), triggers = getTotalTriggers(type);
 			List<String> lore = new ArrayList<>();
-			lore.add(MSG.color("&7Number of checks: &e" + plugin.getChecks().getChecksWithType(type).size()));
-			lore.add(MSG.color("&7" + type.getDescription()));
-			lore.add(MSG.color("&7VLs: &e" + vls));
-			lore.add(MSG.color("&7Triggers: &e" + triggers));
-			lore.add(MSG.color("&7Ratio: &e" + ((triggers == 0) ? 0 : (vls / triggers))));
+
+			lore.add(MSG.color("&8" + type.getDescription()));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal Checks"));
+			lore.add(MSG.color("&4" + plugin.getChecks().getChecksWithType(type).size()));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal VLs"));
+			lore.add(MSG.color("&4" + vls));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal Triggers"));
+			lore.add(MSG.color("&4" + triggers));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lRatio"));
+			lore.add(MSG.color("&e" + ((triggers == 0) ? 0 : (vls / triggers))));
+			lore.add(MSG.color(""));
+
+//			lore.add(MSG.color("&8" + type.getDescription()));
+//			lore.add(MSG.color("&7Number of checks: &e" + plugin.getChecks().getChecksWithType(type).size()));
+//			lore.add(MSG.color(""));
+//			lore.add(MSG.color("&7VLs: &e" + vls));
+//			lore.add(MSG.color("&7Triggers: &e" + triggers));
+//			lore.add(MSG.color("&7Ratio: &e" + ((triggers == 0) ? 0 : (vls / triggers))));
+//			lore.add(MSG.color(""));
 			lore.add(MSG.color("&7Enabled: "
 					+ MSG.TorF(plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"))));
 			lore.add(MSG.color("&7&o(Right-Click to toggle)"));
@@ -85,18 +105,26 @@ public class Stats {
 		for (String category : categories) {
 			ItemStack item = new ItemStack(Material.PAPER, plugin.getChecks().getChecksByCategory(category).size());
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(MSG.color("&a&l" + category));
-			int vls = getTotalVl(category), triggers = getTotalTriggers(category);
-			List<String> lore = new ArrayList<>();
-
-			lore.add(MSG.color("&7Number of checks: &e" + plugin.getChecks().getChecksByCategory(category).size()));
-			lore.add(MSG.color("&7" + type.getDescription()));
-			lore.add(MSG.color("&7VLs: &e" + vls));
-			lore.add(MSG.color("&7Triggers: &e" + triggers));
-			lore.add(MSG.color("&7Ratio: &e" + ((triggers == 0) ? 0 : (vls / triggers))));
 			boolean enabled = plugin.config
 					.getBoolean("Checks." + MSG.camelCase(type + "") + "." + category + ".Enabled")
 					&& plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled");
+			meta.setDisplayName(MSG.color((enabled ? "&a" : "&c") + "&l" + category));
+			int vls = getTotalVl(category), triggers = getTotalTriggers(category);
+			List<String> lore = new ArrayList<>();
+
+			lore.add(MSG.color("&c&lTotal Checks"));
+			lore.add(MSG.color("&4" + plugin.getChecks().getChecksWithType(type).size()));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal VLs"));
+			lore.add(MSG.color("&4" + vls));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal Triggers"));
+			lore.add(MSG.color("&4" + triggers));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lRatio"));
+			lore.add(MSG.color("&e" + ((triggers == 0) ? 0 : (vls / triggers))));
+			lore.add(MSG.color(""));
+
 			lore.add(MSG.color("&7Enabled: " + MSG.TorF(enabled)));
 
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) {
@@ -125,19 +153,24 @@ public class Stats {
 		for (Check check : checks) {
 			ItemStack item = new ItemStack(Material.PAPER);
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(MSG.color("&a&l" + check.getDebugName()));
+			boolean enabled = plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
+					+ check.getCategory() + "." + check.getDebugName() + ".Enabled")
+					&& plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")
+					&& plugin.config.getBoolean(
+							"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled");
+			meta.setDisplayName(MSG.color((enabled ? "&a" : "&c") + "&l" + check.getDebugName()));
 			int vls = getTotalVl(check), triggers = getTotalTriggers(check);
 			List<String> lore = new ArrayList<>();
-			lore.add(MSG.color("&7VLs: &e" + vls));
-			lore.add(MSG.color("&7Triggers: &e" + triggers));
-			lore.add(MSG.color("&7Ratio: " + ((triggers == 0) ? 0 : (vls / triggers))));
-
-			lore.add(MSG.color(
-					"&7Enabled: " + MSG.TorF(plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "")
-							+ "." + check.getCategory() + "." + check.getDebugName() + ".Enabled")
-							&& plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")
-							&& plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
-									+ check.getCategory() + ".Enabled"))));
+			lore.add(MSG.color("&c&lTotal VLs"));
+			lore.add(MSG.color("&4" + vls));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lTotal Triggers"));
+			lore.add(MSG.color("&4" + triggers));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&c&lRatio"));
+			lore.add(MSG.color("&e" + ((triggers == 0) ? 0 : (vls / triggers))));
+			lore.add(MSG.color(""));
+			lore.add(MSG.color("&7Enabled: " + MSG.TorF(enabled)));
 
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")) {
 				lore.add(MSG.color("&4&l&m========================"));
@@ -198,9 +231,7 @@ public class Stats {
 
 	public int getTotalVl(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getAllChecks()) {
-			if (!check.getCategory().equals(category))
-				continue;
+		for (Check check : plugin.getChecks().getChecksByCategory(category)) {
 			vl += getTotalVl(check);
 		}
 		return vl;
@@ -208,9 +239,7 @@ public class Stats {
 
 	public int getTotalTriggers(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getAllChecks()) {
-			if (!check.getCategory().equals(category))
-				continue;
+		for (Check check : plugin.getChecks().getChecksByCategory(category)) {
 			vl += getTotalTriggers(check);
 		}
 		return vl;

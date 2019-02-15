@@ -103,6 +103,9 @@ public class GUIListener implements Listener {
 		Player player = (Player) event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (!cp.hasTempData("openInventory"))
+			return;
+
 		String inv = cp.getTempString("openInventory");
 
 		if (cp.getTempInteger("ignoreInventory") > 0) {

@@ -117,8 +117,8 @@ public class MSG {
 	 * 
 	 * @param sender CommandSender to send message to
 	 */
-	public static void noPerm(CommandSender sender) {
-		tell(sender, getString("NoPermission", "Insufficient Permissions"));
+	public static void noPerm(CommandSender sender, String perm) {
+		tell(sender, getString("NoPermission", "Insufficient Permissions").replace("%perm%", perm));
 	}
 
 	/**

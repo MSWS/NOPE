@@ -18,13 +18,13 @@ import org.mswsplex.anticheat.checks.TPSChecker;
 import org.mswsplex.anticheat.commands.AntiCheatCommand;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.data.PlayerManager;
+import org.mswsplex.anticheat.data.Stats;
 import org.mswsplex.anticheat.listeners.GUIListener;
 import org.mswsplex.anticheat.listeners.LogImplementation;
 import org.mswsplex.anticheat.listeners.LoginAndQuit;
 import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.protocols.PacketListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
-import org.mswsplex.anticheat.stats.Stats;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class AntiCheat extends JavaPlugin {

@@ -1,4 +1,4 @@
-NoPermission: '&4&l[&c&lNOPE&4&l] &cYou do not have permission to do this.'
+NoPermission: '&4&l[&c&lNOPE&4&l] &cYou lack the &e%perm%&c permission.'
 Help:
   default:
   - perm:anticheat.command.clear &c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players
