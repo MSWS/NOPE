@@ -38,6 +38,8 @@ public class AntiCheat extends JavaPlugin {
 	private Banwave banwave;
 	private Stats stats;
 
+	private boolean is1_8;
+
 	public String serverName = "Unknown Server";
 
 	public void onEnable() {
@@ -74,6 +76,13 @@ public class AntiCheat extends JavaPlugin {
 		new PacketListener(this);
 
 		new SBoard(this);
+
+		String version = Bukkit.getBukkitVersion();
+
+		is1_8 = version.startsWith("1.8");
+
+		if (!is1_8)
+			MSG.log("&4WARNING &cServer is NOT running MC 1.8. A large amount of checks will be disabled.");
 
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
@@ -150,5 +159,9 @@ public class AntiCheat extends JavaPlugin {
 
 	public Banwave getBanwave() {
 		return this.banwave;
+	}
+
+	public boolean is1_8() {
+		return is1_8;
 	}
 }

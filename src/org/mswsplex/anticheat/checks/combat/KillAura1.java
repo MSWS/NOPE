@@ -170,4 +170,10 @@ public class KillAura1 implements Check, Listener {
 			}
 		};
 	}
+
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

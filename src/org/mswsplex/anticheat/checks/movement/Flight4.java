@@ -51,6 +51,9 @@ public class Flight4 implements Check, Listener {
 		if (yDiff >= 0)
 			return;
 
+		if (!safe.getWorld().equals(player.getLocation().getWorld()))
+			return;
+
 		double dist = safe.distanceSquared(player.getLocation());
 
 		if (dist < 20)
@@ -75,5 +78,11 @@ public class Flight4 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return true;
+	}
+
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

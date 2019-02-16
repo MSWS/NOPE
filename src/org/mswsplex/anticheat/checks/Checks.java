@@ -102,6 +102,8 @@ public class Checks {
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
 					+ "." + check.getDebugName() + ".Enabled"))
 				continue;
+			if (check.onlyLegacy() && !plugin.is1_8())
+				continue;
 			check.register(plugin);
 		}
 	}

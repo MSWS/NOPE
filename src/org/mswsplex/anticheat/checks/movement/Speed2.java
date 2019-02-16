@@ -48,6 +48,8 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (player.getFallDistance() > 4)
 			return;
+		if(cp.usingElytra())
+			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
@@ -75,5 +77,11 @@ public class Speed2 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return true;
+	}
+
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

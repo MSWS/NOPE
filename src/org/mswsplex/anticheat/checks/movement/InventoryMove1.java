@@ -71,4 +71,10 @@ public class InventoryMove1 implements Check, Listener {
 	public boolean lagBack() {
 		return false;
 	}
+
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

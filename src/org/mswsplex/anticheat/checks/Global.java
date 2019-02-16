@@ -122,16 +122,15 @@ public class Global implements Listener {
 		if (player.isInsideVehicle())
 			cp.setTempData("lastVehicle", (double) time);
 
-		if (player.isFlying())
+		if (player.isFlying() || cp.usingElytra())
 			cp.setTempData("wasFlying", (double) time);
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
 			cp.setTempData("lastHorizontalBlockChange", (double) System.currentTimeMillis());
 
 		Location vertLine = player.getLocation().clone();
-		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
+		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0)
 			vertLine.subtract(0, 1, 0);
-		}
 
 		Block lowestBlock = vertLine.getBlock();
 

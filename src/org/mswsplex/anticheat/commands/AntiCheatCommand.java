@@ -336,6 +336,12 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				public void register(AntiCheat plugin) {
 				}
 
+				@Override
+				public boolean onlyLegacy() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
 			}, Integer.parseInt(stringVl));
 
 			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");

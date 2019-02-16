@@ -75,4 +75,10 @@ public class Speed1 implements Check, Listener {
 	public boolean lagBack() {
 		return true;
 	}
+
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

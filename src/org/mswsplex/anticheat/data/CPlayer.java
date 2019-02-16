@@ -103,6 +103,16 @@ public class CPlayer {
 			saveData();
 	}
 
+	public boolean usingElytra() {
+		if (plugin.is1_8())
+			return false;
+		if (!player.isOnline())
+			return false;
+		if (player.getPlayer().getEquipment().getChestplate() == null)
+			return false;
+		return "ELYTRA".equals(player.getPlayer().getEquipment().getChestplate().getType().toString());
+	}
+
 	public void saveData() {
 		try {
 			data.save(saveFile);
@@ -629,7 +639,17 @@ public class CPlayer {
 		return System.currentTimeMillis() - getTempDouble(action);
 	}
 
+	private PotionEffectType levitation = PotionEffectType.WEAKNESS;
+
 	public boolean hasMovementRelatedPotion() {
+		if (levitation == PotionEffectType.WEAKNESS) {
+			try {
+				levitation = PotionEffectType.getByName("LEVITATION");
+			} catch (Exception e) {
+				levitation = null;
+			}
+		}
+
 		if (!player.isOnline())
 			return false;
 		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW };
@@ -640,6 +660,9 @@ public class CPlayer {
 			if (online.hasPotionEffect(type))
 				return true;
 		}
+
+		if (levitation != null && online.hasPotionEffect(levitation))
+			return true;
 
 		return false;
 	}

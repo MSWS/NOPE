@@ -89,4 +89,10 @@ public class Scaffold3 implements Check, Listener {
 		return true;
 	}
 
+	@Override
+	public boolean onlyLegacy() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -94,8 +94,8 @@ public class Stats {
 		date.set(Calendar.MILLISECOND, 0);
 		lore.add(MSG.color("&b30 Days: &2" + getBans((long) (System.currentTimeMillis() - 2.628e+9))));
 		lore.add(MSG.color("&b7 Days: &2" + getBans((long) (System.currentTimeMillis() - 6.048e+8))));
-		lore.add(MSG.color("&bStart of day: &2" + getBans(date.getTimeInMillis())));
 		lore.add(MSG.color("&b24 Hours: &2" + getBans((long) (System.currentTimeMillis() - 8.64e+7))));
+		lore.add(MSG.color("&bStart of day: &2" + getBans(date.getTimeInMillis())));
 		lore.add(MSG.color("&b1 Hour: &2" + getBans((long) (System.currentTimeMillis() - 3.6e+6))));
 		meta.setLore(lore);
 		bans.setItemMeta(meta);
