@@ -1,6 +1,6 @@
 VlForInstaBan: 1000
 VlForBanwave: 500
-BanwaveRate: 6000
+BanwaveRate: 12000
 Minimum: 20
 SecondsMinimum: 5000
 DevMode: false

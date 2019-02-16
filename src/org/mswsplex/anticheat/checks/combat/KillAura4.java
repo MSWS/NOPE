@@ -63,7 +63,7 @@ public class KillAura4 implements Check, Listener {
 					.equals(player.getUniqueId().toString())) {
 				event.setCancelled(true);
 			} else {
-				cp.flagHack(this, 20);
+				cp.flagHack(this, 10);
 				cp.setTempData("lastKillAuraCheck2", (double) System.currentTimeMillis() - CHECK_EVERY);
 				stands.remove(player);
 				event.getEntity().remove();

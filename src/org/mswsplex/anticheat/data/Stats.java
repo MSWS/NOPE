@@ -129,7 +129,7 @@ public class Stats {
 			List<String> lore = new ArrayList<>();
 
 			lore.add(MSG.color("&c&lTotal Checks"));
-			lore.add(MSG.color("&4" + plugin.getChecks().getChecksWithType(type).size()));
+			lore.add(MSG.color("&4" + plugin.getChecks().getChecksByCategory(category).size()));
 			lore.add(MSG.color(""));
 			lore.add(MSG.color("&c&lTotal VLs"));
 			lore.add(MSG.color("&4" + vls));
