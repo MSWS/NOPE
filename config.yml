@@ -1,8 +1,8 @@
-VlForInstaBan: 1000
-VlForBanwave: 500
-BanwaveRate: 12000
-Minimum: 20
-SecondsMinimum: 5000
+VlForInstaBan: 1000 #Minimum VL required for instant ban
+VlForBanwave: 500 #Minimum VL required to be queued for banwave
+BanwaveRate: 12000 #Rate of banwave (in ticks)
+Minimum: 20 #Minimum VL to notify staff members
+SecondsMinimum: 5000 #Cooldown of hack messages to prevent spam
 DevMode: false
 Global: true
 VlColors:
@@ -14,12 +14,13 @@ VlColors:
 LagBack: false
 Log: true
 CommandsForBan:
-- kick %player% Hacking (%hack%)|%token%
+- kick %player% Hacking (%hack%)|(%token%)
 - say %player% was banned for %hack% (%token%)
 CommandsForBanwave:
-- kick %player% Hacking - Banwave (%hack%)|%token%)
+- kick %player% Hacking - Banwave (%hack%)|(%token%)
 - say %player% was banwaved for %hack% (%token%)
-Pastebin: true
+Pastebin: false
+Animations: true
 Checks:
   Movement:
     Enabled: true

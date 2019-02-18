@@ -11,6 +11,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mswsplex.anticheat.animation.Animation;
 import org.mswsplex.anticheat.checks.Banwave;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
@@ -37,6 +38,7 @@ public class AntiCheat extends JavaPlugin {
 	private Checks checks;
 	private Banwave banwave;
 	private Stats stats;
+	private Animation animation;
 
 	private boolean is1_8;
 
@@ -66,6 +68,8 @@ public class AntiCheat extends JavaPlugin {
 		serverName = Bukkit.getServerName();
 		stats = new Stats(this);
 
+		animation = new Animation(this);
+
 		new Global(this);
 		new AntiCheatCommand(this);
 
@@ -94,6 +98,10 @@ public class AntiCheat extends JavaPlugin {
 		return tpsChecker;
 	}
 
+	public Animation getAnimation() {
+		return animation;
+	}
+
 	public Stats getStats() {
 		return stats;
 	}
@@ -104,8 +112,13 @@ public class AntiCheat extends JavaPlugin {
 
 	public void onDisable() {
 		stats.saveData();
+
+		animation.stopAnimations(); // Stop all animations BEFORE player data is cleared and saved
+
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
-			pManager.removePlayer(p);
+			pManager.removePlayer(p); // Clear all loaded player data and save to files
+
+		/** Clean up entity related checks **/
 
 		for (Player p : Bukkit.getOnlinePlayers())
 			p.removeMetadata("lastEntityHit", this);
@@ -117,6 +130,7 @@ public class AntiCheat extends JavaPlugin {
 					ent.remove();
 			}
 		}
+
 	}
 
 	public void saveData() {

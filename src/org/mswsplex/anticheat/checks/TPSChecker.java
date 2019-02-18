@@ -15,7 +15,7 @@ public class TPSChecker {
 		tps = 20.0f;
 		amo = 0.0f;
 
-		int checkEvery = 1000;
+		int checkEvery = 5000;
 		lastCheck = System.currentTimeMillis();
 		Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) plugin, () -> {
 			if (System.currentTimeMillis() - lastCheck > checkEvery) {

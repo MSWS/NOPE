@@ -29,3 +29,12 @@ hs_err_pid*
 
 # End of https://www.gitignore.io/api/java
 /target/
+/.classpath
+/.github/
+/.gitignore
+/config.yml
+/guis.yml
+/lang.yml
+/org/
+/plugin.yml
+/pom.xml

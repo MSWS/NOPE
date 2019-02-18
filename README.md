@@ -5,12 +5,12 @@ public boolean bypassCheck(Check check) {
 	if (!player.isOnline())
 		return false;
 	Player online = (Player) player;
-	if (online.hasPermission("anticheat.bypass." + check.getType()))
+	if (online.hasPermission("nope.bypass." + check.getType()))
 		return true;
-	if (online.hasPermission("anticheat.bypass." + check.getCategory()))
+	if (online.hasPermission("nope.bypass." + check.getCategory()))
 		return true;
-	if (online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getCategory()))
+	if (online.hasPermission("nope.bypass." + check.getType() + "." + check.getCategory()))
 		return true;
-	return online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getDebugName());
+	return online.hasPermission("nope.bypass." + check.getType() + "." + check.getDebugName());
 }
 ```

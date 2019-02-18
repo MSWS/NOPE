@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -21,7 +20,6 @@ import org.mswsplex.anticheat.utils.MSG;
 
 public class SBoard {
 	Scoreboard board;
-	ConfigurationSection scoreboard;
 
 	int length = 25;
 	String name, prefix = "";
@@ -30,11 +28,10 @@ public class SBoard {
 
 	public SBoard(AntiCheat plugin) {
 		this.plugin = plugin;
-		scoreboard = plugin.config.getConfigurationSection("Scoreboard");
 
 		vlRankings = new ArrayList<>();
 
-		name = "&c&lAntiCheat Violations";
+		name = "&4&lNOPE&c&l Violations";
 
 		register();
 	}
@@ -107,7 +104,7 @@ public class SBoard {
 					if (cp.hasSaveData("scoreboard") && !cp.getSaveData("scoreboard", Boolean.class))
 						continue;
 
-					if (!player.hasPermission("anticheat.scoreboard"))
+					if (!player.hasPermission("nope.scoreboard"))
 						continue;
 
 					List<String> lines = new ArrayList<String>();
@@ -145,13 +142,13 @@ public class SBoard {
 							String line = parse(player, res);
 							obj.getScore(line).setScore(pos + 1);
 							lines.add(line);
-							if (pos > 15 || pos > vlRankings.size())
+							if (pos > 15 || pos >= vlRankings.size())
 								break;
 							pos++;
 						}
 						cp.setTempData("oldLines", lines);
 					}
-					if (board.getEntries().size() > vlRankings.size())
+					if (board.getEntries().size() != vlRankings.size())
 						refresh(player);
 				}
 			}
@@ -173,10 +170,12 @@ public class SBoard {
 	private void refresh(Player player) {
 		for (String res : board.getEntries()) {
 			boolean keep = false;
-			for (String line : vlRankings) {
-				if (parse(player, res).equals(parse(player, line)))
-					keep = true;
-			}
+			if (vlRankings.contains(res))
+				keep = true;
+			// for (String line : vlRankings) {
+//				if (parse(player, res).equals(parse(player, line)))
+//					keep = true;
+//			}
 			if (!keep)
 				board.resetScores(res);
 		}

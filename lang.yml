@@ -1,13 +1,23 @@
 NoPermission: '&4&l[&c&lNOPE&4&l] &cYou lack the &e%perm%&c permission.'
+Toggle: '&4NOPE > &7You %status% &7%name%&7.'
+Format:
+  Regular: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7)'
+  Bungee: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7) &9[&b%server%&9]'
+  Developer: '&4&l[&c&lDEV&4&l] &e%player%&7 failed &c%debug% &4%addVl%'
+  Banwave: '&6&lBANWAVE &e%player% &7is now queued for a banwave.'
+AllChecksEnabled: '&aSuccessfully enabled all checks.'
 Help:
   default:
-  - perm:anticheat.command.clear &c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players
-  - perm:anticheat.command.vl &c/ac vl <Player> &7- Tells you VLs
-  - perm:anticheat.command.toggle &c/ac toggle [Setting] &7- Toggle lagbacks, devmode, etc.
-  - perm:anticheat.command.reset &c/ac reset &7- Reset configs
-  - perm:anticheat.command.banwave &c/ac banwave &7- Manually initiates a banwave
-  - perm:anticheat.command.banwave.addplayer &c/ac banwave [Player] &7Adds a player to the banwave
-  - perm:anticheat.command.time &c/ac time &7- Shows time to next banwave
-  - perm:anticheat.command.flag &c/ac flag [Player] h:[Hack] v:[VL]
-  - perm:anticheat.command.checks &c/ac checks &7- Lists all checks
-  - perm:anticheat.command.removebanwave &c/ac removebanwave [Player] &7- Removes a player from the banwave
+  - perm:nope.command.clear &c/nope clear [Player/All] [Hack/All] &7- Clears VLs of players
+  - perm:nope.command.vl &c/nope vl <Player> &7- Tells you VLs
+  - perm:nope.command.toggle &c/nope toggle [Setting] &7- Toggle lagbacks, devmode, etc.
+  - perm:nope.command.reset &c/nope reset &7- Reset configs
+  - perm:nope.command.banwave &c/nope banwave &7- Manually initiates a banwave
+  - perm:nope.command.banwave.addplayer &c/nope banwave [Player] &7Adds a player to the banwave
+  - perm:nope.command.time &c/nope time &7- Shows time to next banwave
+  - perm:nope.command.flag &c/nope flag [Player] h:[Hack] v:[VL]
+  - perm:nope.command.checks &c/nope checks &7- Lists all checks
+  - perm:nope.command.removebanwave &c/nope removebanwave [Player] &7- Removes a player from the banwave
+  - perm:nope.command.stats &c/nope stats &7- View NOPE statistics and manage checks
+  - perm:nope.command.enablechecks &c/nope enablechecks &7- Enable all checks
+  - perm:nope.command.testanimation &c/nope testanimation [Player] &7- Test NOPE's animation

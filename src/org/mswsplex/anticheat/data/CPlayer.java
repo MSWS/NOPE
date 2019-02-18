@@ -26,6 +26,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
+import org.mswsplex.anticheat.animation.AnimationKey;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.AntiCheat;
@@ -80,13 +81,13 @@ public class CPlayer {
 		if (!player.isOnline())
 			return false;
 		Player online = player.getPlayer();
-		if (online.hasPermission("anticheat.bypass." + check.getType()))
+		if (online.hasPermission("nope.bypass." + check.getType()))
 			return true;
-		if (online.hasPermission("anticheat.bypass." + check.getCategory()))
+		if (online.hasPermission("nope.bypass." + check.getCategory()))
 			return true;
-		if (online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getCategory()))
+		if (online.hasPermission("nope.bypass." + check.getType() + "." + check.getCategory()))
 			return true;
-		return online.hasPermission("anticheat.bypass." + check.getType() + "." + check.getDebugName());
+		return online.hasPermission("nope.bypass." + check.getType() + "." + check.getDebugName());
 	}
 
 	public void setTempData(String id, Object obj) {
@@ -253,10 +254,13 @@ public class CPlayer {
 
 		if (timeSince("joinTime") < 5000) {
 			if (plugin.devMode())
-				MSG.tell("anticheat.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
+				MSG.tell("nope.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
 						+ check.getDebugName() + " &8[CANCELLED]");
 			return;
 		}
+
+		if (player.isOnline() && plugin.getAnimation().isInAnimation(player.getPlayer()))
+			return;
 
 		if (bypassCheck(check)) {
 			addLogMessage("Flagged check:" + check.getDebugName() + " [PERM] time:" + System.currentTimeMillis());
@@ -266,7 +270,7 @@ public class CPlayer {
 		setTempData("lastFlag", (double) System.currentTimeMillis());
 
 		if (plugin.devMode())
-			MSG.tell("anticheat.message.dev",
+			MSG.tell("nope.message.dev",
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
 
 		int nVl = getSaveInteger("vls." + check.getCategory()) + vl;
@@ -280,12 +284,30 @@ public class CPlayer {
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-				String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
-						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
-						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)";
-				MSG.tell("anticheat.message.normal", message);
-				MSG.sendPluginMessage(null, "perm:anticheat.message.normal " + message + " &b["
-						+ plugin.getServer().getServerName() + "&b]");
+//				String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
+//						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
+//						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)";
+
+				String message = MSG.getString("Format.Regular",
+						"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7)"),
+						bungee = MSG.getString("Format.Bungee",
+								"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7) &9[&b%server%&9]");
+
+				message = message.replace("%player%", player.getName())
+						.replace("%n%",
+								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
+						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
+						.replace("%addVl%", vl + "");
+
+				bungee = bungee.replace("%player%", player.getName())
+						.replace("%n%",
+								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
+						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
+						.replace("%addVl%", vl + "").replace("%server%", Bukkit.getServerName());
+
+				MSG.tell("nope.message.normal", message);
+
+				MSG.sendPluginMessage(null, "perm:anticheat.message.normal " + bungee);
 				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
 			}
 		}
@@ -297,8 +319,12 @@ public class CPlayer {
 		plugin.getStats().addVl(check, vl);
 
 		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
-			String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7is now queued for a banwave.";
-			MSG.tell("anticheat.message.banwave", message);
+			String message = MSG.getString("Format.Banwave",
+					"&4&l[&c&lNOPE&4&l] &e%player%&7is now queued for a banwave.");
+
+			message = message.replace("%player%", player.getName());
+
+			MSG.tell("nope.message.banwave", message);
 			MSG.sendPluginMessage(null, "perm:anticheat.message.banwave " + message);
 			addLogMessage("");
 			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
@@ -357,6 +383,11 @@ public class CPlayer {
 
 		if (plugin.devMode())
 			return;
+
+		if (plugin.config.getBoolean("Animations") && player.isOnline()) {
+			plugin.getAnimation().startAnimation(new AnimationKey(player.getPlayer(), timing, check, token, false));
+			return;
+		}
 
 		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE) {
 			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
