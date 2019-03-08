@@ -62,11 +62,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						MSG.sendPluginMessage(null, "clearvl:" + p.getName());
 						hack = "all hacks";
 					} else {
-						for (String h : cp.getHackVls()) {
-							if (args[2].equalsIgnoreCase(h)) {
+						for (Check h : plugin.getChecks().getAllChecks()) {
+							if (args[2].equalsIgnoreCase(h.getCategory())) {
 								cp.setSaveData("vls." + h, 0);
 								MSG.sendPluginMessage(null, "setvl:" + p.getName() + " " + h + " 0");
-								hack = h;
+								hack = h.getCategory();
 								break;
 							}
 						}
@@ -82,11 +82,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					MSG.sendPluginMessage(null, "clearvl:" + cp.getPlayer().getName());
 					hack = "all hacks";
 				} else {
-					for (String h : cp.getHackVls()) {
-						if (args[2].equalsIgnoreCase(h)) {
+					for (Check h : plugin.getChecks().getAllChecks()) {
+						if (args[2].equalsIgnoreCase(h.getCategory())) {
 							cp.setSaveData("vls." + h, 0);
 							MSG.sendPluginMessage(null, "setvl:" + cp.getPlayer().getName() + " " + h + " 0");
-							hack = h;
+							hack = h.getCategory();
 							break;
 						}
 					}
