@@ -385,7 +385,7 @@ public class CPlayer {
 			return;
 
 		if (plugin.config.getBoolean("Animations") && player.isOnline()) {
-			plugin.getAnimation().startAnimation(new AnimationKey(player.getPlayer(), timing, check, token, false));
+			plugin.getAnimation().startAnimation(new AnimationKey(player.getPlayer(), timing, check, token, true));
 			return;
 		}
 

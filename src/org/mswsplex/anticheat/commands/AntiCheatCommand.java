@@ -499,7 +499,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "logs", "global", "scoreboard", "pastebin" }) {
+				for (String res : new String[] { "cancel", "dev", "logs", "global", "scoreboard", "pastebin",
+						"animations" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

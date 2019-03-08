@@ -101,9 +101,9 @@ public class FastSneak1 implements Check, Listener {
 		return "FastSneak#1";
 	}
 
-	@Override
+	@Override // Don't lag back because this can cause a few false flags
 	public boolean lagBack() {
-		return true;
+		return false;
 	}
 
 	@Override
