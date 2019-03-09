@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class Stats {
@@ -21,9 +21,9 @@ public class Stats {
 
 	private YamlConfiguration stats;
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public Stats(AntiCheat plugin) {
+	public Stats(NOPE plugin) {
 		this.plugin = plugin;
 		new File(plugin.getDataFolder(), "/stats/").mkdir();
 

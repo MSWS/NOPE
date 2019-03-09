@@ -12,13 +12,13 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 public class LogImplementation implements Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public LogImplementation(AntiCheat plugin) {
+	public LogImplementation(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, this.plugin);
 	}

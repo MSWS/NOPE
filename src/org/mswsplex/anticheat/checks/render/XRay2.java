@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.Cuboid;
 
 /**
@@ -34,7 +34,7 @@ public class XRay2 implements Check, Listener {
 	// private AntiCheat plugin;
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		// this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 

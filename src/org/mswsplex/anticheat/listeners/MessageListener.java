@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -12,9 +12,9 @@ import com.google.common.io.ByteStreams;
 
 public class MessageListener implements PluginMessageListener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public MessageListener(AntiCheat plugin) {
+	public MessageListener(NOPE plugin) {
 		this.plugin = plugin;
 	}
 

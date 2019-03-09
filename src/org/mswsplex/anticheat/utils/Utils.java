@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 import com.besaba.revonline.pastebinapi.Pastebin;
 import com.besaba.revonline.pastebinapi.impl.factory.PastebinFactory;
@@ -35,7 +35,7 @@ import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
 import com.besaba.revonline.pastebinapi.response.Response;
 
 public class Utils {
-	public static AntiCheat plugin;
+	public static NOPE plugin;
 
 	/**
 	 * Returns a ranking of all the armor from value

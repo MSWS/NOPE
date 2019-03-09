@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Basically {@link NoFall} but when the player hits an entity
@@ -18,7 +18,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class Criticals1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -26,7 +26,7 @@ public class Criticals1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

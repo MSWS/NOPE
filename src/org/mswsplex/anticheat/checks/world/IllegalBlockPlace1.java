@@ -8,7 +8,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Checks if the block that a player places a block against is liquid
@@ -18,7 +18,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class IllegalBlockPlace1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -26,7 +26,7 @@ public class IllegalBlockPlace1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

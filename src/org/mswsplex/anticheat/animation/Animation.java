@@ -22,14 +22,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.Sounds;
 
 public class Animation implements Listener {
 	private List<AnimationKey> keys;
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public Animation(AntiCheat plugin) {
+	public Animation(NOPE plugin) {
 		this.keys = new ArrayList<>();
 		this.plugin = plugin;
 		runAnimations().runTaskTimer(plugin, 0, 1);

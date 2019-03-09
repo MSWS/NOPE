@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Uh I have no idea how this check works. Will likely be rewritten soon
@@ -21,7 +21,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
 @Deprecated
 public class NoFall1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -29,7 +29,7 @@ public class NoFall1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

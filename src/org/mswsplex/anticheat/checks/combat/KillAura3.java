@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 import io.netty.util.internal.ThreadLocalRandom;
 
@@ -33,7 +33,7 @@ import io.netty.util.internal.ThreadLocalRandom;
  */
 public class KillAura3 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	private HashMap<Player, Entity> stands;
 
@@ -43,7 +43,7 @@ public class KillAura3 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
 

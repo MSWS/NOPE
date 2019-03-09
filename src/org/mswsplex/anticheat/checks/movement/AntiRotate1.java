@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class AntiRotate1 implements Check {
 	private final int CHECK_PER = 200;
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				CPlayer cp = plugin.getCPlayer(player);

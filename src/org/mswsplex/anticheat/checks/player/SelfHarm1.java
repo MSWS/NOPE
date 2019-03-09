@@ -9,7 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * 
@@ -25,10 +25,10 @@ public class SelfHarm1 implements Check, Listener {
 		return CheckType.PLAYER;
 	}
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Creates an armorstand IN FRONT of the player, this stand SHOULD be hit if it
@@ -31,7 +31,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class KillAura1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	private HashMap<Player, Entity> stands;
 
@@ -41,7 +41,7 @@ public class KillAura1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
 

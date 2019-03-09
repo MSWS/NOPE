@@ -16,13 +16,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class Global implements Listener {
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public Global(AntiCheat plugin) {
+	public Global(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 

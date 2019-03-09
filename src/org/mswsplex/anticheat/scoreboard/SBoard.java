@@ -15,7 +15,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
 public class SBoard {
@@ -24,9 +24,9 @@ public class SBoard {
 	int length = 25;
 	String name, prefix = "";
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public SBoard(AntiCheat plugin) {
+	public SBoard(NOPE plugin) {
 		this.plugin = plugin;
 
 		vlRankings = new ArrayList<>();

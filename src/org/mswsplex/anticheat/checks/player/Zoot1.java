@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * 
@@ -34,10 +34,10 @@ public class Zoot1 implements Check, Listener {
 
 	private final int RATE = 20;
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 

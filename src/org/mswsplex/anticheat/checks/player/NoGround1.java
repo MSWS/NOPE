@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Compares if the server onGround and player onGround is different
@@ -21,7 +21,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class NoGround1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -29,7 +29,7 @@ public class NoGround1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

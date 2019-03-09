@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Checks if a player hasn't sent a swing packet before interaction event
@@ -20,7 +20,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class NoSwing1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -28,7 +28,7 @@ public class NoSwing1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

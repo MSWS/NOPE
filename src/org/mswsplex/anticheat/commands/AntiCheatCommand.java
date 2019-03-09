@@ -19,14 +19,14 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Sounds;
 
 public class AntiCheatCommand implements CommandExecutor, TabCompleter {
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public AntiCheatCommand(AntiCheat plugin) {
+	public AntiCheatCommand(NOPE plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("nope").setExecutor(this);
 	}
@@ -363,7 +363,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				}
 
 				@Override
-				public void register(AntiCheat plugin) {
+				public void register(NOPE plugin) {
 				}
 
 				@Override

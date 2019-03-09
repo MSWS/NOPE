@@ -3,15 +3,15 @@ package org.mswsplex.anticheat.checks;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 public class Banwave {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	private long lastBanwave;
 
-	public Banwave(AntiCheat plugin) {
+	public Banwave(NOPE plugin) {
 		this.plugin = plugin;
 		runBanwave(false).runTaskTimer(this.plugin, 0, plugin.config.getInt("BanwaveRate"));
 	}

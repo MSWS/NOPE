@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.OfflinePlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 public class PlayerManager {
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	private Map<OfflinePlayer, CPlayer> players;
 
-	public PlayerManager(AntiCheat plugin) {
+	public PlayerManager(NOPE plugin) {
 		this.plugin = plugin;
 		players = new HashMap<>();
 	}

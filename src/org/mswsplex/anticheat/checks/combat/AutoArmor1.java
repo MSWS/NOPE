@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Every so often, removes a player's armor piece and sees if they near
@@ -28,7 +28,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class AutoArmor1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -38,7 +38,7 @@ public class AutoArmor1 implements Check, Listener {
 	private final int CHECK_EVERY = 600, WAIT_FOR = 1;
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 

@@ -66,15 +66,15 @@ import org.mswsplex.anticheat.checks.world.IllegalBlockPlace1;
 import org.mswsplex.anticheat.checks.world.Scaffold1;
 import org.mswsplex.anticheat.checks.world.Scaffold2;
 import org.mswsplex.anticheat.checks.world.Scaffold3;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
 @SuppressWarnings("deprecation")
 public class Checks {
-	private AntiCheat plugin;
+	private NOPE plugin;
 	private List<Check> activeChecks;
 
-	public Checks(AntiCheat plugin) {
+	public Checks(NOPE plugin) {
 		this.plugin = plugin;
 		activeChecks = new ArrayList<Check>();
 	}

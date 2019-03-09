@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * 
@@ -21,7 +21,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class Flight4 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -29,7 +29,7 @@ public class Flight4 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -43,26 +43,26 @@ public class Flight4 implements Check, Listener {
 			return;
 
 		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || cp.isOnGround()
-				|| cp.timeSince("lastTeleport") < 500 || cp.timeSince("lastFlightGrounded") < 500)
+				|| cp.timeSince("lastTeleport") < 100 || cp.timeSince("lastFlightGrounded") < 100)
 			return;
 
 		Location safe = cp.getLastSafeLocation();
+
+		if (!safe.getWorld().equals(player.getLocation().getWorld()))
+			return;
 
 		double yDiff = safe.getY() - player.getLocation().getY();
 
 		if (yDiff >= 0)
 			return;
 
-		if (!safe.getWorld().equals(player.getLocation().getWorld()))
-			return;
-
 		double dist = safe.distanceSquared(player.getLocation());
 
-		if (dist < 20)
+		if (dist < 10)
 			return;
 
-		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 20) * 10.0), 50), 10),
-				"Dist: &e" + dist + "&7 >= &a20\n&7YDiff: &e" + yDiff + "&7<0");
+		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 10) * 10.0), 50), 10),
+				"Dist: &e" + dist + "&7 >= &a10\n&7YDiff: &e" + yDiff + "&7 < 0");
 	}
 
 	@Override

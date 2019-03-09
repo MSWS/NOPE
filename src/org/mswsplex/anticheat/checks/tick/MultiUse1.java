@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.protocols.TinyProtocol;
 
 import io.netty.channel.Channel;
@@ -18,7 +18,7 @@ import io.netty.channel.Channel;
  *
  */
 public class MultiUse1 implements Check {
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	private final int MAX_PACKETS = 4, TIMESPAN = 5;
 
@@ -28,7 +28,7 @@ public class MultiUse1 implements Check {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 
 		this.plugin = plugin;
 

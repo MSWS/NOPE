@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 /**
  * Checks how often a player sends a settings packet
@@ -22,7 +22,7 @@ public class SkinBlinker1 implements Check {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		new BukkitRunnable() {
 			@Override
 			public void run() {

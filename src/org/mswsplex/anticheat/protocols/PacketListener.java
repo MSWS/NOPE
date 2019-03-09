@@ -2,15 +2,15 @@ package org.mswsplex.anticheat.protocols;
 
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 import io.netty.channel.Channel;
 
 public class PacketListener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public PacketListener(AntiCheat plugin) {
+	public PacketListener(NOPE plugin) {
 		this.plugin = plugin;
 		new TinyProtocol(plugin) {
 			@Override

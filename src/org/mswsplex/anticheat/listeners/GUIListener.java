@@ -13,14 +13,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Sounds;
 
 public class GUIListener implements Listener {
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public GUIListener(AntiCheat plugin) {
+	public GUIListener(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

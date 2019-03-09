@@ -30,7 +30,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.animation.AnimationKey;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Timing;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Utils;
 
@@ -50,9 +50,9 @@ public class CPlayer {
 
 	private Location lastSafe;
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
-	public CPlayer(OfflinePlayer player, AntiCheat plugin) {
+	public CPlayer(OfflinePlayer player, NOPE plugin) {
 		this.plugin = plugin;
 		this.player = player;
 		this.uuid = player.getUniqueId();

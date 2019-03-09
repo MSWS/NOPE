@@ -15,7 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks if a block that a player clicked on is the same that the player is
@@ -27,7 +28,7 @@ import org.mswsplex.anticheat.msws.AntiCheat;
  */
 public class GhostHand1 implements Check, Listener {
 
-	private AntiCheat plugin;
+	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
@@ -35,7 +36,7 @@ public class GhostHand1 implements Check, Listener {
 	}
 
 	@Override
-	public void register(AntiCheat plugin) {
+	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -59,7 +60,11 @@ public class GhostHand1 implements Check, Listener {
 		if (!event.getClickedBlock().getRelative(BlockFace.UP).getType().isSolid())
 			return;
 
-		cp.flagHack(this, 5);
+		if (targetBlock.getType() == Material.IRON_FENCE)
+			return;
+
+		cp.flagHack(this, 5, "Event: &e" + MSG.camelCase(event.getClickedBlock().getType() + "") + "\n&7Server: &e"
+				+ MSG.camelCase(targetBlock.getType() + ""));
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.mswsplex.anticheat.msws.AntiCheat;
+import org.mswsplex.anticheat.msws.NOPE;
 
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
@@ -17,7 +17,7 @@ import com.google.common.io.ByteStreams;
 import io.netty.util.internal.ThreadLocalRandom;
 
 public class MSG {
-	public static AntiCheat plugin;
+	public static NOPE plugin;
 
 	/**
 	 * Returns the string with &'s being §

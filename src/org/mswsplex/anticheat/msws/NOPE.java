@@ -28,7 +28,7 @@ import org.mswsplex.anticheat.protocols.PacketListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
 
-public class AntiCheat extends JavaPlugin {
+public class NOPE extends JavaPlugin {
 	public FileConfiguration config, data, lang, gui;
 	public File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
 			langYml = new File(getDataFolder(), "lang.yml"), guiYml = new File(getDataFolder(), "guis.yml");
@@ -91,7 +91,7 @@ public class AntiCheat extends JavaPlugin {
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
-		MSG.log("&aSuccessfully enabled. &7Please note that NOPE is &cstill in beta&7. Please report bugs at the github. (https://github.com/MSWS/AntiCheat)");
+		MSG.log("&aSuccessfully enabled. Please report bugs at the github. (https://github.com/MSWS/AntiCheat)");
 	}
 
 	public TPSChecker getTPSChecker() {
