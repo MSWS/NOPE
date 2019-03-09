@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -279,15 +280,18 @@ public class CPlayer {
 
 		double lastSent = timeSince(color + check.getCategory());
 
-		if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack") && check.lagBack())
+		teleport: if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack") && check.lagBack()) {
+
+			ThreadLocalRandom rnd = ThreadLocalRandom.current();
+
+			if (rnd.nextDouble() < .25)
+				break teleport;
+
 			player.getPlayer().teleport(lastSafe);
+		}
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
-//				String message = "&4&l[&c&lNOPE&4&l] &e" + player.getName() + " &7failed a"
-//						+ ((check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "") + " "
-//						+ color + check.getCategory() + " &7check. &7(VL: &e&o" + nVl + "&7)";
-
 				String message = MSG.getString("Format.Regular",
 						"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7)"),
 						bungee = MSG.getString("Format.Bungee",
