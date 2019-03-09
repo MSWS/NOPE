@@ -11,7 +11,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks how recently the last regen tick was
@@ -53,10 +52,7 @@ public class Regen2 implements Check, Listener {
 		if (last > 3500)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&clastRegen: " + last);
-
-		cp.flagHack(this, (int) Math.round(3500 - last) / 50 + 5);
+		cp.flagHack(this, (int) Math.round(3500 - last) / 50 + 5, "LastRegen: &e" + last + "&7 <= &a3500");
 	}
 
 	@Override

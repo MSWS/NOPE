@@ -181,11 +181,9 @@ public class Reach1 implements Check, Listener {
 		if (dist <= maxDist)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(damager, "&9" + MSG.camelCase(event.getEntityType().toString()) + ": &b" + dist + "/&3" + maxDist
-					+ " &e" + (dist - maxDist));
-
-		cp.flagHack(this, (int) (Math.round((dist - maxDist) * 15) + 5));
+		cp.flagHack(this, (int) (Math.round((dist - maxDist) * 15) + 5),
+				"Entity: &e" + MSG.camelCase(event.getEntityType().toString()) + "\n&7Reach: &e" + dist + "&7 > &a"
+						+ maxDist + "\n&7Diff: " + (dist - maxDist));
 	}
 
 	@Override

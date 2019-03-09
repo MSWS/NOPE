@@ -15,7 +15,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks recent movements, their differences, and flags if there are too many
@@ -89,11 +88,8 @@ public class ClonedMovement1 implements Check, Listener {
 		if (amo < SIZE / 4)
 			return;
 
-		if (plugin.devMode()) {
-			MSG.tell(player, "&9" + dist);
-		}
-
-		cp.flagHack(this, (amo - (SIZE / 4)) * 2 + 5);
+		cp.flagHack(this, (amo - (SIZE / 4)) * 2 + 5,
+				"Dist: &e" + dist + " \n&7Similar: &e" + amo + "&7 >= &a" + (SIZE / 4));
 	}
 
 	@Override

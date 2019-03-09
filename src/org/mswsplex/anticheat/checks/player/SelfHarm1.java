@@ -50,7 +50,7 @@ public class SelfHarm1 implements Check, Listener {
 		if (yDiff > 0)
 			return;
 
-		cp.flagHack(this, plugin.config.getInt("VlForBanwave"));
+		cp.flagHack(this, plugin.config.getInt("VlForBanwave"), "YDiff: &e" + yDiff);
 	}
 
 	@Override
@@ -70,7 +70,6 @@ public class SelfHarm1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

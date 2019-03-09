@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks Y differences and flags if they aren't <i>normal</i>
@@ -85,10 +84,7 @@ public class FastClimb1 implements Check, Listener {
 
 		if (normal)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&a" + dist);
-		cp.flagHack(this, 15);
+		cp.flagHack(this, 15, "Dist: &e" + dist);
 	}
 
 	@Override

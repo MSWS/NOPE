@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks the average speed of a player while they're blocking and on the ground
@@ -85,10 +84,7 @@ public class NoSlowDown1 implements Check, Listener {
 		if (avg <= .176)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&e" + avg);
-
-		cp.flagHack(this, (int) Math.round((avg - .16) * 400.0));
+		cp.flagHack(this, (int) Math.round((avg - .16) * 400.0), "Average: &e" + avg + ">&a.176");
 	}
 
 	@Override
@@ -108,7 +104,6 @@ public class NoSlowDown1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

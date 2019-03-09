@@ -61,7 +61,8 @@ public class MultiUse1 implements Check {
 
 				if (customPackets > MAX_PACKETS) {
 					Bukkit.getScheduler().runTask(this.plugin, () -> {
-						cp.flagHack(MultiUse1.this, (customPackets - MAX_PACKETS) * 5 + 10);
+						cp.flagHack(MultiUse1.this, (customPackets - MAX_PACKETS) * 5 + 10,
+								"&7Uses: &e" + customPackets + "&7 > &a" + MAX_PACKETS);
 					});
 					return null;
 				}

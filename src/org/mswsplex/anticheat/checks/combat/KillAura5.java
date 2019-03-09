@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * This check uses FaNcY PaCkEts
@@ -49,11 +48,8 @@ public class KillAura5 implements Check, Listener {
 
 		if (diff == 0)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&7diff: " + diff);
-
-		cp.flagHack(this, (int) Math.round(diff * 5) + 20);
+		
+		cp.flagHack(this, (int) Math.round(diff * 5) + 20, "Invalid Packet Diff: &e" + diff);
 	}
 
 	@Override

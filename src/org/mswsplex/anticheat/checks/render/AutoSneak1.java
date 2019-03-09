@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks how often a player sneaks
@@ -56,9 +55,7 @@ public class AutoSneak1 implements Check, Listener {
 		if (sneakTimings.size() < 20)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&csneak times: " + sneakTimings.size());
-		cp.flagHack(this, (sneakTimings.size() - 20) * 2);
+		cp.flagHack(this, (sneakTimings.size() - 20) * 2, "Timings: &e" + sneakTimings.size() + "&7 >= &a20");
 	}
 
 	@Override

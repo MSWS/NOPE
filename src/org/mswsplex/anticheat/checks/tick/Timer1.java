@@ -12,7 +12,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks average "lag ticks" and flags erroneous behavior
@@ -69,10 +68,8 @@ public class Timer1 implements Check, Listener {
 				avg /= averageTimings.size();
 
 				if (Math.round(lagTicks - avg) > 5) {
-					if (plugin.devMode())
-						MSG.tell(player,
-								"&2Lag &a(avg: " + avg + " current: " + lagTicks + ") tps: " + plugin.getTPS());
-					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 3);
+					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 3, "&7Lag\n&7 Avg: &e" + avg
+							+ "\n&7 Current: &e" + lagTicks + "\n\n&7TPS: &e" + plugin.getTPS());
 				}
 			}
 			averageTimings.add(0, lagTicks);

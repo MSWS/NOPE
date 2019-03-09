@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks Y differences and flags if they aren't <i>normal</i>
@@ -83,10 +82,7 @@ public class Step1 implements Check, Listener {
 		if (normal)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&8" + diff);
-
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 5, "Diff: &e" + diff);
 	}
 
 	private double[] regular = {
@@ -125,7 +121,6 @@ public class Step1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

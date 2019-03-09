@@ -45,6 +45,7 @@ public class AntiFire1 implements Check {
 
 					if (cp.timeSince("lastLiquid") < 500)
 						continue;
+
 					cp.flagHack(AntiFire1.this,
 							(int) Math.round((oldFireTicks - player.getFireTicks() - (RATE + 10)) / 20));
 				}
@@ -69,7 +70,6 @@ public class AntiFire1 implements Check {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

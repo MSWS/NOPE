@@ -11,7 +11,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks if a player hasn't sent a swing packet before interaction event
@@ -48,9 +47,7 @@ public class NoSwing1 implements Check, Listener {
 		if (cp.timeSince("lastSwing") < 1000)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&blastSwing: " + cp.timeSince("lastSwing"));
-		cp.flagHack(this, 50);
+		cp.flagHack(this, 50, "LastSwing: &e" + cp.timeSince("lastSwing") + "&7 >= &a1000");
 	}
 
 	@Override
@@ -70,7 +67,6 @@ public class NoSwing1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

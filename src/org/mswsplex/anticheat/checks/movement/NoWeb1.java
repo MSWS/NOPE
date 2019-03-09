@@ -57,7 +57,7 @@ public class NoWeb1 implements Check, Listener {
 
 		if (plugin.devMode())
 			MSG.tell(player, "&d" + diff);
-		cp.flagHack(this, (int) Math.round((diff / .013) * 10.0));
+		cp.flagHack(this, (int) Math.round((diff / .013) * 10.0), "Diff: &e" + diff + "&7 >= &a.012");
 	}
 
 	@Override

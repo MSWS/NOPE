@@ -62,7 +62,7 @@ public class NoSlowDown2 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&b" + dist);
 
-		cp.flagHack(this, (int) Math.round((dist - .29) * 400.0));
+		cp.flagHack(this, (int) Math.round((dist - .29) * 400.0), "Dist: &e" + dist + "&7 >= &a.39");
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * 
@@ -62,10 +61,8 @@ public class Flight4 implements Check, Listener {
 		if (dist < 20)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&3dist: " + safe.distanceSquared(player.getLocation()) + " y: " + yDiff);
-
-		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 20) * 10.0), 50), 10));
+		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 20) * 10.0), 50), 10),
+				"Dist: &e" + dist + "&7 >= &a20\n&7YDiff: &e" + yDiff + "&7<0");
 	}
 
 	@Override
@@ -85,7 +82,6 @@ public class Flight4 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -419,7 +419,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			cp = plugin.getCPlayer(player);
 			player.openInventory(plugin.getStats().getInventory());
-			player.playSound(player.getLocation(), Sounds.CHEST_OPEN.bukkitSound(), 2, 1);
+			player.playSound(player.getLocation(), Sounds.CHEST_OPEN.bukkitSound(), 1, 1);
 			cp.setTempData("openInventory", "stats");
 			break;
 		case "enablechecks":

@@ -22,7 +22,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Compares timings between clicks
@@ -63,9 +62,9 @@ public class AutoClicker1 implements Check, Listener {
 		if (player.hasPotionEffect(PotionEffectType.FAST_DIGGING))
 			return;
 
-		if(event.getAction() == Action.LEFT_CLICK_BLOCK)
+		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
 			return;
-		
+
 		if (block != null && (!block.getType().isSolid() || block.getType() == Material.SLIME_BLOCK))
 			return;
 
@@ -83,6 +82,7 @@ public class AutoClicker1 implements Check, Listener {
 
 		if (clickTimings.size() < SIZE)
 			return;
+
 		HashMap<Double, Integer> repeats = new HashMap<>();
 		double last = System.currentTimeMillis();
 
@@ -99,9 +99,8 @@ public class AutoClicker1 implements Check, Listener {
 
 		if (biggest < SIZE / 2)
 			return;
-		if (plugin.devMode())
-			MSG.tell(player, "&7similar values: " + biggest);
-		cp.flagHack(this, (int) Math.round(biggest - (SIZE / 2)) * 5 + 5);
+		cp.flagHack(this, (int) Math.round(biggest - (SIZE / 2)) * 5 + 5,
+				"Similar Values: &e" + biggest + "&7 >= &a" + (SIZE / 2));
 	}
 
 	@Override

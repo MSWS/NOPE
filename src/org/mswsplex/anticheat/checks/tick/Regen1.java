@@ -15,7 +15,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks how many regen ticks within a time period
@@ -67,10 +66,7 @@ public class Regen1 implements Check, Listener {
 		if (regenTimings.size() <= 2)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&aregenTicks: " + regenTimings.size());
-
-		cp.flagHack(this, (regenTimings.size() - 2) * 10);
+		cp.flagHack(this, (regenTimings.size() - 2) * 10, "Ticks: &e" + regenTimings.size() + "&7 > &a2");
 	}
 
 	@Override

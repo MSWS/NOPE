@@ -11,7 +11,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks Y differences and flags if they aren't <i>normal</i>
@@ -88,10 +87,7 @@ public class Movement1 implements Check, Listener {
 		if (normal)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&7" + diff);
-
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 5, "Diff: &e" + diff);
 	}
 
 	@Override

@@ -14,7 +14,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks timings between clicks, does some really fancy logic to compare double
@@ -85,10 +84,7 @@ public class ChestStealer1 implements Check, Listener {
 		if (amo <= SIZE / 4)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&esame: " + amo);
-
-		cp.flagHack(this, (amo - (SIZE / 4)) * 5 + 10);
+		cp.flagHack(this, (amo - (SIZE / 4)) * 5 + 10, "Amo: &e" + amo + "&7 > &a" + (SIZE / 4));
 
 	}
 

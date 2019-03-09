@@ -14,7 +14,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Compares yaw rates right before a player hits an entity
@@ -89,10 +88,7 @@ public class KillAura2 implements Check, Listener {
 		if (fastTimings.size() <= 4)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&3" + fastTimings.size());
-
-		cp.flagHack(this, 50);
+		cp.flagHack(this, 50, "Rotated too quickly: &e" + fastTimings.size());
 	}
 
 	@Override
@@ -112,7 +108,6 @@ public class KillAura2 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -14,7 +14,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks the time between holding right click and actually eating
@@ -78,8 +77,7 @@ public class FastEat1 implements Check, Listener {
 		if (diff > 1400)
 			return;
 
-		MSG.tell(player, "&6food delay: " + cp.timeSince("foodStartEating"));
-		cp.flagHack(this, (int) Math.round((1400 - diff) / 5));
+		cp.flagHack(this, (int) Math.round((1400 - diff) / 5), "Delay: &e" + diff + "&7 <= &a1400");
 	}
 
 	private boolean isFood(Material mat) {

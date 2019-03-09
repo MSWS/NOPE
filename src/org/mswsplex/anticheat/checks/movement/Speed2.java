@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks jumping speed
@@ -48,7 +47,7 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (player.getFallDistance() > 4)
 			return;
-		if(cp.usingElytra())
+		if (cp.usingElytra())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
@@ -58,10 +57,7 @@ public class Speed2 implements Check, Listener {
 		if (dist < .7)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&e" + dist);
-
-		cp.flagHack(this, (int) Math.round((dist - .7) * 20));
+		cp.flagHack(this, (int) Math.round((dist - .7) * 20), "Dist: &e" + dist + "&7 >= &a.7");
 	}
 
 	@Override

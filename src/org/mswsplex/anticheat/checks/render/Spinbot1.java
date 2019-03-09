@@ -79,7 +79,7 @@ public class Spinbot1 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&c" + amo + " (" + diff + ")");
 
-		cp.flagHack(this, (amo - SIZE / 2) * 5);
+		cp.flagHack(this, (amo - SIZE / 2) * 5, "Amo: &e" + amo + "&7>=" + (SIZE / 2) + "\nDiff: &e" + diff);
 	}
 
 	@Override

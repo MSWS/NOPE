@@ -12,7 +12,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks distance over certain amount of time
@@ -78,12 +77,9 @@ public class Timer2 implements Check, Listener {
 		if (avg > 85)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&eavg: &7" + avg);
-
 		horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
 		cp.setTempData("timer2BlockTimings", horizontalTimings);
-		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5);
+		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5, "Avg: &e" + avg + "&7 <= &a85");
 	}
 
 	@Override
@@ -103,7 +99,6 @@ public class Timer2 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

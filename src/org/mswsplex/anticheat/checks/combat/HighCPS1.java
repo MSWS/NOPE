@@ -15,7 +15,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks CPS over small period of time
@@ -72,12 +71,9 @@ public class HighCPS1 implements Check, Listener {
 		if (cp.getTempInteger("highCpsClicks") < (checkEvery / 20) * maxCps)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "clicks: " + cp.getTempInteger("highCpsClicks") + " (cps: "
-					+ cp.getTempInteger("highCpsClicks") / (checkEvery / 20) + ")");
-
-		cp.flagHack(this, (cp.getTempInteger("highCpsClicks") - ((checkEvery / 20) * maxCps)) * 3 + 5);
-
+		cp.flagHack(this, (cp.getTempInteger("highCpsClicks") - ((checkEvery / 20) * maxCps)) * 3 + 5,
+				"Clicks: &e" + cp.getTempInteger("highCpsClicks") + "&7 >= &a" + (checkEvery / 20) * maxCps
+						+ "\n&7CPS: &e" + cp.getTempInteger("highCpsClicks") / (checkEvery / 20));
 	}
 
 	@Override

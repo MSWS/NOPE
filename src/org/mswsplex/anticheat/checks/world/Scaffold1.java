@@ -58,7 +58,7 @@ public class Scaffold1 implements Check, Listener {
 		if (blocksPlaced <= 5)
 			return;
 
-		cp.flagHack(this, (blocksPlaced - 5) * 10);
+		cp.flagHack(this, (blocksPlaced - 5) * 10, "Blocks: &e" + blocksPlaced + "&7 > &a5");
 	}
 
 	@Override
@@ -78,7 +78,6 @@ public class Scaffold1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks average speeds
@@ -84,10 +83,7 @@ public class Speed3 implements Check, Listener {
 		if (avg < .53)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&2" + avg);
-
-		cp.flagHack(this, (int) Math.round((avg - .53) * 20) + 5);
+		cp.flagHack(this, (int) Math.round((avg - .53) * 20) + 5, "Avg: &e" + avg + "&7 >= &a.53");
 	}
 
 	@Override
@@ -107,7 +103,6 @@ public class Speed3 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

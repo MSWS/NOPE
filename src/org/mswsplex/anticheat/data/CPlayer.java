@@ -14,8 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -33,6 +33,11 @@ import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.AntiCheat;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Utils;
+
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.HoverEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class CPlayer {
 	private OfflinePlayer player;
@@ -237,8 +242,12 @@ public class CPlayer {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl) {
+		flagHack(check, vl, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.config.getBoolean("Global"))
 			return;
 
@@ -270,9 +279,24 @@ public class CPlayer {
 
 		setTempData("lastFlag", (double) System.currentTimeMillis());
 
-		if (plugin.devMode())
-			MSG.tell("nope.message.dev",
-					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl);
+		if (plugin.devMode()) {
+
+			TextComponent component = new TextComponent(MSG.color(
+					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl));
+
+			if (debug != null && !debug.isEmpty())
+				component.setHoverEvent(
+						new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder(MSG.color("&7" + debug)).create()));
+
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (player.hasPermission("nope.message.dev"))
+					player.spigot().sendMessage(component);
+			}
+
+			// MSG.tell("nope.message.dev",
+			// "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" +
+			// check.getDebugName() + " &4+" + vl);
+		}
 
 		int nVl = getSaveInteger("vls." + check.getCategory()) + vl;
 

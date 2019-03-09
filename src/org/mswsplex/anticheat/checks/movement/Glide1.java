@@ -9,7 +9,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks if a player's fall velocity is less than the player's previous fall
@@ -69,8 +68,8 @@ public class Glide1 implements Check, Listener {
 		if (fallDist >= previousFall)
 			return;
 
-		MSG.tell(player, "fall: " + player.getFallDistance() + " dist: " + fallDist + " previous: " + previousFall);
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 5, "&7FallDist: &e" + player.getFallDistance() + "\n&7Dist: &e" + fallDist
+				+ "\n&7PreviousFall: &e" + previousFall);
 	}
 
 	@Override
@@ -90,7 +89,6 @@ public class Glide1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

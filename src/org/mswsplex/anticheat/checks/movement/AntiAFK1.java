@@ -83,7 +83,7 @@ public class AntiAFK1 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&6same: " + samePitchTimings.size());
 
-		cp.flagHack(this, (samePitchTimings.size() - 25) * 3);
+		cp.flagHack(this, (samePitchTimings.size() - 25) * 3, "Moved with similar Yaw: &e" + samePitchTimings.size());
 	}
 
 	@Override

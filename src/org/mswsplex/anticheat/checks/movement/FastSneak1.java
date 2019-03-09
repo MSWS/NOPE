@@ -88,7 +88,8 @@ public class FastSneak1 implements Check, Listener {
 		if (plugin.devMode())
 			MSG.tell(player, "&e" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg / .01) * 20.0) + 5);
+		cp.flagHack(this, (int) Math.round((avg / .01) * 20.0) + 5,
+				"Average: &e" + avg + "&7 >= &a.012\n&7Size: &e" + distances.size() + "&7 >= &a" + SIZE);
 	}
 
 	@Override

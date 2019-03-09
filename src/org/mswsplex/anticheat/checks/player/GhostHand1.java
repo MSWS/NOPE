@@ -54,6 +54,8 @@ public class GhostHand1 implements Check, Listener {
 			return;
 		if (!targetBlock.getType().isSolid())
 			return;
+		if (targetBlock.getLocation().distanceSquared(player.getLocation()) < 2)
+			return;
 		if (!event.getClickedBlock().getRelative(BlockFace.UP).getType().isSolid())
 			return;
 

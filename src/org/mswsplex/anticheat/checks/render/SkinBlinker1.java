@@ -7,7 +7,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks how often a player sends a settings packet
@@ -32,9 +31,8 @@ public class SkinBlinker1 implements Check {
 					int packets = cp.getTempInteger("settingsPackets");
 					if (packets <= 20)
 						return;
-					MSG.tell(player, "&epackets: " + packets);
 					cp.setTempData("settingsPackets", 0);
-					cp.flagHack(SkinBlinker1.this, (packets - 8) * 10);
+					cp.flagHack(SkinBlinker1.this, (packets - 8) * 10, "Packets: &e" + packets + ">&a20");
 				}
 			}
 		}.runTaskTimer(plugin, 0, 20);

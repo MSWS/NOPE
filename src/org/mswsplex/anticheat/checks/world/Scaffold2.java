@@ -83,7 +83,7 @@ public class Scaffold2 implements Check, Listener {
 		if (diff < 30)
 			return;
 
-		cp.flagHack(this, (int) Math.round((diff - 30) / 5));
+		cp.flagHack(this, (int) Math.round((diff - 30) / 5), "Diff: &e" + diff + "&7 >= &a30");
 	}
 
 	@Override

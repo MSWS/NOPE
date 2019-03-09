@@ -13,7 +13,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.AntiCheat;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks the average speed of a player while they're blocking either in air or
@@ -83,10 +82,7 @@ public class NoSlowDown3 implements Check, Listener {
 		if (avg <= .43)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&2" + avg);
-
-		cp.flagHack(this, (int) Math.round((avg - .29) * 400.0));
+		cp.flagHack(this, (int) Math.round((avg - .29) * 400.0), "Avg: &e" + avg + "&7 > &a.43");
 	}
 
 	@Override
