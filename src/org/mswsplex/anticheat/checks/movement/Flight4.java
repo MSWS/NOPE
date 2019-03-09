@@ -40,6 +40,9 @@ public class Flight4 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (cp.hasMovementRelatedPotion())
+			return;
+
 		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || cp.isOnGround()
 				|| cp.timeSince("lastTeleport") < 500 || cp.timeSince("lastFlightGrounded") < 500)
 			return;

@@ -1,6 +1,6 @@
 name: NOPE
 main: org.mswsplex.anticheat.msws.AntiCheat
-version: 1.0.2
+version: 1.0.3
 description: 1.8 Minecraft Anticheat
 commands:
   nope:
