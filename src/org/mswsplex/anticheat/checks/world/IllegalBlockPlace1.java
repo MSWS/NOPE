@@ -1,6 +1,7 @@
 package org.mswsplex.anticheat.checks.world;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +37,9 @@ public class IllegalBlockPlace1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 		if (!event.getBlockAgainst().isLiquid())
+			return;
+
+		if (event.getBlock().getType() == Material.WATER_LILY)
 			return;
 
 		cp.flagHack(this, 50);

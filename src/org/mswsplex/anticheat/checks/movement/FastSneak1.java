@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,6 +54,9 @@ public class FastSneak1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastLiquid") < 500)
+			return;
+
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().toString().contains("ICE"))
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
