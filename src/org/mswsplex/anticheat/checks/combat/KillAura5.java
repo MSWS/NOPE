@@ -48,7 +48,10 @@ public class KillAura5 implements Check, Listener {
 
 		if (diff == 0)
 			return;
-		
+
+		if (plugin.getTPS() < 18)
+			return;
+
 		cp.flagHack(this, (int) Math.round(diff * 5) + 20, "Invalid Packet Diff: &e" + diff);
 	}
 
@@ -69,7 +72,6 @@ public class KillAura5 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

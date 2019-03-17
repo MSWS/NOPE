@@ -67,8 +67,8 @@ public class Timer1 implements Check, Listener {
 					avg += time;
 				avg /= averageTimings.size();
 
-				if (Math.round(lagTicks - avg) > 5) {
-					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 3, "&7Lag\n&7 Avg: &e" + avg
+				if (Math.round(lagTicks - avg) > 6) {
+					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 2, "&7Lag\n&7 Avg: &e" + avg
 							+ "\n&7 Current: &e" + lagTicks + "\n\n&7TPS: &e" + plugin.getTPS());
 				}
 			}
@@ -98,7 +98,7 @@ public class Timer1 implements Check, Listener {
 
 	@Override
 	public boolean lagBack() {
-		return true;
+		return false;
 	}
 
 	@Override

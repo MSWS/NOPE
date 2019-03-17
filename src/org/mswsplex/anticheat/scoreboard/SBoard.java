@@ -31,14 +31,14 @@ public class SBoard {
 
 		vlRankings = new ArrayList<>();
 
-		name = "&4&lNOPE&c&l Violations";
+		name = "&c&lViolations";
 
 		register();
 	}
 
 	private List<String> vlRankings;
 
-	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+	public <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
 		List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
 		list.sort(Entry.comparingByValue());
 
@@ -172,10 +172,6 @@ public class SBoard {
 			boolean keep = false;
 			if (vlRankings.contains(res))
 				keep = true;
-			// for (String line : vlRankings) {
-//				if (parse(player, res).equals(parse(player, line)))
-//					keep = true;
-//			}
 			if (!keep)
 				board.resetScores(res);
 		}

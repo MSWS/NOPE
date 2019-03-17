@@ -355,8 +355,8 @@ public class CPlayer {
 			MSG.tell("nope.message.banwave", message);
 			MSG.sendPluginMessage(null, "perm:anticheat.message.banwave " + message);
 			addLogMessage("");
-			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
-					+ System.currentTimeMillis());
+			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") TPS: "
+					+ plugin.getTPS() + " time:" + System.currentTimeMillis());
 			String token = MSG.genUUID(16);
 			saveLog(check.getCategory(), Timing.BANWAVE, token);
 			setSaveData("isBanwaved", check.getCategory());
@@ -364,8 +364,8 @@ public class CPlayer {
 			addLogMessage("BANWAVE Log ID: " + token);
 			addLogMessage("");
 		} else {
-			addLogMessage("Flagged check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") time:"
-					+ System.currentTimeMillis());
+			addLogMessage("Flagged check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") TPS: "
+					+ plugin.getTPS() + " time:" + System.currentTimeMillis());
 		}
 
 		if (nVl >= plugin.config.getInt("VlForInstaBan"))

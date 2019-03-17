@@ -57,13 +57,18 @@ public class AntiKB1 implements Check, Listener {
 
 		Location origin = player.getLocation();
 
+		if (plugin.getTPS() < 18)
+			return;
+
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				double dist = player.getLocation().distanceSquared(origin);
 				if (dist > 0)
 					return;
-				cp.flagHack(AntiKB1.this, 10);
+				if (plugin.getTPS() < 15)
+					return;
+				cp.flagHack(AntiKB1.this, 10, "TPS: &e" + plugin.getTPS());
 			}
 		}.runTaskLater(plugin, 5);
 	}
