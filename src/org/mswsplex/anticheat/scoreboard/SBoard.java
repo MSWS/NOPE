@@ -54,6 +54,9 @@ public class SBoard {
 		new BukkitRunnable() {
 			@SuppressWarnings("unchecked")
 			public void run() {
+				if (!plugin.config.getBoolean("Scoreboard"))
+					return;
+
 				vlRankings = new ArrayList<>();
 				Map<OfflinePlayer, Integer> ranks = new HashMap<>();
 

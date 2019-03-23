@@ -197,6 +197,18 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 								.replace("%name%", "Global"));
 				plugin.saveConfig();
 				break;
+			case "globalscoreboard":
+				if (!sender.hasPermission("nope.command.toggle.globalscoreboard")) {
+					MSG.noPerm(sender, "nope.command.toggle.globalscoreboard");
+					return true;
+				}
+				plugin.config.set("Scoreboard", !plugin.config.getBoolean("Scoreboard"));
+				MSG.tell(sender,
+						MSG.getString("Toggle", "you %status% %name%")
+								.replace("%status%", enabledDisable(plugin.config.getBoolean("Scoreboard")))
+								.replace("%name%", "Global Scoreboard"));
+				plugin.saveConfig();
+				break;
 			case "scoreboard":
 				if (!sender.hasPermission("nope.command.toggle.scoreboard")) {
 					MSG.noPerm(sender, "nope.command.toggle.scoreboard");
@@ -499,8 +511,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "logs", "global", "scoreboard", "pastebin",
-						"animations" }) {
+				for (String res : new String[] { "cancel", "dev", "logs", "global", "globalscoreboard", "scoreboard",
+						"pastebin", "animations" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

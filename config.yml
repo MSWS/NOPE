@@ -21,6 +21,7 @@ CommandsForBanwave:
 - say %player% was banwaved for %hack% (%token%)
 Pastebin: false
 Animations: true
+Scoreboard: true
 Checks:
   Movement:
     Enabled: true
