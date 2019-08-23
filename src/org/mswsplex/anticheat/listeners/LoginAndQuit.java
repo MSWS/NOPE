@@ -34,6 +34,9 @@ public class LoginAndQuit implements Listener {
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
+		if (plugin.getAnimation().isInAnimation(event.getPlayer())) {
+			plugin.getAnimation().stopAnimation(plugin.getAnimation().getKey(event.getPlayer()));
+		}
 		plugin.getPlayerManager().removePlayer(event.getPlayer());
 	}
 }

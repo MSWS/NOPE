@@ -28,10 +28,15 @@ public class SkinBlinker1 implements Check {
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(player);
+					if (cp.timeSince("lastMove") > 500 || cp.timeSince("lastOnGround") > 500
+							|| cp.timeSince("lastSettingsPacket") > 200)
+						return;
+
 					int packets = cp.getTempInteger("settingsPackets");
+					cp.setTempData("settingsPackets", 0);
+
 					if (packets <= 20)
 						return;
-					cp.setTempData("settingsPackets", 0);
 					cp.flagHack(SkinBlinker1.this, (packets - 8) * 10, "Packets: &e" + packets + ">&a20");
 				}
 			}

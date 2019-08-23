@@ -63,6 +63,10 @@ public class GhostHand1 implements Check, Listener {
 		if (targetBlock.getType() == Material.IRON_FENCE)
 			return;
 
+		if (targetBlock.getType().toString().contains("DOOR")
+				&& targetBlock.getType() == event.getClickedBlock().getType())
+			return;
+
 		cp.flagHack(this, 5, "Event: &e" + MSG.camelCase(event.getClickedBlock().getType() + "") + "\n&7Server: &e"
 				+ MSG.camelCase(targetBlock.getType() + ""));
 	}

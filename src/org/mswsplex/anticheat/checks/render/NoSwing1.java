@@ -44,6 +44,9 @@ public class NoSwing1 implements Check, Listener {
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !event.isBlockInHand())
 			return;
 
+		if (event.getAction() == Action.PHYSICAL)
+			return;
+
 		if (cp.timeSince("lastSwing") < 1000)
 			return;
 

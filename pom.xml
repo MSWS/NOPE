@@ -17,7 +17,7 @@
 					<include>plugin.yml</include>
 					<include>config.yml</include>
 					<include>lang.yml</include>
-					<include>guis.yml</include>					
+					<include>guis.yml</include>
 				</includes>
 			</resource>
 		</resources>
@@ -56,11 +56,6 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>com.github.marcoacierno</groupId>
-			<artifactId>pastebin-java-api</artifactId>
-			<version>0.2.1</version>
-		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>

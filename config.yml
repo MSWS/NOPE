@@ -19,7 +19,6 @@ CommandsForBan:
 CommandsForBanwave:
 - kick %player% Hacking - Banwave (%hack%)|(%token%)
 - say %player% was banwaved for %hack% (%token%)
-Pastebin: false
 Animations: true
 Scoreboard: true
 Checks:

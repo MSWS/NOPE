@@ -73,11 +73,18 @@ public class SBoard {
 					OfflinePlayer player = (OfflinePlayer) ranks.keySet().toArray()[i];
 					CPlayer cp = plugin.getCPlayer(player);
 
-					int highVl = cp.getSaveInteger("vls." + cp.getHighestHack());
+//					int highVl = cp.getSaveInteger("vls." + cp.getHighestHack());
+					int highVl = cp.getSaveData("vls." + cp.getHighestHack(), Integer.class);
+
+					/*
+					 * String addon = MSG.getVlColor(highVl) + (ranks.size() - i) + ": &7" +
+					 * player.getName() + " &e" + cp.getHighestHack() + " " + MSG.getVlColor(highVl)
+					 * + cp.getSaveInteger("vls." + cp.getHighestHack());
+					 */
 
 					String addon = MSG.getVlColor(highVl) + (ranks.size() - i) + ": &7" + player.getName() + " &e"
 							+ cp.getHighestHack() + " " + MSG.getVlColor(highVl)
-							+ cp.getSaveInteger("vls." + cp.getHighestHack());
+							+ cp.getSaveData("vls." + cp.getHighestHack(), Integer.class);
 
 					if (cp.hasSaveData("isBanwaved")) {
 						addon += " &d[BW]";

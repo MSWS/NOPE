@@ -178,10 +178,11 @@ public class Animation implements Listener {
 
 					for (int pillar = 0; pillar < blocks.length; pillar++) {
 						Block bottom = blocks[pillar][0];
-						for (Player p : bottom.getWorld().getPlayers()) {
-							p.spigot().playEffect(bottom.getLocation().clone().add(.5, 0, .5), Effect.TILE_BREAK,
-									bottom.getTypeId(), 0, 0, 0, 0, 0, 0, 200);
-						}
+						if (Bukkit.getVersion().contains("1.8"))
+							for (Player p : bottom.getWorld().getPlayers()) {
+								p.spigot().playEffect(bottom.getLocation().clone().add(.5, 0, .5), Effect.TILE_BREAK,
+										bottom.getTypeId(), 0, 0, 0, 0, 0, 0, 200);
+							}
 						if (cp.timeSince("lastAnimationSound") > 500) {
 							bottom.getWorld().playSound(bottom.getLocation(), Sounds.DIG_STONE.bukkitSound(), 1, 2);
 							cp.setTempData("lastAnimationSound", (double) System.currentTimeMillis());

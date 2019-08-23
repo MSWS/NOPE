@@ -239,18 +239,18 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 								.replace("%name%", "Animations"));
 				plugin.saveConfig();
 				break;
-			case "pastebin":
-				if (!sender.hasPermission("nope.command.toggle.pastebin")) {
-					MSG.noPerm(sender, "nope.command.toggle.pastebin");
-					return true;
-				}
-				plugin.config.set("Pastebin", !plugin.config.getBoolean("Pastebin"));
-				MSG.tell(sender,
-						MSG.getString("Toggle", "you %status% %name%")
-								.replace("%status%", enabledDisable(plugin.config.getBoolean("Pastebin")))
-								.replace("%name%", "Pastebin Logging"));
-				plugin.saveConfig();
-				break;
+//			case "pastebin":
+//				if (!sender.hasPermission("nope.command.toggle.pastebin")) {
+//					MSG.noPerm(sender, "nope.command.toggle.pastebin");
+//					return true;
+//				}
+//				plugin.config.set("Pastebin", !plugin.config.getBoolean("Pastebin"));
+//				MSG.tell(sender,
+//						MSG.getString("Toggle", "you %status% %name%")
+//								.replace("%status%", enabledDisable(plugin.config.getBoolean("Pastebin")))
+//								.replace("%name%", "Pastebin Logging"));
+//				plugin.saveConfig();
+//				break;
 			}
 			break;
 		case "reset":
@@ -512,7 +512,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
 				for (String res : new String[] { "cancel", "dev", "logs", "global", "globalscoreboard", "scoreboard",
-						"pastebin", "animations" }) {
+						/* "pastebin", */ "animations" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

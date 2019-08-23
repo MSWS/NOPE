@@ -73,7 +73,7 @@ public class HighCPS2 implements Check, Listener {
 
 		cp.flagHack(this, (cp.getTempInteger("highCpsClicks1") - ((checkEvery / 20) * maxCps)) * 3 + 5,
 				"Clicks: &e" + cp.getTempInteger("highCpsClicks1") + "&7 >= &a" + (checkEvery / 20) * maxCps
-						+ "\n&7CPS: &e" + cp.getTempInteger("highCpsClick1s") / (checkEvery / 20));
+						+ "\n&7CPS: &e" + cp.getTempInteger("highCpsClicks1") / (checkEvery / 20));
 	}
 
 	@Override

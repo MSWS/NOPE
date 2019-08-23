@@ -52,8 +52,10 @@ public class MessageListener implements PluginMessageListener {
 			OfflinePlayer off = Bukkit.getOfflinePlayer(msg.split(" ")[0].substring("setvl:".length()));
 			String hack = msg.split(" ")[1];
 			int vl = Integer.parseInt(msg.split(" ")[2]);
+//			plugin.getCPlayer(off).setSaveData("vls." + hack,
+//					plugin.getCPlayer(off).getSaveInteger("vls." + hack) + vl);
 			plugin.getCPlayer(off).setSaveData("vls." + hack,
-					plugin.getCPlayer(off).getSaveInteger("vls." + hack) + vl);
+					plugin.getCPlayer(off).getSaveData("vls." + hack, int.class) + vl);
 		} else if (msg.startsWith("clearvl:")) {
 			OfflinePlayer off = Bukkit.getOfflinePlayer(msg.split(" ")[0].substring("clearvl:".length()));
 			plugin.getCPlayer(off).clearVls();

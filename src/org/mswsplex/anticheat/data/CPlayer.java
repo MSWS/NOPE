@@ -32,7 +32,7 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
-import org.mswsplex.anticheat.utils.Utils;
+import org.mswsplex.punish.managers.BanManager;
 
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -189,10 +189,6 @@ public class CPlayer {
 		tempData.remove(id);
 	}
 
-	public int getSaveInteger(String id) {
-		return hasSaveData(id) ? (int) getSaveData(id) : 0;
-	}
-
 	public <T> T getSaveData(String id, Class<T> cast) {
 		return cast.cast(getSaveData(id));
 	}
@@ -298,7 +294,11 @@ public class CPlayer {
 			// check.getDebugName() + " &4+" + vl);
 		}
 
-		int nVl = getSaveInteger("vls." + check.getCategory()) + vl;
+//		int nVl = getSaveInteger("vls." + check.getCategory()) + vl;
+
+		int nVl = hasSaveData("vls." + check.getCategory())
+				? getSaveData("vls." + check.getCategory(), Integer.class) + vl
+				: vl;
 
 		String color = MSG.getVlColor(nVl);
 
@@ -428,6 +428,9 @@ public class CPlayer {
 						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
 		}
+
+		if (Bukkit.getPluginManager().isPluginEnabled("Punish"))
+			BanManager.addPunishment(player, "NESS", "Hacking - (" + token + ")", "sev3hackingban", 1.314e+10, 3);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -522,7 +525,8 @@ public class CPlayer {
 		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
 		if (plugin.devMode())
 			prefix.add("[WARNING] Developer Mode WAS Enabled During This Ban");
-		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check) + "/" + getTotalVL() + ")");
+//		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check) + "/" + getTotalVL() + ")");
+		prefix.add("Hack: " + check + " (" + getSaveData("vls." + check, Integer.class) + "/" + getTotalVL() + ")");
 		prefix.add("Timing: " + MSG.camelCase(timing + ""));
 		prefix.add("Date: " + format.format(now));
 		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
@@ -547,7 +551,9 @@ public class CPlayer {
 		revised.addAll(0, prefix);
 
 		revised.add("");
-		revised.add("Banning " + player.getName() + " for " + check + " (VL: " + getSaveInteger("vls." + check) + ")");
+//		revised.add("Banning " + player.getName() + " for " + check + " (VL: " + getSaveInteger("vls." + check) + ")");
+		revised.add("Banning " + player.getName() + " for " + check + " (VL: "
+				+ getSaveData("vls." + check, Integer.class) + ")");
 
 		for (int i = 1; i < revised.size(); i++) {
 			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty()) {
@@ -555,20 +561,20 @@ public class CPlayer {
 				i--;
 			}
 		}
-
-		if (plugin.config.getBoolean("Pastebin")) {
-			StringBuilder raw = new StringBuilder();
-			for (String line : revised)
-				raw.append(line + "\n");
-
-			String link = Utils.uploadPaste(
-					player.getName() + " " + token + " " + format.format(now) + " [" + check + "]", raw.toString());
-			if (link != null) {
-				revised.add(0, link);
-				revised.add("Pastebin Link: " + link);
-				MSG.log("Uploaded Pastebin for " + player.getName() + " link: " + link);
-			}
-		}
+//
+//		if (plugin.config.getBoolean("Pastebin")) {
+//			StringBuilder raw = new StringBuilder();
+//			for (String line : revised)
+//				raw.append(line + "\n");
+//
+//			String link = Utils.uploadPaste(
+//					player.getName() + " " + token + " " + format.format(now) + " [" + check + "]", raw.toString());
+//			if (link != null) {
+//				revised.add(0, link);
+//				revised.add("Pastebin Link: " + link);
+//				MSG.log("Uploaded Pastebin for " + player.getName() + " link: " + link);
+//			}
+//		}
 		try {
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {

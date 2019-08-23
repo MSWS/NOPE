@@ -28,6 +28,7 @@ public class PacketListener {
 					break;
 				case "PacketPlayInSettings":
 					cp.setTempData("settingsPackets", cp.getTempInteger("settingsPackets") + 1);
+					cp.setTempData("lastSettingsPacket", (double) System.currentTimeMillis());
 					break;
 				case "PacketPlayInArmAnimation":
 					cp.setTempData("lastSwing", (double) System.currentTimeMillis());

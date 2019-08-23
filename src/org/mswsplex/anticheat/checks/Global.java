@@ -51,13 +51,16 @@ public class Global implements Listener {
 					}
 
 				for (String hack : vlSection.getKeys(false)) {
-					if (cp.getSaveInteger("vls." + hack) == 0)
+//					if (cp.getSaveInteger("vls." + hack) == 0)
+					if (cp.getSaveData("vls." + hack, Integer.class) == 0)
 						continue;
-					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - diff);
-					if (cp.getSaveInteger("vls." + hack) < 0)
+//					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - diff);
+					cp.setSaveData("vls." + hack, cp.getSaveData("vls." + hack, Integer.class) - diff);
+//					if (cp.getSaveInteger("vls." + hack) < 0)
+					if (cp.getSaveData("vls." + hack, Integer.class) < 0)
 						cp.setSaveData("vls." + hack, 0);
 					MSG.sendPluginMessage(null,
-							"setvl:" + p.getName() + " " + hack + " " + cp.getSaveInteger("vls." + hack));
+							"setvl:" + p.getName() + " " + hack + " " + cp.getSaveData("vls." + hack, Integer.class));
 				}
 			}
 		}, 0, 40);

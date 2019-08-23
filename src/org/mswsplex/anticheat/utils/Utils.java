@@ -26,14 +26,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.mswsplex.anticheat.msws.NOPE;
 
-import com.besaba.revonline.pastebinapi.Pastebin;
-import com.besaba.revonline.pastebinapi.impl.factory.PastebinFactory;
-import com.besaba.revonline.pastebinapi.paste.Paste;
-import com.besaba.revonline.pastebinapi.paste.PasteBuilder;
-import com.besaba.revonline.pastebinapi.paste.PasteExpire;
-import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
-import com.besaba.revonline.pastebinapi.response.Response;
-
 public class Utils {
 	public static NOPE plugin;
 
@@ -616,27 +608,27 @@ public class Utils {
 		return false;
 	}
 
-	public static String uploadPaste(String title, String contents) {
-		final PastebinFactory factory = new PastebinFactory();
-		final Pastebin pastebin = factory.createPastebin("b8888021632daf66ee6cddca01c66dff");
-		final PasteBuilder pasteBuilder = factory.createPaste();
-
-		// Title paste
-		pasteBuilder.setTitle(title);
-		pasteBuilder.setRaw(contents);
-		pasteBuilder.setMachineFriendlyLanguage("text");
-		pasteBuilder.setVisiblity(PasteVisiblity.Public);
-		pasteBuilder.setExpire(PasteExpire.Never);
-
-		final Paste paste = pasteBuilder.build();
-		final Response<String> postResult = pastebin.post(paste);
-		
-		if (postResult.hasError()) {
-			MSG.log("Erorr: " + postResult.getError());
-			return null;
-		}
-
-		return postResult.get();
-
-	}
+//	public static String uploadPaste(String title, String contents) {
+//		final PastebinFactory factory = new PastebinFactory();
+//		final Pastebin pastebin = factory.createPastebin("b8888021632daf66ee6cddca01c66dff");
+//		final PasteBuilder pasteBuilder = factory.createPaste();
+//
+//		// Title paste
+//		pasteBuilder.setTitle(title);
+//		pasteBuilder.setRaw(contents);
+//		pasteBuilder.setMachineFriendlyLanguage("text");
+//		pasteBuilder.setVisiblity(PasteVisiblity.Public);
+//		pasteBuilder.setExpire(PasteExpire.Never);
+//
+//		final Paste paste = pasteBuilder.build();
+//		final Response<String> postResult = pastebin.post(paste);
+//		
+//		if (postResult.hasError()) {
+//			MSG.log("Erorr: " + postResult.getError());
+//			return null;
+//		}
+//
+//		return postResult.get();
+//
+//	}
 }
