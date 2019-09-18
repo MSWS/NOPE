@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -151,7 +152,7 @@ public class Global implements Listener {
 		cp.setTempData("lastBlockPlace", (double) System.currentTimeMillis());
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onToggleFlight(PlayerToggleFlightEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
@@ -162,6 +163,23 @@ public class Global implements Listener {
 			cp.setTempData("disableFlight", (double) System.currentTimeMillis());
 		} else {
 			cp.setTempData("enableFlight", (double) System.currentTimeMillis());
+		}
+	}
+
+	@EventHandler(ignoreCancelled = true)
+	public void onToggleGlide(EntityToggleGlideEvent event) {
+		if (!(event.getEntity() instanceof Player))
+			return;
+
+		Player player = ((Player) event.getEntity());
+		CPlayer cp = plugin.getCPlayer(player);
+
+		cp.setTempData("toggleGlide", (double) System.currentTimeMillis());
+
+		if (player.isGliding()) {
+			cp.setTempData("disableGlide", (double) System.currentTimeMillis());
+		} else {
+			cp.setTempData("enableGlide", (double) System.currentTimeMillis());
 		}
 	}
 

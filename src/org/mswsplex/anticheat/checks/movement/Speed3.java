@@ -51,6 +51,8 @@ public class Speed3 implements Check, Listener {
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
+		if (cp.timeSince("disableElytra") < 1000)
+			return;
 		if (cp.usingElytra())
 			return;
 

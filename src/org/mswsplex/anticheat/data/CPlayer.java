@@ -117,7 +117,7 @@ public class CPlayer {
 			return false;
 		if (player.getPlayer().getEquipment().getChestplate() == null)
 			return false;
-		return "ELYTRA".equals(player.getPlayer().getEquipment().getChestplate().getType().toString());
+		return player.getPlayer().isGliding();
 	}
 
 	public void saveData() {
