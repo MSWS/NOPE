@@ -59,7 +59,7 @@ public class Movement1 implements Check, Listener {
 		if (cp.timeSince("lastSlimeBlock") < 2000)
 			return;
 
-		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1.0))
 			return;
 
 		if (cp.isBlockNearby("CHEST", -.2))

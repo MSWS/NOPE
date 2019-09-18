@@ -36,18 +36,18 @@ public class FastEat1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private Material[] foods = { Material.COOKED_BEEF, Material.COOKED_CHICKEN, Material.COOKED_FISH,
-			Material.COOKED_MUTTON, Material.COOKED_RABBIT, Material.RAW_BEEF, Material.RAW_CHICKEN, Material.RAW_FISH,
+	private Material[] foods = { Material.COOKED_BEEF, Material.COOKED_CHICKEN, Material.PUFFERFISH,
+			Material.TROPICAL_FISH, Material.COOKED_MUTTON, Material.COOKED_RABBIT, Material.BEEF, Material.CHICKEN,
 			Material.APPLE, Material.SPIDER_EYE, Material.RABBIT, Material.RABBIT_STEW, Material.PUMPKIN_PIE,
-			Material.POTATO_ITEM, Material.BAKED_POTATO, Material.COOKIE, Material.MELON, Material.SPECKLED_MELON,
-			Material.MUSHROOM_SOUP, Material.BREAD, Material.GOLDEN_APPLE, Material.GOLDEN_CARROT,
+			Material.POTATO, Material.BAKED_POTATO, Material.COOKIE, Material.MELON, Material.GLISTERING_MELON_SLICE,
+			Material.MUSHROOM_STEW, Material.BREAD, Material.GOLDEN_APPLE, Material.GOLDEN_CARROT,
 			Material.ROTTEN_FLESH };
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		ItemStack hand = player.getItemInHand();
+		ItemStack hand = player.getInventory().getItemInMainHand();
 		if (hand == null || hand.getType() == Material.AIR)
 			return;
 		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
@@ -104,7 +104,6 @@ public class FastEat1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

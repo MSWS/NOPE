@@ -60,7 +60,7 @@ public class GhostHand1 implements Check, Listener {
 		if (!event.getClickedBlock().getRelative(BlockFace.UP).getType().isSolid())
 			return;
 
-		if (targetBlock.getType() == Material.IRON_FENCE)
+		if (targetBlock.getType().toString().contains("TRAPDOOR"))
 			return;
 
 		if (targetBlock.getType().toString().contains("DOOR")

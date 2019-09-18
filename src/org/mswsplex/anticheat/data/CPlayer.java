@@ -331,7 +331,7 @@ public class CPlayer {
 						.replace("%n%",
 								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
 						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
-						.replace("%addVl%", vl + "").replace("%server%", Bukkit.getServerName());
+						.replace("%addVl%", vl + "").replace("%server%", "[DEPRECATED]");
 
 				MSG.tell("nope.message.normal", message);
 
@@ -775,7 +775,7 @@ public class CPlayer {
 			return false;
 		Player online = player.getPlayer();
 
-		List<Material> blockTypes = Arrays.asList(Material.PISTON_BASE, Material.PISTON_STICKY_BASE);
+		List<Material> blockTypes = Arrays.asList(Material.PISTON_HEAD, Material.STICKY_PISTON);
 		int range = 2;
 		for (int x = -range; x <= range; x++) {
 			for (int y = -range; y <= range; y++) {

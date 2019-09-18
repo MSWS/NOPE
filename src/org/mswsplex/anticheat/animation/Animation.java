@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -128,7 +127,7 @@ public class Animation implements Listener {
 
 	public BukkitRunnable runAnimations() {
 		return new BukkitRunnable() {
-			@SuppressWarnings("deprecation")
+			@SuppressWarnings({ "unused" })
 			@Override
 			public void run() {
 				Iterator<AnimationKey> it = keys.iterator();
@@ -180,8 +179,9 @@ public class Animation implements Listener {
 						Block bottom = blocks[pillar][0];
 						if (Bukkit.getVersion().contains("1.8"))
 							for (Player p : bottom.getWorld().getPlayers()) {
-								p.spigot().playEffect(bottom.getLocation().clone().add(.5, 0, .5), Effect.TILE_BREAK,
-										bottom.getTypeId(), 0, 0, 0, 0, 0, 0, 200);
+//								ParticleEffect.
+//								p.spigot().playEffect(bottom.getLocation().clone().add(.5, 0, .5), ParticleEffect.BLOCK_CRACK.,
+//										bottom.getType().getId()), 0, 0, 0, 0, 0, 0, 200);
 							}
 						if (cp.timeSince("lastAnimationSound") > 500) {
 							bottom.getWorld().playSound(bottom.getLocation(), Sounds.DIG_STONE.bukkitSound(), 1, 2);

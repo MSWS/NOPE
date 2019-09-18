@@ -53,7 +53,7 @@ public class HighCPS3 implements Check, Listener {
 
 		Block block = event.getClickedBlock();
 
-		ItemStack hand = player.getItemInHand();
+		ItemStack hand = player.getInventory().getItemInMainHand();
 
 		if (hand != null && hand.containsEnchantment(Enchantment.DIG_SPEED))
 			return;
@@ -93,7 +93,6 @@ public class HighCPS3 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

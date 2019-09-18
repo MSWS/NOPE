@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.mswsplex.anticheat.msws.NOPE;
@@ -107,25 +108,25 @@ public class Utils {
 	 */
 	public static Sound getBreakSound(Material mat) {
 		if (mat.name().contains("GLOW") || mat.name().contains("GLASS"))
-			return Sound.GLASS;
+			return Sounds.GLASS.bukkitSound();
 		if (mat.name().contains("STONE"))
-			return Sound.DIG_STONE;
+			return Sounds.DIG_STONE.bukkitSound();
 		if (mat.name().contains("SAND"))
-			return Sound.DIG_SAND;
+			return Sounds.DIG_SAND.bukkitSound();
 		if (mat.name().contains("SNOW"))
-			return Sound.DIG_SNOW;
+			return Sounds.DIG_SNOW.bukkitSound();
 		if (mat.name().contains("WOOD") || mat.name().contains("LOG"))
-			return Sound.DIG_WOOD;
+			return Sounds.DIG_WOOD.bukkitSound();
 		switch (mat.name()) {
 		case "GRAVEL":
-			return Sound.DIG_GRAVEL;
+			return Sounds.DIG_GRAVEL.bukkitSound();
 		case "GRASS":
 		case "DIRT":
-			return Sound.DIG_GRASS;
+			return Sounds.DIG_GRASS.bukkitSound();
 		case "WOOL":
-			return Sound.DIG_WOOL;
+			return Sounds.DIG_WOOL.bukkitSound();
 		default:
-			return Sound.DIG_GRASS;
+			return Sounds.DIG_GRASS.bukkitSound();
 		}
 	}
 
@@ -226,6 +227,7 @@ public class Utils {
 	 *                placeholders)
 	 * @return Parsed ItemStack
 	 */
+	@SuppressWarnings("deprecation")
 	public static ItemStack parseItem(ConfigurationSection section, String path, OfflinePlayer player) {
 		ConfigurationSection gui = section.getConfigurationSection(path);
 		ItemStack item = new ItemStack(Material.valueOf(gui.getString("Icon")));
@@ -233,10 +235,10 @@ public class Utils {
 		if (gui.contains("Amount"))
 			item.setAmount(gui.getInt("Amount"));
 		if (gui.contains("Data"))
-			item.setDurability((short) gui.getInt("Data"));
+			((Damageable) item).setDamage(gui.getInt("Data"));
 		if (gui.contains("Owner")) {
 			SkullMeta meta = (SkullMeta) item.getItemMeta();
-			meta.setOwner(gui.getString("Owner"));
+			meta.setOwningPlayer(Bukkit.getOfflinePlayer(gui.getString("Owner")));
 			item.setItemMeta(meta);
 		}
 		ItemMeta meta = item.getItemMeta();
@@ -247,7 +249,7 @@ public class Utils {
 				lore.add(MSG.color("&r" + temp));
 		}
 		if (gui.getBoolean("Unbreakable")) {
-			meta.spigot().setUnbreakable(true);
+			meta.setUnbreakable(true);
 			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 		}
 		if (gui.contains("Cost")) {

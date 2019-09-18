@@ -42,7 +42,7 @@ public class NoFall1 implements Check, Listener {
 		if (!cp.isOnGround())
 			return;
 
-		if (cp.isBlockNearby(Material.WEB) || cp.isBlockNearby(Material.WEB, 1.0))
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1.0))
 			return;
 
 		if (cp.isBlockNearby("SLAB") || cp.isBlockNearby("STEP") || cp.isInWeirdBlock())
@@ -74,7 +74,6 @@ public class NoFall1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

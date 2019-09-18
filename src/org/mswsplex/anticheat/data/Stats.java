@@ -79,7 +79,7 @@ public class Stats {
 			inv.addItem(item);
 		}
 
-		ItemStack bans = new ItemStack(Material.IRON_FENCE);
+		ItemStack bans = new ItemStack(Material.IRON_BLOCK);
 		ItemMeta meta = bans.getItemMeta();
 
 		meta.setDisplayName(MSG.color("&eBan Statistics"));

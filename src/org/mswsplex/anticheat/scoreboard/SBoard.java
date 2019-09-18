@@ -143,7 +143,7 @@ public class SBoard {
 						// obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 					} else {
 						board = Bukkit.getScoreboardManager().getNewScoreboard();
-						Objective obj = board.registerNewObjective("anticheat", "dummy");
+						Objective obj = board.registerNewObjective("anticheat", "dummy", "");
 						player.setScoreboard(board);
 						obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 						obj.setDisplayName(MSG.color(name));

@@ -39,7 +39,7 @@ public class IllegalBlockPlace1 implements Check, Listener {
 		if (!event.getBlockAgainst().isLiquid())
 			return;
 
-		if (event.getBlock().getType() == Material.WATER_LILY)
+		if (event.getBlock().getType() == Material.LILY_PAD)
 			return;
 
 		cp.flagHack(this, 50);

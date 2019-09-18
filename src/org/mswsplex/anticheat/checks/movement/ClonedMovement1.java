@@ -40,7 +40,7 @@ public class ClonedMovement1 implements Check, Listener {
 
 	private final int SIZE = 20;
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings({ "unchecked" })
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -49,7 +49,7 @@ public class ClonedMovement1 implements Check, Listener {
 			return;
 		if (cp.isInClimbingBlock())
 			return;
-		if (cp.isBlockNearby(Material.WEB))
+		if (cp.isBlockNearby(Material.COBWEB))
 			return;
 		if (cp.timeSince("lastBlockPlace") < 500)
 			return;
@@ -69,7 +69,7 @@ public class ClonedMovement1 implements Check, Listener {
 		if (dist == 0)
 			return;
 
-		if (player.getLocation().getBlock().getType() == Material.WEB && dist <= 0.06586018003872596)
+		if (player.getLocation().getBlock().getType() == Material.COBWEB && dist <= 0.06586018003872596)
 			return;
 
 		List<Double> distances = (ArrayList<Double>) cp.getTempData("teleportDistances");
@@ -109,7 +109,6 @@ public class ClonedMovement1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

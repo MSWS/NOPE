@@ -52,7 +52,7 @@ public class AntiKB1 implements Check, Listener {
 		if (cp.timeSince("lastLiquid") < 500)
 			return;
 
-		if (cp.isBlockNearby(Material.WEB))
+		if (cp.isBlockNearby(Material.COBWEB))
 			return;
 
 		Location origin = player.getLocation();

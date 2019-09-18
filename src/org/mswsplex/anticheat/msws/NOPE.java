@@ -65,7 +65,7 @@ public class NOPE extends JavaPlugin {
 		checks = new Checks(this);
 		checks.registerChecks();
 
-		serverName = Bukkit.getServerName();
+		serverName = "[DEPRECATED]";
 		stats = new Stats(this);
 
 		animation = new Animation(this);

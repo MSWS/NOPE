@@ -47,7 +47,7 @@ public class NoWeb1 implements Check, Listener {
 		if (cp.timeSince("lastDamageTaken") < 500)
 			return;
 
-		if (player.getLocation().getBlock().getType() != Material.WEB)
+		if (player.getLocation().getBlock().getType() != Material.COBWEB)
 			return;
 
 		double diff = event.getTo().distanceSquared(event.getFrom());
@@ -77,7 +77,6 @@ public class NoWeb1 implements Check, Listener {
 
 	@Override
 	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

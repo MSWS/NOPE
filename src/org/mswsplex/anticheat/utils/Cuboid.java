@@ -523,7 +523,7 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
 	@SuppressWarnings("deprecation")
 	public boolean containsOnly(int blockId) {
 		for (Block b : this) {
-			if (b.getTypeId() != blockId)
+			if (b.getType().getId() != blockId)
 				return false;
 		}
 		return true;
