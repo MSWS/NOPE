@@ -3,6 +3,12 @@ package org.mswsplex.anticheat.animation;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.checks.Timing;
 
+/**
+ * 
+ * @author imodm
+ *
+ * @deprecated See {@link Animation}
+ */
 public class AnimationKey {
 	private Player player;
 	private Timing timing;

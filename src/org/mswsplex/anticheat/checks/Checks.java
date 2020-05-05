@@ -34,22 +34,23 @@ import org.mswsplex.anticheat.checks.movement.Flight3;
 import org.mswsplex.anticheat.checks.movement.Flight4;
 import org.mswsplex.anticheat.checks.movement.InventoryMove1;
 import org.mswsplex.anticheat.checks.movement.Jesus1;
-import org.mswsplex.anticheat.checks.movement.Movement1;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown1;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown2;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown3;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown4;
 import org.mswsplex.anticheat.checks.movement.NoWeb1;
+import org.mswsplex.anticheat.checks.movement.SafeWalk1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
 import org.mswsplex.anticheat.checks.movement.Speed2;
 import org.mswsplex.anticheat.checks.movement.Speed3;
 import org.mswsplex.anticheat.checks.movement.Step1;
 import org.mswsplex.anticheat.checks.player.AntiFire1;
+import org.mswsplex.anticheat.checks.player.AutoSwitch1;
+import org.mswsplex.anticheat.checks.player.AutoTool1;
 import org.mswsplex.anticheat.checks.player.ChestStealer1;
 import org.mswsplex.anticheat.checks.player.FastEat1;
 import org.mswsplex.anticheat.checks.player.GhostHand1;
 import org.mswsplex.anticheat.checks.player.NoFall1;
-import org.mswsplex.anticheat.checks.player.NoGround1;
 import org.mswsplex.anticheat.checks.player.SelfHarm1;
 import org.mswsplex.anticheat.checks.player.Zoot1;
 import org.mswsplex.anticheat.checks.render.AutoSneak1;
@@ -58,8 +59,6 @@ import org.mswsplex.anticheat.checks.render.NoSwing1;
 import org.mswsplex.anticheat.checks.render.SkinBlinker1;
 import org.mswsplex.anticheat.checks.render.Spinbot1;
 import org.mswsplex.anticheat.checks.tick.MultiUse1;
-import org.mswsplex.anticheat.checks.tick.Regen1;
-import org.mswsplex.anticheat.checks.tick.Regen2;
 import org.mswsplex.anticheat.checks.tick.Timer1;
 import org.mswsplex.anticheat.checks.tick.Timer2;
 import org.mswsplex.anticheat.checks.world.IllegalBlockBreak1;
@@ -81,16 +80,17 @@ public class Checks {
 	}
 
 	private List<Check> checkList = Arrays.asList(new Flight1(), new Flight2(), new Flight3(), new Flight4(),
-			new NoGround1(), new Speed1(), new Speed2(), new Speed3(), new Movement1(), new ClonedMovement1(),
-			new Timer1(), new Timer2(), new Step1(), new Criticals1(), new NoFall1(), new Scaffold1(), new Scaffold2(),
-			new Scaffold3(), new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
-			new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
-			new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
-			new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(),
-			new KillAura4(), new KillAura5(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
-			new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new Regen1(), new Regen2(), new SkinBlinker1(),
-			new NoSwing1(), new ServerCrasher1(), new ServerCrasher2(), new ChestStealer1(), new AntiFire1(),
-			new MultiUse1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1());
+			new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(), new Timer2(), new Step1(),
+			new Criticals1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
+			new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
+			new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(),
+			new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
+			new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(), new KillAura4(),
+			new KillAura5(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
+			new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new SkinBlinker1(), new NoSwing1(),
+			new ServerCrasher1(), new ServerCrasher2(), new ChestStealer1(), new AntiFire1(), new MultiUse1(),
+			new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
+			new AutoSwitch1());
 
 	public void registerChecks() {
 		for (Check check : checkList) {
@@ -102,8 +102,6 @@ public class Checks {
 				continue;
 			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
 					+ "." + check.getDebugName() + ".Enabled"))
-				continue;
-			if (check.onlyLegacy() && !plugin.is1_8())
 				continue;
 			check.register(plugin);
 		}

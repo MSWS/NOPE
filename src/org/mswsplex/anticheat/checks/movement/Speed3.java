@@ -82,10 +82,12 @@ public class Speed3 implements Check, Listener {
 
 		avg /= distances.size();
 
-		if (avg < .53)
+		double max = .557316;
+
+		if (avg < max)
 			return;
 
-		cp.flagHack(this, (int) Math.round((avg - .53) * 20) + 5, "Avg: &e" + avg + "&7 >= &a.53");
+		cp.flagHack(this, (int) Math.round((avg - max) * 20) + 5, "Avg: &e" + avg + "&7 >= &a" + max);
 	}
 
 	@Override
@@ -101,10 +103,5 @@ public class Speed3 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return true;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
 	}
 }

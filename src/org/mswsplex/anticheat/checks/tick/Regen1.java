@@ -20,6 +20,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Checks how many regen ticks within a time period
  * 
  * @author imodm
+ * 
+ * @deprecated Incompatible with 1.15.2 healing
  *
  */
 public class Regen1 implements Check, Listener {
@@ -82,10 +84,5 @@ public class Regen1 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return false;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return true;
 	}
 }

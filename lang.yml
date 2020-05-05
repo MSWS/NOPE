@@ -20,4 +20,3 @@ Help:
   - perm:nope.command.removebanwave &c/nope removebanwave [Player] &7- Removes a player from the banwave
   - perm:nope.command.stats &c/nope stats &7- View NOPE statistics and manage checks
   - perm:nope.command.enablechecks &c/nope enablechecks &7- Enable all checks
-  - perm:nope.command.testanimation &c/nope testanimation [Player] &7- Test NOPE's animation

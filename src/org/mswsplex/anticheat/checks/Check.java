@@ -12,6 +12,4 @@ public interface Check {
 	public String getDebugName();
 
 	public boolean lagBack();
-	
-	public boolean onlyLegacy();
 }

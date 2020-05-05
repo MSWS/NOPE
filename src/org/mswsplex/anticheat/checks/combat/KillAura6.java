@@ -61,11 +61,6 @@ public class KillAura6 implements Check, Listener {
 		return false;
 	}
 
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
-
 	private boolean isLookingAt(Player player, Location target) {
 		Location eye = player.getEyeLocation();
 		Vector toEntity = target.toVector().subtract(eye.toVector());

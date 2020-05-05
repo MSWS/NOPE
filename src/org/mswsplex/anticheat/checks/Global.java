@@ -79,6 +79,14 @@ public class Global implements Listener {
 
 		Location from = event.getFrom(), to = event.getTo();
 
+		if (plugin.debugMode()) {
+			MSG.tell(player, "FROM " + String.format("%.3f, %.3f, %.3f", from.getX(), from.getY(), from.getZ()));
+			MSG.tell(player, "TO " + String.format("%.3f, %.3f, %.3f", to.getX(), to.getY(), to.getZ()));
+			MSG.tell(player, "DIFF " + String.format("%.3f, %.3f, %.3f", from.getX() - to.getX(),
+					from.getY() - to.getY(), from.getZ() - to.getZ()));
+			MSG.tell(player, "IN " + MSG.camelCase(to.getBlock().getType().toString()));
+		}
+
 		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
 			cp.setTempData("lastLiquid", (double) time);
 
@@ -128,6 +136,9 @@ public class Global implements Listener {
 
 		if (player.isFlying() || cp.usingElytra())
 			cp.setTempData("wasFlying", (double) time);
+
+		if (player.isSprinting())
+			cp.setTempData("lastSprinting", (double) time);
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
 			cp.setTempData("lastHorizontalBlockChange", (double) System.currentTimeMillis());

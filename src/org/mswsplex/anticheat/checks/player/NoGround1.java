@@ -12,11 +12,14 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Compares if the server onGround and player onGround is different
  * 
  * @author imodm
+ * 
+ * @deprecated 1.15.2 implements server-sided onground check
  *
  */
 public class NoGround1 implements Check, Listener {
@@ -57,6 +60,11 @@ public class NoGround1 implements Check, Listener {
 		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.SLIME_BLOCK)
 			return;
 
+		if (player.getVelocity().getY() == -0.0784000015258789)
+			return;
+
+		MSG.tell(player, player.getVelocity().getY() + "");
+
 		cp.flagHack(this, 5);
 	}
 
@@ -72,11 +80,6 @@ public class NoGround1 implements Check, Listener {
 
 	@Override
 	public boolean lagBack() {
-		return true;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
 		return true;
 	}
 }

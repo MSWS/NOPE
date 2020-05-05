@@ -16,6 +16,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Checks Y differences and flags if they aren't <i>normal</i>
  * 
  * @author imodm
+ * 
+ * @deprecated Incompatible with 1.15
  *
  */
 public class Movement1 implements Check, Listener {
@@ -186,9 +188,4 @@ public class Movement1 implements Check, Listener {
 			1.302977000006095, 1.9074510916993148, 0.4065535335506638
 
 	};
-
-	@Override
-	public boolean onlyLegacy() {
-		return true;
-	}
 }

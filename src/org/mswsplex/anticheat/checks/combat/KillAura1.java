@@ -170,9 +170,4 @@ public class KillAura1 implements Check, Listener {
 			}
 		};
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
 }

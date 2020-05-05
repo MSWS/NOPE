@@ -53,6 +53,12 @@ public class FastSneak1 implements Check, Listener {
 		if (!player.isSneaking())
 			return;
 
+		if (player.isSprinting())
+			return;
+
+		if (cp.timeSince("lastSprinting") < 200)
+			return;
+
 		if (cp.timeSince("lastLiquid") < 500)
 			return;
 
@@ -86,14 +92,16 @@ public class FastSneak1 implements Check, Listener {
 		if (distances.size() < SIZE)
 			return;
 
-		if (avg < .012)
+		double min = .0136;
+
+		if (avg < min)
 			return;
 
 		if (plugin.devMode())
 			MSG.tell(player, "&e" + avg);
 
-		cp.flagHack(this, (int) Math.round((avg / .01) * 20.0) + 5,
-				"Average: &e" + avg + "&7 >= &a.012\n&7Size: &e" + distances.size() + "&7 >= &a" + SIZE);
+		cp.flagHack(this, (int) Math.round((avg / (min - min / 10)) * 20.0) + 5,
+				"Average: &e" + avg + "&7 >= &a" + min + "\n&7Size: &e" + distances.size() + "&7 >= &a" + SIZE);
 	}
 
 	@Override
@@ -108,12 +116,6 @@ public class FastSneak1 implements Check, Listener {
 
 	@Override // Don't lag back because this can cause a few false flags
 	public boolean lagBack() {
-		return false;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

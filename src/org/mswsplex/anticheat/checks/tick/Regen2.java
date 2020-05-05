@@ -16,6 +16,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Checks how recently the last regen tick was
  * 
  * @author imodm
+ * 
+ * @deprecated Incompatible with 1.15.2 healing
  *
  */
 public class Regen2 implements Check, Listener {
@@ -68,10 +70,5 @@ public class Regen2 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return false;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return true;
 	}
 }

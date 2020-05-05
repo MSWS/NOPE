@@ -55,11 +55,15 @@ public class Speed1 implements Check, Listener {
 
 		double dist = to.distanceSquared(from);
 
-		if (dist <= .08199265663630222)
+//		if (dist <= .08199265663630222)
+//			return;
+
+		double max = .1300168;
+
+		if (dist <= max)
 			return;
 
-		cp.flagHack(this, (int) Math.round((dist - .08199265663630222) * 20) + 5,
-				"&7Dist: &e" + dist + "&7 > &a.08199265663630222");
+		cp.flagHack(this, (int) Math.round((dist - max) * 20) + 5, "&7Dist: &e" + dist + "&7 > &a" + max);
 	}
 
 	@Override
@@ -75,11 +79,5 @@ public class Speed1 implements Check, Listener {
 	@Override
 	public boolean lagBack() {
 		return true;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

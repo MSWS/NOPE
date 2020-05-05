@@ -14,10 +14,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.mswsplex.anticheat.animation.AnimationKey;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
-import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
@@ -64,7 +62,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					} else {
 						for (Check h : plugin.getChecks().getAllChecks()) {
 							if (args[2].equalsIgnoreCase(h.getCategory())) {
-								cp.setSaveData("vls." + h, 0);
+								cp.setSaveData("vls." + h.getCategory(), 0);
 								MSG.sendPluginMessage(null, "setvl:" + p.getName() + " " + h + " 0");
 								hack = h.getCategory();
 								break;
@@ -84,7 +82,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				} else {
 					for (Check h : plugin.getChecks().getAllChecks()) {
 						if (args[2].equalsIgnoreCase(h.getCategory())) {
-							cp.setSaveData("vls." + h, 0);
+							cp.setSaveData("vls." + h.getCategory(), 0);
 							MSG.sendPluginMessage(null, "setvl:" + cp.getPlayer().getName() + " " + h + " 0");
 							hack = h.getCategory();
 							break;
@@ -160,6 +158,16 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						.replace("%status%", enabledDisable(plugin.devMode())).replace("%name%", "Developer Mode"));
 				plugin.saveConfig();
 				break;
+			case "debug":
+				if (!sender.hasPermission("nope.command.toggle.debug")) {
+					MSG.noPerm(sender, "nope.command.toggle.debug");
+					return true;
+				}
+				plugin.config.set("DebugMode", !plugin.debugMode());
+				MSG.tell(sender, MSG.getString("Toggle", "you %status% %name%")
+						.replace("%status%", enabledDisable(plugin.debugMode())).replace("%name%", "Debug Mode"));
+				plugin.saveConfig();
+				break;
 			case "lagback":
 			case "cancel":
 				if (!sender.hasPermission("nope.command.toggle.cancel")) {
@@ -227,30 +235,21 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 								.replace("%name%", "your Scoreboard"));
 				((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 				break;
-			case "animations":
-				if (!sender.hasPermission("nope.command.toggle.animations")) {
-					MSG.noPerm(sender, "nope.command.toggle.animations");
-					return true;
-				}
-				plugin.config.set("Animations", !plugin.config.getBoolean("Animations"));
-				MSG.tell(sender,
-						MSG.getString("Toggle", "you %status% %name%")
-								.replace("%status%", enabledDisable(plugin.config.getBoolean("Animations")))
-								.replace("%name%", "Animations"));
-				plugin.saveConfig();
-				break;
-//			case "pastebin":
-//				if (!sender.hasPermission("nope.command.toggle.pastebin")) {
-//					MSG.noPerm(sender, "nope.command.toggle.pastebin");
-//					return true;
-//				}
-//				plugin.config.set("Pastebin", !plugin.config.getBoolean("Pastebin"));
-//				MSG.tell(sender,
-//						MSG.getString("Toggle", "you %status% %name%")
-//								.replace("%status%", enabledDisable(plugin.config.getBoolean("Pastebin")))
-//								.replace("%name%", "Pastebin Logging"));
-//				plugin.saveConfig();
-//				break;
+			/*
+			 * case "animations": if
+			 * (!sender.hasPermission("nope.command.toggle.animations")) {
+			 * MSG.noPerm(sender, "nope.command.toggle.animations"); return true; }
+			 * plugin.config.set("Animations", !plugin.config.getBoolean("Animations"));
+			 * MSG.tell(sender, MSG.getString("Toggle", "you %status% %name%")
+			 * .replace("%status%", enabledDisable(plugin.config.getBoolean("Animations")))
+			 * .replace("%name%", "Animations")); plugin.saveConfig(); break; case
+			 * "pastebin": if (!sender.hasPermission("nope.command.toggle.pastebin")) {
+			 * MSG.noPerm(sender, "nope.command.toggle.pastebin"); return true; }
+			 * plugin.config.set("Pastebin", !plugin.config.getBoolean("Pastebin"));
+			 * MSG.tell(sender, MSG.getString("Toggle", "you %status% %name%")
+			 * .replace("%status%", enabledDisable(plugin.config.getBoolean("Pastebin")))
+			 * .replace("%name%", "Pastebin Logging")); plugin.saveConfig(); break;
+			 */
 			}
 			break;
 		case "reset":
@@ -378,11 +377,6 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				public void register(NOPE plugin) {
 				}
 
-				@Override
-				public boolean onlyLegacy() {
-					return false;
-				}
-
 			}, Integer.parseInt(stringVl));
 
 			MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
@@ -450,28 +444,18 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			plugin.saveConfig();
 			MSG.tell(sender, MSG.getString("AllChecksEnabled", "&aSuccessfully enabled all checks."));
 			break;
-		case "testanimation":
-			if (!(sender instanceof Player)) {
-				MSG.tell(sender, "You must be a player");
-				return true;
-			}
-			if (!sender.hasPermission("nope.command.testanimation")) {
-				MSG.noPerm(sender, "nope.command.animation");
-				return true;
-			}
-
-			if (args.length == 1) {
-				MSG.sendHelp(sender, 0, "default");
-				return true;
-			}
-			player = Bukkit.getPlayer(args[1]);
-			if (player == null) {
-				MSG.tell(sender, "&cUnknown Player");
-				return true;
-			}
-			plugin.getAnimation()
-					.startAnimation(new AnimationKey(player, Timing.MANUAL, "Manual", MSG.genUUID(16), false));
-			break;
+		/*
+		 * case "testanimation": if (!(sender instanceof Player)) { MSG.tell(sender,
+		 * "You must be a player"); return true; } if
+		 * (!sender.hasPermission("nope.command.testanimation")) { MSG.noPerm(sender,
+		 * "nope.command.animation"); return true; }
+		 * 
+		 * if (args.length == 1) { MSG.sendHelp(sender, 0, "default"); return true; }
+		 * player = Bukkit.getPlayer(args[1]); if (player == null) { MSG.tell(sender,
+		 * "&cUnknown Player"); return true; } plugin.getAnimation() .startAnimation(new
+		 * AnimationKey(player, Timing.MANUAL, "Manual", MSG.genUUID(16), false));
+		 * break;
+		 */
 		default:
 			MSG.sendHelp(sender, 0, "default");
 			return true;
@@ -511,8 +495,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "logs", "global", "globalscoreboard", "scoreboard",
-						/* "pastebin", */ "animations" }) {
+				for (String res : new String[] { "cancel", "dev", "debug", "logs", "global", "globalscoreboard",
+						"scoreboard" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

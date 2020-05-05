@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.render;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,8 +18,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.Cuboid;
-
-import io.netty.util.internal.ThreadLocalRandom;
 
 /**
  * 
@@ -117,12 +116,6 @@ public class XRay1 implements Check, Listener {
 
 	@Override
 	public boolean lagBack() {
-		return false;
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

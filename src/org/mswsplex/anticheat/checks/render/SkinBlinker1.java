@@ -57,10 +57,4 @@ public class SkinBlinker1 implements Check {
 	public boolean lagBack() {
 		return false;
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

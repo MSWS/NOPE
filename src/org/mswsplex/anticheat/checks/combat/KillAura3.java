@@ -1,6 +1,7 @@
 package org.mswsplex.anticheat.checks.combat;
 
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -21,8 +22,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-
-import io.netty.util.internal.ThreadLocalRandom;
 
 /**
  * Creates a mini armorstand right behind an entity that the player has hit,
@@ -157,11 +156,5 @@ public class KillAura3 implements Check, Listener {
 				stand.teleport(m);
 			}
 		};
-	}
-
-	@Override
-	public boolean onlyLegacy() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

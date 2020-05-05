@@ -24,6 +24,13 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.Sounds;
 
+/**
+ * 
+ * @author imodm
+ *
+ * @deprecated unused
+ *
+ */
 public class Animation implements Listener {
 	private List<AnimationKey> keys;
 	private NOPE plugin;

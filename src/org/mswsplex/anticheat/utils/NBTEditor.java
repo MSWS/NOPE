@@ -302,6 +302,7 @@ public class NBTEditor {
 	 * @return The item represented by the keys, and an integer if it is showing how
 	 *         long a list is.
 	 */
+	@SuppressWarnings("deprecation")
 	public static Object getItemTag(ItemStack item, Object... keys) {
 		if (item == null) {
 			return null;
@@ -334,6 +335,7 @@ public class NBTEditor {
 	 * @param value The value to set
 	 * @return A new ItemStack with the updated NBT tags
 	 */
+	@SuppressWarnings("deprecation")
 	public static ItemStack setItemTag(ItemStack item, Object value, Object... keys) {
 		if (item == null) {
 			return null;
@@ -368,6 +370,7 @@ public class NBTEditor {
 	 * @return The item represented by the keys, and an integer if it is showing how
 	 *         long a list is.
 	 */
+	@SuppressWarnings("deprecation")
 	public static Object getEntityTag(Entity entity, Object... keys) {
 		if (entity == null) {
 			return entity;
@@ -395,6 +398,7 @@ public class NBTEditor {
 	 * @param value The value to set
 	 * @return A new ItemStack with the updated NBT tags
 	 */
+	@SuppressWarnings("deprecation")
 	public static void setEntityTag(Entity entity, Object value, Object... keys) {
 		if (entity == null) {
 			return;
@@ -425,6 +429,7 @@ public class NBTEditor {
 	 * @return The item represented by the keys, and an integer if it is showing how
 	 *         long a list is.
 	 */
+	@SuppressWarnings("deprecation")
 	public static Object getBlockTag(Block block, Object... keys) {
 		try {
 			if (block == null || !getNMSClass("CraftBlockState").isInstance(block.getState())) {
@@ -459,6 +464,7 @@ public class NBTEditor {
 	 * @param value The value to set
 	 * @return A new ItemStack with the updated NBT tags
 	 */
+	@SuppressWarnings("deprecation")
 	public static void setBlockTag(Block block, Object value, Object... keys) {
 		try {
 			if (block == null || !getNMSClass("CraftBlockState").isInstance(block.getState())) {
@@ -507,6 +513,7 @@ public class NBTEditor {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void setTag(Object tag, Object value, Object... keys) throws Exception {
 		Object notCompound = getConstructor(getNBTTag(value.getClass())).newInstance(value);
 

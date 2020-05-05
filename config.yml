@@ -4,6 +4,7 @@ BanwaveRate: 12000 #Rate of banwave (in ticks)
 Minimum: 20 #Minimum VL to notify staff members
 SecondsMinimum: 5000 #Cooldown of hack messages to prevent spam
 DevMode: false
+DebugMode: false
 Global: true
 VlColors:
 - '&a'
@@ -19,7 +20,6 @@ CommandsForBan:
 CommandsForBanwave:
 - kick %player% Hacking - Banwave (%hack%)|(%token%)
 - say %player% was banwaved for %hack% (%token%)
-Animations: true
 Scoreboard: true
 Checks:
   Movement:

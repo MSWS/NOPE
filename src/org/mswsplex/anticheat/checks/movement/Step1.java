@@ -118,9 +118,4 @@ public class Step1 implements Check, Listener {
 	public boolean lagBack() {
 		return true;
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
 }

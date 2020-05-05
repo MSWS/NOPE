@@ -82,9 +82,4 @@ public class Flight4 implements Check, Listener {
 	public boolean lagBack() {
 		return true;
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
 }

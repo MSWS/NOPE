@@ -67,9 +67,4 @@ public class AntiFire1 implements Check {
 	public boolean lagBack() {
 		return false;
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
 }

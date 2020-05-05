@@ -11,7 +11,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mswsplex.anticheat.animation.Animation;
 import org.mswsplex.anticheat.checks.Banwave;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
@@ -38,9 +37,7 @@ public class NOPE extends JavaPlugin {
 	private Checks checks;
 	private Banwave banwave;
 	private Stats stats;
-	private Animation animation;
-
-	private boolean is1_8;
+//	private Animation animation;
 
 	public String serverName = "Unknown Server";
 
@@ -68,8 +65,6 @@ public class NOPE extends JavaPlugin {
 		serverName = "[DEPRECATED]";
 		stats = new Stats(this);
 
-		animation = new Animation(this);
-
 		new Global(this);
 		new AntiCheatCommand(this);
 
@@ -81,13 +76,6 @@ public class NOPE extends JavaPlugin {
 
 		new SBoard(this);
 
-		String version = Bukkit.getBukkitVersion();
-
-		is1_8 = version.startsWith("1.8");
-
-		if (!is1_8)
-			MSG.log("&4WARNING &cServer is NOT running MC 1.8. A large amount of checks will be disabled.");
-
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
@@ -98,9 +86,9 @@ public class NOPE extends JavaPlugin {
 		return tpsChecker;
 	}
 
-	public Animation getAnimation() {
-		return animation;
-	}
+//	public Animation getAnimation() {
+//		return animation;
+//	}
 
 	public Stats getStats() {
 		return stats;
@@ -113,7 +101,7 @@ public class NOPE extends JavaPlugin {
 	public void onDisable() {
 		stats.saveData();
 
-		animation.stopAnimations(); // Stop all animations BEFORE player data is cleared and saved
+//		animation.stopAnimations(); // Stop all animations BEFORE player data is cleared and saved
 
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p); // Clear all loaded player data and save to files
@@ -167,15 +155,15 @@ public class NOPE extends JavaPlugin {
 		return config.getBoolean("DevMode");
 	}
 
+	public boolean debugMode() {
+		return config.getBoolean("DebugMode");
+	}
+
 	public CPlayer getCPlayer(OfflinePlayer off) {
 		return pManager.getPlayer(off);
 	}
 
 	public Banwave getBanwave() {
 		return this.banwave;
-	}
-
-	public boolean is1_8() {
-		return is1_8;
 	}
 }

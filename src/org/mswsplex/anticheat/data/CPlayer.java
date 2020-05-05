@@ -27,12 +27,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-import org.mswsplex.anticheat.animation.AnimationKey;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
-import org.mswsplex.punish.managers.BanManager;
+//import org.mswsplex.punish.managers.BanManager;
 
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -111,8 +110,6 @@ public class CPlayer {
 	}
 
 	public boolean usingElytra() {
-		if (plugin.is1_8())
-			return false;
 		if (!player.isOnline())
 			return false;
 		if (player.getPlayer().getEquipment().getChestplate() == null)
@@ -265,8 +262,8 @@ public class CPlayer {
 			return;
 		}
 
-		if (player.isOnline() && plugin.getAnimation().isInAnimation(player.getPlayer()))
-			return;
+//		if (player.isOnline() && plugin.getAnimation().isInAnimation(player.getPlayer()))
+//			return;
 
 		if (bypassCheck(check)) {
 			addLogMessage("Flagged check:" + check.getDebugName() + " [PERM] time:" + System.currentTimeMillis());
@@ -412,11 +409,6 @@ public class CPlayer {
 		if (plugin.devMode())
 			return;
 
-		if (plugin.config.getBoolean("Animations") && player.isOnline()) {
-			plugin.getAnimation().startAnimation(new AnimationKey(player.getPlayer(), timing, check, token, true));
-			return;
-		}
-
 		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE) {
 			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
@@ -429,8 +421,8 @@ public class CPlayer {
 			}
 		}
 
-		if (Bukkit.getPluginManager().isPluginEnabled("Punish"))
-			BanManager.addPunishment(player, "NESS", "Hacking - (" + token + ")", "sev3hackingban", 1.314e+10, 3);
+//		if (Bukkit.getPluginManager().isPluginEnabled("Punish"))
+//			BanManager.addPunishment(player, "NESS", "Hacking - (" + token + ")", "sev3hackingban", 1.314e+10, 3);
 	}
 
 	@SuppressWarnings("unchecked")

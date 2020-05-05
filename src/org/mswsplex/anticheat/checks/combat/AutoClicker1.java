@@ -117,9 +117,4 @@ public class AutoClicker1 implements Check, Listener {
 	public boolean lagBack() {
 		return false;
 	}
-
-	@Override
-	public boolean onlyLegacy() {
-		return false;
-	}
 }
