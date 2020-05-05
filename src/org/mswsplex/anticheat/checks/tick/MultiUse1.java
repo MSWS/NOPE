@@ -8,6 +8,7 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.protocols.TinyProtocol;
+import org.mswsplex.anticheat.utils.MSG;
 
 import io.netty.channel.Channel;
 
@@ -16,6 +17,7 @@ import io.netty.channel.Channel;
  * 
  * @author imodm
  *
+ * @deprecated
  */
 public class MultiUse1 implements Check {
 	private NOPE plugin;
@@ -41,34 +43,38 @@ public class MultiUse1 implements Check {
 				}
 			}
 		}.runTaskTimer(plugin, 0, TIMESPAN);
+		try {
+			new TinyProtocol(plugin) {
+				@Override
+				public Object onPacketInAsync(Player sender, Channel channel, Object packet) {
+					if (sender == null)
+						return super.onPacketInAsync(sender, channel, packet);
+					CPlayer cp = MultiUse1.this.plugin.getCPlayer(sender);
+					String name = packet.toString().split("\\.")[packet.toString().split("\\.").length - 1];
+					if (name.contains("@"))
+						name = name.substring(0, name.indexOf("@"));
 
-		new TinyProtocol(plugin) {
-			@Override
-			public Object onPacketInAsync(Player sender, Channel channel, Object packet) {
-				if (sender == null)
+					if (!name.equals("PacketPlayInBlockPlace"))
+						return super.onPacketInAsync(sender, channel, packet);
+
+					int customPackets = cp.getTempInteger("blockPlacePackets");
+
+					cp.setTempData("blockPlacePackets", customPackets + 1);
+
+					if (customPackets > MAX_PACKETS) {
+						Bukkit.getScheduler().runTask(this.plugin, () -> {
+							cp.flagHack(MultiUse1.this, (customPackets - MAX_PACKETS) * 5 + 10,
+									"&7Uses: &e" + customPackets + "&7 > &a" + MAX_PACKETS);
+						});
+						return null;
+					}
 					return super.onPacketInAsync(sender, channel, packet);
-				CPlayer cp = MultiUse1.this.plugin.getCPlayer(sender);
-				String name = packet.toString().split("\\.")[packet.toString().split("\\.").length - 1];
-				if (name.contains("@"))
-					name = name.substring(0, name.indexOf("@"));
-
-				if (!name.equals("PacketPlayInBlockPlace"))
-					return super.onPacketInAsync(sender, channel, packet);
-
-				int customPackets = cp.getTempInteger("blockPlacePackets");
-
-				cp.setTempData("blockPlacePackets", customPackets + 1);
-
-				if (customPackets > MAX_PACKETS) {
-					Bukkit.getScheduler().runTask(this.plugin, () -> {
-						cp.flagHack(MultiUse1.this, (customPackets - MAX_PACKETS) * 5 + 10,
-								"&7Uses: &e" + customPackets + "&7 > &a" + MAX_PACKETS);
-					});
-					return null;
 				}
-				return super.onPacketInAsync(sender, channel, packet);
-			}
-		};
+			};
+		} catch (NoClassDefFoundError e) {
+			MSG.log("&4[ERROR] There was an error registering MultiUse#1, you may be using a custom fork or reloaded the server.");
+			e.printStackTrace();
+		}
 
 	}
 

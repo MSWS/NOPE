@@ -20,8 +20,6 @@ import org.mswsplex.anticheat.checks.combat.KillAura4;
 import org.mswsplex.anticheat.checks.combat.KillAura5;
 import org.mswsplex.anticheat.checks.combat.KillAura6;
 import org.mswsplex.anticheat.checks.combat.Reach1;
-import org.mswsplex.anticheat.checks.exploit.ServerCrasher1;
-import org.mswsplex.anticheat.checks.exploit.ServerCrasher2;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AntiRotate1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
@@ -57,10 +55,8 @@ import org.mswsplex.anticheat.checks.player.SelfHarm1;
 import org.mswsplex.anticheat.checks.player.Zoot1;
 import org.mswsplex.anticheat.checks.render.AutoSneak1;
 import org.mswsplex.anticheat.checks.render.InvalidMovement1;
-import org.mswsplex.anticheat.checks.render.NoSwing1;
 import org.mswsplex.anticheat.checks.render.SkinBlinker1;
 import org.mswsplex.anticheat.checks.render.Spinbot1;
-import org.mswsplex.anticheat.checks.tick.MultiUse1;
 import org.mswsplex.anticheat.checks.tick.Timer1;
 import org.mswsplex.anticheat.checks.tick.Timer2;
 import org.mswsplex.anticheat.checks.world.FastBreak1;
@@ -90,10 +86,9 @@ public class Checks {
 			new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
 			new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(), new KillAura4(),
 			new KillAura5(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
-			new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new SkinBlinker1(), new NoSwing1(),
-			new ServerCrasher1(), new ServerCrasher2(), new ChestStealer1(), new AntiFire1(), new MultiUse1(),
-			new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
-			new AutoSwitch1(), new FastBreak1(), new Spider1());
+			new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new SkinBlinker1(), new ChestStealer1(),
+			new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(),
+			new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1());
 
 	public void registerChecks() {
 		for (Check check : checkList) {

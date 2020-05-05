@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 /**
  * An utility class that simplifies reflection in Bukkit plugins.
  * 
+ * @deprecated
+ * 
  * @author Kristian
  */
 public final class Reflection {

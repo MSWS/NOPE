@@ -16,6 +16,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Checks if a player hasn't sent a swing packet before interaction event
  * 
  * @author imodm
+ * 
+ * @deprecated
  *
  */
 public class NoSwing1 implements Check, Listener {

@@ -41,6 +41,8 @@ import io.netty.channel.ChannelPromise;
  * It now supports intercepting packets during login and status ping (such as
  * OUT_SERVER_PING)!
  * 
+ * @deprecated
+ * 
  * @author Kristian
  */
 public abstract class TinyProtocol {
