@@ -56,7 +56,7 @@ public class ClonedMovement1 implements Check, Listener {
 		if (cp.timeSince("lastTeleported") < 1000)
 			return;
 
-		if (player.isOnGround() && cp.isOnGround())
+		if (player.isOnGround())
 			return;
 
 		Location from = event.getFrom(), to = event.getTo();

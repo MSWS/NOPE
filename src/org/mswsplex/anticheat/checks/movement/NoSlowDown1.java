@@ -51,7 +51,7 @@ public class NoSlowDown1 implements Check, Listener {
 		if (!player.isBlocking())
 			return;
 
-		if (!cp.isOnGround())
+		if (!player.isOnGround())
 			return;
 
 		if (cp.timeSince("lastLiquid") < 500)

@@ -45,8 +45,11 @@ public class Flight4 implements Check, Listener {
 		if (player.isInsideVehicle())
 			return;
 
-		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || cp.isOnGround()
+		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || player.isOnGround()
 				|| cp.timeSince("lastTeleport") < 100 || cp.timeSince("lastFlightGrounded") < 500)
+			return;
+
+		if (player.getLocation().getBlock().isLiquid())
 			return;
 
 		Location safe = cp.getLastSafeLocation();

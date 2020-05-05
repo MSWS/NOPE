@@ -37,8 +37,7 @@ public class Glide1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || cp.isOnGround()
-				|| player.isOnGround())
+		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
 		if (cp.timeSince("wasFlying") < 1000)

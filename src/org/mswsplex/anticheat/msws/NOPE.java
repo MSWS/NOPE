@@ -2,7 +2,6 @@ package org.mswsplex.anticheat.msws;
 
 import java.io.File;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -27,6 +26,7 @@ import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.protocols.PacketListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
+import org.mswsplex.anticheat.utils.MetricsLite;
 
 public class NOPE extends JavaPlugin {
 	public FileConfiguration config, data, lang, gui;
@@ -77,7 +77,7 @@ public class NOPE extends JavaPlugin {
 
 		new SBoard(this);
 
-		new Metrics(this, 7422);
+		new MetricsLite(this, 7422);
 
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));

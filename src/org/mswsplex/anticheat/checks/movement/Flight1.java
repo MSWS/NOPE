@@ -40,7 +40,7 @@ public class Flight1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.isOnGround())
+		if (player.isOnGround())
 			return;
 		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
 			return;

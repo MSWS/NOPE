@@ -41,8 +41,8 @@ public class Criticals1 implements Check, Listener {
 		if (damager.isOnGround()) // Client says player is on ground
 			return;
 
-		if (!cp.isOnGround()) // Player is not actually on the ground
-			return;
+//		if (!cp.isOnGround()) // Player is not actually on the ground
+//			return;
 
 		cp.flagHack(this, 5);
 	}

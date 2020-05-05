@@ -590,6 +590,10 @@ public class CPlayer {
 		return lastSafe;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public boolean isOnGround() {
 		if (!player.isOnline())
 			return false;

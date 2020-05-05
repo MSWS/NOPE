@@ -42,12 +42,18 @@ public class SafeWalk1 implements Check, Listener {
 
 		double max = .00001;
 
-		if ((dX > max && dZ > max) || (dX == 0 && dZ == 0))
+		if ((dX > max && dZ > max) || (dX <= .1 && dZ <= .1))
 			return;
 
 		if (player.isSneaking() && !player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid()) {
 			return;
 		}
+
+		if (player.isFlying())
+			return;
+
+		if (cp.timeSince("wasFlying") < 300)
+			return;
 
 		double yaw = Math.abs(to.getYaw()) % 90;
 
@@ -77,7 +83,7 @@ public class SafeWalk1 implements Check, Listener {
 		if (validSurrounding)
 			return;
 
-		cp.flagHack(this, 5, String.format("Yaw: %.2f\ndX: %.2f\ndZ: %.2f\nBlocks: %s", yaw, dX, dZ, around));
+		cp.flagHack(this, 5, String.format("Yaw: %f\ndX: %f\ndZ: %.2f\nBlocks: %s", yaw, dX, dZ, around));
 	}
 
 	@Override

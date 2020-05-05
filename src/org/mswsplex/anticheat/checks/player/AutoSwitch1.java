@@ -12,7 +12,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.utils.MSG;
 
 public class AutoSwitch1 implements Check, Listener {
 
@@ -55,7 +54,6 @@ public class AutoSwitch1 implements Check, Listener {
 		double last = swaps.get(swaps.size() - 1);
 
 		for (int i = swaps.size() - 2; i >= 0; i--) {
-			MSG.tell(player, "&6" + (swaps.get(i) - last));
 			avg += swaps.get(i) - last;
 			last = swaps.get(i);
 		}
@@ -70,8 +68,6 @@ public class AutoSwitch1 implements Check, Listener {
 			deviation += Math.abs((swaps.get(i) - last) - avg);
 			last = swaps.get(i);
 		}
-
-		MSG.tell(player, deviation + "");
 
 		if (deviation > 20)
 			return;

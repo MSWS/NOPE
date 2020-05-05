@@ -40,7 +40,7 @@ public class NoSlowDown2 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (!cp.isOnGround())
+		if (!player.isOnGround())
 			return;
 
 		if (cp.timeSince("disableFlight") < 2000)
