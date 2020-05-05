@@ -1,8 +1,9 @@
 name: NOPE
 main: org.mswsplex.anticheat.msws.NOPE
 version: 1.2.2
-description: 1.8 Minecraft Anticheat
-api-version: 1.13
+description: 1.15.2 Minecraft Anticheat
+api-version: 1.15
+author: MSWS
 commands:
   nope:
     usage: /<command>

@@ -41,8 +41,12 @@
           </execution>
         </executions>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <relocations>
+            <relocation>
+              <pattern>org.bstats</pattern>
+              <shadedPattern>xyz.msws.anticheat</shadedPattern>
+            </relocation>
+          </relocations>
         </configuration>
       </plugin>
       <plugin>
@@ -63,6 +67,15 @@
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
+    <repository>
+      <id>mojang</id>
+      <name>Mojang's Repository</name>
+      <url>https://libraries.minecraft.net/</url>
+    </repository>
+    <repository>
+      <id>CodeMC</id>
+      <url>https://repo.codemc.org/repository/maven-public</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -76,14 +89,6 @@
           <groupId>commons-lang</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>bungeecord-chat</artifactId>
           <groupId>net.md-5</groupId>
         </exclusion>
@@ -94,4 +99,7 @@
       </exclusions>
     </dependency>
   </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 </project>

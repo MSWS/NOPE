@@ -20,7 +20,7 @@ public class MSG {
 	public static NOPE plugin;
 
 	/**
-	 * Returns the string with &'s being §
+	 * Returns the string with &'s being color codes
 	 * 
 	 * @param msg the message to replace
 	 * @return returns colored msg

@@ -82,7 +82,7 @@ public class Speed3 implements Check, Listener {
 
 		avg /= distances.size();
 
-		double max = .557316;
+		double max = .5575286;
 
 		if (avg < max)
 			return;
