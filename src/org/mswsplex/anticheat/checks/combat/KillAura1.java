@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -51,7 +52,6 @@ public class KillAura1 implements Check, Listener {
 	private final double CHECK_EVERY = 20000;
 	private final int TICKS_TO_WAIT = 100;
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
@@ -104,27 +104,49 @@ public class KillAura1 implements Check, Listener {
 
 		stands.put(player, stand);
 
-		int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
-				teleportArmorStand(player, stand, event.getEntity()), 0, 1);
+		BukkitTask task = new BukkitRunnable() {
+			@Override
+			public void run() {
+				teleportArmorStand(player, stand, event.getEntity());
+			}
+		}.runTaskTimer(plugin, 0, 1);
 
-		Bukkit.getScheduler().runTaskLater(plugin, () -> {
-			Bukkit.getScheduler().cancelTask(id);
-			player.removeMetadata("lastEntityHit", plugin);
+		new BukkitRunnable() {
 
-			if (stands.get(player) == null) {
+			@Override
+			public void run() {
+				task.cancel();
+				player.removeMetadata("lastEntityHit", plugin);
+
+				if (stands.get(player) == null) {
+					stands.remove(player);
+					return;
+				}
+
+				stands.get(player).remove();
 				stands.remove(player);
-				return;
-			}
 
-			stands.get(player).remove();
-			stands.remove(player);
-
-			if (cp.hasTempData("hasHitTarget")) {
-				cp.flagHack(this, 50);
-				cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis() - CHECK_EVERY);
+				if (cp.hasTempData("hasHitTarget")) {
+					cp.flagHack(KillAura1.this, 50);
+					cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis() - CHECK_EVERY);
+				}
+				cp.removeTempData("hasHitTarget");
 			}
-			cp.removeTempData("hasHitTarget");
-		}, TICKS_TO_WAIT);
+		}.runTaskLater(plugin, TICKS_TO_WAIT);
+
+		/*
+		 * Bukkit.getScheduler().runTaskLater(plugin, () -> {
+		 * Bukkit.getScheduler().cancelTask(id); player.removeMetadata("lastEntityHit",
+		 * plugin);
+		 * 
+		 * if (stands.get(player) == null) { stands.remove(player); return; }
+		 * 
+		 * stands.get(player).remove(); stands.remove(player);
+		 * 
+		 * if (cp.hasTempData("hasHitTarget")) { cp.flagHack(this, 50);
+		 * cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis() -
+		 * CHECK_EVERY); } cp.removeTempData("hasHitTarget"); }, TICKS_TO_WAIT);
+		 */
 
 		cp.setTempData("lastKillAuraCheck", (double) System.currentTimeMillis());
 	}

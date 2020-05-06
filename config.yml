@@ -34,6 +34,8 @@ Checks:
         Enabled: true
       Flight#4:
         Enabled: true
+      Flight#5:
+        Enabled: true
     Speed:
       Enabled: true
       Speed#1:
@@ -95,6 +97,10 @@ Checks:
     SafeWalk:
       Enabled: true
       SafeWalk#1:
+        Enabled: true
+    Spider:
+      Enabled: true
+      Spider#1:
         Enabled: true
   Tick:
     Enabled: true
@@ -207,6 +213,10 @@ Checks:
     IllegalBlockPlace:
       Enabled: true
       IllegalBlockPlace#1:
+        Enabled: true
+    FastBreak:
+      Enabled: true
+      FastBreak#1:
         Enabled: true
   Render:
     Enabled: true
