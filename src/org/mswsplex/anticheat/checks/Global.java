@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
@@ -82,8 +83,8 @@ public class Global implements Listener {
 		if (plugin.debugMode()) {
 			MSG.tell(player, "FROM " + String.format("%.3f, %.3f, %.3f", from.getX(), from.getY(), from.getZ()));
 			MSG.tell(player, "TO " + String.format("%.3f, %.3f, %.3f", to.getX(), to.getY(), to.getZ()));
-			MSG.tell(player, "DIFF " + String.format("%.3f, %.3f, %.3f", from.getX() - to.getX(),
-					from.getY() - to.getY(), from.getZ() - to.getZ()));
+			MSG.tell(player, "DIFF " + String.format("%.3f, %.3f, %.3f", to.getX() - from.getX(),
+					to.getY() - from.getY(), to.getZ() - from.getZ()));
 			MSG.tell(player, "IN " + MSG.camelCase(to.getBlock().getType().toString()));
 		}
 
@@ -192,6 +193,17 @@ public class Global implements Listener {
 		} else {
 			cp.setTempData("enableGlide", (double) System.currentTimeMillis());
 		}
+	}
+
+	@EventHandler
+	public void onVehicleLeave(VehicleExitEvent event) {
+		if (!(event.getExited() instanceof Player))
+			return;
+		Player player = ((Player) event.getExited());
+		CPlayer cp = plugin.getCPlayer(player);
+
+		cp.setTempData("leaveVehicle", (double) System.currentTimeMillis());
+
 	}
 
 	@EventHandler

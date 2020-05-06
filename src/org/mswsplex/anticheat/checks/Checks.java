@@ -13,12 +13,10 @@ import org.mswsplex.anticheat.checks.combat.FastBow1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
 import org.mswsplex.anticheat.checks.combat.HighCPS2;
 import org.mswsplex.anticheat.checks.combat.HighCPS3;
-import org.mswsplex.anticheat.checks.combat.KillAura1;
 import org.mswsplex.anticheat.checks.combat.KillAura2;
-import org.mswsplex.anticheat.checks.combat.KillAura3;
-import org.mswsplex.anticheat.checks.combat.KillAura4;
 import org.mswsplex.anticheat.checks.combat.KillAura5;
 import org.mswsplex.anticheat.checks.combat.KillAura6;
+import org.mswsplex.anticheat.checks.combat.KillAura7;
 import org.mswsplex.anticheat.checks.combat.Reach1;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AntiRotate1;
@@ -31,6 +29,7 @@ import org.mswsplex.anticheat.checks.movement.Flight2;
 import org.mswsplex.anticheat.checks.movement.Flight3;
 import org.mswsplex.anticheat.checks.movement.Flight4;
 import org.mswsplex.anticheat.checks.movement.Flight5;
+import org.mswsplex.anticheat.checks.movement.Flight6;
 import org.mswsplex.anticheat.checks.movement.InventoryMove1;
 import org.mswsplex.anticheat.checks.movement.Jesus1;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown1;
@@ -79,16 +78,16 @@ public class Checks {
 	}
 
 	private List<Check> checkList = Arrays.asList(new Flight1(), new Flight2(), new Flight3(), new Flight4(),
-			new Flight5(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(), new Timer2(),
-			new Step1(), new Criticals1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
-			new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
-			new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(),
-			new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
-			new InventoryMove1(), new Reach1(), new KillAura1(), new KillAura2(), new KillAura3(), new KillAura4(),
-			new KillAura5(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
-			new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new SkinBlinker1(), new ChestStealer1(),
-			new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(),
-			new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1());
+			new Flight5(), new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
+			new Timer2(), new Step1(), new Criticals1(), new NoFall1(), new Scaffold1(), new Scaffold2(),
+			new Scaffold3(), new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
+			new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
+			new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
+			new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura2(), new KillAura5(), new KillAura6(),
+			new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(),
+			new FastEat1(), new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(),
+			new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(),
+			new Spider1(), new KillAura7());
 
 	public void registerChecks() {
 		for (Check check : checkList) {

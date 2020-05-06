@@ -227,7 +227,7 @@ public class CPlayer {
 
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
-			return null;
+			return result;
 		for (String hack : vlSection.getKeys(false)) {
 			result.add(hack);
 		}

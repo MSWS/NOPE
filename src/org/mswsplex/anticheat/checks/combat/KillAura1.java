@@ -28,6 +28,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * isn't then flag
  * 
  * @author imodm
+ * 
+ * @deprecated
  *
  */
 public class KillAura1 implements Check, Listener {

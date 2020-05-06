@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -26,6 +27,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * (legimiately)
  * 
  * @author imodm
+ * 
+ * @deprecated
  *
  */
 public class KillAura4 implements Check, Listener {
@@ -50,7 +53,6 @@ public class KillAura4 implements Check, Listener {
 	private final double CHECK_EVERY = 10000;
 	private final int TICKS_TO_WAIT = 40;
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
@@ -96,19 +98,35 @@ public class KillAura4 implements Check, Listener {
 
 		stands.put(player, stand);
 
-		int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
-				teleportArmorStand(player, stand, event.getEntity()), 0, 1);
+//		int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin,
+//				teleportArmorStand(player, stand, event.getEntity()), 0, 1);
+		BukkitTask task = new BukkitRunnable() {
 
-		Bukkit.getScheduler().runTaskLater(plugin, () -> {
-			Bukkit.getScheduler().cancelTask(id);
-
-			if (stands.get(player) == null) {
-				stands.remove(player);
-				return;
+			@Override
+			public void run() {
+				teleportArmorStand(player, stand, event.getEntity());
 			}
-			stands.get(player).remove();
-			stands.remove(player);
-		}, TICKS_TO_WAIT);
+		}.runTaskTimer(plugin, 0, 1);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				task.cancel();
+				if (stands.get(player) == null) {
+					stands.remove(player);
+					return;
+				}
+				stands.get(player).remove();
+				stands.remove(player);
+			}
+		}.runTaskLater(plugin, TICKS_TO_WAIT);
+
+		/*
+		 * Bukkit.getScheduler().runTaskLater(plugin, () -> { //
+		 * Bukkit.getScheduler().cancelTask(id); task.cancel(); if (stands.get(player)
+		 * == null) { stands.remove(player); return; } stands.get(player).remove();
+		 * stands.remove(player); }, TICKS_TO_WAIT);
+		 */
 
 		cp.setTempData("lastKillAuraCheck2", (double) System.currentTimeMillis());
 	}

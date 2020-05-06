@@ -57,6 +57,9 @@ public class Step1 implements Check, Listener {
 		if (cp.timeSince("lastTeleport") < 500)
 			return;
 
+		if (cp.timeSince("toggleFlight") < 1000)
+			return;
+
 		Location to = event.getTo(), from = event.getFrom();
 
 		if (to.getY() == from.getY())

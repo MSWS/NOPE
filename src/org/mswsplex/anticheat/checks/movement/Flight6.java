@@ -1,8 +1,7 @@
 package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,14 +10,17 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
- * Checks if a player moves completely horizontally without being on the ground
+ * 
+ * Checks if the player's last ongrond position is too low and too far away
+ * <i>conveniently</i> also checks Jesus
  * 
  * @author imodm
- *
+ * 
  */
-public class Spider1 implements Check, Listener {
+public class Flight6 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -38,56 +40,48 @@ public class Spider1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		Location to = event.getTo();
-		Location from = event.getFrom();
-
-		if (player.isOnGround())
+		if (!player.isInsideVehicle())
 			return;
 
-		if (player.isFlying())
+		Entity vehicle = player.getVehicle();
+		if (vehicle.isOnGround())
+			cp.setTempData("lastVehicleGrounded", (double) System.currentTimeMillis());
+		if (player.getLocation().getBlock().isLiquid())
 			return;
+		double yDiff = event.getTo().getY() - event.getFrom().getY();
 
-		if (cp.timeSince("wasFlying") < 200)
+		if (yDiff < 0) {
+			if (cp.timeSince("lastVehicleGrounded") < 1000)
+				return;
+			MSG.tell(player, yDiff + "");
+			if (yDiff < -.1)
+				return;
+			MSG.tell(player, yDiff + "");
+			cp.flagHack(this, 10);
 			return;
-
-		if (cp.isInClimbingBlock())
-			return;
-
-		if (to.getY() < from.getY())
-			return;
-
-		if (cp.timeSince("lastOnGround") < 500)
-			return;
-
-		if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.HORSE)
-			return;
-
-		double dist = cp.distanceToGround() - 1 + (player.getLocation().getY() % 1);
-
-		double max = 1.2522033402537218;
-
-		if (dist <= max)
-			return;
-
-		if ((dist + "").contains("999999999")) {
-			cp.flagHack(this, 30, "Dist: " + dist);
-		} else {
-			cp.flagHack(this, 5, "Dist: " + dist);
 		}
+
+		if (player.getLocation().clone().add(0, -1, 0).getBlock().isLiquid())
+			return;
+
+		if (cp.distanceToGround() < 5)
+			return;
+
+		cp.flagHack(this, 20);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Spider";
+		return "Flight";
 	}
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#1";
+		return getCategory() + "#6";
 	}
 
 	@Override
 	public boolean lagBack() {
-		return true;
+		return false;
 	}
 }

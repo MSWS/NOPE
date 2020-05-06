@@ -36,6 +36,8 @@ Checks:
         Enabled: true
       Flight#5:
         Enabled: true
+      Flight#6:
+        Enabled: true
     Speed:
       Enabled: true
       Speed#1:
@@ -102,6 +104,10 @@ Checks:
       Enabled: true
       Spider#1:
         Enabled: true
+    BHop:
+      Enabled: true
+      BHop#1:
+        Enabled: true
   Tick:
     Enabled: true
     Timer:
@@ -109,10 +115,6 @@ Checks:
       Timer#1:
         Enabled: true
       Timer#2:
-        Enabled: true
-    MultiUse:
-      Enabled: true
-      MultiUse#1:
         Enabled: true
   Combat:
     Enabled: true
@@ -142,17 +144,13 @@ Checks:
         Enabled: true
     KillAura:
       Enabled: true
-      KillAura#1:
-        Enabled: true
       KillAura#2:
-        Enabled: true
-      KillAura#3:
-        Enabled: true
-      KillAura#4:
         Enabled: true
       KillAura#5:
         Enabled: true
       KillAura#6:
+        Enabled: true
+      KillAura#7:
         Enabled: true
     AntiKB:
       Enabled: true
@@ -235,16 +233,4 @@ Checks:
     SkinBlinker:
       Enabled: true
       SkinBlinker#1:
-        Enabled: true
-    NoSwing:
-      Enabled: true
-      NoSwing#1:
-        Enabled: true
-  Exploit:
-    Enabled: true
-    ServerCrasher:
-      Enabled: true
-      ServerCrasher#1:
-        Enabled: true
-      ServerCrasher#2:
         Enabled: true
