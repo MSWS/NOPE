@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,6 +54,10 @@ public class Flight2 implements Check, Listener {
 					break;
 				}
 				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR) {
 					isBlockNearby = true;
 					break;
 				}

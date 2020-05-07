@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * 
@@ -53,10 +52,8 @@ public class Flight6 implements Check, Listener {
 		if (yDiff < 0) {
 			if (cp.timeSince("lastVehicleGrounded") < 1000)
 				return;
-			MSG.tell(player, yDiff + "");
 			if (yDiff < -.1)
 				return;
-			MSG.tell(player, yDiff + "");
 			cp.flagHack(this, 10);
 			return;
 		}

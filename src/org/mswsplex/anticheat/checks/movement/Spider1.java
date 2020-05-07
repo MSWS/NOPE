@@ -62,6 +62,9 @@ public class Spider1 implements Check, Listener {
 		if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.HORSE)
 			return;
 
+		if (player.getLocation().getBlock().isLiquid())
+			return;
+
 		double dist = cp.distanceToGround() - 1 + (player.getLocation().getY() % 1);
 
 		double max = 1.2522033402537218;
