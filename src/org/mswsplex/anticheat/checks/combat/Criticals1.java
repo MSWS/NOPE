@@ -14,6 +14,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Basically {@link NoFall} but when the player hits an entity
  * 
  * @author imodm
+ * 
+ * @deprecated
  *
  */
 public class Criticals1 implements Check, Listener {

@@ -49,7 +49,13 @@ public class SafeWalk1 implements Check, Listener {
 			return;
 		}
 
+		if (player.getLocation().clone().add(0, -1, 0).getBlock().getType().isSolid())
+			return;
+
 		if (player.isFlying())
+			return;
+
+		if (player.getFallDistance() > 4)
 			return;
 
 		if (cp.timeSince("wasFlying") < 300)

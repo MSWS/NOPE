@@ -46,7 +46,7 @@ public class Flight4 implements Check, Listener {
 			return;
 
 		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || player.isOnGround()
-				|| cp.timeSince("lastTeleport") < 100 || cp.timeSince("lastFlightGrounded") < 500)
+				|| cp.timeSince("lastTeleport") < 200 || cp.timeSince("lastFlightGrounded") < 500)
 			return;
 
 		if (player.getLocation().getBlock().isLiquid())

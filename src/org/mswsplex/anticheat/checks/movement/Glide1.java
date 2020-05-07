@@ -1,5 +1,8 @@
 package org.mswsplex.anticheat.checks.movement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +22,8 @@ import org.mswsplex.anticheat.msws.NOPE;
  */
 public class Glide1 implements Check, Listener {
 
+	private final int SIZE = 10;
+
 	private NOPE plugin;
 
 	@Override
@@ -32,18 +37,22 @@ public class Glide1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (player.isOnGround() || player.isFlying())
+			cp.removeTempData("FallDistances");
+
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
-		if (cp.timeSince("wasFlying") < 1000)
+		if (cp.timeSince("wasFlying") < 500)
 			return;
 
-		if (cp.timeSince("lastOnGround") < 500 || cp.timeSince("lastFlightGrounded") < 1000)
+		if (cp.timeSince("lastOnGround") < 500 || cp.timeSince("lastFlightGrounded") < 500)
 			return;
 
 		if (cp.timeSince("lastLiquid") < 500)
@@ -51,23 +60,44 @@ public class Glide1 implements Check, Listener {
 
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 
-		if (!cp.hasTempData("previousFall")) {
-			cp.setTempData("previousFall", fallDist);
-			return;
-		}
-
 		if (fallDist == 0 || player.getFallDistance() == 0) {
 			cp.removeTempData("previousFall");
 			return;
 		}
 
-		double previousFall = cp.getTempDouble("previousFall");
+		if (!cp.hasTempData("previousFall")) {
+			cp.setTempData("previousFall", fallDist);
+			return;
+		}
 
-		if (fallDist >= previousFall)
+		double previousFall = cp.getTempDouble("previousFall");
+		double diff = fallDist - previousFall;
+
+		List<Double> fallDistances = (List<Double>) cp.getTempData("FallDistances");
+		if (fallDistances == null)
+			fallDistances = new ArrayList<>();
+
+		fallDistances.add(0, diff);
+
+		if (fallDistances.size() > SIZE) {
+			fallDistances = fallDistances.subList(0, SIZE);
+		}
+
+		cp.setTempData("FallDistances", fallDistances);
+
+		if (fallDistances.size() < SIZE)
 			return;
 
-		cp.flagHack(this, 5, "&7FallDist: &e" + player.getFallDistance() + "\n&7Dist: &e" + fallDist
-				+ "\n&7PreviousFall: &e" + previousFall);
+		double avg = 0;
+		for (double d : fallDistances)
+			avg += d;
+
+		avg /= fallDistances.size();
+
+		if (avg > 0)
+			return;
+
+		cp.flagHack(this, (int) ((2 - avg) * 50) + 10, "&7Avg: &e" + avg);
 	}
 
 	@Override

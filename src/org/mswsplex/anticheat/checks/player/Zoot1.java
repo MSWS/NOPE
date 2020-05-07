@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -55,7 +56,7 @@ public class Zoot1 implements Check, Listener {
 						if (oldPotionTicks - currentTicks <= RATE + 15)
 							continue;
 
-						if (cp.timeSince("lastMilkBucketInteraction") < 2000)
+						if (cp.timeSince("lastPotionReset") < 2000)
 							return;
 
 						cp.flagHack(Zoot1.this, (int) Math.round((oldPotionTicks - currentTicks - (RATE + 15)) / 20));
@@ -83,8 +84,14 @@ public class Zoot1 implements Check, Listener {
 		if (hand == null || hand.getType() != Material.MILK_BUCKET)
 			return;
 
-		cp.setTempData("lastMilkBucketInteraction", (double) System.currentTimeMillis());
+		cp.setTempData("lastPotionReset", (double) System.currentTimeMillis());
+	}
 
+	@EventHandler
+	public void onDeath(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		cp.setTempData("lastPotionReset", (double) System.currentTimeMillis());
 	}
 
 	@Override
