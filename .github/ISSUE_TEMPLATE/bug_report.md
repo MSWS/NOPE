@@ -17,3 +17,4 @@ _You can find this out by running /nope ingame_
 _Please be descriptive_
 
 **Is there anything else to add?**
+_Are there any error logs?_
