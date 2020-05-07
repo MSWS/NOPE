@@ -70,7 +70,7 @@ public class FastBreak1 implements Check, Listener {
 		}
 		double offset = cp.timeSince("targetBlockBreakTime");
 
-		if (offset > -25)
+		if (offset > -100)
 			return;
 		cp.flagHack(this, (int) Math.abs((offset + 25)), "Time diff: " + cp.timeSince("targetBlockBreakTime"));
 	}

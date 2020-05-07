@@ -23,6 +23,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class CPlayer {
 	private OfflinePlayer player;
 	private UUID uuid;
 
-	private HashMap<String, Object> tempData;
+	private Map<String, Object> tempData;
 
 	private File saveFile, dataFile;
 	private YamlConfiguration data;
@@ -78,6 +79,10 @@ public class CPlayer {
 		return new ArrayList<>(tempData.keySet());
 	}
 
+	public Map<String, Object> getTempData() {
+		return tempData;
+	}
+
 	public YamlConfiguration getDataFile() {
 		return data;
 	}
@@ -111,8 +116,6 @@ public class CPlayer {
 
 	public boolean usingElytra() {
 		if (!player.isOnline())
-			return false;
-		if (player.getPlayer().getEquipment().getChestplate() == null)
 			return false;
 		return player.getPlayer().isGliding();
 	}
@@ -700,20 +703,12 @@ public class CPlayer {
 		return System.currentTimeMillis() - getTempDouble(action);
 	}
 
-	private PotionEffectType levitation = PotionEffectType.WEAKNESS;
-
 	public boolean hasMovementRelatedPotion() {
-		if (levitation == PotionEffectType.WEAKNESS) {
-			try {
-				levitation = PotionEffectType.getByName("LEVITATION");
-			} catch (Exception e) {
-				levitation = null;
-			}
-		}
 
 		if (!player.isOnline())
 			return false;
-		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW };
+		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW,
+				PotionEffectType.LEVITATION };
 
 		Player online = player.getPlayer();
 
@@ -721,9 +716,6 @@ public class CPlayer {
 			if (online.hasPotionEffect(type))
 				return true;
 		}
-
-		if (levitation != null && online.hasPotionEffect(levitation))
-			return true;
 
 		return false;
 	}
@@ -746,9 +738,9 @@ public class CPlayer {
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
-				if (online.getLocation().clone().add(x, 2, z).getBlock().getType().isSolid()) {
+				Block b = online.getEyeLocation().clone().add(x, 0, z).getBlock();
+				if (b.getType().isSolid() || b.getRelative(BlockFace.UP).getType().isSolid())
 					return true;
-				}
 			}
 		}
 		return false;

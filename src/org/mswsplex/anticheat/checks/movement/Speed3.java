@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -53,7 +54,12 @@ public class Speed3 implements Check, Listener {
 			return;
 		if (cp.timeSince("disableElytra") < 1000)
 			return;
+		if (cp.timeSince("lastDamageTaken") < 1000)
+			return;
 		if (cp.usingElytra())
+			return;
+
+		if (player.hasPotionEffect(PotionEffectType.DOLPHINS_GRACE) && player.isSwimming())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

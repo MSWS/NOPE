@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,7 +45,11 @@ public class Jesus1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || player.isInsideVehicle())
+		if (player.isFlying() || player.isInsideVehicle() || player.isSwimming())
+			return;
+		if (player.getLocation().getBlock().isLiquid())
+			return;
+		if (player.getLocation().getBlock().getType() == Material.LAVA)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
@@ -52,13 +57,9 @@ public class Jesus1 implements Check, Listener {
 		boolean groundAround = player.isOnGround(), liquidAround = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
-//				if (player.getLocation().clone().add(x, -.5, z).getBlock().getType().isSolid())
-//					groundAround = true;
-//				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR)
-//					groundAround = true;
 				if (player.getLocation().clone().add(x, -.5, z).getBlock().isLiquid())
 					liquidAround = true;
-				if (/* groundAround */liquidAround)
+				if (liquidAround)
 					break;
 			}
 		}

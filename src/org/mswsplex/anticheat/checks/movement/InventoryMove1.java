@@ -51,6 +51,8 @@ public class InventoryMove1 implements Check, Listener {
 			return;
 		if (cp.timeSince("lastLiquid") < 1000)
 			return;
+		if (cp.timeSince("lasstDamageTaken") < 300)
+			return;
 
 		event.setCancelled(true);
 

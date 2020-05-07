@@ -50,6 +50,9 @@ public class Timer2 implements Check, Listener {
 
 		if (cp.timeSince("wasFlying") < 1000)
 			return;
+		
+		if (cp.timeSince("lastOnIce") < 1000)
+			return;
 
 		List<Double> horizontalTimings = (List<Double>) cp.getTempData("timer2BlockTimings");
 

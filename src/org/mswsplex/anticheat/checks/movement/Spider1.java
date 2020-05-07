@@ -50,13 +50,25 @@ public class Spider1 implements Check, Listener {
 		if (cp.timeSince("wasFlying") < 200)
 			return;
 
+		if (cp.timeSince("lastDamageTaken") < 500)
+			return;
+
 		if (cp.isInClimbingBlock())
 			return;
 
 		if (to.getY() < from.getY())
 			return;
 
-		if (cp.timeSince("lastOnGround") < 500)
+		if (cp.timeSince("lastOnGround") < 1000)
+			return;
+
+		if (cp.timeSince("lastLiquid") < 500)
+			return;
+
+		if (cp.timeSince("lastBlockPlace") < 1000)
+			return;
+
+		if (cp.timeSince("lastInClimbing") < 500)
 			return;
 
 		if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.HORSE)

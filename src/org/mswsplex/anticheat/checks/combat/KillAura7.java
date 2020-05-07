@@ -51,10 +51,10 @@ public class KillAura7 implements Check, Listener {
 		double yawOffset = offset.clone().setY(target.getLocation().getY())
 				.distanceSquared(target.getLocation().toVector());
 
-		if (yawOffset < .8)
+		if (yawOffset < 2)
 			return;
 
-		cp.flagHack(this, (int) ((yawOffset - .3) * 10), String.format("Yaw Diff: &e%.3f", yawOffset));
+		cp.flagHack(this, (int) ((yawOffset - 1.3) * 10), String.format("Yaw Diff: &e%.3f", yawOffset));
 	}
 
 	@Override

@@ -49,6 +49,9 @@ public class Flight4 implements Check, Listener {
 				|| cp.timeSince("lastTeleport") < 200 || cp.timeSince("lastFlightGrounded") < 500)
 			return;
 
+		if (cp.timeSince("lastLiquid") < 500)
+			return;
+
 		if (cp.timeSince("lastOnGround") < 1000)
 			return;
 

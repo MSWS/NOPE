@@ -43,6 +43,9 @@ public class AntiKB1 implements Check, Listener {
 
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (player.isBlocking())
+			return;
+
 		if (player.isInsideVehicle())
 			return;
 

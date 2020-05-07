@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.mswsplex.anticheat.checks.combat.AntiKB1;
 import org.mswsplex.anticheat.checks.combat.AutoArmor1;
 import org.mswsplex.anticheat.checks.combat.AutoClicker1;
+import org.mswsplex.anticheat.checks.combat.BHop1;
 import org.mswsplex.anticheat.checks.combat.FastBow1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
 import org.mswsplex.anticheat.checks.combat.HighCPS2;
@@ -87,7 +88,7 @@ public class Checks {
 			new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(),
 			new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
 			new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
-			new KillAura7(), new Glide1());
+			new KillAura7(), new Glide1(), new BHop1());
 
 	public void registerChecks() {
 		for (Check check : checkList) {

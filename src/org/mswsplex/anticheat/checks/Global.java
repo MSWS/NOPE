@@ -81,11 +81,16 @@ public class Global implements Listener {
 		Location from = event.getFrom(), to = event.getTo();
 
 		if (plugin.debugMode()) {
-			MSG.tell(player, "FROM " + String.format("%.3f, %.3f, %.3f", from.getX(), from.getY(), from.getZ()));
-			MSG.tell(player, "TO " + String.format("%.3f, %.3f, %.3f", to.getX(), to.getY(), to.getZ()));
-			MSG.tell(player, "DIFF " + String.format("%.3f, %.3f, %.3f", to.getX() - from.getX(),
+			MSG.tell(player, " ");
+			MSG.tell(player, "&9From &e" + String.format("%.3f, %.3f, %.3f", from.getX(), from.getY(), from.getZ()));
+			MSG.tell(player, "&9To &6" + String.format("%.3f, %.3f, %.3f", to.getX(), to.getY(), to.getZ()));
+			MSG.tell(player, "&9Diff &b" + String.format("%.3f, %.3f, %.3f", to.getX() - from.getX(),
 					to.getY() - from.getY(), to.getZ() - from.getZ()));
-			MSG.tell(player, "IN " + MSG.camelCase(to.getBlock().getType().toString()));
+			MSG.tell(player,
+					String.format("&9In: &e%s &7(Solid: %s&7, Liquid: %s&7)",
+							MSG.camelCase(to.getBlock().getType().toString()),
+							MSG.TorF(to.getBlock().getType().isSolid()), MSG.TorF(to.getBlock().isLiquid())));
+			MSG.tell(player, String.format("&9OnGround&7: %s", MSG.TorF(player.isOnGround())));
 		}
 
 		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
@@ -103,10 +108,16 @@ public class Global implements Listener {
 			cp.setTempData("lastInAir", (double) time);
 		}
 
-		if (player.getLocation().subtract(0, .01, 0).getBlock().getType().toString().contains("TRAP")
-				&& cp.isBlockAbove()) {
-			cp.setTempData("iceAndTrapdoor", (double) System.currentTimeMillis());
+		if (cp.isBlockAbove()) {
+			if (player.getLocation().clone().add(0, -.5, 0).getBlock().getType().toString().contains("ICE") || player
+					.getLocation().clone().subtract(0, .05, 0).getBlock().getType().toString().contains("TRAP")) {
+				cp.setTempData("iceAndTrapdoor", (double) System.currentTimeMillis());
+
+			}
 		}
+
+		if (player.getLocation().clone().subtract(0, 1, 0).getBlock().getType().toString().contains("ICE"))
+			cp.setTempData("lastOnIce", (double) System.currentTimeMillis());
 
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
@@ -122,9 +133,8 @@ public class Global implements Listener {
 			}
 		}
 
-		if (isBlockNearby) {
+		if (isBlockNearby)
 			cp.setTempData("lastFlightGrounded", (double) time);
-		}
 
 		if (climbing)
 			cp.setTempData("lastInClimbing", (double) time);

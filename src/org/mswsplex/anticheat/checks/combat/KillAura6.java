@@ -67,7 +67,7 @@ public class KillAura6 implements Check, Listener {
 		for (double v : values)
 			avg += v;
 		avg /= values.size();
-		if (avg > .9)
+		if (avg > .3)
 			return;
 
 		cp.flagHack(this, (int) ((1 - off) * 50), String.format("Avg: &e%.2f", avg));
