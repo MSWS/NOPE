@@ -24,4 +24,7 @@ _You can see if there's any by hovering over the [DEV] message_
 **What is causing this false flag?**
 _What exactly are you doing that causes a false flag?_
 
+**Is this false flag reproducible on the test server?**
+_MSWS.xyz is the IP_
+
 **Is there anything else to add?**
