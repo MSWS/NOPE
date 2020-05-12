@@ -99,6 +99,12 @@ public class NoSlowDown5 implements Check, Listener {
 		if (!cp.hasTempData("foodStartTime"))
 			return;
 
+		if (player.isFlying() || player.isGliding())
+			return;
+
+		if (cp.hasMovementRelatedPotion())
+			return;
+
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
 		if (dist < .47)

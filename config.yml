@@ -16,6 +16,9 @@ Global: true # If disabled, NOPE will be disabled
 LagBack: false 
 Scoreboard: true
 Log: true
+UpdateChecker:
+  Enabled: true
+  InGame: true
 
 #               -------------------------------
 #                     Banwave Configuration

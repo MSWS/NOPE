@@ -74,6 +74,8 @@ import org.mswsplex.anticheat.checks.world.Scaffold3;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 
+import com.google.common.collect.Sets;
+
 @SuppressWarnings("deprecation")
 public class Checks {
 	private NOPE plugin;
@@ -85,7 +87,7 @@ public class Checks {
 		this.plugin = plugin;
 		activeChecks = new ArrayList<Check>();
 
-		checkList.addAll(Set.of(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
+		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
 				new Timer2(), new Step1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
 				new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
@@ -98,8 +100,7 @@ public class Checks {
 				new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
-			checkList.addAll(Set.of(new NoSlowDown5(), new KillAura5()));
-		
+			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5()));
 
 	}
 

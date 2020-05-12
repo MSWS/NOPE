@@ -23,6 +23,7 @@ import org.mswsplex.anticheat.listeners.GUIListener;
 import org.mswsplex.anticheat.listeners.LogImplementation;
 import org.mswsplex.anticheat.listeners.LoginAndQuit;
 import org.mswsplex.anticheat.listeners.MessageListener;
+import org.mswsplex.anticheat.listeners.UpdateCheckerListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.MetricsLite;
@@ -37,9 +38,12 @@ public class NOPE extends JavaPlugin {
 	private Checks checks;
 	private Banwave banwave;
 	private Stats stats;
-//	private Animation animation;
 
 	public String serverName = "Unknown Server";
+
+	private UpdateChecker checker;
+
+	private String newVersion = null;
 
 	public void onEnable() {
 		if (!configYml.exists())
@@ -72,25 +76,34 @@ public class NOPE extends JavaPlugin {
 		new LoginAndQuit(this);
 		new GUIListener(this);
 
-//		new PacketListener(this);
-
 		new SBoard(this);
 
 		new MetricsLite(this, 7422);
 
+		if (config.getBoolean("UpdateChecker.Enabled", true)) {
+			if (config.getBoolean("UpdateChecker.InGame", true))
+				new UpdateCheckerListener(this);
+			checker = new UpdateChecker(this, 64671);
+			checker.getVersion(v -> {
+				newVersion = v;
+				if (!getDescription().getVersion().equals(newVersion))
+					MSG.log("Version &e" + v + "&7 is now available. (https://www.spigotmc.org/resources/64671/)");
+			});
+		}
+
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
-		MSG.log("&aSuccessfully enabled. Please report bugs at the github. (https://github.com/MSWS/AntiCheat)");
+		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
 	}
 
 	public TPSChecker getTPSChecker() {
 		return tpsChecker;
 	}
 
-//	public Animation getAnimation() {
-//		return animation;
-//	}
+	public String getNewVersion() {
+		return newVersion;
+	}
 
 	public Stats getStats() {
 		return stats;

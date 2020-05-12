@@ -160,7 +160,7 @@ public class Global implements Listener {
 
 		Block lowestBlock = vertLine.getBlock();
 
-		if (lowestBlock.getType() == Material.SLIME_BLOCK)
+		if (lowestBlock.getType() == Material.SLIME_BLOCK || lowestBlock.getType() == Material.HONEY_BLOCK)
 			cp.setTempData("lastSlimeBlock", (double) time);
 
 		if (cp.isRedstoneNearby())
