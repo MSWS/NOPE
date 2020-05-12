@@ -1,5 +1,7 @@
 package org.mswsplex.anticheat.checks.world;
 
+import java.util.EnumSet;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,6 +20,7 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks if block broken if liquid
@@ -40,6 +43,11 @@ public class FastBreak1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	private final EnumSet<Material> mats = EnumSet.of(Material.RED_BED, Material.BLACK_BED, Material.BLUE_BED,
+			Material.BROWN_BED, Material.CYAN_BED, Material.GRAY_BED, Material.GREEN_BED, Material.LIME_BED,
+			Material.MAGENTA_BED, Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.WHITE_BED,
+			Material.YELLOW_BED);
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -48,6 +56,8 @@ public class FastBreak1 implements Check, Listener {
 			return;
 		Block block = event.getClickedBlock();
 		if (block == null || block.getType() == Material.AIR)
+			return;
+		if (mats.contains(block.getType()))
 			return;
 		Location loc = block.getLocation();
 		cp.setTempData("targetBlockBreak", loc);
@@ -64,15 +74,17 @@ public class FastBreak1 implements Check, Listener {
 		if (!cp.hasTempData("targetBlockBreakTime"))
 			return;
 		Block block = event.getBlock();
+		if (mats.contains(block.getType()))
+			return;
 		if (!cp.getTempData("targetBlockBreak").equals(block.getLocation())) {
 			cp.flagHack(this, 50, "Wrong Block");
 			return;
 		}
 		double offset = cp.timeSince("targetBlockBreakTime");
-
 		if (offset > -100)
 			return;
-		cp.flagHack(this, (int) Math.abs((offset + 25)), "Time diff: " + cp.timeSince("targetBlockBreakTime"));
+		cp.flagHack(this, (int) Math.abs((offset + 25)), "Type: &e" + MSG.camelCase(block.getType().toString())
+				+ "\n&7Time diff: &a" + cp.timeSince("targetBlockBreakTime"));
 	}
 
 	private double getDigTime(Block block, Player player) {

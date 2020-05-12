@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.combat;
+package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -39,7 +39,7 @@ public class BHop1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying()) {
+		if (player.isFlying() || player.isGliding()) {
 			cp.removeTempData("lastGroundLocation");
 			return;
 		}

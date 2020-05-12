@@ -1,9 +1,11 @@
 name: NOPE
 main: org.mswsplex.anticheat.msws.NOPE
-version: 1.2.6
+version: 1.2.7
 description: 1.15.2 Minecraft Anticheat
 api-version: 1.15
 author: MSWS
+softdepend:
+- ProtocolLib
 commands:
   nope:
     usage: /<command>

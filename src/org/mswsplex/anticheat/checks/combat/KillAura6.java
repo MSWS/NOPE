@@ -16,7 +16,7 @@ import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 
 /**
- * This check uses FaNcY PaCkEts
+ * 
  * 
  * @author imodm
  * 

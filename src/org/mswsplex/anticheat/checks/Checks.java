@@ -2,13 +2,17 @@ package org.mswsplex.anticheat.checks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.naming.OperationNotSupportedException;
+
+import org.bukkit.Bukkit;
 import org.mswsplex.anticheat.checks.combat.AntiKB1;
 import org.mswsplex.anticheat.checks.combat.AutoArmor1;
 import org.mswsplex.anticheat.checks.combat.AutoClicker1;
-import org.mswsplex.anticheat.checks.combat.BHop1;
 import org.mswsplex.anticheat.checks.combat.FastBow1;
 import org.mswsplex.anticheat.checks.combat.HighCPS1;
 import org.mswsplex.anticheat.checks.combat.HighCPS2;
@@ -21,6 +25,7 @@ import org.mswsplex.anticheat.checks.combat.Reach1;
 import org.mswsplex.anticheat.checks.movement.AntiAFK1;
 import org.mswsplex.anticheat.checks.movement.AntiRotate1;
 import org.mswsplex.anticheat.checks.movement.AutoWalk1;
+import org.mswsplex.anticheat.checks.movement.BHop1;
 import org.mswsplex.anticheat.checks.movement.ClonedMovement1;
 import org.mswsplex.anticheat.checks.movement.FastClimb1;
 import org.mswsplex.anticheat.checks.movement.FastSneak1;
@@ -37,6 +42,7 @@ import org.mswsplex.anticheat.checks.movement.NoSlowDown1;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown2;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown3;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown4;
+import org.mswsplex.anticheat.checks.movement.NoSlowDown5;
 import org.mswsplex.anticheat.checks.movement.NoWeb1;
 import org.mswsplex.anticheat.checks.movement.SafeWalk1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
@@ -73,35 +79,35 @@ public class Checks {
 	private NOPE plugin;
 	private List<Check> activeChecks;
 
+	private Set<Check> checkList = new HashSet<>();
+
 	public Checks(NOPE plugin) {
 		this.plugin = plugin;
 		activeChecks = new ArrayList<Check>();
-	}
 
-	private List<Check> checkList = Arrays.asList(new Flight1(), new Flight2(), new Flight3(), new Flight4(),
-			new Flight5(), new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
-			new Timer2(), new Step1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
-			new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
-			new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(), new AutoWalk1(),
-			new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
-			new InventoryMove1(), new Reach1(), new KillAura2(), new KillAura5(), new KillAura6(), new AntiRotate1(),
-			new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(),
-			new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
-			new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
-			new KillAura7(), new Glide1(), new BHop1());
+		checkList.addAll(Set.of(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
+				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
+				new Timer2(), new Step1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
+				new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
+				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
+				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
+				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura2(), new KillAura6(),
+				new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(),
+				new FastEat1(), new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(),
+				new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(),
+				new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1()));
+
+		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			checkList.addAll(Set.of(new NoSlowDown5(), new KillAura5()));
+		
+
+	}
 
 	public void registerChecks() {
 		for (Check check : checkList) {
-			activeChecks.add(check);
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
-				continue;
-			if (!plugin.config.getBoolean(
-					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled"))
-				continue;
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
-					+ "." + check.getDebugName() + ".Enabled"))
-				continue;
-			check.register(plugin);
+			Result result = registerCheck(check);
+			if (result != Result.SUCCESS)
+				MSG.log("&cRegistration for " + check.getDebugName() + " is disabled (&e" + result.toString() + "&c)");
 		}
 	}
 
@@ -113,7 +119,7 @@ public class Checks {
 		return null;
 	}
 
-	public List<Check> getAllChecks() {
+	public Set<Check> getAllChecks() {
 		return checkList;
 	}
 
@@ -130,10 +136,34 @@ public class Checks {
 				.collect(Collectors.toList());
 	}
 
-	public void registerCheck(Check check) {
+	public Result registerCheck(Check check) {
 		if (activeChecks.contains(check))
-			throw new IllegalArgumentException("Check already registered");
-		check.register(plugin);
+			return Result.ALREADY_REGISTERED;
+		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+			return Result.DISABLED_NAME;
+		if (!plugin.config
+				.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled"))
+			return Result.DISABLED_CATEGORY;
+		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
+				+ check.getDebugName() + ".Enabled"))
+			return Result.DISABLED_DEBUG;
+		try {
+			check.register(plugin);
+		} catch (OperationNotSupportedException e) {
+//			e.printStackTrace();
+			return Result.MISSING_DEPENDENCY;
+		}
 		activeChecks.add(check);
+		return Result.SUCCESS;
+	}
+
+	enum Result {
+		ALREADY_REGISTERED, DISABLED_NAME, DISABLED_CATEGORY, DISABLED_DEBUG, NOT_SUPPORTED, MISSING_DEPENDENCY,
+		WRONG_VERSION, DEPRECATED, SUCCESS;
+
+		@Override
+		public String toString() {
+			return MSG.camelCase(super.toString());
+		}
 	}
 }

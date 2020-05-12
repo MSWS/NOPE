@@ -10,7 +10,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Checks the player's speed in a snapshot of time while on ground
@@ -58,9 +57,6 @@ public class NoSlowDown2 implements Check, Listener {
 
 		if (dist < .39)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&b" + dist);
 
 		cp.flagHack(this, (int) Math.round((dist - .29) * 400.0), "Dist: &e" + dist + "&7 >= &a.39");
 	}

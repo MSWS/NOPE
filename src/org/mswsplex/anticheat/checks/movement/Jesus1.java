@@ -20,6 +20,10 @@ import org.mswsplex.anticheat.msws.NOPE;
  * Checks if a player's Y differences are too similar
  * 
  * @author imodm
+ * 
+ *         TODO rewrite - buggy while a player is jumping on lilypads doesn't do
+ *         average, merely counts up until max size, very unintentional and
+ *         poorly written
  *
  */
 public class Jesus1 implements Check, Listener {
@@ -47,8 +51,8 @@ public class Jesus1 implements Check, Listener {
 
 		if (player.isFlying() || player.isInsideVehicle() || player.isSwimming())
 			return;
-		if (player.getLocation().getBlock().isLiquid())
-			return;
+//		if (player.getLocation().getBlock().isLiquid())
+//			return;
 		if (player.getLocation().getBlock().getType() == Material.LAVA)
 			return;
 

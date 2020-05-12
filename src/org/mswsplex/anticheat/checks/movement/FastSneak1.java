@@ -14,7 +14,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Gets the average speed while a player is sneaking and flags if too high
@@ -96,9 +95,6 @@ public class FastSneak1 implements Check, Listener {
 
 		if (avg < min)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&e" + avg);
 
 		cp.flagHack(this, (int) Math.round((avg / (min - min / 10)) * 20.0) + 5,
 				"Average: &e" + avg + "&7 >= &a" + min + "\n&7Size: &e" + distances.size() + "&7 >= &a" + SIZE);

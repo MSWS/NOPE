@@ -56,6 +56,9 @@ public class Step1 implements Check, Listener {
 		if (cp.timeSince("lastVehicle") < 1000)
 			return;
 
+		if (cp.timeSince("toggleGlide") < 500)
+			return;
+
 		if (cp.timeSince("lastBlockPlace") < 500)
 			return;
 
@@ -66,6 +69,9 @@ public class Step1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastDamageTaken") < 1500)
+			return;
+
+		if (cp.timeSince("lastInClimbing") < 1000)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
@@ -116,7 +122,11 @@ public class Step1 implements Check, Listener {
 
 			// Slab interactions
 			.5, -0.03584062504455687, -0.6517088341626174, -0.0358406250445551, -0.6537296175885947,
-			-0.1537296175885947, .375, -.18379684053918943, -.0625, .0625, -.17647087614426837,
+			-0.1537296175885947, .375, -.18379684053918943, -.0625, .0625, -.17647087614426837, -.09004684053918766,
+			-.21504684053918766, -.058796840539187656, -.18379684053918766,
+
+			// Liquids
+			.09375, -.015349998474121662,
 
 			// Climbing interactions
 			0.1176000022888175, 0.07248412919149416, 0.11760000228882461,

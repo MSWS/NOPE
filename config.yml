@@ -1,26 +1,66 @@
-VlForInstaBan: 1000 #Minimum VL required for instant ban
-VlForBanwave: 500 #Minimum VL required to be queued for banwave
-BanwaveRate: 12000 #Rate of banwave (in ticks)
+# ----------------------------------------------------------
+#
+#               NOPE Anti-Cheat Configuration
+#
+#   This is the configuration for NOPE. I recommend keeping
+#    the default values unless you know what you're doing.
+#
+# ----------------------------------------------------------
+
+#               -------------------------------
+#                     Global Configuration
+#               -------------------------------
+
+Global: true # If disabled, NOPE will be disabled
+# Whether or not to teleport the player back when they're flagged
+LagBack: false 
+Scoreboard: true
+Log: true
+
+#               -------------------------------
+#                     Banwave Configuration
+#               -------------------------------
+
+VlForInstaBan: 1000 # Minimum VL required for instant ban
+VlForBanwave: 500 # Minimum VL required to be queued for banwave
+BanwaveRate: 12000 # Rate of banwave (in ticks)
+
+#               -------------------------------
+#                  Notification Configuration
+#       Make sure staff members have nope.message.normal
+#               -------------------------------
+
 Minimum: 20 #Minimum VL to notify staff members
 SecondsMinimum: 5000 #Cooldown of hack messages to prevent spam
-DevMode: false
-DebugMode: false
-Global: true
-VlColors:
+
+# Each new color is a new level, this is based off percentage to VL for instant ban
+# More colors = more notifications
+VlColors: 
 - '&a'
 - '&e'
 - '&6'
 - '&c'
 - '&4'
-LagBack: false
-Log: true
+
+# If enabled, developer messages will be sent to the player and commands will not execute
+DevMode: false 
+DebugMode: false
+
 CommandsForBan:
-- kick %player% Hacking (%hack%)|(%token%)
+- kick %player% Hacking (%hack%) (%token%)
 - say %player% was banned for %hack% (%token%)
+
 CommandsForBanwave:
-- kick %player% Hacking - Banwave (%hack%)|(%token%)
+- kick %player% Hacking - Banwave (%hack%) (%token%)
 - say %player% was banwaved for %hack% (%token%)
-Scoreboard: true
+
+#               -------------------------------
+#                     Check Configuration
+#       Here you can configure which checks are/aren't enabled
+#         You can also toggle these ingame with /nope stats
+#   make sure to restart your server after modifying these settings
+#               -------------------------------
+
 Checks:
   Movement:
     Enabled: true
@@ -96,6 +136,8 @@ Checks:
         Enabled: true
       NoSlowDown#4:
         Enabled: true
+      NoSlowDown#5:
+        Enabled: true
     SafeWalk:
       Enabled: true
       SafeWalk#1:
@@ -103,6 +145,10 @@ Checks:
     Spider:
       Enabled: true
       Spider#1:
+        Enabled: true
+    Glide:
+      Enabled: true
+      Glide#1:
         Enabled: true
     BHop:
       Enabled: true
@@ -115,50 +161,6 @@ Checks:
       Timer#1:
         Enabled: true
       Timer#2:
-        Enabled: true
-  Combat:
-    Enabled: true
-    Criticals:
-      Enabled: true
-      Criticals#1:
-        Enabled: true
-    FastBow:
-      Enabled: true
-      FastBow#1:
-        Enabled: true
-    AutoClicker:
-      Enabled: true
-      AutoClicker#1:
-        Enabled: true
-    HighCPS:
-      Enabled: true
-      HighCPS#1:
-        Enabled: true
-      HighCPS#2:
-        Enabled: true
-      HighCPS#3:
-        Enabled: true
-    Reach:
-      Enabled: true
-      Reach#1:
-        Enabled: true
-    KillAura:
-      Enabled: true
-      KillAura#2:
-        Enabled: true
-      KillAura#5:
-        Enabled: true
-      KillAura#6:
-        Enabled: true
-      KillAura#7:
-        Enabled: true
-    AntiKB:
-      Enabled: true
-      AntiKB#1:
-        Enabled: true
-    AutoArmor:
-      Enabled: true
-      AutoArmor#1:
         Enabled: true
   Player:
     Enabled: true
@@ -215,6 +217,46 @@ Checks:
     FastBreak:
       Enabled: true
       FastBreak#1:
+        Enabled: true
+  Combat:
+    Enabled: true
+    FastBow:
+      Enabled: true
+      FastBow#1:
+        Enabled: true
+    AutoClicker:
+      Enabled: true
+      AutoClicker#1:
+        Enabled: true
+    HighCPS:
+      Enabled: true
+      HighCPS#1:
+        Enabled: true
+      HighCPS#2:
+        Enabled: true
+      HighCPS#3:
+        Enabled: true
+    Reach:
+      Enabled: true
+      Reach#1:
+        Enabled: true
+    KillAura:
+      Enabled: true
+      KillAura#2:
+        Enabled: true
+      KillAura#5:
+        Enabled: true
+      KillAura#6:
+        Enabled: true
+      KillAura#7:
+        Enabled: true
+    AntiKB:
+      Enabled: true
+      AntiKB#1:
+        Enabled: true
+    AutoArmor:
+      Enabled: true
+      AutoArmor#1:
         Enabled: true
   Render:
     Enabled: true

@@ -11,6 +11,13 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+
 /**
  * 
  * @author imodm
@@ -26,9 +33,26 @@ public class KillAura5 implements Check, Listener {
 	}
 
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws UnsupportedOperationException {
+		if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			throw new UnsupportedOperationException("ProtocolLib is not enabled");
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
+
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
+			@Override
+			public void onPacketReceiving(PacketEvent event) {
+				Player player = event.getPlayer();
+				CPlayer cp = KillAura5.this.plugin.getCPlayer(player);
+				cp.setTempData("lastEntityHitDirection", player.getLocation());
+			}
+
+			@Override
+			public void onPacketSending(PacketEvent event) {
+			}
+		};
+		manager.addPacketListener(adapter);
 	}
 
 	@EventHandler
