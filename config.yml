@@ -13,7 +13,7 @@
 
 Global: true # If disabled, NOPE will be disabled
 # Whether or not to teleport the player back when they're flagged
-LagBack: false 
+SetBack: false 
 Scoreboard: true
 Log: true
 UpdateChecker:

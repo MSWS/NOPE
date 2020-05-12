@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
@@ -56,6 +57,9 @@ public class Flight3 implements Check, Listener {
 			return;
 
 		if (cp.timeSince("lastFlightGrounded") < 500)
+			return;
+
+		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
 			return;
 
 		Location safe = cp.getLastSafeLocation();

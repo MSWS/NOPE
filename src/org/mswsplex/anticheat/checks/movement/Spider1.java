@@ -47,6 +47,9 @@ public class Spider1 implements Check, Listener {
 		if (player.isFlying())
 			return;
 
+		if (cp.hasMovementRelatedPotion())
+			return;
+
 		if (cp.timeSince("wasFlying") < 200)
 			return;
 

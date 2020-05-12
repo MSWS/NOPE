@@ -24,6 +24,7 @@ import org.mswsplex.anticheat.listeners.LogImplementation;
 import org.mswsplex.anticheat.listeners.LoginAndQuit;
 import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.listeners.UpdateCheckerListener;
+import org.mswsplex.anticheat.msws.plugin.PluginInfo;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.MetricsLite;
@@ -41,7 +42,7 @@ public class NOPE extends JavaPlugin {
 
 	public String serverName = "Unknown Server";
 
-	private UpdateChecker checker;
+	private PluginInfo pluginInfo;
 
 	private String newVersion = null;
 
@@ -83,11 +84,12 @@ public class NOPE extends JavaPlugin {
 		if (config.getBoolean("UpdateChecker.Enabled", true)) {
 			if (config.getBoolean("UpdateChecker.InGame", true))
 				new UpdateCheckerListener(this);
-			checker = new UpdateChecker(this, 64671);
-			checker.getVersion(v -> {
-				newVersion = v;
+			pluginInfo = new PluginInfo(this, 64671);
+			pluginInfo.fetch(pi -> {
+				newVersion = pi.getVersion();
 				if (!getDescription().getVersion().equals(newVersion))
-					MSG.log("Version &e" + v + "&7 is now available. (https://www.spigotmc.org/resources/64671/)");
+					MSG.log("Version &e" + pi.getVersion()
+							+ "&7 is now available. (https://www.spigotmc.org/resources/64671/)");
 			});
 		}
 
@@ -103,6 +105,10 @@ public class NOPE extends JavaPlugin {
 
 	public String getNewVersion() {
 		return newVersion;
+	}
+
+	public PluginInfo getPluginInfo() {
+		return pluginInfo;
 	}
 
 	public Stats getStats() {

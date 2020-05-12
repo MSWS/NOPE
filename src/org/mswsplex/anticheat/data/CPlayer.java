@@ -304,11 +304,11 @@ public class CPlayer {
 
 		double lastSent = timeSince(color + check.getCategory());
 
-		teleport: if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("LagBack") && check.lagBack()) {
+		teleport: if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("SetBack") && check.lagBack()) {
 
 			ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
-			if (rnd.nextDouble() < .25)
+			if (rnd.nextDouble() < .3)
 				break teleport;
 
 			player.getPlayer().teleport(lastSafe);
@@ -423,9 +423,6 @@ public class CPlayer {
 						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
 		}
-
-//		if (Bukkit.getPluginManager().isPluginEnabled("Punish"))
-//			BanManager.addPunishment(player, "NESS", "Hacking - (" + token + ")", "sev3hackingban", 1.314e+10, 3);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -546,7 +543,6 @@ public class CPlayer {
 		revised.addAll(0, prefix);
 
 		revised.add("");
-//		revised.add("Banning " + player.getName() + " for " + check + " (VL: " + getSaveInteger("vls." + check) + ")");
 		revised.add("Banning " + player.getName() + " for " + check + " (VL: "
 				+ getSaveData("vls." + check, Integer.class) + ")");
 
@@ -556,20 +552,6 @@ public class CPlayer {
 				i--;
 			}
 		}
-//
-//		if (plugin.config.getBoolean("Pastebin")) {
-//			StringBuilder raw = new StringBuilder();
-//			for (String line : revised)
-//				raw.append(line + "\n");
-//
-//			String link = Utils.uploadPaste(
-//					player.getName() + " " + token + " " + format.format(now) + " [" + check + "]", raw.toString());
-//			if (link != null) {
-//				revised.add(0, link);
-//				revised.add("Pastebin Link: " + link);
-//				MSG.log("Uploaded Pastebin for " + player.getName() + " link: " + link);
-//			}
-//		}
 		try {
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {

@@ -18,6 +18,8 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.msws.plugin.PluginInfo;
+import org.mswsplex.anticheat.msws.plugin.PluginInfo.Stats;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Sounds;
 
@@ -173,16 +175,17 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						plugin.saveConfig();
 						break;
 					case "lagback":
+					case "setback":
 					case "cancel":
 						if (!sender.hasPermission("nope.command.toggle.cancel")) {
 							MSG.noPerm(sender, "nope.command.toggle.cancel");
 							return true;
 						}
-						plugin.config.set("LagBack", !plugin.config.getBoolean("LagBack"));
+						plugin.config.set("SetBack", !plugin.config.getBoolean("SetBack"));
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.config.getBoolean("LagBack")))
-										.replace("%name%", "Lagbacks"));
+										.replace("%status%", enabledDisable(plugin.config.getBoolean("SetBack")))
+										.replace("%name%", "Setbacks"));
 						plugin.saveConfig();
 						break;
 					case "logs":
@@ -435,6 +438,21 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				plugin.saveConfig();
 				MSG.tell(sender, MSG.getString("AllChecksEnabled", "&aSuccessfully enabled all checks."));
 				break;
+			case "online":
+				if (!sender.hasPermission("nope.command.online")) {
+					MSG.noPerm(sender, "nope.command.online");
+					return true;
+				}
+				if (plugin.getPluginInfo() == null) {
+					MSG.tell(sender, "&4[NOPE] &7Unable to grab plugin info at this time.");
+					return true;
+				}
+				PluginInfo info = plugin.getPluginInfo();
+				Stats stats = info.getStats();
+				MSG.tell(sender, String.format(
+						"&4[NOPE] &7NOPE has reached &b%d&7 downloads, &a%d&7 reviews, and is averaging about &e%.2f&7.",
+						stats.getDownloads(), stats.getReviews(), stats.getRating()));
+				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
 				return true;
@@ -475,7 +493,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
 				for (String res : new String[] { "cancel", "dev", "debug", "logs", "global", "globalscoreboard",
-						"scoreboard" }) {
+						"scoreboard", "online" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

@@ -175,8 +175,12 @@ public class MSG {
 		for (String line : list) {
 			tell(sender, line);
 		}
-		if (command.equals("default"))
-			tell(sender, "&l&4[&c&lNOPE&4&l] &ev" + plugin.getDescription().getVersion() + " &7created by &bMSWS");
+		if (command.equals("default")) {
+			String bottom = "&l&4[&c&lNOPE&4&l] &ev" + plugin.getDescription().getVersion() + " &7created by &bMSWS";
+			if (plugin.getPluginInfo() != null)
+				bottom += " &7(Online Version is &e" + plugin.getPluginInfo().getVersion() + "&7)";
+			MSG.tell(sender, bottom);
+		}
 	}
 
 	/**

@@ -66,6 +66,8 @@ public class AntiKB1 implements Check, Listener {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
+				if (!origin.getWorld().equals(player.getWorld()))
+					return;
 				double dist = player.getLocation().distanceSquared(origin);
 				if (dist > 0)
 					return;
