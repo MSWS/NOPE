@@ -19,4 +19,5 @@ Help:
   - perm:nope.command.checks &c/nope checks &7- Lists all checks
   - perm:nope.command.removebanwave &c/nope removebanwave [Player] &7- Removes a player from the banwave
   - perm:nope.command.stats &c/nope stats &7- View NOPE statistics and manage checks
+  - perm:nope.command.online &c/nope online &7- View NOPE online NOPE plugin statistics
   - perm:nope.command.enablechecks &c/nope enablechecks &7- Enable all checks

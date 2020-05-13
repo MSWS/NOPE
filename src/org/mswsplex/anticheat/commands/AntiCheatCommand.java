@@ -465,14 +465,14 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
 			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
-					"removebanwave", "time", "stats", "enablechecks" }) {
+					"removebanwave", "time", "stats", "enablechecks", "online" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()) && sender.hasPermission("nope.command." + res))
 					result.add(res);
 			}
 		}
 
 		if (args.length >= 2 && args.length <= 3) {
-			if (args[0].matches("(?i)(clear|removebanwave|banwave|flag|testanimation)")) {
+			if (args[0].matches("(?i)(clear|removebanwave|banwave|flag)")) {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(target.getName());
@@ -493,7 +493,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
 				for (String res : new String[] { "cancel", "dev", "debug", "logs", "global", "globalscoreboard",
-						"scoreboard", "online" }) {
+						"scoreboard" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);
