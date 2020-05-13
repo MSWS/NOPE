@@ -18,8 +18,8 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.msws.plugin.PluginInfo;
-import org.mswsplex.anticheat.msws.plugin.PluginInfo.Stats;
+import org.mswsplex.anticheat.msws.PluginInfo;
+import org.mswsplex.anticheat.msws.PluginInfo.Stats;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Sounds;
 

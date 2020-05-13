@@ -46,7 +46,8 @@ public class FastBreak1 implements Check, Listener {
 	private final EnumSet<Material> mats = EnumSet.of(Material.RED_BED, Material.BLACK_BED, Material.BLUE_BED,
 			Material.BROWN_BED, Material.CYAN_BED, Material.GRAY_BED, Material.GREEN_BED, Material.LIME_BED,
 			Material.MAGENTA_BED, Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.WHITE_BED,
-			Material.YELLOW_BED);
+			Material.YELLOW_BED, Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES,
+			Material.JUNGLE_LEAVES, Material.OAK_LEAVES, Material.SPRUCE_LEAVES);
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
@@ -83,8 +84,9 @@ public class FastBreak1 implements Check, Listener {
 		double offset = cp.timeSince("targetBlockBreakTime");
 		if (offset > -100)
 			return;
-		cp.flagHack(this, (int) Math.abs((offset + 25)), "Type: &e" + MSG.camelCase(block.getType().toString())
-				+ "\n&7Time diff: &a" + cp.timeSince("targetBlockBreakTime"));
+		cp.flagHack(this, (int) Math.abs((offset + 25)),
+				"Type: &e" + MSG.camelCase(block.getType().toString()) + "\n&7Time diff: &a"
+						+ cp.timeSince("targetBlockBreakTime") + "\n&7Hardness: &e" + block.getType().getHardness());
 	}
 
 	private double getDigTime(Block block, Player player) {

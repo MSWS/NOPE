@@ -24,9 +24,9 @@ UpdateChecker:
 #                     Banwave Configuration
 #               -------------------------------
 
-VlForInstaBan: 1000 # Minimum VL required for instant ban
-VlForBanwave: 500 # Minimum VL required to be queued for banwave
-BanwaveRate: 12000 # Rate of banwave (in ticks)
+VlForInstaBan: 1500 # Minimum VL required for instant ban
+VlForBanwave: 1000 # Minimum VL required to be queued for banwave
+BanwaveRate: 36000 # Rate of banwave (in ticks)
 
 #               -------------------------------
 #                  Notification Configuration

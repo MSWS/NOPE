@@ -30,7 +30,7 @@ public class UpdateCheckerListener implements Listener {
 		Player player = event.getPlayer();
 		if (!player.hasPermission("nope.message.update"))
 			return;
-		if (plugin.getDescription().getVersion().equals(plugin.getNewVersion()))
+		if (!plugin.getPluginInfo().outdated())
 			return;
 
 		MSG.tell(player, "&4[NOPE] &7A new update for &cNOPE &7is now available! (&e"

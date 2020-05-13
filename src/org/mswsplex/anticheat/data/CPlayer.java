@@ -34,9 +34,10 @@ import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 //import org.mswsplex.punish.managers.BanManager;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class CPlayer {
@@ -280,9 +281,13 @@ public class CPlayer {
 			TextComponent component = new TextComponent(MSG.color(
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl));
 
-			if (debug != null && !debug.isEmpty())
-				component.setHoverEvent(
-						new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder(MSG.color("&7" + debug)).create()));
+			if (debug != null && !debug.isEmpty()) {
+				component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+						new ComponentBuilder(MSG.color("&7" + debug)).create()));
+				component.setClickEvent(
+						new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, ChatColor.stripColor(MSG.color(debug))));
+
+			}
 
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission("nope.message.dev"))
@@ -603,7 +608,7 @@ public class CPlayer {
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
-				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER" };
+				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER", "SWEET_BERRY_BUSH" };
 		Material type = online.getLocation().getBlock().getType();
 		for (String mat : nonfull) {
 			if (type.toString().contains(mat))

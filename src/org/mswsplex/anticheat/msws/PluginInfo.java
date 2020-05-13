@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.msws.plugin;
+package org.mswsplex.anticheat.msws;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Consumer;
 import org.mswsplex.anticheat.utils.MSG;
+import org.mswsplex.anticheat.utils.Utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,6 +23,8 @@ public class PluginInfo {
 	private Stats stats;
 
 	private Plugin plugin;
+
+	private boolean outdated;
 
 	public PluginInfo(Plugin plugin, int id) {
 		this.id = id;
@@ -39,21 +42,24 @@ public class PluginInfo {
 					StringBuilder builder = new StringBuilder();
 					while (scanner.hasNext())
 						builder.append(scanner.next());
-					
+
 					String text = builder.toString();
 					JsonObject parse = new JsonParser().parse(text).getAsJsonObject();
-					
-					PluginInfo.this.title = parse.getAsJsonPrimitive("title").getAsString();
-					PluginInfo.this.tag = parse.getAsJsonPrimitive("tag").getAsString();
-					PluginInfo.this.version = parse.getAsJsonPrimitive("current_version").getAsString();
-					PluginInfo.this.stats = new Stats(parse.getAsJsonObject("stats"));
+					title = parse.getAsJsonPrimitive("title").getAsString();
+					tag = parse.getAsJsonPrimitive("tag").getAsString();
+					version = parse.getAsJsonPrimitive("current_version").getAsString();
+					stats = new Stats(parse.getAsJsonObject("stats"));
+					outdated = Utils.outdated(plugin.getDescription().getVersion(), version);
 					result.accept(PluginInfo.this);
 				} catch (IOException exception) {
 					MSG.log("Cannot look for updates: " + exception.getMessage());
 				}
 			}
 		}.runTaskAsynchronously(plugin);
+	}
 
+	public boolean outdated() {
+		return outdated;
 	}
 
 	public String getTitle() {

@@ -1,4 +1,4 @@
-package org.mswsplex.anticheat.checks.movement;
+package org.mswsplex.anticheat.checks.player;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,7 +18,7 @@ public class SafeWalk1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.MOVEMENT;
+		return CheckType.PLAYER;
 	}
 
 	private NOPE plugin;

@@ -44,7 +44,6 @@ import org.mswsplex.anticheat.checks.movement.NoSlowDown3;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown4;
 import org.mswsplex.anticheat.checks.movement.NoSlowDown5;
 import org.mswsplex.anticheat.checks.movement.NoWeb1;
-import org.mswsplex.anticheat.checks.movement.SafeWalk1;
 import org.mswsplex.anticheat.checks.movement.Speed1;
 import org.mswsplex.anticheat.checks.movement.Speed2;
 import org.mswsplex.anticheat.checks.movement.Speed3;
@@ -55,8 +54,9 @@ import org.mswsplex.anticheat.checks.player.AutoSwitch1;
 import org.mswsplex.anticheat.checks.player.AutoTool1;
 import org.mswsplex.anticheat.checks.player.ChestStealer1;
 import org.mswsplex.anticheat.checks.player.FastEat1;
-import org.mswsplex.anticheat.checks.player.GhostHand1;
+import org.mswsplex.anticheat.checks.player.GhostHand2;
 import org.mswsplex.anticheat.checks.player.NoFall1;
+import org.mswsplex.anticheat.checks.player.SafeWalk1;
 import org.mswsplex.anticheat.checks.player.SelfHarm1;
 import org.mswsplex.anticheat.checks.player.Zoot1;
 import org.mswsplex.anticheat.checks.render.AutoSneak1;
@@ -91,16 +91,16 @@ public class Checks {
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
 				new Timer2(), new Step1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
 				new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
-				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new GhostHand1(), new NoWeb1(),
-				new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(),
-				new AutoSneak1(), new InventoryMove1(), new Reach1(), new KillAura2(), new KillAura6(),
-				new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(),
-				new FastEat1(), new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(),
-				new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(),
-				new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1()));
+				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(),
+				new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
+				new InventoryMove1(), new Reach1(), new KillAura2(), new KillAura6(), new AntiRotate1(),
+				new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(),
+				new SkinBlinker1(), new ChestStealer1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
+				new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
+				new KillAura7(), new Glide1(), new BHop1(), new GhostHand2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
-			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5()));
+			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new org.mswsplex.anticheat.checks.render.SkinBlinker1()));
 
 	}
 

@@ -11,7 +11,6 @@ import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
-import org.mswsplex.anticheat.utils.MSG;
 
 /**
  * Basically {@link NoFall} but when the player hits an entity
@@ -87,7 +86,6 @@ public class BHop1 implements Check, Listener {
 			double dist = last.distanceSquared(to);
 			if (dist <= 21.07331544322134)
 				return;
-			MSG.tell(player, dist + "");
 			cp.flagHack(this, (int) (dist - 21) * 5, "Dist: &e" + dist);
 		}
 	}

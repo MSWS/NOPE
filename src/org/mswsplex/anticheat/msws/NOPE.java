@@ -24,7 +24,6 @@ import org.mswsplex.anticheat.listeners.LogImplementation;
 import org.mswsplex.anticheat.listeners.LoginAndQuit;
 import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.listeners.UpdateCheckerListener;
-import org.mswsplex.anticheat.msws.plugin.PluginInfo;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.MetricsLite;
@@ -87,7 +86,7 @@ public class NOPE extends JavaPlugin {
 			pluginInfo = new PluginInfo(this, 64671);
 			pluginInfo.fetch(pi -> {
 				newVersion = pi.getVersion();
-				if (!getDescription().getVersion().equals(newVersion))
+				if (pi.outdated())
 					MSG.log("Version &e" + pi.getVersion()
 							+ "&7 is now available. (https://www.spigotmc.org/resources/64671/)");
 			});

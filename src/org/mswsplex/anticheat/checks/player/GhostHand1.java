@@ -25,6 +25,8 @@ import org.mswsplex.anticheat.utils.MSG;
  * 
  * @author imodm
  *
+ *
+ * @deprecated inaccurate
  */
 public class GhostHand1 implements Check, Listener {
 
