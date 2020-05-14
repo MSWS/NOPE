@@ -98,9 +98,11 @@ public class Checks {
 				new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(),
 				new BHop1(), new GhostHand2()));
 
-		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new SkinBlinker1()));
-
+		} else {
+			MSG.warn("ProtocolLib is not enabled, certain checks will not work.");
+		}
 	}
 
 	public void registerChecks() {

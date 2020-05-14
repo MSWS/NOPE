@@ -24,7 +24,7 @@ public class SkinBlinker1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
-		return CheckType.TICK;
+		return CheckType.RENDER;
 	}
 
 	private NOPE plugin;
