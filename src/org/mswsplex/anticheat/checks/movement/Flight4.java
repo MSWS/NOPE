@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,6 +41,9 @@ public class Flight4 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (cp.hasMovementRelatedPotion())
+			return;
+
+		if (player.getLocation().getBlock().getType() == Material.SCAFFOLDING)
 			return;
 
 		if (player.isInsideVehicle())
