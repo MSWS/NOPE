@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,6 +48,9 @@ public class ChestStealer1 implements Check, Listener {
 
 		Player player = (Player) event.getWhoClicked();
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (player.getGameMode() == GameMode.CREATIVE)
+			return;
 
 		if (event.getInventory() == null)
 			return;

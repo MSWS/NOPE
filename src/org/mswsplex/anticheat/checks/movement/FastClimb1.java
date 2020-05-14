@@ -33,7 +33,7 @@ public class FastClimb1 implements Check, Listener {
 	}
 
 	private double[] requires = { 0.0, 0.1176000022888175, 0.036848002960205406, 0.41999998688697815,
-			0.37248415303335136, 0.38448416543112174 };
+			0.37248415303335136, 0.38448416543112174, 0.1176000022888184};
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
@@ -51,7 +51,7 @@ public class FastClimb1 implements Check, Listener {
 		if (cp.timeSince("lastSlimeBlock") < 1000)
 			return;
 
-		if (cp.timeSince("lastOnGround") < 100)
+		if (cp.timeSince("lastOnGround") < 500)
 			return;
 
 		Location to = event.getTo();

@@ -56,19 +56,24 @@ public class Jesus1 implements Check, Listener {
 		if (player.getLocation().getBlock().getType() == Material.LAVA)
 			return;
 
+		if (player.isOnGround())
+			return;
+
 		Location to = event.getTo(), from = event.getFrom();
 
-		boolean groundAround = player.isOnGround(), liquidAround = false;
+		boolean liquidAround = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				if (player.getLocation().clone().add(x, -.5, z).getBlock().isLiquid())
 					liquidAround = true;
+				if (player.getLocation().clone().add(x, -.5, z).getBlock().getType().isSolid())
+					return;
 				if (liquidAround)
 					break;
 			}
 		}
 
-		if (!liquidAround || groundAround)
+		if (!liquidAround)
 			return;
 
 		double diff = to.getY() - from.getY();

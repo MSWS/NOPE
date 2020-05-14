@@ -41,10 +41,7 @@ public class Spider1 implements Check, Listener {
 		Location to = event.getTo();
 		Location from = event.getFrom();
 
-		if (player.isOnGround())
-			return;
-
-		if (player.isFlying())
+		if (player.isOnGround() || player.isFlying())
 			return;
 
 		if (cp.hasMovementRelatedPotion())

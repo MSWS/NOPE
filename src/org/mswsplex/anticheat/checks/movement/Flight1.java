@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,9 +57,11 @@ public class Flight1 implements Check, Listener {
 		if (to.getY() != from.getY())
 			return;
 
-		if (cp.timeSince("lastOnGround") <= 300)
+		if (player.getLocation().getBlock().getType() == Material.COBWEB)
 			return;
 
+		if (cp.timeSince("lastOnGround") <= 300)
+			return;
 		if (cp.timeSince("lastBlockPlace") < 1500)
 			return;
 		if (cp.timeSince("lastDamageTaken") < 500)

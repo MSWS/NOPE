@@ -608,7 +608,8 @@ public class CPlayer {
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
-				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER", "SWEET_BERRY_BUSH" };
+				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER", "SWEET_BERRY_BUSH",
+				"SCAFFOLDING" };
 		Material type = online.getLocation().getBlock().getType();
 		for (String mat : nonfull) {
 			if (type.toString().contains(mat))
@@ -715,7 +716,8 @@ public class CPlayer {
 
 		Block block = online.getLocation().getBlock();
 
-		return block.getType() == Material.LADDER || block.getType() == Material.VINE;
+		return block.getType() == Material.LADDER || block.getType() == Material.VINE
+				|| block.getType() == Material.SCAFFOLDING;
 	}
 
 	public boolean isBlockAbove() {
