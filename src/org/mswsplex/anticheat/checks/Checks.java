@@ -125,6 +125,10 @@ public class Checks {
 		return checkList;
 	}
 
+	public boolean isCheckEnabled(Check check) {
+		return activeChecks.contains(check);
+	}
+
 	public List<CheckType> getCheckTypes() {
 		return Arrays.asList(CheckType.values());
 	}

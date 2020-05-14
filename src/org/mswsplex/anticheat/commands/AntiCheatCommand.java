@@ -62,13 +62,19 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.sendPluginMessage(null, "clearvl:" + p.getName());
 							hack = "all hacks";
 						} else {
+							boolean found = false;
 							for (Check h : plugin.getChecks().getAllChecks()) {
 								if (args[2].equalsIgnoreCase(h.getCategory())) {
 									cp.setSaveData("vls." + h.getCategory(), 0);
 									MSG.sendPluginMessage(null, "setvl:" + p.getName() + " " + h + " 0");
 									hack = h.getCategory();
+									found = true;
 									break;
 								}
+							}
+							if (!found) {
+								MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
+								return true;
 							}
 						}
 					}
@@ -82,13 +88,19 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						MSG.sendPluginMessage(null, "clearvl:" + cp.getPlayer().getName());
 						hack = "all hacks";
 					} else {
+						boolean found = false;
 						for (Check h : plugin.getChecks().getAllChecks()) {
 							if (args[2].equalsIgnoreCase(h.getCategory())) {
 								cp.setSaveData("vls." + h.getCategory(), 0);
 								MSG.sendPluginMessage(null, "setvl:" + cp.getPlayer().getName() + " " + h + " 0");
 								hack = h.getCategory();
+								found = true;
 								break;
 							}
+						}
+						if (!found) {
+							MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
+							return true;
 						}
 					}
 				}
@@ -110,9 +122,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						shown = true;
 						MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + p.getName() + "&7: " + formatVls(p));
 					}
-					if (!shown) {
+					if (!shown)
 						MSG.tell(sender, "&5[&dVLS&5] &cThere are no VLs.");
-					}
 					return true;
 				}
 

@@ -1,6 +1,9 @@
 package org.mswsplex.anticheat.msws;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mswsplex.anticheat.checks.Banwave;
+import org.mswsplex.anticheat.checks.Check;
 import org.mswsplex.anticheat.checks.Checks;
 import org.mswsplex.anticheat.checks.Global;
 import org.mswsplex.anticheat.checks.TPSChecker;
@@ -80,8 +84,27 @@ public class NOPE extends JavaPlugin {
 		new SBoard(this);
 
 		Metrics metrics = new Metrics(this, 7422);
-		CustomChart chart = new Metrics.SingleLineChart("bans", () -> stats.getAllBans());
+		CustomChart chart = new Metrics.SingleLineChart("bans", new Callable<Integer>() {
+			@Override
+			public Integer call() throws Exception {
+				return stats.getAllBans();
+			}
+		});
 		metrics.addCustomChart(chart);
+
+		chart = new Metrics.AdvancedBarChart("checkweights", new Callable<Map<String, int[]>>() {
+			@Override
+			public Map<String, int[]> call() throws Exception {
+				Map<String, int[]> result = new HashMap<>();
+				for (Check check : checks.getAllChecks()) {
+					int[] arr = new int[2];
+					arr[0] = stats.getTotalVl(check);
+					arr[1] = stats.getTotalTriggers(check);
+					result.put(check.getDebugName(), arr);
+				}
+				return result;
+			}
+		});
 
 		if (config.getBoolean("UpdateChecker.Enabled", true)) {
 			if (config.getBoolean("UpdateChecker.InGame", true))
