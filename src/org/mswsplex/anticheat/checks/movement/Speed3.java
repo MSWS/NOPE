@@ -93,7 +93,7 @@ public class Speed3 implements Check, Listener {
 		if (avg < max)
 			return;
 
-		cp.flagHack(this, (int) Math.round((avg - max) * 20) + 5, "Avg: &e" + avg + "&7 >= &a" + max);
+		cp.flagHack(this, (int) Math.round((avg - max) * 40) + 10, "Avg: &e" + avg + "&7 >= &a" + max);
 	}
 
 	@Override

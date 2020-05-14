@@ -67,7 +67,7 @@ public class Flight1 implements Check, Listener {
 		if (player.getVelocity().getY() > 0)
 			return;
 
-		cp.flagHack(this, 5);
+		cp.flagHack(this, 30);
 	}
 
 	@Override

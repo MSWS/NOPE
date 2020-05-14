@@ -4,7 +4,7 @@ Format:
   Regular: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7)'
   Bungee: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7) &9[&b%server%&9]'
   Developer: '&4&l[&c&lDEV&4&l] &e%player%&7 failed &c%debug% &4%addVl%'
-  Banwave: '&6&l[&eBANWAVE&6&l] &e%player% &7is now queued for a &cbanwave&7.'
+  Banwave: '&6&l[&cBANWAVE&6&l] &e%player% &7is now queued for a &cbanwave&7.'
 AllChecksEnabled: '&aSuccessfully enabled all checks.'
 Help:
   default:
