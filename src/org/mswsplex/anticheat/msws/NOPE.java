@@ -86,9 +86,20 @@ public class NOPE extends JavaPlugin {
 			pluginInfo = new PluginInfo(this, 64671);
 			pluginInfo.fetch(pi -> {
 				newVersion = pi.getVersion();
-				if (pi.outdated())
-					MSG.log("Version &e" + pi.getVersion()
-							+ "&7 is now available. (https://www.spigotmc.org/resources/64671/)");
+				String info = "";
+				switch (pi.outdated()) {
+					case DEVELOPER_VERSION:
+						info = "You are using a developer version.";
+						break;
+					case OUTDATED_VERSION:
+						info = "You are using an outdated version. Version &e" + newVersion
+								+ " &7is now available (&bhttps://www.spigotmc.org/resources/64671&7)";
+						break;
+					case SAME_VERSION:
+						info = "You are using an up-to-date version.";
+						break;
+				}
+				MSG.log(info);
 			});
 		}
 

@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
+import org.mswsplex.anticheat.utils.Utils.Age;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -30,7 +31,7 @@ public class UpdateCheckerListener implements Listener {
 		Player player = event.getPlayer();
 		if (!player.hasPermission("nope.message.update"))
 			return;
-		if (!plugin.getPluginInfo().outdated())
+		if (plugin.getPluginInfo().outdated() != Age.OUTDATED_VERSION)
 			return;
 
 		MSG.tell(player, "&4[NOPE] &7A new update for &cNOPE &7is now available! (&e"

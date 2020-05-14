@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.mswsplex.anticheat.msws.NOPE;
+import org.mswsplex.anticheat.utils.Utils.Age;
 
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
@@ -17,7 +18,58 @@ import com.google.common.io.ByteStreams;
 import io.netty.util.internal.ThreadLocalRandom;
 
 public class MSG {
+
+	public static ChatColor ALL = ChatColor.WHITE;
+	public static ChatColor PLAYER = ChatColor.YELLOW;
+	public static ChatColor STAFF = ChatColor.GOLD;
+
+	public static ChatColor ADMIN = ChatColor.RED;
+
+	public static ChatColor DEFAULT = ChatColor.GRAY;
+
+	public static ChatColor FORMATTER = ChatColor.GRAY;
+	public static ChatColor FORMAT_INFO = ChatColor.GREEN;
+	public static ChatColor FORMAT_SEPARATOR = ChatColor.YELLOW;
+
+	public static ChatColor NUMBER = ChatColor.YELLOW;
+	public static ChatColor TIME = ChatColor.GOLD;
+	public static ChatColor DATE = ChatColor.DARK_GREEN;
+	public static ChatColor MONEY = ChatColor.GREEN;
+
+	public static ChatColor SUBJECT = ChatColor.AQUA;
+
+	public static ChatColor PREFIX = ChatColor.BLUE;
+
+	public static ChatColor ERROR = ChatColor.RED;
+	public static ChatColor FAIL = ChatColor.RED;
+	public static ChatColor SUCCESS = ChatColor.GREEN;
+
+	public static ChatColor BOLD = ChatColor.BOLD;
+	public static ChatColor ITALIC = ChatColor.ITALIC;
+	public static ChatColor MAGIC = ChatColor.MAGIC;
+	public static ChatColor UNDER = ChatColor.UNDERLINE;
+	public static ChatColor STRIKE = ChatColor.STRIKETHROUGH;
+	public static ChatColor RESET = ChatColor.RESET;
+
 	public static NOPE plugin;
+
+	public static void log(String message) {
+		tell(Bukkit.getConsoleSender(), MSG.DEFAULT + "[INFO] " + message);
+	}
+
+	public static void warn(String message) {
+		tell(Bukkit.getConsoleSender(), MSG.ERROR + "[WARN] " + message);
+	}
+
+	public static void error(String message) {
+		tell(Bukkit.getConsoleSender(), MSG.FAIL + "[ERROR] " + message);
+	}
+
+	public static void printStackTrace() {
+		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+		for (int i = 2; i < elements.length; i++)
+			System.out.println(elements[i].toString());
+	}
 
 	/**
 	 * Returns the string with &'s being color codes
@@ -122,15 +174,6 @@ public class MSG {
 	}
 
 	/**
-	 * Logs a message to console
-	 * 
-	 * @param msg Message to log
-	 */
-	public static void log(String msg) {
-		tell(Bukkit.getConsoleSender(), "[" + plugin.getDescription().getName() + "] " + msg);
-	}
-
-	/**
 	 * Colored boolean
 	 * 
 	 * @param bool true/false
@@ -178,7 +221,9 @@ public class MSG {
 		if (command.equals("default")) {
 			String bottom = "&l&4[&c&lNOPE&4&l] &e" + plugin.getDescription().getVersion() + " &7created by &bMSWS";
 			if (plugin.getPluginInfo() != null)
-				bottom += " &7(Online Version is " + (plugin.getPluginInfo().outdated() ? "&a" : "&c")
+				bottom += " &7(Online Version is "
+						+ (plugin.getPluginInfo().outdated() == Age.OUTDATED_VERSION ? "&a"
+								: (plugin.getPluginInfo().outdated() == Age.DEVELOPER_VERSION ? "&c" : "&b"))
 						+ plugin.getPluginInfo().getVersion() + "&7)";
 			MSG.tell(sender, bottom);
 		}

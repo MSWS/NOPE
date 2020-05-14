@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Consumer;
 import org.mswsplex.anticheat.utils.MSG;
 import org.mswsplex.anticheat.utils.Utils;
+import org.mswsplex.anticheat.utils.Utils.Age;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,7 +25,7 @@ public class PluginInfo {
 
 	private Plugin plugin;
 
-	private boolean outdated;
+	private Age outdated;
 
 	public PluginInfo(Plugin plugin, int id) {
 		this.id = id;
@@ -58,7 +59,7 @@ public class PluginInfo {
 		}.runTaskAsynchronously(plugin);
 	}
 
-	public boolean outdated() {
+	public Age outdated() {
 		return outdated;
 	}
 

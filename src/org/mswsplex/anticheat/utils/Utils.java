@@ -38,18 +38,18 @@ public class Utils {
 	 */
 	public static int getArmorValue(Material mat) {
 		switch (getArmorType(mat).toLowerCase()) {
-		case "diamond":
-			return 4;
-		case "iron":
-			return 3;
-		case "chainmail":
-			return 2;
-		case "gold":
-			return 1;
-		case "leather":
-			return 0;
-		default:
-			return 0;
+			case "diamond":
+				return 4;
+			case "iron":
+				return 3;
+			case "chainmail":
+				return 2;
+			case "gold":
+				return 1;
+			case "leather":
+				return 0;
+			default:
+				return 0;
 		}
 	}
 
@@ -63,14 +63,14 @@ public class Utils {
 		if (!type.name().contains("_"))
 			return 0;
 		switch (type.name().split("_")[1]) {
-		case "HELMET":
-			return 3;
-		case "CHESTPLATE":
-			return 2;
-		case "LEGGINGS":
-			return 1;
-		case "BOOTS":
-			return 0;
+			case "HELMET":
+				return 3;
+			case "CHESTPLATE":
+				return 2;
+			case "LEGGINGS":
+				return 1;
+			case "BOOTS":
+				return 0;
 		}
 		return 0;
 	}
@@ -118,15 +118,15 @@ public class Utils {
 		if (mat.name().contains("WOOD") || mat.name().contains("LOG"))
 			return Sounds.DIG_WOOD.bukkitSound();
 		switch (mat.name()) {
-		case "GRAVEL":
-			return Sounds.DIG_GRAVEL.bukkitSound();
-		case "GRASS":
-		case "DIRT":
-			return Sounds.DIG_GRASS.bukkitSound();
-		case "WOOL":
-			return Sounds.DIG_WOOL.bukkitSound();
-		default:
-			return Sounds.DIG_GRASS.bukkitSound();
+			case "GRAVEL":
+				return Sounds.DIG_GRAVEL.bukkitSound();
+			case "GRASS":
+			case "DIRT":
+				return Sounds.DIG_GRASS.bukkitSound();
+			case "WOOL":
+				return Sounds.DIG_WOOL.bukkitSound();
+			default:
+				return Sounds.DIG_GRASS.bukkitSound();
 		}
 	}
 
@@ -391,27 +391,39 @@ public class Utils {
 		player.setExp((float) (levelAndExp - level));
 	}
 
-	/**
-	 * if oldVer is < newVer, both versions can only have numbers and .'s Outputs:
-	 * 5.5, 10.3 | true 2.3.1, 3.1.4.6 | true 1.2, 1.1 | false
-	 **/
-	public static Boolean outdated(String oldVer, String newVer) {
-		oldVer = oldVer.replace(".", "");
-		newVer = newVer.replace(".", "");
-		Double oldV = null, newV = null;
-		try {
-			oldV = Double.valueOf(oldVer);
-			newV = Double.valueOf(newVer);
-		} catch (Exception e) {
-			MSG.log("&cError! &7Versions incompatible.");
-			return false;
+	public enum Age {
+		OUTDATED_VERSION, DEVELOPER_VERSION, SAME_VERSION;
+	}
+
+	public static Age outdated(String v1, String v2) {
+		int vnum1 = 0, vnum2 = 0;
+
+		// loop untill both String are processed
+		for (int i = 0, j = 0; (i < v1.length() || j < v2.length());) {
+			// storing numeric part of version 1 in vnum1
+			while (i < v1.length() && v1.charAt(i) != '.') {
+				vnum1 = vnum1 * 10 + (v1.charAt(i) - '0');
+				i++;
+			}
+
+			// storing numeric part of version 2 in vnum2
+			while (j < v2.length() && v2.charAt(j) != '.') {
+				vnum2 = vnum2 * 10 + (v2.charAt(j) - '0');
+				j++;
+			}
+
+			if (vnum1 > vnum2)
+				return Age.DEVELOPER_VERSION;
+			if (vnum2 > vnum1)
+				return Age.OUTDATED_VERSION;
+
+			// if equal, reset variables and go for next numeric
+			// part
+			vnum1 = vnum2 = 0;
+			i++;
+			j++;
 		}
-		if (oldVer.length() > newVer.length()) {
-			newV = newV * (10 * (oldVer.length() - newVer.length()));
-		} else if (oldVer.length() < newVer.length()) {
-			oldV = oldV * (10 * (newVer.length() - oldVer.length()));
-		}
-		return oldV < newV;
+		return Age.SAME_VERSION;
 	}
 
 	/**
@@ -422,73 +434,73 @@ public class Utils {
 	 */
 	public static String getEnchant(String name) {
 		switch (name.toLowerCase().replace("_", "")) {
-		case "power":
-			return "ARROW_DAMAGE";
-		case "flame":
-			return "ARROW_FIRE";
-		case "infinity":
-		case "infinite":
-			return "ARROW_INFINITE";
-		case "punch":
-		case "arrowkb":
-			return "ARROW_KNOCKBACK";
-		case "sharpness":
-			return "DAMAGE_ALL";
-		case "arthropods":
-		case "spiderdamage":
-		case "baneofarthropods":
-			return "DAMAGE_ARTHORPODS";
-		case "smite":
-			return "DAMAGE_UNDEAD";
-		case "depthstrider":
-		case "waterwalk":
-			return "DEPTH_STRIDER";
-		case "efficiency":
-			return "DIG_SPEED";
-		case "unbreaking":
-			return "DURABILITY";
-		case "fireaspect":
-		case "fire":
-			return "FIRE_ASPECT";
-		case "knockback":
-		case "kb":
-			return "KNOCKBACK";
-		case "fortune":
-			return "LOOT_BONUS_BLOCKS";
-		case "looting":
-			return "LOOT_BONUS_MOBS";
-		case "luck":
-			return "LUCK";
-		case "lure":
-			return "LURE";
-		case "waterbreathing":
-		case "respiration":
-			return "OXYGEN";
-		case "prot":
-		case "protection":
-			return "PROTECTION_ENVIRONMENTAL";
-		case "blastprot":
-		case "blastprotection":
-			return "PROTECTION_EXPLOSIONS";
-		case "feather":
-		case "featherfalling":
-			return "PROTECTION_FALL";
-		case "fireprot":
-		case "fireprotection":
-			return "PROTECTION_FIRE";
-		case "projectileprot":
-		case "projectileprotection":
-		case "projprot":
-			return "PROTECTION_PROJECTILE";
-		case "silktouch":
-		case "silk":
-			return "SILK_TOUCH";
-		case "thorns":
-			return "THORNS";
-		case "aquaaffinity":
-		case "aqua":
-		case "waterworker":
-			return "WATER_WORKER";
+			case "power":
+				return "ARROW_DAMAGE";
+			case "flame":
+				return "ARROW_FIRE";
+			case "infinity":
+			case "infinite":
+				return "ARROW_INFINITE";
+			case "punch":
+			case "arrowkb":
+				return "ARROW_KNOCKBACK";
+			case "sharpness":
+				return "DAMAGE_ALL";
+			case "arthropods":
+			case "spiderdamage":
+			case "baneofarthropods":
+				return "DAMAGE_ARTHORPODS";
+			case "smite":
+				return "DAMAGE_UNDEAD";
+			case "depthstrider":
+			case "waterwalk":
+				return "DEPTH_STRIDER";
+			case "efficiency":
+				return "DIG_SPEED";
+			case "unbreaking":
+				return "DURABILITY";
+			case "fireaspect":
+			case "fire":
+				return "FIRE_ASPECT";
+			case "knockback":
+			case "kb":
+				return "KNOCKBACK";
+			case "fortune":
+				return "LOOT_BONUS_BLOCKS";
+			case "looting":
+				return "LOOT_BONUS_MOBS";
+			case "luck":
+				return "LUCK";
+			case "lure":
+				return "LURE";
+			case "waterbreathing":
+			case "respiration":
+				return "OXYGEN";
+			case "prot":
+			case "protection":
+				return "PROTECTION_ENVIRONMENTAL";
+			case "blastprot":
+			case "blastprotection":
+				return "PROTECTION_EXPLOSIONS";
+			case "feather":
+			case "featherfalling":
+				return "PROTECTION_FALL";
+			case "fireprot":
+			case "fireprotection":
+				return "PROTECTION_FIRE";
+			case "projectileprot":
+			case "projectileprotection":
+			case "projprot":
+				return "PROTECTION_PROJECTILE";
+			case "silktouch":
+			case "silk":
+				return "SILK_TOUCH";
+			case "thorns":
+				return "THORNS";
+			case "aquaaffinity":
+			case "aqua":
+			case "waterworker":
+				return "WATER_WORKER";
 		}
 		return name.toUpperCase();
 	}
@@ -519,38 +531,38 @@ public class Utils {
 	 */
 	public static String colorByWoolData(short data) {
 		switch ((data) == -1 ? 15 : (data % 16)) {
-		case 12:
-			return "&b";
-		case 11:
-			return "&e";
-		case 10:
-			return "&a";
-		case 9:
-			return "&d";
-		case 8:
-			return "&8";
-		case 7:
-			return "&7";
-		case 6:
-			return "&3";
-		case 5:
-			return "&5";
-		case 4:
-			return "&9";
-		case 3:
-			return "&6";
-		case 2:
-			return "&2";
-		case 1:
-			return "&4";
-		case 0:
-			return "&0";
-		case 15:
-			return "&f";
-		case 14:
-			return "&6";
-		case 13:
-			return "&d";
+			case 12:
+				return "&b";
+			case 11:
+				return "&e";
+			case 10:
+				return "&a";
+			case 9:
+				return "&d";
+			case 8:
+				return "&8";
+			case 7:
+				return "&7";
+			case 6:
+				return "&3";
+			case 5:
+				return "&5";
+			case 4:
+				return "&9";
+			case 3:
+				return "&6";
+			case 2:
+				return "&2";
+			case 1:
+				return "&4";
+			case 0:
+				return "&0";
+			case 15:
+				return "&f";
+			case 14:
+				return "&6";
+			case 13:
+				return "&d";
 		}
 		return "";
 	}

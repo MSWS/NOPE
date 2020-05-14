@@ -19,6 +19,8 @@ import org.mswsplex.anticheat.utils.MSG;
  * 
  * @author imodm
  *
+ *
+ * @deprecated
  */
 public class Reach1 implements Check, Listener {
 
@@ -170,9 +172,7 @@ public class Reach1 implements Check, Listener {
 			}
 			break;
 		default:
-			if (plugin.devMode())
-				MSG.tell(damager, "&9" + MSG.camelCase(event.getEntityType().toString()) + ": &b" + dist);
-			return;
+			break;
 		}
 
 		if (damager.getGameMode() == GameMode.CREATIVE)
