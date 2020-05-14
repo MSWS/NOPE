@@ -43,7 +43,7 @@ public class Flight4 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (player.getLocation().getBlock().getType() == Material.SCAFFOLDING)
+		if (cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
 		if (player.isInsideVehicle())

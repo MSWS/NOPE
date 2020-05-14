@@ -61,6 +61,11 @@ public class BHop1 implements Check, Listener {
 			return;
 		}
 
+		if (cp.timeSince("lastInClimbing") < 1000) {
+			cp.removeTempData("lastGroundLocation");
+			return;
+		}
+
 		if (cp.timeSince("lastOnIce") < 1000) {
 			cp.removeTempData("lastGroundLocation");
 			return;

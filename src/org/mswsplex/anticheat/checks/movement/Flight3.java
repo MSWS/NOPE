@@ -62,6 +62,11 @@ public class Flight3 implements Check, Listener {
 		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
 			return;
 
+		if (cp.timeSince("lastInClimbing") < 1000) {
+			cp.removeTempData("lastGroundLocation");
+			return;
+		}
+
 		Location safe = cp.getLastSafeLocation();
 
 		if (event.getTo().getY() - 3 < safe.getY())

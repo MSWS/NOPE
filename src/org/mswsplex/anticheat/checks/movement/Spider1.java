@@ -2,6 +2,7 @@ package org.mswsplex.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,6 +43,9 @@ public class Spider1 implements Check, Listener {
 		Location from = event.getFrom();
 
 		if (player.isOnGround() || player.isFlying())
+			return;
+
+		if (cp.isBlockNearby(Material.COBWEB))
 			return;
 
 		if (cp.hasMovementRelatedPotion())

@@ -26,7 +26,8 @@ import org.mswsplex.anticheat.listeners.MessageListener;
 import org.mswsplex.anticheat.listeners.UpdateCheckerListener;
 import org.mswsplex.anticheat.scoreboard.SBoard;
 import org.mswsplex.anticheat.utils.MSG;
-import org.mswsplex.anticheat.utils.MetricsLite;
+import org.mswsplex.anticheat.utils.Metrics;
+import org.mswsplex.anticheat.utils.Metrics.CustomChart;
 
 public class NOPE extends JavaPlugin {
 	public FileConfiguration config, data, lang, gui;
@@ -78,7 +79,9 @@ public class NOPE extends JavaPlugin {
 
 		new SBoard(this);
 
-		new MetricsLite(this, 7422);
+		Metrics metrics = new Metrics(this, 7422);
+		CustomChart chart = new Metrics.SingleLineChart("bans", () -> stats.getAllBans());
+		metrics.addCustomChart(chart);
 
 		if (config.getBoolean("UpdateChecker.Enabled", true)) {
 			if (config.getBoolean("UpdateChecker.InGame", true))
