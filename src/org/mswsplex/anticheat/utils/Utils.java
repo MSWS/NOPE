@@ -1,18 +1,13 @@
 package org.mswsplex.anticheat.utils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -26,6 +21,8 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.mswsplex.anticheat.msws.NOPE;
+
+import com.google.common.collect.Sets;
 
 public class Utils {
 	public static NOPE plugin;
@@ -95,39 +92,16 @@ public class Utils {
 	 * @param mat Material to check
 	 * @return True if armor, false otherwise
 	 */
-	public static boolean isArmor(Material mat) {
-		return mat.name().contains("CHESTPLATE") || mat.name().contains("LEGGINGS") || mat.name().contains("HELMET")
-				|| mat.name().contains("BOOTS");
-	}
 
-	/**
-	 * Returns a sound that a block would play if placed/broken
-	 * 
-	 * @param mat Material to check
-	 * @return Sound closest, DIG_GRASS if unmatched
-	 */
-	public static Sound getBreakSound(Material mat) {
-		if (mat.name().contains("GLOW") || mat.name().contains("GLASS"))
-			return Sounds.GLASS.bukkitSound();
-		if (mat.name().contains("STONE"))
-			return Sounds.DIG_STONE.bukkitSound();
-		if (mat.name().contains("SAND"))
-			return Sounds.DIG_SAND.bukkitSound();
-		if (mat.name().contains("SNOW"))
-			return Sounds.DIG_SNOW.bukkitSound();
-		if (mat.name().contains("WOOD") || mat.name().contains("LOG"))
-			return Sounds.DIG_WOOD.bukkitSound();
-		switch (mat.name()) {
-			case "GRAVEL":
-				return Sounds.DIG_GRAVEL.bukkitSound();
-			case "GRASS":
-			case "DIRT":
-				return Sounds.DIG_GRASS.bukkitSound();
-			case "WOOL":
-				return Sounds.DIG_WOOL.bukkitSound();
-			default:
-				return Sounds.DIG_GRASS.bukkitSound();
-		}
+	private static HashSet<Material> armor = Sets.newHashSet(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE,
+			Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS, Material.IRON_HELMET, Material.IRON_CHESTPLATE,
+			Material.IRON_LEGGINGS, Material.IRON_BOOTS, Material.GOLDEN_HELMET, Material.GOLDEN_CHESTPLATE,
+			Material.GOLDEN_LEGGINGS, Material.GOLDEN_BOOTS, Material.CHAINMAIL_HELMET, Material.CHAINMAIL_CHESTPLATE,
+			Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS, Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE,
+			Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS);
+
+	public static boolean isArmor(Material mat) {
+		return armor.contains(mat);
 	}
 
 	/**
@@ -506,25 +480,6 @@ public class Utils {
 	}
 
 	/**
-	 * Get the online plugin version from SpigotMC.org
-	 * 
-	 * @param id ID of the online resource
-	 * @return Version
-	 */
-	public static String getSpigotVersion(int id) {
-		try {
-			HttpsURLConnection con = (HttpsURLConnection) new URL(
-					"https://api.spigotmc.org/legacy/update.php?resource=" + id).openConnection();
-			try (BufferedReader buffer = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-				return buffer.readLine();
-			} catch (Exception ex) {
-			}
-		} catch (Exception e) {
-		}
-		return null;
-	}
-
-	/**
 	 * 
 	 * @param data Wool dye value
 	 * @return ChatColor (&a, &b, etc.) for the matching data
@@ -621,28 +576,4 @@ public class Utils {
 					return true;
 		return false;
 	}
-
-//	public static String uploadPaste(String title, String contents) {
-//		final PastebinFactory factory = new PastebinFactory();
-//		final Pastebin pastebin = factory.createPastebin("b8888021632daf66ee6cddca01c66dff");
-//		final PasteBuilder pasteBuilder = factory.createPaste();
-//
-//		// Title paste
-//		pasteBuilder.setTitle(title);
-//		pasteBuilder.setRaw(contents);
-//		pasteBuilder.setMachineFriendlyLanguage("text");
-//		pasteBuilder.setVisiblity(PasteVisiblity.Public);
-//		pasteBuilder.setExpire(PasteExpire.Never);
-//
-//		final Paste paste = pasteBuilder.build();
-//		final Response<String> postResult = pastebin.post(paste);
-//		
-//		if (postResult.hasError()) {
-//			MSG.log("Erorr: " + postResult.getError());
-//			return null;
-//		}
-//
-//		return postResult.get();
-//
-//	}
 }

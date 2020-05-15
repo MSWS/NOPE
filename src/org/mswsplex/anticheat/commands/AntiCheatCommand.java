@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,6 @@ import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.msws.PluginInfo;
 import org.mswsplex.anticheat.msws.PluginInfo.Stats;
 import org.mswsplex.anticheat.utils.MSG;
-import org.mswsplex.anticheat.utils.Sounds;
 
 public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	private NOPE plugin;
@@ -429,7 +429,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				Player player = (Player) sender;
 				cp = plugin.getCPlayer(player);
 				player.openInventory(plugin.getStats().getInventory());
-				player.playSound(player.getLocation(), Sounds.CHEST_OPEN.bukkitSound(), 1, 1);
+				player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, 1);
 				cp.setTempData("openInventory", "stats");
 				break;
 			case "enablechecks":

@@ -16,6 +16,7 @@ import org.mswsplex.anticheat.msws.NOPE;
  */
 public class Glide2 implements Check, Listener {
 
+	@SuppressWarnings("unused")
 	private NOPE plugin;
 
 	@Override

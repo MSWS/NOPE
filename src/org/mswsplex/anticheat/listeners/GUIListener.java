@@ -3,6 +3,7 @@ package org.mswsplex.anticheat.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +16,6 @@ import org.mswsplex.anticheat.checks.CheckType;
 import org.mswsplex.anticheat.data.CPlayer;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
-import org.mswsplex.anticheat.utils.Sounds;
 
 public class GUIListener implements Listener {
 	private NOPE plugin;
@@ -44,7 +44,7 @@ public class GUIListener implements Listener {
 		if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName())
 			return;
 
-		player.playSound(player.getLocation(), Sounds.CLICK.bukkitSound(), 2, 1);
+		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
 		switch (cp.getTempString("openInventory")) {
 		case "stats":

@@ -1,7 +1,0 @@
-NoPermission: '%prefix% You do not have permission to do this.'
-Help:
-  default:
-  - '&c/ac clear [Player/All] [Hack/All] &7- Clears VLs of players'
-  - '&c/ac vl <Player> &7- Tells you VLs'
-  - '&c/ac [Setting] &7- Toggle lagbacks, devmode, etc.'
-  - '&c/ac reset &7- Reset configs'
