@@ -49,7 +49,7 @@ public class SelfHarm1 implements Check, Listener {
 		if (yDiff > 0)
 			return;
 
-		cp.flagHack(this, plugin.config.getInt("VlForBanwave"), "YDiff: &e" + yDiff);
+		cp.flagHack(this, plugin.getConfig().getInt("VlForBanwave"), "YDiff: &e" + yDiff);
 	}
 
 	@Override

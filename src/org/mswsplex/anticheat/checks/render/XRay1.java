@@ -44,13 +44,13 @@ public class XRay1 implements Check, Listener {
 		List<Material> ores = new ArrayList<>();
 		ignoreBlocks = new ArrayList<>();
 
-		for (String mat : plugin.config.getStringList("AntiXRay1.Blocks")) {
+		for (String mat : plugin.getConfig().getStringList("AntiXRay1.Blocks")) {
 			ores.add(Material.valueOf(mat.toUpperCase()));
 		}
 
 		ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
-		if (plugin.config.getBoolean("AntiXRay1.Enabled"))
+		if (plugin.getConfig().getBoolean("AntiXRay1.Enabled"))
 			new BukkitRunnable() {
 				@Override
 				public void run() {

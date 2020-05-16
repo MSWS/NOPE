@@ -112,7 +112,7 @@ public class MSG {
 	 * @return
 	 */
 	public static String getString(String id, String def) {
-		return plugin.lang.contains(id) ? plugin.lang.getString(id) : "[" + id + "] " + def;
+		return plugin.getLang().contains(id) ? plugin.getLang().getString(id) : "[" + id + "] " + def;
 	}
 
 	/**
@@ -195,11 +195,12 @@ public class MSG {
 	 * @param command Command to send help to
 	 */
 	public static void sendHelp(CommandSender sender, int page, String command) {
-		if (!plugin.lang.contains("Help." + command.toLowerCase())) {
+		if (!plugin.getLang().contains("Help." + command.toLowerCase())) {
 			tell(sender, getString("UnknownCommand", "There is no help available for this command."));
 			return;
 		}
-		List<String> help = plugin.lang.getStringList("Help." + command.toLowerCase()), list = new ArrayList<String>();
+		List<String> help = plugin.getLang().getStringList("Help." + command.toLowerCase()),
+				list = new ArrayList<String>();
 		for (String res : help) {
 			if (res.startsWith("perm:")) {
 				String perm = "";
@@ -363,9 +364,9 @@ public class MSG {
 	}
 
 	public static String getVlColor(int vl) {
-		int maxVl = plugin.config.getInt("VlForBanwave");
+		int maxVl = plugin.getConfig().getInt("VlForBanwave");
 		vl = Math.min(vl, maxVl);
-		List<String> colors = plugin.config.getStringList("VlColors");
+		List<String> colors = plugin.getConfig().getStringList("VlColors");
 		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size()));
 		String color = colors.get(Math.min(index, colors.size() - 1));
 

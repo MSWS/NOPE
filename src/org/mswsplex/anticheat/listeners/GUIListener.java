@@ -55,8 +55,8 @@ public class GUIListener implements Listener {
 				break;
 			}
 			if (event.getClick() == ClickType.RIGHT) {
-				plugin.config.set("Checks." + MSG.camelCase(type + "") + ".Enabled",
-						!plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
+				plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
+						!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
 				player.openInventory(plugin.getStats().getInventory());
 				cp.setTempData("openInventory", "stats");
 				break;
@@ -68,9 +68,9 @@ public class GUIListener implements Listener {
 		case "hackType":
 			String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 			if (event.getClick() == ClickType.RIGHT) {
-				plugin.config.set(
+				plugin.getConfig().set(
 						"Checks." + MSG.camelCase(cp.getTempString("openCheckType")) + "." + hack + ".Enabled",
-						!plugin.config.getBoolean("Checks." + MSG.camelCase(cp.getTempString("openCheckType")) + "."
+						!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(cp.getTempString("openCheckType")) + "."
 								+ hack + ".Enabled"));
 				cp.setTempData("ignoreInventory", 1);
 				player.openInventory(
@@ -87,7 +87,7 @@ public class GUIListener implements Listener {
 			String hackCategory = cp.getTempString("openHackCategory");
 			String hackType = MSG.camelCase(cp.getTempString("openCheckType"));
 			String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-			plugin.config.set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled", !plugin.config
+			plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled", !plugin.getConfig()
 					.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
 			cp.setTempData("ignoreInventory", 1);
 			player.openInventory(plugin.getStats().getInventory(hackCategory));

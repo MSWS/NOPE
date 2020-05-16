@@ -13,7 +13,7 @@ public class Banwave {
 
 	public Banwave(NOPE plugin) {
 		this.plugin = plugin;
-		runBanwave(false).runTaskTimer(this.plugin, 0, plugin.config.getInt("BanwaveRate"));
+		runBanwave(false).runTaskTimer(this.plugin, 0, plugin.getConfig().getInt("BanwaveRate"));
 	}
 
 	public BukkitRunnable runBanwave(boolean forced) {
@@ -35,6 +35,6 @@ public class Banwave {
 	}
 
 	public long timeToNextBanwave() {
-		return plugin.config.getInt("BanwaveRate") * 50 + lastBanwave - System.currentTimeMillis();
+		return plugin.getConfig().getInt("BanwaveRate") * 50 + lastBanwave - System.currentTimeMillis();
 	}
 }

@@ -15,7 +15,10 @@ Global: true # If disabled, NOPE will be disabled
 # Whether or not to teleport the player back when they're flagged
 SetBack: false 
 Scoreboard: true
-Log: true
+# NONE, file, or hastebin
+# hastebin will not work if dev mode is enabled to prevent abuse
+# hastebin will log the link to the log within the file
+Log: file # NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
@@ -24,8 +27,8 @@ UpdateChecker:
 #                     Banwave Configuration
 #               -------------------------------
 
-VlForInstaBan: 1500 # Minimum VL required for instant ban
-VlForBanwave: 1000 # Minimum VL required to be queued for banwave
+VlForInstaBan: 1200 # Minimum VL required for instant ban
+VlForBanwave: 800 # Minimum VL required to be queued for banwave
 BanwaveRate: 36000 # Rate of banwave (in ticks)
 
 #               -------------------------------
@@ -33,8 +36,8 @@ BanwaveRate: 36000 # Rate of banwave (in ticks)
 #       Make sure staff members have nope.message.normal
 #               -------------------------------
 
-Minimum: 20 #Minimum VL to notify staff members
-SecondsMinimum: 5000 #Cooldown of hack messages to prevent spam
+Minimum: 30 #Minimum VL to notify staff members
+SecondsMinimum: 10000 #Cooldown of hack messages to prevent spam
 
 # Each new color is a new level, this is based off percentage to VL for instant ban
 # More colors = more notifications
@@ -50,12 +53,10 @@ DevMode: false
 DebugMode: false
 
 CommandsForBan:
-- kick %player% Hacking (%hack%) (%token%)
-- say %player% was banned for %hack% (%token%)
+- ban %player% %hack% (%token%)
 
 CommandsForBanwave:
-- kick %player% Hacking - Banwave (%hack%) (%token%)
-- say %player% was banwaved for %hack% (%token%)
+- ban %player% %hack% (%token%)
 
 #               -------------------------------
 #                     Check Configuration

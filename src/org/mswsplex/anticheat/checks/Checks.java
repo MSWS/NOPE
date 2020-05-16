@@ -145,12 +145,12 @@ public class Checks {
 	public Result registerCheck(Check check) {
 		if (activeChecks.contains(check))
 			return Result.ALREADY_REGISTERED;
-		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 			return Result.DISABLED_NAME;
-		if (!plugin.config
+		if (!plugin.getConfig()
 				.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled"))
 			return Result.DISABLED_CATEGORY;
-		if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
+		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
 				+ check.getDebugName() + ".Enabled"))
 			return Result.DISABLED_DEBUG;
 		try {

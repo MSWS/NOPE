@@ -34,9 +34,9 @@ import org.mswsplex.anticheat.utils.Metrics;
 import org.mswsplex.anticheat.utils.Metrics.CustomChart;
 
 public class NOPE extends JavaPlugin {
-	public FileConfiguration config, data, lang, gui;
-	public File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
-			langYml = new File(getDataFolder(), "lang.yml"), guiYml = new File(getDataFolder(), "guis.yml");
+	private FileConfiguration config, data, lang;
+	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
+			langYml = new File(getDataFolder(), "lang.yml");
 
 	private PlayerManager pManager;
 	private TPSChecker tpsChecker;
@@ -44,7 +44,7 @@ public class NOPE extends JavaPlugin {
 	private Banwave banwave;
 	private Stats stats;
 
-	public String serverName = "Unknown Server";
+	private String serverName = "Unknown Server";
 
 	private PluginInfo pluginInfo;
 
@@ -55,14 +55,17 @@ public class NOPE extends JavaPlugin {
 			saveResource("config.yml", true);
 		if (!langYml.exists())
 			saveResource("lang.yml", true);
-		if (!guiYml.exists())
-			saveResource("guis.yml", true);
 		config = YamlConfiguration.loadConfiguration(configYml);
 		data = YamlConfiguration.loadConfiguration(dataYml);
 		lang = YamlConfiguration.loadConfiguration(langYml);
-		gui = YamlConfiguration.loadConfiguration(guiYml);
 
 		MSG.plugin = this;
+
+		if (config.getString("Log").equalsIgnoreCase("true") || config.getString("Log").equalsIgnoreCase("false")) {
+			config.set("Log", "file");
+			MSG.warn("The config is using an old value for Log, resetting it back to its default value.");
+		}
+
 		pManager = new PlayerManager(this);
 		tpsChecker = new TPSChecker(this);
 
@@ -71,7 +74,6 @@ public class NOPE extends JavaPlugin {
 		checks = new Checks(this);
 		checks.registerChecks();
 
-		serverName = "[DEPRECATED]";
 		stats = new Stats(this);
 
 		new Global(this);
@@ -155,10 +157,16 @@ public class NOPE extends JavaPlugin {
 		return tpsChecker.getTPS();
 	}
 
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String name) {
+		this.serverName = name;
+	}
+
 	public void onDisable() {
 		stats.saveData();
-
-//		animation.stopAnimations(); // Stop all animations BEFORE player data is cleared and saved
 
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p); // Clear all loaded player data and save to files
@@ -198,6 +206,22 @@ public class NOPE extends JavaPlugin {
 			e.printStackTrace();
 			MSG.log("&a----------End of Stack Trace----------");
 		}
+	}
+
+	public FileConfiguration getConfig() {
+		return config;
+	}
+
+	public void setConfig(FileConfiguration config) {
+		this.config = config;
+	}
+
+	public FileConfiguration getLang() {
+		return lang;
+	}
+
+	public void setLang(FileConfiguration lang) {
+		this.lang = lang;
 	}
 
 	public Checks getChecks() {

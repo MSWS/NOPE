@@ -44,7 +44,7 @@ public class InvalidMovement1 implements Check, Listener {
 		if (pitch >= -90 && pitch <= 90)
 			return;
 
-		cp.flagHack(this, plugin.config.getInt("VlForInstaBan"));
+		cp.flagHack(this, plugin.getConfig().getInt("VlForInstaBan"));
 	}
 
 	@Override

@@ -33,6 +33,7 @@ import org.mswsplex.anticheat.checks.Timing;
 import org.mswsplex.anticheat.msws.NOPE;
 import org.mswsplex.anticheat.utils.MSG;
 //import org.mswsplex.punish.managers.BanManager;
+import org.mswsplex.anticheat.utils.Utils;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -245,17 +246,17 @@ public class CPlayer {
 
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
-		if (!plugin.config.getBoolean("Global"))
+		if (!plugin.getConfig().getBoolean("Global"))
 			return;
 
 		if (!check.getDebugName().equals("ManuallyIssued")) {
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				return;
-			if (!plugin.config.getBoolean(
+			if (!plugin.getConfig().getBoolean(
 					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "." + ".Enabled"))
 				return;
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
-					+ "." + check.getDebugName() + ".Enabled"))
+			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
+					+ check.getCategory() + "." + check.getDebugName() + ".Enabled"))
 				return;
 		}
 
@@ -309,7 +310,8 @@ public class CPlayer {
 
 		double lastSent = timeSince(color + check.getCategory());
 
-		teleport: if (lastSafe != null && player.isOnline() && plugin.config.getBoolean("SetBack") && check.lagBack()) {
+		teleport: if (lastSafe != null && player.isOnline() && plugin.getConfig().getBoolean("SetBack")
+				&& check.lagBack()) {
 
 			ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
@@ -320,7 +322,8 @@ public class CPlayer {
 		}
 
 		if (!plugin.devMode()) {
-			if (lastSent > plugin.config.getDouble("SecondsMinimum") && nVl > plugin.config.getInt("Minimum")) {
+			if (lastSent > plugin.getConfig().getDouble("SecondsMinimum")
+					&& nVl > plugin.getConfig().getInt("Minimum")) {
 				String message = MSG.getString("Format.Regular",
 						"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7)"),
 						bungee = MSG.getString("Format.Bungee",
@@ -336,7 +339,7 @@ public class CPlayer {
 						.replace("%n%",
 								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
 						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
-						.replace("%addVl%", vl + "").replace("%server%", "[DEPRECATED]");
+						.replace("%addVl%", vl + "").replace("%server%", plugin.getServerName());
 
 				MSG.tell("nope.message.normal", message);
 
@@ -351,7 +354,7 @@ public class CPlayer {
 		plugin.getStats().addTrigger(check);
 		plugin.getStats().addVl(check, vl);
 
-		if (nVl >= plugin.config.getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
+		if (nVl >= plugin.getConfig().getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
 			String message = MSG.getString("Format.Banwave",
 					"&4&l[&c&lNOPE&4&l] &e%player%&7is now queued for a banwave.");
 
@@ -373,7 +376,7 @@ public class CPlayer {
 					+ plugin.getTPS() + " time:" + System.currentTimeMillis());
 		}
 
-		if (nVl >= plugin.config.getInt("VlForInstaBan"))
+		if (nVl >= plugin.getConfig().getInt("VlForInstaBan"))
 			ban(check, Timing.INSTANT);
 
 		List<String> lines = getSaveData("log", List.class);
@@ -403,7 +406,7 @@ public class CPlayer {
 	public void ban(String check, Timing timing) {
 		String token = MSG.genUUID(16);
 
-		if (plugin.config.getBoolean("Log"))
+		if (!plugin.getConfig().getString("Log", "NONE").equalsIgnoreCase("NONE"))
 			saveLog(check, timing, token);
 
 		plugin.getStats().addBan();
@@ -418,12 +421,12 @@ public class CPlayer {
 			return;
 
 		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE) {
-			for (String line : plugin.config.getStringList("CommandsForBanwave")) {
+			for (String line : plugin.getConfig().getStringList("CommandsForBanwave")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
 		} else {
-			for (String line : plugin.config.getStringList("CommandsForBan")) {
+			for (String line : plugin.getConfig().getStringList("CommandsForBan")) {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 						line.replace("%player%", player.getName()).replace("%hack%", check).replace("%token%", token));
 			}
@@ -557,6 +560,22 @@ public class CPlayer {
 				i--;
 			}
 		}
+
+		// Saving files
+
+		if (plugin.getConfig().getString("Log").equalsIgnoreCase("hastebin") && !plugin.devMode()) {
+			// Don't upload a new hastebin file for every ban when dev mode is on, it's
+			// extremely spammy
+			String data = String.join("\n", revised);
+			try {
+				String link = Utils.post(data, true);
+				revised.clear();
+				revised.add("Hastebin Link: " + link);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
 			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
 		} catch (IOException e) {

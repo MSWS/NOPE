@@ -143,12 +143,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					MSG.noPerm(sender, "nope.command.reload");
 					return true;
 				}
-				plugin.configYml = new File(plugin.getDataFolder(), "config.yml");
-				plugin.config = YamlConfiguration.loadConfiguration(plugin.configYml);
-				plugin.langYml = new File(plugin.getDataFolder(), "lang.yml");
-				plugin.lang = YamlConfiguration.loadConfiguration(plugin.langYml);
-				plugin.guiYml = new File(plugin.getDataFolder(), "guis.yml");
-				plugin.gui = YamlConfiguration.loadConfiguration(plugin.guiYml);
+				plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
+				plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
 				MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 				break;
 			case "toggle":
@@ -166,7 +162,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.noPerm(sender, "nope.command.toggle.dev");
 							return true;
 						}
-						plugin.config.set("DevMode", !plugin.devMode());
+						plugin.getConfig().set("DevMode", !plugin.devMode());
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
 										.replace("%status%", enabledDisable(plugin.devMode()))
@@ -178,7 +174,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.noPerm(sender, "nope.command.toggle.debug");
 							return true;
 						}
-						plugin.config.set("DebugMode", !plugin.debugMode());
+						plugin.getConfig().set("DebugMode", !plugin.debugMode());
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
 										.replace("%status%", enabledDisable(plugin.debugMode()))
@@ -192,23 +188,36 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.noPerm(sender, "nope.command.toggle.cancel");
 							return true;
 						}
-						plugin.config.set("SetBack", !plugin.config.getBoolean("SetBack"));
+						plugin.getConfig().set("SetBack", !plugin.getConfig().getBoolean("SetBack"));
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.config.getBoolean("SetBack")))
+										.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("SetBack")))
 										.replace("%name%", "Setbacks"));
 						plugin.saveConfig();
 						break;
+					case "log":
 					case "logs":
 						if (!sender.hasPermission("nope.command.toggle.logs")) {
 							MSG.noPerm(sender, "nope.command.toggle.logs");
 							return true;
 						}
-						plugin.config.set("Log", !plugin.config.getBoolean("Log"));
+						String nextValue = "";
+						String current = plugin.getConfig().getString("Log");
+						if (current.equalsIgnoreCase("none")) {
+							nextValue = "file";
+						} else if (current.equalsIgnoreCase("file")) {
+							nextValue = "hastebin";
+						} else {
+							nextValue = "NONE";
+						}
+
+						plugin.getConfig().set("Log", nextValue);
+//						MSG.tell(sender,
+//								MSG.getString("Toggle", "you %status% %name%")
+//										.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("Log")))
+//										.replace("%name%", "Logs"));
 						MSG.tell(sender,
-								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.config.getBoolean("Log")))
-										.replace("%name%", "Logs"));
+								MSG.getString("LogToggle", "You set logs to %status%").replace("%status%", nextValue));
 						plugin.saveConfig();
 						break;
 					case "global":
@@ -216,10 +225,10 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.noPerm(sender, "nope.command.toggle.global");
 							return true;
 						}
-						plugin.config.set("Global", !plugin.config.getBoolean("Global"));
+						plugin.getConfig().set("Global", !plugin.getConfig().getBoolean("Global"));
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.config.getBoolean("Global")))
+										.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("Global")))
 										.replace("%name%", "Global"));
 						plugin.saveConfig();
 						break;
@@ -228,10 +237,11 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							MSG.noPerm(sender, "nope.command.toggle.globalscoreboard");
 							return true;
 						}
-						plugin.config.set("Scoreboard", !plugin.config.getBoolean("Scoreboard"));
+						plugin.getConfig().set("Scoreboard", !plugin.getConfig().getBoolean("Scoreboard"));
 						MSG.tell(sender,
 								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.config.getBoolean("Scoreboard")))
+										.replace("%status%",
+												enabledDisable(plugin.getConfig().getBoolean("Scoreboard")))
 										.replace("%name%", "Global Scoreboard"));
 						plugin.saveConfig();
 						break;
@@ -263,13 +273,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				}
 				plugin.saveResource("config.yml", true);
 				plugin.saveResource("lang.yml", true);
-				plugin.saveResource("guis.yml", true);
-				plugin.configYml = new File(plugin.getDataFolder(), "config.yml");
-				plugin.langYml = new File(plugin.getDataFolder(), "lang.yml");
-				plugin.config = YamlConfiguration.loadConfiguration(plugin.configYml);
-				plugin.lang = YamlConfiguration.loadConfiguration(plugin.langYml);
-				plugin.guiYml = new File(plugin.getDataFolder(), "guis.yml");
-				plugin.gui = YamlConfiguration.loadConfiguration(plugin.guiYml);
+				plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
+				plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
 				MSG.tell(sender, "Succesfully reset.");
 				break;
 			case "time":
@@ -437,14 +442,14 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 					MSG.noPerm(sender, "nope.command.enablechecks");
 					return true;
 				}
-				plugin.config.set("Checks", null);
+				plugin.getConfig().set("Checks", null);
 				for (Check check : plugin.getChecks().getAllChecks()) {
-					plugin.config.set("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled", true);
-					plugin.config.set(
+					plugin.getConfig().set("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled", true);
+					plugin.getConfig().set(
 							"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled",
 							true);
-					plugin.config.set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
-							+ check.getDebugName() + ".Enabled", true);
+					plugin.getConfig().set("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
+							+ "." + check.getDebugName() + ".Enabled", true);
 				}
 				plugin.saveConfig();
 				MSG.tell(sender, MSG.getString("AllChecksEnabled", "&aSuccessfully enabled all checks."));

@@ -1,9 +1,17 @@
 package org.mswsplex.anticheat.utils;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,7 +22,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -126,69 +133,6 @@ public class Utils {
 		if (face == BlockFace.DOWN)
 			y = -1;
 		return block.getLocation().add(x, y, z).getBlock();
-	}
-
-	/**
-	 * Returns parsed Inventory from YAML config (guis.yml)
-	 * 
-	 * @param player Player to parse information with (%player% and other
-	 *               placeholders)
-	 * @param id     Name of the inventory to parse
-	 * @param page   Page of the inventory
-	 * @return
-	 */
-	public static Inventory getGui(OfflinePlayer player, String id, int page) {
-		if (!plugin.gui.contains(id))
-			return null;
-		ConfigurationSection gui = plugin.gui.getConfigurationSection(id);
-		if (!gui.contains("Size") || !gui.contains("Title"))
-			return null;
-		String title = gui.getString("Title").replace("%player%", player.getName());
-		if (player.isOnline())
-			title = title.replace("%world%", ((Player) player).getWorld().getName());
-		title = title.replace("%world%", "");
-		Inventory inv = Bukkit.createInventory(null, gui.getInt("Size"), MSG.color(title));
-		ItemStack bg = null;
-		boolean empty = true;
-		for (String res : gui.getKeys(false)) {
-			if (!gui.contains(res + ".Icon"))
-				continue;
-			empty = false;
-			if (gui.contains(res + ".Page")) {
-				if (page != gui.getInt(res + ".Page"))
-					continue;
-			} else if (page != 0)
-				continue;
-			if (player.isOnline()) {
-				if (gui.contains(res + ".Permission")
-						&& !((Player) player).hasPermission(gui.getString(res + ".Permission"))) {
-					continue;
-				}
-			}
-			ItemStack item = parseItem(plugin.gui, id + "." + res, player);
-			if (res.equals("BACKGROUND_ITEM")) {
-				bg = item;
-				continue;
-			}
-			int slot = 0;
-			if (!gui.contains(res + ".Slot")) {
-				while (inv.getItem(slot) != null)
-					slot++;
-				inv.setItem(slot, item);
-			} else {
-				inv.setItem(gui.getInt(res + ".Slot"), item);
-			}
-		}
-		if (empty)
-			return null;
-		if (bg != null) {
-			for (int i = 0; i < inv.getSize(); i++) {
-				if (inv.getItem(i) == null || inv.getItem(i).getType() == Material.AIR) {
-					inv.setItem(i, bg);
-				}
-			}
-		}
-		return inv;
 	}
 
 	/**
@@ -575,5 +519,40 @@ public class Utils {
 				if (r.equals("session.lock"))
 					return true;
 		return false;
+	}
+
+	public static String post(String text, boolean raw) throws IOException {
+		byte[] postData = text.getBytes(StandardCharsets.UTF_8);
+		int postDataLength = postData.length;
+
+		String requestURL = "https://hastebin.com/documents";
+		URL url = new URL(requestURL);
+		HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setInstanceFollowRedirects(false);
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("User-Agent", "Hastebin Java API");
+		conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+		conn.setUseCaches(false);
+
+		String response = null;
+		DataOutputStream wr;
+		try {
+			wr = new DataOutputStream(conn.getOutputStream());
+			wr.write(postData);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			response = reader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (response.contains("\"key\"")) {
+			response = response.substring(response.indexOf(":") + 2, response.length() - 2);
+
+			String postURL = raw ? "https://hastebin.com/raw/" : "https://hastebin.com/";
+			response = postURL + response;
+		}
+
+		return response;
 	}
 }

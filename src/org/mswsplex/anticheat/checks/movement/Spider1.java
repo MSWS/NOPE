@@ -91,7 +91,7 @@ public class Spider1 implements Check, Listener {
 		if ((dist + "").contains("999999999")) {
 			cp.flagHack(this, 30, "Dist: " + dist);
 		} else {
-			cp.flagHack(this, 5, "Dist: " + dist);
+			cp.flagHack(this, 20, "Dist: " + dist);
 		}
 	}
 

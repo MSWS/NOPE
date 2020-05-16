@@ -50,7 +50,7 @@ public class Stats {
 					Math.max(plugin.getChecks().getChecksWithType(type).size(), 1));
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName(MSG
-					.color(((plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
+					.color(((plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
 							+ "&l" + MSG.camelCase(type + "")));
 			int vls = getTotalVl(type), triggers = getTotalTriggers(type);
 			List<String> lore = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Stats {
 			lore.add(MSG.color(""));
 
 			lore.add(MSG.color("&7Enabled: "
-					+ MSG.TorF(plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"))));
+					+ MSG.TorF(plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"))));
 			lore.add(MSG.color("&7&o(Right-Click to toggle)"));
 
 			meta.setLore(lore);
@@ -121,9 +121,9 @@ public class Stats {
 		for (String category : categories) {
 			ItemStack item = new ItemStack(Material.PAPER, plugin.getChecks().getChecksByCategory(category).size());
 			ItemMeta meta = item.getItemMeta();
-			boolean enabled = plugin.config
+			boolean enabled = plugin.getConfig()
 					.getBoolean("Checks." + MSG.camelCase(type + "") + "." + category + ".Enabled")
-					&& plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled");
+					&& plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled");
 			meta.setDisplayName(MSG.color((enabled ? "&a" : "&c") + "&l" + category));
 			int vls = getTotalVl(category), triggers = getTotalTriggers(category);
 			List<String> lore = new ArrayList<>();
@@ -143,7 +143,7 @@ public class Stats {
 
 			lore.add(MSG.color("&7Enabled: " + MSG.TorF(enabled)));
 
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) {
+			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) {
 				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + MSG.camelCase(type + "") + " check type is disabled"));
 				lore.add(MSG.color("&cenable it to modify these settings."));
@@ -169,10 +169,10 @@ public class Stats {
 		for (Check check : checks) {
 			ItemStack item = new ItemStack(Material.PAPER);
 			ItemMeta meta = item.getItemMeta();
-			boolean enabled = plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
+			boolean enabled = plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
 					+ check.getCategory() + "." + check.getDebugName() + ".Enabled")
-					&& plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")
-					&& plugin.config.getBoolean(
+					&& plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")
+					&& plugin.getConfig().getBoolean(
 							"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled");
 			meta.setDisplayName(MSG.color((enabled ? "&a" : "&c") + "&l" + check.getDebugName()));
 			int vls = getTotalVl(check), triggers = getTotalTriggers(check);
@@ -188,13 +188,13 @@ public class Stats {
 			lore.add(MSG.color(""));
 			lore.add(MSG.color("&7Enabled: " + MSG.TorF(enabled)));
 
-			if (!plugin.config.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")) {
+			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")) {
 				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + MSG.camelCase(check.getType() + "") + " category is disabled"));
 				lore.add(MSG.color("&cenable it to modify these settings"));
 			}
 
-			if (!plugin.config.getBoolean(
+			if (!plugin.getConfig().getBoolean(
 					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled")) {
 				lore.add(MSG.color("&4&l&m========================"));
 				lore.add(MSG.color("&cThe " + check.getCategory() + " hack is disabled"));

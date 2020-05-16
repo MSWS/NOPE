@@ -40,11 +40,11 @@ public class XRay2 implements Check, Listener {
 
 		List<Material> ores = new ArrayList<>();
 
-		for (String mat : plugin.config.getStringList("AntiXRay2.Blocks")) {
+		for (String mat : plugin.getConfig().getStringList("AntiXRay2.Blocks")) {
 			ores.add(Material.valueOf(mat.toUpperCase()));
 		}
 
-		if (!plugin.config.getBoolean("AntiXRay2.Enabled"))
+		if (!plugin.getConfig().getBoolean("AntiXRay2.Enabled"))
 			return;
 
 		new BukkitRunnable() {

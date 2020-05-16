@@ -27,7 +27,7 @@ public class MessageListener implements PluginMessageListener {
 		String sub = in.readUTF();
 
 		if (sub.equals("GetServer"))
-			plugin.serverName = in.readUTF();
+			plugin.setServerName(in.readUTF());
 
 		if (!"NOPE".equals(sub))
 			return;

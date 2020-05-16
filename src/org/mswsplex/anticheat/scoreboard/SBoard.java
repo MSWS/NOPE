@@ -54,7 +54,7 @@ public class SBoard {
 		new BukkitRunnable() {
 			@SuppressWarnings("unchecked")
 			public void run() {
-				if (!plugin.config.getBoolean("Scoreboard"))
+				if (!plugin.getConfig().getBoolean("Scoreboard"))
 					return;
 
 				vlRankings = new ArrayList<>();
