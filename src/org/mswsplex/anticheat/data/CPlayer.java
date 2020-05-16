@@ -41,6 +41,12 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+/**
+ * Oh my this class is quite the heap
+ * 
+ * @author imodm
+ *
+ */
 public class CPlayer {
 	private OfflinePlayer player;
 	private UUID uuid;
@@ -568,9 +574,10 @@ public class CPlayer {
 			// extremely spammy
 			String data = String.join("\n", revised);
 			try {
-				String link = Utils.post(data, true);
+				String link = Utils.post(data, false);
 				revised.clear();
 				revised.add("Hastebin Link: " + link);
+				MSG.log("Generated new hastebin for banwave token &e" + token + "&7: &b" + link);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
