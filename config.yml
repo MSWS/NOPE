@@ -52,11 +52,59 @@ VlColors:
 DevMode: false 
 DebugMode: false
 
+#               -------------------------------
+#                  Punishment Configuration
+#      Here you can configure how long punishments are for.
+#          NOPE will automatically use a ban manager
+#               if one is on the server. This
+#            duration will be reflected on the bans.
+#                Durations are in milliseconds
+#               -------------------------------
+UseBanManager: true
+
+BanDurations:
+  KillAura: 7.884e+9
+  Flight: 3.154e+10
+  Jesus: 5.256e+9
+  FastSneak: -1 # Permanent
+  Default: 6.048e+8
+
+
+# Placeholders:
+
+# %name% - The name of the player that was banned
+# %hack% - What hack the player was banned for
+# %vl% - The VL of the hack that the player was at when they were banned
+# %world% - What world the player was in when they were banned, this may be null if they were offline
+# %token% - The ban token
+# %timing% - Can be Banwave or Instant
+
+TempBanFormat:
+- '&4&l[&c&lNOPE Anti-Cheat&4&l]'
+- '&7Hacking has deen detected on your Minecraft Client.'
+- '&7As such, you have been &ctemporarily banned&7 for &e%duration%&7.'
+- ''
+- '&7Hack Detected: &4%hack% &c(&6%vl%&c)'
+- ''
+- '&7Believe you were incorrectly banned? Please include the following token when appealing.'
+- '&e%token%'
+
+PermBanFormat:
+- '&4&l[&c&lNOPE Anti-Cheat&4&l]'
+- '&7Hacking has deen detected on your Minecraft Client.'
+- '&7As such, you have been &cpermanently banned&7.'
+- ''
+- '&7Hack Detected: &4%hack% &c(&6%vl%&c)'
+- ''
+- '&7Believe you were incorrectly banned? Please include the following token when appealing.'
+- '&e%token%'
+
 CommandsForBan:
-- ban %player% %hack% (%token%)
+- say %name% was banned for %hack% (%token%)
 
 CommandsForBanwave:
-- ban %player% %hack% (%token%)
+- say %name% was banned for %hack% (%token%)
+
 
 #               -------------------------------
 #                     Check Configuration

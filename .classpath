@@ -16,5 +16,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/imodm/Documents/API/AdvancedBan-2.1.9-RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/imodm/Documents/API/MaxBans.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
