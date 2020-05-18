@@ -409,11 +409,14 @@ public class CPlayer {
 		plugin.getStats().addBan();
 
 		removeSaveData("log");
-		removeSaveData("isBanwaved");
 		removeTempData("autoClickerTimes");
 
-		if (plugin.devMode())
+		if (plugin.devMode()) {
+			clearVls();
 			return;
+		}
+
+		removeSaveData("isBanwaved");
 
 		long time = 0;
 
@@ -442,15 +445,16 @@ public class CPlayer {
 		else
 			for (String line : plugin.getConfig().getStringList("CommandsForBan"))
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing));
-
 		clearVls();
+
 	}
 
 	private String placeholder(String s, OfflinePlayer p, String check, String token, Timing timing) {
-		s = s.replace("%hack%", check).replace("%vl%", getSaveData("vls." + check, Integer.class) + "")
+		s = s.replace("%player%", p.getName()).replace("%hack%", check)
+				.replace("%vl%", getSaveData("vls." + check, Integer.class) + "")
 				.replace("%world%", player.isOnline() ? player.getPlayer().getWorld().getName() : "Offline")
 				.replace("%token%", token).replace("%timing%", timing.toString());
-		return s;
+		return MSG.papi(p, s);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -637,8 +641,10 @@ public class CPlayer {
 	}
 
 	public void clearVls() {
-		for (String entry : getHackVls())
-			removeSaveData("vls." + entry);
+//		for (String entry : plugin.getChecks()getHackVls())
+//			removeSaveData("vls." + entry);
+		for (Check check : plugin.getChecks().getAllChecks())
+			removeSaveData("vls." + check.getCategory());
 	}
 
 	public boolean isInWeirdBlock() {

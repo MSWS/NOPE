@@ -469,6 +469,9 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						"&4[NOPE] &7NOPE has reached &b%d&7 downloads, &a%d&7 reviews, and is averaging about &e%.2f&7.",
 						stats.getDownloads(), stats.getReviews(), stats.getRating()));
 				break;
+			case "servername":
+				MSG.tell(sender, "name: "+plugin.getServerName());
+				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
 				return true;

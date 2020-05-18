@@ -125,6 +125,7 @@ public class NoSlowDown5 implements Check, Listener {
 			case BEETROOT:
 			case PUMPKIN_PIE:
 			case PUFFERFISH:
+			case CHORUS_FRUIT:
 				return true;
 			default:
 				return false;

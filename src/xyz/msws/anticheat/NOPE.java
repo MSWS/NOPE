@@ -196,6 +196,8 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public String getServerName() {
+		if (!config.getString("BungeeNameOverride").isEmpty())
+			return config.getString("BungeeNameOverride");
 		return serverName;
 	}
 

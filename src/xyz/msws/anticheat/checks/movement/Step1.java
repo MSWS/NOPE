@@ -20,6 +20,8 @@ import com.google.common.collect.Sets;
  * Checks Y differences and flags if they aren't <i>normal</i>
  * 
  * @author imodm
+ * 
+ * @deprecated
  *
  */
 public class Step1 implements Check, Listener {

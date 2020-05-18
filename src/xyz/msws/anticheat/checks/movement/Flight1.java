@@ -1,15 +1,14 @@
 package xyz.msws.anticheat.checks.movement;
 
-import java.util.stream.Collectors;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Boat;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -48,8 +47,7 @@ public class Flight1 implements Check, Listener {
 		if (cp.timeSince("lastLiquid") < 400)
 			return;
 
-		if (player.getNearbyEntities(1, 2, 1).stream().filter((entity) -> entity instanceof Boat)
-				.collect(Collectors.toList()).size() > 0)
+		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

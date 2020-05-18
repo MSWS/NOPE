@@ -83,15 +83,11 @@ public class Jesus1 implements Check, Listener {
 			lastDiffs = new ArrayList<>();
 
 		if (diff != -0.10000000596046732 && diff != 0.10000000149011612)
-			lastDiffs.add(0, (double) System.currentTimeMillis());
+			lastDiffs.add(0, diff);
 
-		for (int i = 0; i < lastDiffs.size(); i++) {
-			if (i >= SIZE || System.currentTimeMillis() - lastDiffs.get(i) > 5000)
-				lastDiffs.remove(i);
+		for (int i = SIZE; i < lastDiffs.size(); i++) {
+			lastDiffs.remove(i);
 		}
-
-		if (lastDiffs.size() > SIZE)
-			lastDiffs = lastDiffs.subList(0, SIZE);
 
 		int amo = lastDiffs.stream().filter((val) -> diff == val).collect(Collectors.toList()).size();
 

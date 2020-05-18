@@ -56,6 +56,10 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
+		<repository>
+			<id>placeholderapi</id>
+			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -97,6 +101,12 @@
 			<groupId>net.lapismc</groupId>
 			<artifactId>LapisBansAPI</artifactId>
 			<version>2.0.0-BETA-02</version>
+		</dependency>
+		<dependency>
+			<groupId>me.clip</groupId>
+			<artifactId>placeholderapi</artifactId>
+			<version>2.10.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

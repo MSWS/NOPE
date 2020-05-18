@@ -6,6 +6,12 @@ api-version: 1.15
 author: MSWS
 softdepend:
 - ProtocolLib
+- MaxBans
+- AdvancedBan
+- LapisBans
+- LiteBans
+- BanManagement
+- PlaceholderAPI
 commands:
   nope:
     usage: /<command>

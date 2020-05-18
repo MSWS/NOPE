@@ -16,7 +16,7 @@ public class MaxBansHook implements BanHook {
 
 	@Override
 	public void ban(UUID player, String reason, long time) {
-		reason = reason == null ? manager.defaultReason : reason;
+		reason = reason == null ? "Hacking" : reason;
 		if (time == -1) {
 			manager.ban(Bukkit.getOfflinePlayer(player).getName(), reason, "NOPE");
 			return;

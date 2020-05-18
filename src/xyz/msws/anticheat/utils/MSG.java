@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -123,7 +124,18 @@ public class MSG {
 	 */
 	public static void tell(CommandSender sender, String msg) {
 		if (msg != null && !msg.isEmpty())
-			sender.sendMessage(color(msg));
+			return;
+		if (sender instanceof OfflinePlayer)
+			sender.sendMessage(papi((OfflinePlayer) sender, msg));
+		else
+			sender.sendMessage(msg);
+	}
+
+	public static String papi(OfflinePlayer sender, String msg) {
+		if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			return msg;
+		}
+		return new PAPIHook().setPlaceholders(sender, msg);
 	}
 
 	/**

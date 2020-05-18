@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
+
+import com.google.common.collect.Sets;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.combat.AntiKB1;
 import xyz.msws.anticheat.checks.combat.AutoArmor1;
@@ -48,7 +51,6 @@ import xyz.msws.anticheat.checks.movement.Speed1;
 import xyz.msws.anticheat.checks.movement.Speed2;
 import xyz.msws.anticheat.checks.movement.Speed3;
 import xyz.msws.anticheat.checks.movement.Spider1;
-import xyz.msws.anticheat.checks.movement.Step1;
 import xyz.msws.anticheat.checks.player.AntiFire1;
 import xyz.msws.anticheat.checks.player.AutoSwitch1;
 import xyz.msws.anticheat.checks.player.AutoTool1;
@@ -73,8 +75,6 @@ import xyz.msws.anticheat.checks.world.Scaffold2;
 import xyz.msws.anticheat.checks.world.Scaffold3;
 import xyz.msws.anticheat.utils.MSG;
 
-import com.google.common.collect.Sets;
-
 @SuppressWarnings("deprecation")
 public class Checks {
 	private NOPE plugin;
@@ -88,15 +88,15 @@ public class Checks {
 
 		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
-				new Timer2(), new Step1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(),
-				new FastClimb1(), new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(),
-				new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(),
-				new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(),
-				new InventoryMove1(), new KillAura2(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(),
-				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new ChestStealer1(),
-				new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(),
-				new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(),
-				new BHop1(), new GhostHand2()));
+				new Timer2(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
+				new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
+				new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
+				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
+				new KillAura2(), new KillAura6(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
+				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new ChestStealer1(), new AntiFire1(),
+				new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
+				new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1(),
+				new GhostHand2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new SkinBlinker1()));
@@ -150,8 +150,8 @@ public class Checks {
 		if (!plugin.getConfig()
 				.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled"))
 			return Result.DISABLED_CATEGORY;
-		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
-				+ check.getDebugName() + ".Enabled"))
+		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
+				+ "." + check.getDebugName() + ".Enabled"))
 			return Result.DISABLED_DEBUG;
 		try {
 			check.register(plugin);

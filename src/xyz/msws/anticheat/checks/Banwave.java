@@ -4,6 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.utils.MSG;
 
 public class Banwave {
 
@@ -13,6 +14,10 @@ public class Banwave {
 
 	public Banwave(NOPE plugin) {
 		this.plugin = plugin;
+		if (plugin.getConfig().getInt("BanwaveRate", -1) == -1) {
+			MSG.log("Banwaves are disabled, reset your config if this is not intended.");
+			return;
+		}
 		runBanwave(false).runTaskTimer(this.plugin, 0, plugin.getConfig().getInt("BanwaveRate"));
 	}
 

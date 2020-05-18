@@ -26,8 +26,10 @@ public class MessageListener implements PluginMessageListener {
 		ByteArrayDataInput in = ByteStreams.newDataInput(message);
 		String sub = in.readUTF();
 
-		if (sub.equals("GetServer"))
+		if (sub.equals("GetServer")) {
 			plugin.setServerName(in.readUTF());
+			return;
+		}
 
 		if (!"NOPE".equals(sub))
 			return;
