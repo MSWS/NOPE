@@ -47,6 +47,8 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (cp.timeSince("lastDamageTaken") < 200)
 			return;
+		if (cp.timeSince("lastSlimeBlock") < 1000)
+			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
 		if (player.getFallDistance() > 4)

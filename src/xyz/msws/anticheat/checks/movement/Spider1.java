@@ -45,7 +45,7 @@ public class Spider1 implements Check, Listener {
 		if (player.isOnGround() || player.isFlying())
 			return;
 
-		if (cp.isBlockNearby(Material.COBWEB))
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
 		if (cp.hasMovementRelatedPotion())

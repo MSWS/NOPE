@@ -123,12 +123,12 @@ public class MSG {
 	 * @param msg    Message to send
 	 */
 	public static void tell(CommandSender sender, String msg) {
-		if (msg != null && !msg.isEmpty())
+		if (msg == null || msg.isEmpty())
 			return;
 		if (sender instanceof OfflinePlayer)
-			sender.sendMessage(papi((OfflinePlayer) sender, msg));
+			sender.sendMessage(color(papi((OfflinePlayer) sender, msg)));
 		else
-			sender.sendMessage(msg);
+			sender.sendMessage(color(msg));
 	}
 
 	public static String papi(OfflinePlayer sender, String msg) {

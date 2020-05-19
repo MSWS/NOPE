@@ -7,17 +7,13 @@ import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.msws.anticheat.bans.AdvancedBanHook;
-import xyz.msws.anticheat.bans.BanManagementHook;
 import xyz.msws.anticheat.bans.BanHook;
+import xyz.msws.anticheat.bans.BanManagementHook;
 import xyz.msws.anticheat.bans.LiteBansHook;
 import xyz.msws.anticheat.bans.MaxBansHook;
 import xyz.msws.anticheat.bans.NativeBanHook;
@@ -69,18 +65,13 @@ public class NOPE extends JavaPlugin {
 
 		MSG.plugin = this;
 
-		if (config.getString("Log").equalsIgnoreCase("true") || config.getString("Log").equalsIgnoreCase("false")) {
-			config.set("Log", "file");
-			MSG.warn("The config is using an old value for Log, resetting it back to its default value.");
-		}
-
-		if (!config.isSet("UseBanManager")) {
-			MSG.warn(
-					"You are using an outdated config, it is recommended you reset/delete the old config to get a fresh one.");
-			config.set("UseBanManager", true);
-			if (!config.isConfigurationSection("BanDurations")) {
-				config.set("BanDurations.Default", 6.048e+8);
-			}
+		switch (config.getString("ConfigVersion", "")) {
+			case "1.3.1":
+				MSG.log("You are using an up-to-date config.");
+				break;
+			default:
+				MSG.warn("Your config version is unknown, it is strongly recommended you reset your config.");
+				break;
 		}
 
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
@@ -210,19 +201,6 @@ public class NOPE extends JavaPlugin {
 
 		for (OfflinePlayer p : pManager.getLoadedPlayers())
 			pManager.removePlayer(p); // Clear all loaded player data and save to files
-
-		/** Clean up entity related checks **/
-
-		for (Player p : Bukkit.getOnlinePlayers())
-			p.removeMetadata("lastEntityHit", this);
-
-		for (World w : Bukkit.getWorlds()) {
-			for (Entity ent : w.getEntitiesByClass(ArmorStand.class)) {
-				if (ent.hasMetadata("killAuraMark") || ent.hasMetadata("antiKillAuraMark")
-						|| ent.hasMetadata("lowerKillAuraMark"))
-					ent.remove();
-			}
-		}
 
 	}
 

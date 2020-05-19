@@ -2,6 +2,7 @@ package xyz.msws.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -60,6 +61,9 @@ public class Flight3 implements Check, Listener {
 			return;
 
 		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
+			return;
+
+		if (cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
 		if (cp.timeSince("lastInClimbing") < 1000) {
