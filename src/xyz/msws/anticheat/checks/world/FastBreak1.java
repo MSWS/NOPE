@@ -1,6 +1,9 @@
 package xyz.msws.anticheat.checks.world;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -16,6 +19,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -37,6 +41,9 @@ public class FastBreak1 implements Check, Listener {
 		return CheckType.WORLD;
 	}
 
+	private Map<UUID, Location> blockLoc = new HashMap<>();
+	private Map<UUID, Long> blockTime = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -52,7 +59,6 @@ public class FastBreak1 implements Check, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
 		if (event.getAction() != Action.LEFT_CLICK_BLOCK)
 			return;
 		Block block = event.getClickedBlock();
@@ -61,9 +67,8 @@ public class FastBreak1 implements Check, Listener {
 		if (mats.contains(block.getType()))
 			return;
 		Location loc = block.getLocation();
-		cp.setTempData("targetBlockBreak", loc);
-		cp.setTempData("targetBlockBreakTime",
-				(double) (System.currentTimeMillis() + getDigTime(block, player) * 1000));
+		blockLoc.put(player.getUniqueId(), loc);
+		blockTime.put(player.getUniqueId(), System.currentTimeMillis() + getDigTime(block, player));
 	}
 
 	@EventHandler
@@ -72,24 +77,23 @@ public class FastBreak1 implements Check, Listener {
 		if (player.getGameMode() == GameMode.CREATIVE)
 			return;
 		CPlayer cp = plugin.getCPlayer(player);
-		if (!cp.hasTempData("targetBlockBreakTime"))
+		if (!blockTime.containsKey(player.getUniqueId()))
 			return;
 		Block block = event.getBlock();
 		if (mats.contains(block.getType()))
 			return;
-		if (!cp.getTempData("targetBlockBreak").equals(block.getLocation())) {
+		if (!blockLoc.get(player.getUniqueId()).equals(block.getLocation())) {
 			cp.flagHack(this, 50, "Wrong Block");
 			return;
 		}
-		double offset = cp.timeSince("targetBlockBreakTime");
+		double offset = System.currentTimeMillis() - blockTime.get(player.getUniqueId());
 		if (offset > -100)
 			return;
-		cp.flagHack(this, (int) Math.abs((offset + 25)),
-				"Type: &e" + MSG.camelCase(block.getType().toString()) + "\n&7Time diff: &a"
-						+ cp.timeSince("targetBlockBreakTime") + "\n&7Hardness: &e" + block.getType().getHardness());
+		cp.flagHack(this, (int) Math.abs((offset + 25)), "Type: &e" + MSG.camelCase(block.getType().toString())
+				+ "\n&7Time diff: &a" + offset + "\n&7Hardness: &e" + block.getType().getHardness());
 	}
 
-	private double getDigTime(Block block, Player player) {
+	private long getDigTime(Block block, Player player) {
 		ItemStack tool = player.getInventory().getItemInMainHand();
 		boolean canHarvest = !block.getDrops(tool).isEmpty();
 		double seconds = block.getType().getHardness() * (canHarvest ? 1.5f : 5);
@@ -132,8 +136,7 @@ public class FastBreak1 implements Check, Listener {
 		if (!player.isOnGround())
 			seconds *= 5;
 
-		return seconds;
-
+		return (long) (seconds * 1000);
 	}
 
 	private double getToolMultiplier(Material tool) {

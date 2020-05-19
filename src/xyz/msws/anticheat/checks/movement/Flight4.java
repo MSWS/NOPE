@@ -7,9 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -49,14 +51,13 @@ public class Flight4 implements Check, Listener {
 		if (player.isInsideVehicle())
 			return;
 
-		if (player.isFlying() || cp.timeSince("wasFlying") < 5000 || player.isOnGround()
-				|| cp.timeSince("lastTeleport") < 200 || cp.timeSince("lastFlightGrounded") < 500)
+		if (player.isFlying() || cp.timeSince(Stat.FLYING) < 5000 || player.isOnGround()|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
 
-		if (cp.timeSince("lastLiquid") < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (cp.timeSince("lastOnGround") < 1000)
+		if (cp.timeSince(Stat.ON_GROUND) < 1000)
 			return;
 
 		if (player.getLocation().getBlock().isLiquid())

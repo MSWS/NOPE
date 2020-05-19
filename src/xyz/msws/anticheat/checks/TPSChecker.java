@@ -2,6 +2,7 @@ package xyz.msws.anticheat.checks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+
 import xyz.msws.anticheat.NOPE;
 
 public class TPSChecker {

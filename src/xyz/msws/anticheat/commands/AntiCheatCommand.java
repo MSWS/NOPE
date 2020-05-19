@@ -15,11 +15,13 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.PluginInfo;
 import xyz.msws.anticheat.PluginInfo.Stats;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -435,7 +437,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				cp = plugin.getCPlayer(player);
 				player.openInventory(plugin.getStats().getInventory());
 				player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, 1);
-				cp.setTempData("openInventory", "stats");
+				cp.setTempData(Stat.OPEN_INVENTORY, "stats");
 				break;
 			case "enablechecks":
 				if (!sender.hasPermission("nope.command.enablechecks")) {

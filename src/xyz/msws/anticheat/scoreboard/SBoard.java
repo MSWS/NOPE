@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
@@ -38,6 +40,8 @@ public class SBoard {
 
 	private List<String> vlRankings;
 
+	private Map<UUID, List<String>> oldLines = new HashMap<>();
+
 	public <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
 		List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
 		list.sort(Entry.comparingByValue());
@@ -52,7 +56,6 @@ public class SBoard {
 
 	public void register() {
 		new BukkitRunnable() {
-			@SuppressWarnings("unchecked")
 			public void run() {
 				if (!plugin.getConfig().getBoolean("Scoreboard"))
 					return;
@@ -122,24 +125,25 @@ public class SBoard {
 					// Anti Lag/Flash Scoreboard functions
 
 					if (board != null && player.getScoreboard().getObjective("anticheat") != null
-							&& cp.hasTempData("oldLines") &&
+							&& oldLines.containsKey(player.getUniqueId()) &&
 
-							((List<String>) cp.getTempData("oldLines", List.class)).size() == vlRankings.size()) {
+							oldLines.get(player.getUniqueId()).size() == vlRankings.size()) {
 						if (board.getObjectives().size() > vlRankings.size()) {
 							continue;
 						}
 						Objective obj = board.getObjective("anticheat");
-						List<String> oldLines = cp.getTempData("oldLines", List.class);
-						for (int i = 0; i < 15 && i < vlRankings.size() && i < oldLines.size(); i++) {
+						List<String> ol = oldLines.get(player.getUniqueId());
+						for (int i = 0; i < 15 && i < vlRankings.size() && i < ol.size(); i++) {
 							String sLine = parse(player, vlRankings.get(i));
 							lines.add(sLine);
 							if (board.getEntries().contains(sLine))
 								continue;
-							board.resetScores(parse(player, oldLines.get(i)));
+							board.resetScores(parse(player, ol.get(i)));
 							obj.getScore(sLine).setScore(i + 1);
 						}
 						name = parse(player, name);
-						cp.setTempData("oldLines", lines);
+//						cp.setTempData("oldLines", lines);
+						oldLines.put(player.getUniqueId(), lines);
 						// obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 					} else {
 						board = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -156,7 +160,8 @@ public class SBoard {
 								break;
 							pos++;
 						}
-						cp.setTempData("oldLines", lines);
+//						cp.setTempData("oldLines", lines);
+						oldLines.put(player.getUniqueId(), lines);
 					}
 					if (board.getEntries().size() != vlRankings.size())
 						refresh(player);

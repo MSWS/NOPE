@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -18,6 +20,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -46,7 +49,8 @@ public class AutoClicker1 implements Check, Listener {
 
 	private final int SIZE = 100;
 
-	@SuppressWarnings("unchecked")
+	private Map<UUID, List<Double>> timings = new HashMap<>();
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -68,17 +72,14 @@ public class AutoClicker1 implements Check, Listener {
 		if (block != null && (!block.getType().isSolid() || block.getType() == Material.SLIME_BLOCK))
 			return;
 
-		List<Double> clickTimings = (List<Double>) cp.getTempData("autoClickerTimes");
-
-		if (clickTimings == null)
-			clickTimings = new ArrayList<>();
+		List<Double> clickTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		clickTimings.add(0, (double) System.currentTimeMillis());
 
 		for (int i = SIZE; i < clickTimings.size(); i++)
 			clickTimings.remove(i);
 
-		cp.setTempData("autoClickerTimes", clickTimings);
+		timings.put(player.getUniqueId(), clickTimings);
 
 		if (clickTimings.size() < SIZE)
 			return;

@@ -3,9 +3,11 @@ package xyz.msws.anticheat.checks.movement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -34,7 +36,7 @@ public class AntiRotate1 implements Check {
 					return;
 				if (player.getOpenInventory() != null)
 					return;
-				if (cp.timeSince("lastMove") <= 100)
+				if (cp.timeSince(Stat.MOVE) <= 100)
 					return;
 				Location modified = player.getLocation();
 				float original = modified.getYaw();

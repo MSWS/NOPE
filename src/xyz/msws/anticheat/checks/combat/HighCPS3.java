@@ -1,5 +1,9 @@
 package xyz.msws.anticheat.checks.combat;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -31,6 +36,8 @@ public class HighCPS3 implements Check, Listener {
 		return CheckType.COMBAT;
 	}
 
+	private Map<UUID, Integer> clicks = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -38,7 +45,8 @@ public class HighCPS3 implements Check, Listener {
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player target : Bukkit.getOnlinePlayers()) {
-				plugin.getCPlayer(target).setTempData("highCpsClicks2", 0);
+//				plugin.getCPlayer(target).setTempData("highCpsClicks2", 0);
+				clicks.put(target.getUniqueId(), 0);
 			}
 
 		}, 0, checkEvery);
@@ -66,14 +74,16 @@ public class HighCPS3 implements Check, Listener {
 
 		if (block != null && (!block.getType().isSolid() || block.getType() == Material.SLIME_BLOCK))
 			return;
-		cp.setTempData("highCpsClicks2", cp.getTempInteger("highCpsClicks2") + 1);
 
-		if (cp.getTempInteger("highCpsClicks2") < (checkEvery / 20) * maxCps)
+		int c = clicks.getOrDefault(player.getUniqueId(), 0);
+
+		clicks.put(player.getUniqueId(), c + 1);
+
+		if (c < (checkEvery / 20) * maxCps)
 			return;
 
-		cp.flagHack(this, (cp.getTempInteger("highCpsClicks2") - ((checkEvery / 20) * maxCps)) * 3 + 5,
-				"Clicks: &e" + cp.getTempInteger("highCpsClicks2") + "&7 >= &a" + (checkEvery / 20) * maxCps
-						+ "\n&7CPS: &e" + cp.getTempInteger("highCpsClicks2") / (checkEvery / 20));
+		cp.flagHack(this, (c - ((checkEvery / 20) * maxCps)) * 3 + 5,
+				"Clicks: &e" + c + "&7 >= &a" + (checkEvery / 20) * maxCps + "\n&7CPS: &e" + c / (checkEvery / 20));
 	}
 
 	@Override

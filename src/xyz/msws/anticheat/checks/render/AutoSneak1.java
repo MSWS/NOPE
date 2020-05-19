@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.render;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -9,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -29,28 +33,27 @@ public class AutoSneak1 implements Check, Listener {
 		return CheckType.RENDER;
 	}
 
+	private Map<UUID, List<Double>> timings = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onToggleSneak(PlayerToggleSneakEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> sneakTimings = (List<Double>) cp.getTempData("autoSneakTimings");
-		if (sneakTimings == null)
-			sneakTimings = new ArrayList<>();
+		List<Double> sneakTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		sneakTimings.add((double) System.currentTimeMillis());
 
 		sneakTimings = sneakTimings.stream().filter((val) -> System.currentTimeMillis() - val < 1000)
 				.collect(Collectors.toList());
 
-		cp.setTempData("autoSneakTimings", sneakTimings);
+		timings.put(player.getUniqueId(), sneakTimings);
 
 		if (sneakTimings.size() < 20)
 			return;

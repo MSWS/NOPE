@@ -1,11 +1,16 @@
 package xyz.msws.anticheat.checks.player;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -18,6 +23,7 @@ public class AutoTool1 implements Check, Listener {
 		return CheckType.PLAYER;
 	}
 
+	private Map<UUID, Long> clicks = new HashMap<>();
 	private NOPE plugin;
 
 	@Override
@@ -29,9 +35,7 @@ public class AutoTool1 implements Check, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-
-		cp.setTempData("lastClicked", (double) System.currentTimeMillis());
+		clicks.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -39,7 +43,7 @@ public class AutoTool1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.timeSince("lastClicked") != 98)
+		if (clicks.getOrDefault(player.getUniqueId(), 0L) != 98)
 			return;
 
 		cp.flagHack(this, 5);

@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.combat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
@@ -14,9 +17,11 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -45,14 +50,16 @@ public class AutoArmor1 implements Check, Listener {
 		runCheck().runTaskTimer(plugin, 0, CHECK_EVERY);
 	}
 
+	private Map<UUID, Integer> slot = new HashMap<>();
+
 	private BukkitRunnable runCheck() {
 		return new BukkitRunnable() {
 			public void run() {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(target);
-					if (cp.timeSince("lastDamageTaken") < 1000)
+					if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
 						continue;
-					if (cp.timeSince("lastInventoryClick") < 500) // If the player is spam clicking within their
+					if (cp.timeSince(Stat.INVENTORY_CLICK) < 500) // If the player is spam clicking within their
 																	// inventory
 						continue;
 					Inventory inv = target.getInventory();
@@ -76,13 +83,14 @@ public class AutoArmor1 implements Check, Listener {
 						newArmor[i] = new ItemStack(Material.AIR);
 						equipment.setArmorContents(newArmor);
 						inv.setItem(open, armor);
-						cp.setTempData("autoArmorSlot", open);
+						slot.put(target.getUniqueId(), open);
 						new BukkitRunnable() {
 							@Override
 							public void run() {
-								inv.setItem(cp.getTempInteger("autoArmorSlot"), new ItemStack(Material.AIR));
+								inv.setItem(slot.get(target.getUniqueId()), new ItemStack(Material.AIR));
 								target.getEquipment().setArmorContents(oldArmor);
-								cp.removeTempData("autoArmorSlot");
+//								cp.removeTempData("autoArmorSlot");
+								slot.remove(target.getUniqueId());
 							}
 						}.runTaskLater(plugin, WAIT_FOR);
 						break;
@@ -100,12 +108,10 @@ public class AutoArmor1 implements Check, Listener {
 		Player player = (Player) event.getWhoClicked();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("lastInventoryClick", (double) System.currentTimeMillis());
-
-		if (!cp.hasTempData("autoArmorSlot"))
+		if (!slot.containsKey(player.getUniqueId()))
 			return;
 
-		if (cp.getTempInteger("autoArmorSlot") != event.getRawSlot())
+		if (slot.get(player.getUniqueId()) != event.getRawSlot())
 			return;
 
 		event.setCancelled(true);

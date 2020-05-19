@@ -36,6 +36,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.checks.Timing;
 import xyz.msws.anticheat.utils.MSG;
 //import xyz.msws.punish.managers.BanManager;
@@ -51,7 +52,7 @@ public class CPlayer {
 	private OfflinePlayer player;
 	private UUID uuid;
 
-	private Map<String, Object> tempData;
+	private Map<Stat, Object> tempData;
 
 	private File saveFile, dataFile;
 	private YamlConfiguration data;
@@ -83,11 +84,11 @@ public class CPlayer {
 		return this.player;
 	}
 
-	public List<String> getTempEntries() {
+	public List<Stat> getTempEntries() {
 		return new ArrayList<>(tempData.keySet());
 	}
 
-	public Map<String, Object> getTempData() {
+	public Map<Stat, Object> getTempData() {
 		return tempData;
 	}
 
@@ -108,7 +109,7 @@ public class CPlayer {
 		return online.hasPermission("nope.bypass." + check.getType() + "." + check.getDebugName());
 	}
 
-	public void setTempData(String id, Object obj) {
+	public void setTempData(Stat id, Object obj) {
 		tempData.put(id, obj);
 	}
 
@@ -153,23 +154,23 @@ public class CPlayer {
 		data = YamlConfiguration.loadConfiguration(saveFile);
 	}
 
-	public Object getTempData(String id) {
+	public Object getTempData(Stat id) {
 		return tempData.get(id);
 	}
 
-	public String getTempString(String id) {
+	public String getTempString(Stat id) {
 		return (String) getTempData(id).toString();
 	}
 
-	public double getTempDouble(String id) {
+	public double getTempDouble(Stat id) {
 		return hasTempData(id) ? (double) getTempData(id) : 0;
 	}
 
-	public int getTempInteger(String id) {
+	public int getTempInteger(Stat id) {
 		return hasTempData(id) ? (int) getTempData(id) : 0;
 	}
 
-	public boolean hasTempData(String id) {
+	public boolean hasTempData(Stat id) {
 		return tempData.containsKey(id);
 	}
 
@@ -193,7 +194,7 @@ public class CPlayer {
 		data.set(id, null);
 	}
 
-	public void removeTempData(String id) {
+	public void removeTempData(Stat id) {
 		tempData.remove(id);
 	}
 
@@ -201,7 +202,7 @@ public class CPlayer {
 		return cast.cast(getSaveData(id));
 	}
 
-	public <T> T getTempData(String id, Class<T> cast) {
+	public <T> T getTempData(Stat id, Class<T> cast) {
 		return cast.cast(getTempData(id));
 	}
 
@@ -250,6 +251,8 @@ public class CPlayer {
 		flagHack(check, vl, null);
 	}
 
+	private Map<String, Long> colorTimes = new HashMap<>();
+
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
@@ -266,7 +269,7 @@ public class CPlayer {
 				return;
 		}
 
-		if (timeSince("joinTime") < 5000) {
+		if (timeSince(Stat.JOIN_TIME) < 5000) {
 			if (plugin.devMode())
 				MSG.tell("nope.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
 						+ check.getDebugName() + " &8[CANCELLED]");
@@ -278,7 +281,7 @@ public class CPlayer {
 			return;
 		}
 
-		setTempData("lastFlag", (double) System.currentTimeMillis());
+		setTempData(Stat.FLAGGED, (double) System.currentTimeMillis());
 
 		if (plugin.devMode()) {
 
@@ -305,7 +308,7 @@ public class CPlayer {
 
 		String color = MSG.getVlColor(nVl);
 
-		double lastSent = timeSince(color + check.getCategory());
+//		double lastSent = timeSince(color + check.getCategory()); TODO
 
 		teleport: if (lastSafe != null && player.isOnline() && plugin.getConfig().getBoolean("SetBack")
 				&& check.lagBack()) {
@@ -317,6 +320,8 @@ public class CPlayer {
 
 			player.getPlayer().teleport(lastSafe);
 		}
+
+		long lastSent = System.currentTimeMillis() - colorTimes.getOrDefault(color, 0L);
 
 		if (!plugin.devMode()) {
 			if (lastSent > plugin.getConfig().getDouble("SecondsMinimum")
@@ -341,7 +346,11 @@ public class CPlayer {
 				MSG.tell("nope.message.normal", message);
 
 				MSG.sendPluginMessage(null, "perm:nope.message.normal " + bungee);
-				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
+
+				// TODO
+
+//				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
+				colorTimes.put(color, System.currentTimeMillis());
 			}
 		}
 
@@ -409,7 +418,7 @@ public class CPlayer {
 		plugin.getStats().addBan();
 
 		removeSaveData("log");
-		removeTempData("autoClickerTimes");
+//		removeTempData("autoClickerTimes"); TODO
 
 		if (plugin.devMode()) {
 			clearVls();
@@ -728,7 +737,7 @@ public class CPlayer {
 		this.lastSafe = loc;
 	}
 
-	public double timeSince(String action) {
+	public double timeSince(Stat action) {
 		return System.currentTimeMillis() - getTempDouble(action);
 	}
 

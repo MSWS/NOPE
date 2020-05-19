@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.combat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.util.Vector;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -28,6 +32,8 @@ public class KillAura6 implements Check, Listener {
 
 	private NOPE plugin;
 
+	private Map<UUID, List<Double>> offsets = new HashMap<>();
+
 	@Override
 	public CheckType getType() {
 		return CheckType.COMBAT;
@@ -39,7 +45,6 @@ public class KillAura6 implements Check, Listener {
 		this.plugin = plugin;
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
@@ -49,16 +54,15 @@ public class KillAura6 implements Check, Listener {
 
 		double off = getDotDiff(player, event.getEntity().getLocation());
 
-		List<Double> values = (List<Double>) cp.getTempData("KillAuraOffsets");
-		if (values == null)
-			values = new ArrayList<>();
+		List<Double> values = offsets.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		values.add(0, off);
 
 		if (values.size() > SIZE)
 			values = values.subList(0, SIZE);
 
-		cp.setTempData("KillAuraOffsets", values);
+//		cp.setTempData("KillAuraOffsets", values);
+		offsets.put(player.getUniqueId(), values);
 
 		if (values.size() < SIZE)
 			return;

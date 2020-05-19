@@ -1,5 +1,9 @@
 package xyz.msws.anticheat.checks.movement;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
@@ -13,10 +17,6 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -25,12 +25,19 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
+import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.checks.Check;
+import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.data.CPlayer;
+
 public class NoSlowDown5 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
 		return CheckType.MOVEMENT;
 	}
+
+	private Map<UUID, Long> start = new HashMap<>();
 
 	private NOPE plugin;
 
@@ -47,8 +54,7 @@ public class NoSlowDown5 implements Check, Listener {
 			@Override
 			public void onPacketReceiving(PacketEvent event) {
 				Player player = event.getPlayer();
-				CPlayer cp = NoSlowDown5.this.plugin.getCPlayer(player);
-				cp.removeTempData("foodStartTime");
+				start.remove(player.getUniqueId());
 			}
 
 			@Override
@@ -61,7 +67,6 @@ public class NoSlowDown5 implements Check, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
 		ItemStack item = event.getItem();
 		if (item == null)
 			return;
@@ -72,22 +77,21 @@ public class NoSlowDown5 implements Check, Listener {
 				&& item.getType() != Material.ENCHANTED_GOLDEN_APPLE)
 			return;
 
-		cp.setTempData("foodStartTime", (double) System.currentTimeMillis());
+		start.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@EventHandler
 	public void onSwap(PlayerItemHeldEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-
-		cp.removeTempData("foodStartTime");
+//		cp.removeTempData("foodStartTime");
+		start.remove(player.getUniqueId());
 	}
 
 	@EventHandler
 	public void onConsume(PlayerItemConsumeEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-		cp.removeTempData("foodStartTime");
+//		cp.removeTempData("foodStartTime");
+		start.remove(player.getUniqueId());
 	}
 
 	@EventHandler
@@ -96,7 +100,7 @@ public class NoSlowDown5 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		Location to = event.getTo(), from = event.getFrom();
 
-		if (!cp.hasTempData("foodStartTime"))
+		if (!start.containsKey(player.getUniqueId()))
 			return;
 
 		if (player.isFlying() || player.isGliding())

@@ -39,8 +39,10 @@ import xyz.msws.anticheat.checks.movement.Flight4;
 import xyz.msws.anticheat.checks.movement.Flight5;
 import xyz.msws.anticheat.checks.movement.Flight6;
 import xyz.msws.anticheat.checks.movement.Glide1;
+import xyz.msws.anticheat.checks.movement.GlobalSprint1;
 import xyz.msws.anticheat.checks.movement.InventoryMove1;
 import xyz.msws.anticheat.checks.movement.Jesus1;
+import xyz.msws.anticheat.checks.movement.Jesus2;
 import xyz.msws.anticheat.checks.movement.NoSlowDown1;
 import xyz.msws.anticheat.checks.movement.NoSlowDown2;
 import xyz.msws.anticheat.checks.movement.NoSlowDown3;
@@ -63,6 +65,7 @@ import xyz.msws.anticheat.checks.player.SelfHarm1;
 import xyz.msws.anticheat.checks.player.Zoot1;
 import xyz.msws.anticheat.checks.render.AutoSneak1;
 import xyz.msws.anticheat.checks.render.InvalidMovement1;
+import xyz.msws.anticheat.checks.render.NoSwing1;
 import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
 import xyz.msws.anticheat.checks.tick.Timer1;
@@ -96,10 +99,10 @@ public class Checks {
 				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new ChestStealer1(), new AntiFire1(),
 				new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
 				new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1(),
-				new GhostHand2()));
+				new GhostHand2(), new GlobalSprint1(), new Jesus2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new SkinBlinker1()));
+			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new SkinBlinker1(), new NoSwing1()));
 		} else {
 			MSG.warn("ProtocolLib is not enabled, certain checks will not work.");
 		}

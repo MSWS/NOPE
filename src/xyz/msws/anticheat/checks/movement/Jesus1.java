@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.movement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -11,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -35,6 +39,8 @@ public class Jesus1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, List<Double>> diffs = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -43,7 +49,6 @@ public class Jesus1 implements Check, Listener {
 
 	private final int SIZE = 50;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -56,8 +61,8 @@ public class Jesus1 implements Check, Listener {
 		if (player.getLocation().getBlock().getType() == Material.LAVA)
 			return;
 
-		if (player.isOnGround())
-			return;
+//		if (player.isOnGround())
+//			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
@@ -78,20 +83,19 @@ public class Jesus1 implements Check, Listener {
 
 		double diff = to.getY() - from.getY();
 
-		List<Double> lastDiffs = (List<Double>) cp.getTempData("jesusDiffs");
-		if (lastDiffs == null)
-			lastDiffs = new ArrayList<>();
+		List<Double> lastDiffs = diffs.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		if (diff != -0.10000000596046732 && diff != 0.10000000149011612)
-			lastDiffs.add(0, diff);
+			lastDiffs.add(0, (double) System.currentTimeMillis());
 
-		for (int i = SIZE; i < lastDiffs.size(); i++) {
-			lastDiffs.remove(i);
+		for (int i = 0; i < lastDiffs.size(); i++) {
+			if (i > SIZE || lastDiffs.get(i) > System.currentTimeMillis() - 5000)
+				lastDiffs.remove(i);
 		}
 
 		int amo = lastDiffs.stream().filter((val) -> diff == val).collect(Collectors.toList()).size();
 
-		cp.setTempData("jesusDiffs", lastDiffs);
+		diffs.put(player.getUniqueId(), lastDiffs);
 
 		if (amo < SIZE / 5)
 			return;

@@ -1,13 +1,17 @@
 package xyz.msws.anticheat.checks.player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -22,6 +26,8 @@ public class AutoSwitch1 implements Check, Listener {
 		return CheckType.PLAYER;
 	}
 
+	private Map<UUID, List<Double>> swaps = new HashMap<>();
+
 	private NOPE plugin;
 
 	@Override
@@ -30,43 +36,41 @@ public class AutoSwitch1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onSwap(PlayerItemHeldEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> swaps = (List<Double>) cp.getTempData("SwapTimings");
-		if (swaps == null)
-			swaps = new ArrayList<>();
+		List<Double> st = swaps.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		swaps.add(0, (double) System.currentTimeMillis());
-		if (swaps.size() > SIZE)
-			swaps = swaps.subList(0, SIZE);
+		st.add(0, (double) System.currentTimeMillis());
+		if (st.size() > SIZE)
+			st = st.subList(0, SIZE);
 
-		cp.setTempData("SwapTimings", swaps);
+//		cp.setTempData("SwapTimings", st);
+		swaps.put(player.getUniqueId(), st);
 
-		if (swaps.size() < SIZE)
+		if (st.size() < SIZE)
 			return;
 
 		double avg = 0;
 
-		double last = swaps.get(swaps.size() - 1);
+		double last = st.get(st.size() - 1);
 
-		for (int i = swaps.size() - 2; i >= 0; i--) {
-			avg += swaps.get(i) - last;
-			last = swaps.get(i);
+		for (int i = st.size() - 2; i >= 0; i--) {
+			avg += st.get(i) - last;
+			last = st.get(i);
 		}
 
 		double deviation = 0;
 
-		last = swaps.get(swaps.size() - 1);
+		last = st.get(st.size() - 1);
 
-		avg /= swaps.size();
+		avg /= st.size();
 
-		for (int i = swaps.size() - 2; i >= 0; i--) {
-			deviation += Math.abs((swaps.get(i) - last) - avg);
-			last = swaps.get(i);
+		for (int i = st.size() - 2; i >= 0; i--) {
+			deviation += Math.abs((st.get(i) - last) - avg);
+			last = st.get(i);
 		}
 
 		if (deviation > 20)

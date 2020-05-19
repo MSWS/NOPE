@@ -1,16 +1,20 @@
 package xyz.msws.anticheat.checks.combat;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.data.CPlayer;
-import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Gets the average velocities of arrows shot within 100 ticks and compares them
@@ -28,6 +32,8 @@ public class FastBow1 implements Check, Listener {
 		return CheckType.COMBAT;
 	}
 
+	private Map<UUID, Double> velocities = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -35,8 +41,7 @@ public class FastBow1 implements Check, Listener {
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				CPlayer cp = plugin.getCPlayer(player);
-				cp.setTempData("fastBowVelocities", 0.0);
+				velocities.put(player.getUniqueId(), 0d);
 			}
 		}, 0, 100);
 	}
@@ -52,15 +57,14 @@ public class FastBow1 implements Check, Listener {
 		Player player = (Player) event.getEntity().getShooter();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.getTempDouble("fastBowVelocities") > 50) {
-			if (plugin.devMode())
-				MSG.tell(player, "&bvelocities: " + cp.getTempDouble("fastBowVelocities"));
-			cp.flagHack(this, (int) (cp.getTempDouble("fastBowVelocities") - 50) * 3);
-		}
+		double v = velocities.getOrDefault(player.getUniqueId(), 0d);
+
+		if (v > 50)
+			cp.flagHack(this, (int) (v - 50) * 3, "Velocities: &e" + v);
 
 		double vel = event.getEntity().getVelocity().lengthSquared();
 
-		cp.setTempData("fastBowVelocities", cp.getTempDouble("fastBowVelocities") + vel);
+		velocities.put(player.getUniqueId(), v + vel);
 	}
 
 	@Override

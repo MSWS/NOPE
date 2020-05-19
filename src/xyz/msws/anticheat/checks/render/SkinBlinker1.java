@@ -1,16 +1,15 @@
 package xyz.msws.anticheat.checks.render;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
-import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
-import xyz.msws.anticheat.protocols.WrapperPlayClientSettings;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -20,6 +19,13 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
+import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.checks.Check;
+import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
+import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.protocols.WrapperPlayClientSettings;
+
 public class SkinBlinker1 implements Check, Listener {
 
 	@Override
@@ -27,7 +33,12 @@ public class SkinBlinker1 implements Check, Listener {
 		return CheckType.RENDER;
 	}
 
+	@SuppressWarnings("unused")
 	private NOPE plugin;
+
+	private Map<UUID, Integer> skinValue = new HashMap<>();
+	private Map<UUID, Long> skinPacket = new HashMap<>();
+	private Map<UUID, Integer> packetAmo = new HashMap<UUID, Integer>();
 
 	@Override
 	public void register(NOPE plugin) throws OperationNotSupportedException {
@@ -42,16 +53,18 @@ public class SkinBlinker1 implements Check, Listener {
 			@Override
 			public void onPacketReceiving(PacketEvent event) {
 				Player player = event.getPlayer();
-				CPlayer cp = SkinBlinker1.this.plugin.getCPlayer(player);
 				PacketContainer packet = event.getPacket();
 				WrapperPlayClientSettings wrapped = new WrapperPlayClientSettings(packet);
 
-				int lastSkin = cp.getTempInteger("lastSkinValue");
+				int lastSkin = skinValue.getOrDefault(player.getUniqueId(), 0);
 				if (lastSkin == wrapped.getDisplayedSkinParts())
 					return;
-				cp.setTempData("lastSkinValue", wrapped.getDisplayedSkinParts());
-				cp.setTempData("lastSettingsPacket", (double) System.currentTimeMillis());
-				cp.setTempData("settingsPackets", cp.getTempInteger("settingsPackets") + 1);
+//				cp.setTempData("lastSkinValue", wrapped.getDisplayedSkinParts());
+				skinValue.put(player.getUniqueId(), wrapped.getDisplayedSkinParts());
+//				cp.setTempData("lastSettingsPacket", (double) System.currentTimeMillis());
+				skinPacket.put(player.getUniqueId(), System.currentTimeMillis());
+//				cp.setTempData("settingsPackets", cp.getTempInteger("settingsPackets") + 1);
+				packetAmo.put(player.getUniqueId(), packetAmo.getOrDefault(player.getUniqueId(), 0) + 1);
 			}
 
 			@Override
@@ -65,12 +78,13 @@ public class SkinBlinker1 implements Check, Listener {
 			public void run() {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(player);
-					if (cp.timeSince("lastMove") > 500 || cp.timeSince("lastOnGround") > 500
-							|| cp.timeSince("lastSettingsPacket") > 200)
+					if (cp.timeSince(Stat.MOVE) > 500 || cp.timeSince(Stat.ON_GROUND) > 500
+							|| System.currentTimeMillis() - skinPacket.getOrDefault(player.getUniqueId(), 0L) > 200)
 						return;
 
-					int packets = cp.getTempInteger("settingsPackets");
-					cp.setTempData("settingsPackets", 0);
+					int packets = packetAmo.getOrDefault(player.getUniqueId(), 0);
+//					cp.setTempData("settingsPackets", 0);
+					packetAmo.put(player.getUniqueId(), 0);
 
 					if (packets <= 20)
 						return;

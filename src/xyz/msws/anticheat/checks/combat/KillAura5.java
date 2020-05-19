@@ -1,15 +1,15 @@
 package xyz.msws.anticheat.checks.combat;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -17,6 +17,11 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+
+import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.checks.Check;
+import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.data.CPlayer;
 
 /**
  * 
@@ -32,6 +37,8 @@ public class KillAura5 implements Check, Listener {
 		return CheckType.COMBAT;
 	}
 
+	private Map<UUID, Location> directions = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) throws UnsupportedOperationException {
 		if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
@@ -44,8 +51,7 @@ public class KillAura5 implements Check, Listener {
 			@Override
 			public void onPacketReceiving(PacketEvent event) {
 				Player player = event.getPlayer();
-				CPlayer cp = KillAura5.this.plugin.getCPlayer(player);
-				cp.setTempData("lastEntityHitDirection", player.getLocation());
+				directions.put(player.getUniqueId(), player.getLocation());
 			}
 
 			@Override
@@ -62,10 +68,12 @@ public class KillAura5 implements Check, Listener {
 		Player player = (Player) event.getDamager();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasTempData("lastEntityHitDirection"))
+//		if (!cp.hasTempData("lastEntityHitDirection"))
+//			return;
+		if (!directions.containsKey(player.getUniqueId()))
 			return;
 
-		Location eLoc = player.getLocation(), packet = cp.getTempData("lastEntityHitDirection", Location.class);
+		Location eLoc = player.getLocation(), packet = directions.get(player.getUniqueId());
 
 		double diff = Math.abs(eLoc.getYaw() - packet.getYaw()) + Math.abs(eLoc.getPitch() - packet.getPitch());
 

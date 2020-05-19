@@ -1,5 +1,9 @@
 package xyz.msws.anticheat.checks.movement;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -7,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -27,6 +32,9 @@ public class AutoWalk1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, Long> lastMove = new HashMap<>();
+	private Map<UUID, Long> lastChat = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -46,9 +54,10 @@ public class AutoWalk1 implements Check, Listener {
 		if (to.getY() < from.getY())
 			return;
 
-		cp.setTempData("lastWalkMove", (double) System.currentTimeMillis());
+//		cp.setTempData("lastWalkMove", (double) System.currentTimeMillis());
+		lastMove.put(player.getUniqueId(), System.currentTimeMillis());
 
-		if (cp.timeSince("lastWalkChat") > 50)
+		if (System.currentTimeMillis() - lastChat.getOrDefault(player.getUniqueId(), 0L) > 50)
 			return;
 		cp.flagHack(this, 20);
 	}
@@ -56,9 +65,8 @@ public class AutoWalk1 implements Check, Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-		if (cp.timeSince("lastWalkMove") < 50)
-			cp.setTempData("lastWalkChat", (double) System.currentTimeMillis());
+		if (System.currentTimeMillis() - lastMove.getOrDefault(player.getUniqueId(), System.currentTimeMillis()) < 50)
+			lastChat.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@Override

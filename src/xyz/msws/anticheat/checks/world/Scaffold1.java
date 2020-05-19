@@ -1,11 +1,16 @@
 package xyz.msws.anticheat.checks.world;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -26,6 +31,8 @@ public class Scaffold1 implements Check, Listener {
 		return CheckType.WORLD;
 	}
 
+	private Map<UUID, Integer> blocks = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -33,8 +40,7 @@ public class Scaffold1 implements Check, Listener {
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				CPlayer cp = plugin.getCPlayer(p);
-				cp.setTempData("scaffoldBlocksPlaced", 0);
+				blocks.put(p.getUniqueId(), 0);
 			}
 		}, 0, 40);
 	}
@@ -52,8 +58,8 @@ public class Scaffold1 implements Check, Listener {
 		if (!player.getLocation().subtract(0, 1, 0).getBlock().equals(placed))
 			return;
 
-		int blocksPlaced = cp.getTempInteger("scaffoldBlocksPlaced");
-		cp.setTempData("scaffoldBlocksPlaced", blocksPlaced + 1);
+		int blocksPlaced = blocks.getOrDefault(player.getUniqueId(), 0);
+		blocks.put(player.getUniqueId(), blocksPlaced + 1);
 
 		if (blocksPlaced <= 5)
 			return;

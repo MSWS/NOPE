@@ -12,11 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
@@ -36,10 +38,10 @@ public class Global implements Listener {
 				if (vlSection == null)
 					continue;
 
-				double lastFlag = cp.timeSince("lastFlag");
+				double lastFlag = cp.timeSince(Stat.FLAGGED);
 
 				int diff = 1;
-				if (cp.hasTempData("lastFlag"))
+				if (cp.hasTempData(Stat.FLAGGED))
 					if (lastFlag > 1.8e+6) {
 						diff = 20;
 					} else if (lastFlag > 600000) {
@@ -76,7 +78,7 @@ public class Global implements Listener {
 		double time = System.currentTimeMillis();
 		boolean onGround = player.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
-		cp.setTempData("lastMove", (double) time);
+		cp.setTempData(Stat.MOVE, (double) time);
 
 		Location from = event.getFrom(), to = event.getTo();
 
@@ -94,30 +96,30 @@ public class Global implements Listener {
 		}
 
 		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
-			cp.setTempData("lastLiquid", (double) time);
+			cp.setTempData(Stat.IN_LIQUID, (double) time);
 
 		if (from.getY() != to.getY())
-			cp.setTempData("lastYChange", (double) time);
+			cp.setTempData(Stat.VERTICAL_CHANGE, (double) time);
 
 		if (onGround) {
-			cp.setTempData("lastOnGround", (double) time);
+			cp.setTempData(Stat.ON_GROUND, (double) time);
 			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid()) {
 				cp.setLastSafeLocation(player.getLocation());
 			}
 		} else {
-			cp.setTempData("lastInAir", (double) time);
+			cp.setTempData(Stat.IN_AIR, (double) time);
 		}
 
 		if (cp.isBlockAbove()) {
 			if (player.getLocation().clone().add(0, -.5, 0).getBlock().getType().toString().contains("ICE") || player
 					.getLocation().clone().subtract(0, .05, 0).getBlock().getType().toString().contains("TRAP")) {
-				cp.setTempData("iceAndTrapdoor", (double) System.currentTimeMillis());
+				cp.setTempData(Stat.ICE_TRAPDOOR, (double) System.currentTimeMillis());
 
 			}
 		}
 
 		if (player.getLocation().clone().subtract(0, 1, 0).getBlock().getType().toString().contains("ICE"))
-			cp.setTempData("lastOnIce", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ON_ICE, (double) System.currentTimeMillis());
 
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
@@ -134,25 +136,25 @@ public class Global implements Listener {
 		}
 
 		if (isBlockNearby)
-			cp.setTempData("lastFlightGrounded", (double) time);
+			cp.setTempData(Stat.FLIGHT_GROUNDED, (double) time);
 
 		if (climbing)
-			cp.setTempData("lastInClimbing", (double) time);
+			cp.setTempData(Stat.CLIMBING, (double) time);
 
 		if (weirdBlock)
-			cp.setTempData("lastWeirdBlock", (double) time);
+			cp.setTempData(Stat.IN_WEIRD_BLOCK, (double) time);
 
 		if (player.isInsideVehicle())
-			cp.setTempData("lastVehicle", (double) time);
+			cp.setTempData(Stat.IN_VEHICLE, (double) time);
 
 		if (player.isFlying() || cp.usingElytra())
-			cp.setTempData("wasFlying", (double) time);
+			cp.setTempData(Stat.FLYING, (double) time);
 
 		if (player.isSprinting())
-			cp.setTempData("lastSprinting", (double) time);
+			cp.setTempData(Stat.SPRINTING, (double) time);
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
-			cp.setTempData("lastHorizontalBlockChange", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.HORIZONTAL_BLOCKCHANGE, (double) System.currentTimeMillis());
 
 		Location vertLine = player.getLocation().clone();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0)
@@ -161,17 +163,17 @@ public class Global implements Listener {
 		Block lowestBlock = vertLine.getBlock();
 
 		if (lowestBlock.getType() == Material.SLIME_BLOCK || lowestBlock.getType() == Material.HONEY_BLOCK)
-			cp.setTempData("lastSlimeBlock", (double) time);
+			cp.setTempData(Stat.ON_SLIMEBLOCK, (double) time);
 
 		if (cp.isRedstoneNearby())
-			cp.setTempData("lastNearbyRedstone", (double) time);
+			cp.setTempData(Stat.NEAR_REDSTONE, (double) time);
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		cp.setTempData("lastBlockPlace", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.BLOCK_PLACE, (double) System.currentTimeMillis());
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -179,12 +181,12 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("toggleFlight", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TOGGLE_FLIGHT, (double) System.currentTimeMillis());
 
 		if (player.isFlying()) {
-			cp.setTempData("disableFlight", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.DISABLE_FLIGHT, (double) System.currentTimeMillis());
 		} else {
-			cp.setTempData("enableFlight", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ENABLE_FLIGHT, (double) System.currentTimeMillis());
 		}
 	}
 
@@ -196,12 +198,12 @@ public class Global implements Listener {
 		Player player = ((Player) event.getEntity());
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("toggleGlide", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TOGGLE_GLIDE, (double) System.currentTimeMillis());
 
 		if (player.isGliding()) {
-			cp.setTempData("disableGlide", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.DISABLE_GLIDE, (double) System.currentTimeMillis());
 		} else {
-			cp.setTempData("enableGlide", (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ENABLE_GLIDE, (double) System.currentTimeMillis());
 		}
 	}
 
@@ -212,7 +214,7 @@ public class Global implements Listener {
 		Player player = ((Player) event.getExited());
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("leaveVehicle", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.LEAVE_VEHICLE, (double) System.currentTimeMillis());
 
 	}
 
@@ -221,7 +223,7 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData("lastTeleport", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TELEPORT, (double) System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -231,7 +233,7 @@ public class Global implements Listener {
 			return;
 		Player player = (Player) ent;
 		CPlayer cp = plugin.getCPlayer(player);
-		cp.setTempData("lastDamageTaken", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.DAMAGE_TAKEN, (double) System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -239,6 +241,25 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setLastSafeLocation(player.getLocation());
-		cp.setTempData("joinTime", (double) System.currentTimeMillis());
+		cp.setTempData(Stat.JOIN_TIME, (double) System.currentTimeMillis());
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent event) {
+		if (!(event.getWhoClicked() instanceof Player))
+			return;
+
+		Player player = (Player) event.getWhoClicked();
+		CPlayer cp = plugin.getCPlayer(player);
+
+		cp.setTempData(Stat.INVENTORY_CLICK, (double) System.currentTimeMillis());
+
+	}
+
+	public enum Stat {
+		DAMAGE_TAKEN, JOIN_TIME, LEAVE_VEHICLE, TELEPORT, TOGGLE_GLIDE, DISABLE_GLIDE, ENABLE_GLIDE, BLOCK_PLACE,
+		NEAR_REDSTONE, ON_SLIMEBLOCK, HORIZONTAL_BLOCKCHANGE, SPRINTING, FLYING, IN_VEHICLE, FLIGHT_GROUNDED, ON_ICE,
+		ICE_TRAPDOOR, VERTICAL_CHANGE, IN_AIR, IN_LIQUID, ON_GROUND, MOVE, FLAGGED, CLIMBING, IN_WEIRD_BLOCK,
+		TOGGLE_FLIGHT, DISABLE_FLIGHT, ENABLE_FLIGHT, INVENTORY_CLICK, OPEN_INVENTORY;
 	}
 }

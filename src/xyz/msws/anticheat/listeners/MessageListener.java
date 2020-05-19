@@ -4,11 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.utils.MSG;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+
+import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.utils.MSG;
 
 public class MessageListener implements PluginMessageListener {
 

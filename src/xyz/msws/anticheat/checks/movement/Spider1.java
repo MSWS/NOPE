@@ -8,9 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -51,10 +53,10 @@ public class Spider1 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince("wasFlying") < 200)
+		if (cp.timeSince(Stat.FLYING) < 200)
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 
 		if (cp.isInClimbingBlock())
@@ -63,16 +65,16 @@ public class Spider1 implements Check, Listener {
 		if (to.getY() < from.getY())
 			return;
 
-		if (cp.timeSince("lastOnGround") < 1000)
+		if (cp.timeSince(Stat.ON_GROUND) < 1000)
 			return;
 
-		if (cp.timeSince("lastLiquid") < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (cp.timeSince("lastBlockPlace") < 1000)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)
 			return;
 
-		if (cp.timeSince("lastInClimbing") < 500)
+		if (cp.timeSince(Stat.CLIMBING) < 500)
 			return;
 
 		if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.HORSE)

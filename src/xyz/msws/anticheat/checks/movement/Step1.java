@@ -9,12 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import com.google.common.collect.Sets;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
-
-import com.google.common.collect.Sets;
 
 /**
  * Checks Y differences and flags if they aren't <i>normal</i>
@@ -50,34 +52,34 @@ public class Step1 implements Check, Listener {
 		if (player.getFallDistance() > 5)
 			return;
 
-		if (cp.timeSince("lastLiquid") < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (cp.timeSince("lastSlimeBlock") < 1000)
+		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 1000)
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 
-		if (cp.timeSince("lastVehicle") < 1000)
+		if (cp.timeSince(Stat.IN_VEHICLE) < 1000)
 			return;
 
-		if (cp.timeSince("toggleGlide") < 500)
+		if (cp.timeSince(Stat.TOGGLE_GLIDE) < 500)
 			return;
 
-		if (cp.timeSince("lastBlockPlace") < 500)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 500)
 			return;
 
-		if (cp.timeSince("lastTeleport") < 500)
+		if (cp.timeSince(Stat.TELEPORT) < 500)
 			return;
 
-		if (cp.timeSince("toggleFlight") < 1000)
+		if (cp.timeSince(Stat.TOGGLE_FLIGHT) < 1000)
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 1500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1500)
 			return;
 
-		if (cp.timeSince("lastInClimbing") < 1000)
+		if (cp.timeSince(Stat.CLIMBING) < 1000)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

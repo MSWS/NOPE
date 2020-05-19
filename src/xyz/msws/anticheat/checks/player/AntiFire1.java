@@ -1,12 +1,18 @@
 package xyz.msws.anticheat.checks.player;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -24,6 +30,8 @@ public class AntiFire1 implements Check {
 		return CheckType.PLAYER;
 	}
 
+	private Map<UUID, Integer> ticks = new HashMap<>();
+
 	private final int RATE = 20;
 
 	@Override
@@ -36,14 +44,15 @@ public class AntiFire1 implements Check {
 						continue;
 					CPlayer cp = plugin.getCPlayer(player);
 
-					int oldFireTicks = cp.getTempInteger("oldFireTicks");
+					int oldFireTicks = ticks.getOrDefault(player.getUniqueId(), 0);
 
-					cp.setTempData("oldFireTicks", player.getFireTicks());
+//					cp.setTempData("oldFireTicks", player.getFireTicks());
+					ticks.put(player.getUniqueId(), player.getFireTicks());
 
 					if (oldFireTicks - player.getFireTicks() <= RATE + 10)
 						continue;
 
-					if (cp.timeSince("lastLiquid") < 500)
+					if (cp.timeSince(Stat.IN_LIQUID) < 500)
 						continue;
 
 					cp.flagHack(AntiFire1.this,

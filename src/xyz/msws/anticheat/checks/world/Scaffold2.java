@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
@@ -10,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -31,6 +35,8 @@ public class Scaffold2 implements Check, Listener {
 		return CheckType.WORLD;
 	}
 
+	private Map<UUID, List<Double>> pitches = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -39,14 +45,10 @@ public class Scaffold2 implements Check, Listener {
 
 	private final int SIZE = 20;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
-		if (avgPitches == null)
-			avgPitches = new ArrayList<>();
+		List<Double> avgPitches = pitches.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		avgPitches.add(0, (double) player.getLocation().getPitch());
 
@@ -54,19 +56,15 @@ public class Scaffold2 implements Check, Listener {
 			avgPitches.remove(i);
 		}
 
-		cp.setTempData("averageScaffoldPitches", avgPitches);
-
+		pitches.put(player.getUniqueId(), avgPitches);
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> avgPitches = (List<Double>) cp.getTempData("averageScaffoldPitches");
-		if (avgPitches == null)
-			return;
+		List<Double> avgPitches = pitches.getOrDefault(player.getUniqueId(), new ArrayList<>());
 		if (avgPitches.size() < SIZE)
 			return;
 

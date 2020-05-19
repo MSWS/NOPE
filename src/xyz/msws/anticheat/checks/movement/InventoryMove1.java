@@ -7,9 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -45,13 +47,13 @@ public class InventoryMove1 implements Check, Listener {
 		if (event.getClick() == ClickType.CREATIVE && event.getAction() == InventoryAction.PLACE_ALL)
 			return;
 
-		if (cp.timeSince("lastTeleport") < 1000)
+		if (cp.timeSince(Stat.TELEPORT) < 1000)
 			return;
-		if (cp.timeSince("lastOnGround") > 100)
+		if (cp.timeSince(Stat.ON_GROUND) > 100)
 			return;
-		if (cp.timeSince("lastLiquid") < 1000)
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
-		if (cp.timeSince("lasstDamageTaken") < 300)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 300)
 			return;
 
 		event.setCancelled(true);

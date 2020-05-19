@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
@@ -21,13 +23,9 @@ import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
-/**
- * Gets the average speed while a player is sneaking and flags if too high
- * 
- * @author imodm
- *
- */
-public class FastSneak1 implements Check, Listener {
+public class GlobalSprint1 implements Check, Listener {
+
+	private final int SIZE = 100;
 
 	private NOPE plugin;
 
@@ -36,15 +34,13 @@ public class FastSneak1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
-	private Map<UUID, List<Double>> distances = new HashMap<>();
-
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int SIZE = 20;
+	private Map<UUID, List<Double>> distances = new HashMap<UUID, List<Double>>();
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
@@ -59,15 +55,6 @@ public class FastSneak1 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (!player.isSneaking())
-			return;
-
-		if (player.isSprinting())
-			return;
-
-		if (cp.timeSince(Stat.SPRINTING) < 200)
-			return;
-
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
@@ -76,58 +63,54 @@ public class FastSneak1 implements Check, Listener {
 
 		Location to = event.getTo(), from = event.getFrom();
 
-		if (to.getY() != from.getY())
-			return;
-
-		Vector moveDiff = to.toVector().subtract(from.toVector()).normalize();
+		Vector moveDiff = to.toVector().subtract(from.toVector());
 		Vector look = player.getLocation().getDirection();
+		Location flatTo = to.clone(), flatFrom = from.clone();
+		flatTo.setY(0);
+		flatFrom.setY(0);
+
+		moveDiff.setY(0);
+		look.setY(0);
+		look.normalize();
+		moveDiff.normalize();
+
 		double diff = moveDiff.distanceSquared(look);
-		if (diff > 2)
+		double dist = flatTo.distanceSquared(flatFrom);
+
+		if (diff < .5)
 			return;
-//		MSG.tell(player, moveDiff.distanceSquared(look) + "");
+//		MSG.tell(player, "&a" + diff);
 
-		double dist = from.distanceSquared(to);
-
-		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<Double>());
+		ds.add(0, dist);
+		ds.subList(0, Math.min(ds.size(), SIZE));
+		distances.put(player.getUniqueId(), ds);
 
 		double avg = 0;
 		for (double d : ds)
 			avg += d;
 
-		avg /= distances.size();
+		avg /= ds.size();
 
-		ds.add(0, dist);
-
-		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
-			ds.remove(i);
-
-//		cp.setTempData("sneakDistances", distances);
-		distances.put(player.getUniqueId(), ds);
-
-		if (distances.size() < SIZE)
+		if (avg < .07)
 			return;
 
-		double min = .0136;
-
-		if (avg < min)
-			return;
-
-		cp.flagHack(this, (int) Math.round((avg / (min - min / 10)) * 20.0) + 5,
-				"Average: &e" + avg + "&7 >= &a" + min + "\n&7Size: &e" + distances.size() + "&7 >= &a" + SIZE);
+		cp.flagHack(this, (int) ((avg - .5) * 20), "Avg: &e" + avg);
 	}
 
 	@Override
 	public String getCategory() {
-		return "FastSneak";
+		return "GlobalSprint";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "FastSneak#1";
+		return getCategory() + "#1";
 	}
 
-	@Override // Don't lag back because this can cause a few false flags
+	@Override
 	public boolean lagBack() {
-		return false;
+		return true;
 	}
+
 }

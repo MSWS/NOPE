@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.movement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,9 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -29,6 +34,8 @@ public class NoSlowDown1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, List<Double>> distances = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -37,7 +44,6 @@ public class NoSlowDown1 implements Check, Listener {
 
 	private final int SIZE = 40;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -45,7 +51,7 @@ public class NoSlowDown1 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince("disableFlight") < 2000)
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
 		if (!player.isBlocking())
@@ -54,29 +60,27 @@ public class NoSlowDown1 implements Check, Listener {
 		if (!player.isOnGround())
 			return;
 
-		if (cp.timeSince("lastLiquid") < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
-		List<Double> distances = (ArrayList<Double>) cp.getTempData("noSlowDistances");
-		if (distances == null)
-			distances = new ArrayList<>();
+		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		double avg = 0;
-		for (double d : distances)
+		for (double d : ds)
 			avg += d;
 
 		avg /= distances.size();
 
-		distances.add(0, dist);
+		ds.add(0, dist);
 
-		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
-			distances.remove(i);
+		for (int i = ds.size() - SIZE; i < ds.size() && i > SIZE; i++)
+			ds.remove(i);
 
-		cp.setTempData("noSlowDistances", distances);
+		distances.put(player.getUniqueId(), ds);
 
 		if (distances.size() < SIZE)
 			return;

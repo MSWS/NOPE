@@ -8,9 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -58,7 +60,7 @@ public class SafeWalk1 implements Check, Listener {
 		if (player.getFallDistance() > 4)
 			return;
 
-		if (cp.timeSince("wasFlying") < 300)
+		if (cp.timeSince(Stat.FLYING) < 300)
 			return;
 
 		double yaw = Math.abs(to.getYaw()) % 90;

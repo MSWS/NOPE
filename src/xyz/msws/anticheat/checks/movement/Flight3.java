@@ -8,9 +8,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -42,22 +44,22 @@ public class Flight3 implements Check, Listener {
 		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || cp.isInClimbingBlock())
 			return;
 
-		if (cp.timeSince("lastDamageTaken") < 2000)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
 			return;
 
-		if (cp.timeSince("wasFlying") < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
-		if (cp.timeSince("lastBlockPlace") < 1000)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)
 			return;
 
-		if (cp.timeSince("lastLiquid") < 1000)
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
 
-		if (cp.timeSince("lastTeleport") < 1000)
+		if (cp.timeSince(Stat.TELEPORT) < 1000)
 			return;
 
-		if (cp.timeSince("lastFlightGrounded") < 500)
+		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
 
 		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
@@ -65,11 +67,10 @@ public class Flight3 implements Check, Listener {
 
 		if (cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
-
-		if (cp.timeSince("lastInClimbing") < 1000) {
-			cp.removeTempData("lastGroundLocation");
-			return;
-		}
+//		if (cp.timeSince(Stat.CLIMBING) < 1000) {
+//			cp.removeTempData("lastGroundLocation");
+//			return;
+//		}
 
 		Location safe = cp.getLastSafeLocation();
 

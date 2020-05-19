@@ -1,13 +1,17 @@
 package xyz.msws.anticheat.checks.tick;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -28,6 +32,9 @@ public class Timer1 implements Check, Listener {
 		return CheckType.TICK;
 	}
 
+	private Map<UUID, List<Double>> rawTimings = new HashMap<>();
+	private Map<UUID, List<Integer>> avgTimings = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -36,14 +43,13 @@ public class Timer1 implements Check, Listener {
 
 	private final int SIZE = 20, AVG_SIZE = 50;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> timings = (ArrayList<Double>) cp.getTempData("timerTimings");
-		List<Integer> averageTimings = (ArrayList<Integer>) cp.getTempData("averageTimings");
+		List<Double> timings = rawTimings.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		List<Integer> averageTimings = avgTimings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		if (timings == null)
 			timings = new ArrayList<>();
@@ -82,8 +88,8 @@ public class Timer1 implements Check, Listener {
 		for (int i = SIZE; i < timings.size(); i++)
 			timings.remove(i);
 
-		cp.setTempData("timerTimings", timings);
-		cp.setTempData("averageTimings", averageTimings);
+		rawTimings.put(player.getUniqueId(), timings);
+		avgTimings.put(player.getUniqueId(), averageTimings);
 	}
 
 	@Override

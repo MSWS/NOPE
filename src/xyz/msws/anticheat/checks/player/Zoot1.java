@@ -1,6 +1,9 @@
 package xyz.msws.anticheat.checks.player;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -33,8 +37,12 @@ public class Zoot1 implements Check, Listener {
 		return CheckType.PLAYER;
 	}
 
+	private Map<UUID, Map<PotionEffectType, Integer>> potionTimes = new HashMap<>();
+	private Map<UUID, Long> reset = new HashMap<>();
+
 	private final int RATE = 20;
 
+	@SuppressWarnings("unused")
 	private NOPE plugin;
 
 	@Override
@@ -50,13 +58,17 @@ public class Zoot1 implements Check, Listener {
 
 					for (PotionEffectType type : PotionEffectType.values()) {
 						int currentTicks = getPotionDuration(player.getActivePotionEffects(), type);
-						int oldPotionTicks = cp.getTempInteger("old" + type + "Ticks");
-						cp.setTempData("old" + type + "Ticks", currentTicks);
+						Map<PotionEffectType, Integer> oldActive = potionTimes.getOrDefault(player.getUniqueId(),
+								new HashMap<>());
+
+						int oldPotionTicks = oldActive.getOrDefault(type, 0);
+						oldActive.put(type, currentTicks);
+						potionTimes.put(player.getUniqueId(), oldActive);
 
 						if (oldPotionTicks - currentTicks <= RATE + 15)
 							continue;
 
-						if (cp.timeSince("lastPotionReset") < 2000)
+						if (System.currentTimeMillis() - reset.getOrDefault(player.getUniqueId(), 0L) < 2000)
 							return;
 
 						cp.flagHack(Zoot1.this, (int) Math.round((oldPotionTicks - currentTicks - (RATE + 15)) / 20));
@@ -77,21 +89,18 @@ public class Zoot1 implements Check, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-
 		ItemStack hand = event.getItem();
 
 		if (hand == null || hand.getType() != Material.MILK_BUCKET)
 			return;
 
-		cp.setTempData("lastPotionReset", (double) System.currentTimeMillis());
+		reset.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@EventHandler
 	public void onDeath(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-		cp.setTempData("lastPotionReset", (double) System.currentTimeMillis());
+		reset.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@Override

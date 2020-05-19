@@ -1,5 +1,10 @@
 package xyz.msws.anticheat.listeners;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,8 +17,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -24,6 +31,11 @@ public class GUIListener implements Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
+
+	private Map<UUID, String> openCheckType = new HashMap<>();
+	private Map<UUID, String> openHackCategory = new HashMap<>();
+
+	private HashSet<UUID> ignore = new HashSet<>();
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
@@ -36,7 +48,7 @@ public class GUIListener implements Listener {
 
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasTempData("openInventory"))
+		if (!cp.hasTempData(Stat.OPEN_INVENTORY))
 			return;
 
 		event.setCancelled(true);
@@ -46,53 +58,62 @@ public class GUIListener implements Listener {
 
 		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
-		switch (cp.getTempString("openInventory")) {
-		case "stats":
-			CheckType type;
-			try {
-				type = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-			} catch (Exception e) {
+		switch (cp.getTempString(Stat.OPEN_INVENTORY)) {
+			case "stats":
+				CheckType type;
+				try {
+					type = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
+				} catch (Exception e) {
+					break;
+				}
+				if (event.getClick() == ClickType.RIGHT) {
+					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
+							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
+					player.openInventory(plugin.getStats().getInventory());
+					cp.setTempData(Stat.OPEN_INVENTORY, "stats");
+					break;
+				}
+				player.openInventory(plugin.getStats().getInventory(type));
+				cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
+//			cp.setTempData("openCheckType", );
+				openCheckType.put(player.getUniqueId(),
+						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
 				break;
-			}
-			if (event.getClick() == ClickType.RIGHT) {
-				plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
-						!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
-				player.openInventory(plugin.getStats().getInventory());
-				cp.setTempData("openInventory", "stats");
+			case "hackType":
+				String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+				if (event.getClick() == ClickType.RIGHT) {
+					plugin.getConfig().set(
+							"Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
+									+ ".Enabled",
+							!plugin.getConfig()
+									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
+											+ hack + ".Enabled"));
+//					cp.setTempData("ignoreInventory", 1);
+					ignore.add(player.getUniqueId());
+					player.openInventory(
+							plugin.getStats().getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+					cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
+					break;
+				}
+//				cp.setTempData("ignoreInventory", 1);
+				ignore.add(player.getUniqueId());
+				player.openInventory(plugin.getStats().getInventory(hack));
+				cp.setTempData(Stat.OPEN_INVENTORY, "hackCategory");
+//				cp.setTempData("openHackCategory", hack);
+				openHackCategory.put(player.getUniqueId(), hack);
 				break;
-			}
-			player.openInventory(plugin.getStats().getInventory(type));
-			cp.setTempData("openInventory", "hackType");
-			cp.setTempData("openCheckType", ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-			break;
-		case "hackType":
-			String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-			if (event.getClick() == ClickType.RIGHT) {
-				plugin.getConfig().set(
-						"Checks." + MSG.camelCase(cp.getTempString("openCheckType")) + "." + hack + ".Enabled",
-						!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(cp.getTempString("openCheckType")) + "."
-								+ hack + ".Enabled"));
-				cp.setTempData("ignoreInventory", 1);
-				player.openInventory(
-						plugin.getStats().getInventory(CheckType.valueOf(cp.getTempString("openCheckType"))));
-				cp.setTempData("openInventory", "hackType");
+			case "hackCategory":
+				String hackCategory = openHackCategory.get(player.getUniqueId());
+				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId()));
+				String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
+						!plugin.getConfig()
+								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
+//				cp.setTempData("ignoreInventory", 1);
+				ignore.add(player.getUniqueId());
+				player.openInventory(plugin.getStats().getInventory(hackCategory));
+				cp.setTempData(Stat.OPEN_INVENTORY, "hackCategory");
 				break;
-			}
-			cp.setTempData("ignoreInventory", 1);
-			player.openInventory(plugin.getStats().getInventory(hack));
-			cp.setTempData("openInventory", "hackCategory");
-			cp.setTempData("openHackCategory", hack);
-			break;
-		case "hackCategory":
-			String hackCategory = cp.getTempString("openHackCategory");
-			String hackType = MSG.camelCase(cp.getTempString("openCheckType"));
-			String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-			plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled", !plugin.getConfig()
-					.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
-			cp.setTempData("ignoreInventory", 1);
-			player.openInventory(plugin.getStats().getInventory(hackCategory));
-			cp.setTempData("openInventory", "hackCategory");
-			break;
 		}
 	}
 
@@ -103,44 +124,44 @@ public class GUIListener implements Listener {
 		Player player = (Player) event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasTempData("openInventory"))
+		if (!cp.hasTempData(Stat.OPEN_INVENTORY))
 			return;
 
-		String inv = cp.getTempString("openInventory");
+		String inv = cp.getTempString(Stat.OPEN_INVENTORY);
 
-		if (cp.getTempInteger("ignoreInventory") > 0) {
-			cp.setTempData("ignoreInventory",
-					cp.getTempInteger("ignoreInventory") == 0 ? 0 : cp.getTempInteger("ignoreInventory") - 1);
+		if (ignore.contains(player.getUniqueId())) {
+			ignore.remove(player.getUniqueId());
 			return;
 		}
 
 		plugin.saveConfig();
 
 		switch (inv) {
-		case "hackType":
-			cp.setTempData("ignoreInventory", 1);
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					player.openInventory(plugin.getStats().getInventory());
-					cp.setTempData("openInventory", "stats");
-				}
-			}.runTaskLater(plugin, 1);
-			return;
-		case "hackCategory":
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					player.openInventory(
-							plugin.getStats().getInventory(CheckType.valueOf(cp.getTempString("openCheckType"))));
-					cp.setTempData("openInventory", "hackType");
-				}
-			}.runTaskLater(plugin, 1);
-			return;
-		default:
-			break;
+			case "hackType":
+//				cp.setTempData("ignoreInventory", 1);
+				ignore.add(player.getUniqueId());
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						player.openInventory(plugin.getStats().getInventory());
+						cp.setTempData(Stat.OPEN_INVENTORY, "stats");
+					}
+				}.runTaskLater(plugin, 1);
+				return;
+			case "hackCategory":
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						player.openInventory(plugin.getStats()
+								.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+						cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
+					}
+				}.runTaskLater(plugin, 1);
+				return;
+			default:
+				break;
 		}
 
-		cp.removeTempData("openInventory");
+		cp.removeTempData(Stat.OPEN_INVENTORY);
 	}
 }

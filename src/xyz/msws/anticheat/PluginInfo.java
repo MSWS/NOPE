@@ -8,13 +8,14 @@ import java.util.Scanner;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Consumer;
-import xyz.msws.anticheat.utils.MSG;
-import xyz.msws.anticheat.utils.Utils;
-import xyz.msws.anticheat.utils.Utils.Age;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import xyz.msws.anticheat.utils.MSG;
+import xyz.msws.anticheat.utils.Utils;
+import xyz.msws.anticheat.utils.Utils.Age;
 
 public class PluginInfo {
 	private final int id;

@@ -27,9 +27,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import xyz.msws.anticheat.NOPE;
 
 import com.google.common.collect.Sets;
+
+import xyz.msws.anticheat.NOPE;
 
 public class Utils {
 	public static NOPE plugin;

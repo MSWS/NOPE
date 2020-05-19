@@ -1,16 +1,21 @@
 package xyz.msws.anticheat.checks.tick;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -28,6 +33,8 @@ public class Timer2 implements Check, Listener {
 		return CheckType.TICK;
 	}
 
+	private Map<UUID, List<Double>> timings = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -36,7 +43,6 @@ public class Timer2 implements Check, Listener {
 
 	private final int SAMPLE_SIZE = 150;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -48,24 +54,22 @@ public class Timer2 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince("wasFlying") < 1000)
-			return;
-		
-		if (cp.timeSince("lastOnIce") < 1000)
+		if (cp.timeSince(Stat.FLYING) < 1000)
 			return;
 
-		List<Double> horizontalTimings = (List<Double>) cp.getTempData("timer2BlockTimings");
+		if (cp.timeSince(Stat.ON_ICE) < 1000)
+			return;
+
+		List<Double> horizontalTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		if (horizontalTimings == null)
 			horizontalTimings = new ArrayList<>();
 
-		if (cp.timeSince("lastTeleport") > 500)
-			horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
+		if (cp.timeSince(Stat.TELEPORT) > 500)
+			horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
 
 		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++)
 			horizontalTimings.remove(i);
-
-		cp.setTempData("timer2BlockTimings", horizontalTimings);
 
 		if (horizontalTimings.size() < SAMPLE_SIZE)
 			return;
@@ -80,8 +84,8 @@ public class Timer2 implements Check, Listener {
 		if (avg > 85)
 			return;
 
-		horizontalTimings.add(0, cp.timeSince("lastHorizontalBlockChange"));
-		cp.setTempData("timer2BlockTimings", horizontalTimings);
+		horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
+		timings.put(player.getUniqueId(), horizontalTimings);
 		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5, "Avg: &e" + avg + "&7 <= &a85");
 	}
 

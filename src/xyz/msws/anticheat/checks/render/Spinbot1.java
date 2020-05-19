@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.render;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -10,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -31,6 +35,8 @@ public class Spinbot1 implements Check, Listener {
 		return CheckType.RENDER;
 	}
 
+	private Map<UUID, List<Double>> yaws = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -39,7 +45,6 @@ public class Spinbot1 implements Check, Listener {
 
 	private final int SIZE = 40;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -55,23 +60,24 @@ public class Spinbot1 implements Check, Listener {
 		if (diff == 0)
 			return;
 
-		List<Double> yaws = (List<Double>) cp.getTempData("spinbotYaws");
+		List<Double> ys = yaws.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		if (yaws == null)
-			yaws = new ArrayList<>();
+		if (ys == null)
+			ys = new ArrayList<>();
 
-		yaws.add(0, diff);
+		ys.add(0, diff);
 
-		for (int i = SIZE; i < yaws.size(); i++) {
-			yaws.remove(i);
+		for (int i = SIZE; i < ys.size(); i++) {
+			ys.remove(i);
 		}
 
-		cp.setTempData("spinbotYaws", yaws);
+//		cp.setTempData("spinbotYaws", ys);
+		yaws.put(player.getUniqueId(), ys);
 
-		if (yaws.size() < SIZE)
+		if (ys.size() < SIZE)
 			return;
 
-		int amo = yaws.stream().filter((val) -> val == diff).collect(Collectors.toList()).size();
+		int amo = ys.stream().filter((val) -> val == diff).collect(Collectors.toList()).size();
 
 		if (amo < SIZE / 2)
 			return;

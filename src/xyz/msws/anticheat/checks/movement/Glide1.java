@@ -1,16 +1,21 @@
 package xyz.msws.anticheat.checks.movement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -31,68 +36,71 @@ public class Glide1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, List<Double>> fallDistances = new HashMap<>();
+	private Map<UUID, Double> lastFall = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (player.isOnGround() || player.isFlying())
-			cp.removeTempData("FallDistances");
+			fallDistances.remove(player.getUniqueId());
 
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
-		if (cp.timeSince("wasFlying") < 500)
+		if (cp.timeSince(Stat.FLYING) < 500)
 			return;
 
-		if (cp.timeSince("lastOnGround") < 500 || cp.timeSince("lastFlightGrounded") < 500)
+		if (cp.timeSince(Stat.ON_GROUND) < 500 || cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
 
-		if (cp.timeSince("lastLiquid") < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 
 		if (fallDist == 0 || player.getFallDistance() == 0) {
-			cp.removeTempData("previousFall");
+//			cp.removeTempData("previousFall");
+			lastFall.remove(player.getUniqueId());
 			return;
 		}
 
-		if (!cp.hasTempData("previousFall")) {
-			cp.setTempData("previousFall", fallDist);
+		if (!lastFall.containsKey(player.getUniqueId())) {
+//			cp.setTempData("previousFall", fallDist);
+			lastFall.put(player.getUniqueId(), fallDist);
 			return;
 		}
 
-		double previousFall = cp.getTempDouble("previousFall");
+		double previousFall = lastFall.get(player.getUniqueId());
 		double diff = fallDist - previousFall;
 
-		List<Double> fallDistances = (List<Double>) cp.getTempData("FallDistances");
-		if (fallDistances == null)
-			fallDistances = new ArrayList<>();
+		List<Double> fs = fallDistances.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		fallDistances.add(0, diff);
+		fs.add(0, diff);
 
-		if (fallDistances.size() > SIZE) {
-			fallDistances = fallDistances.subList(0, SIZE);
+		if (fs.size() > SIZE) {
+			fs = fs.subList(0, SIZE);
 		}
 
-		cp.setTempData("FallDistances", fallDistances);
+//		cp.setTempData("FallDistances", fallDistances);
+		fallDistances.put(player.getUniqueId(), fs);
 
 		if (fallDistances.size() < SIZE)
 			return;
 
 		double avg = 0;
-		for (double d : fallDistances)
+		for (double d : fs)
 			avg += d;
 
-		avg /= fallDistances.size();
+		avg /= fs.size();
 
 		if (avg > 0)
 			return;

@@ -5,9 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.utils.MSG;
-import xyz.msws.anticheat.utils.Utils.Age;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -15,6 +12,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.utils.MSG;
+import xyz.msws.anticheat.utils.Utils.Age;
 
 public class UpdateCheckerListener implements Listener {
 

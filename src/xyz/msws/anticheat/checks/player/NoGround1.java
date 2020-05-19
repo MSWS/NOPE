@@ -8,9 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -48,10 +50,10 @@ public class NoGround1 implements Check, Listener {
 		if (cp.isOnGround())
 			return;
 
-		if (cp.timeSince("lastBlockPlace") < 1500)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1500)
 			return;
 
-		if (cp.timeSince("wasFlying") < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
 		if (player.getNearbyEntities(1, 2, 1).stream().anyMatch((entity) -> entity instanceof Boat))

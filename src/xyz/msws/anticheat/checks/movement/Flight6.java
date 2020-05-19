@@ -1,11 +1,16 @@
 package xyz.msws.anticheat.checks.movement;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -13,8 +18,7 @@ import xyz.msws.anticheat.data.CPlayer;
 
 /**
  * 
- * Checks if the player's last ongrond position is too low and too far away
- * <i>conveniently</i> also checks Jesus
+ * Checks vehicle flight
  * 
  * @author imodm
  * 
@@ -27,6 +31,8 @@ public class Flight6 implements Check, Listener {
 	public CheckType getType() {
 		return CheckType.MOVEMENT;
 	}
+
+	private Map<UUID, Long> vehicleGround = new HashMap<>();
 
 	@Override
 	public void register(NOPE plugin) {
@@ -43,14 +49,17 @@ public class Flight6 implements Check, Listener {
 			return;
 
 		Entity vehicle = player.getVehicle();
-		if (vehicle.isOnGround())
-			cp.setTempData("lastVehicleGrounded", (double) System.currentTimeMillis());
+		if (vehicle.isOnGround()) {
+			vehicleGround.put(player.getUniqueId(), System.currentTimeMillis());
+			return;
+		}
 		if (player.getLocation().getBlock().isLiquid())
 			return;
 		double yDiff = event.getTo().getY() - event.getFrom().getY();
 
 		if (yDiff < 0) {
-			if (cp.timeSince("lastVehicleGrounded") < 1000)
+			if (System.currentTimeMillis()
+					- vehicleGround.getOrDefault(player.getUniqueId(), System.currentTimeMillis()) < 1000)
 				return;
 			if (yDiff < -.1)
 				return;

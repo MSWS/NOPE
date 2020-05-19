@@ -1,7 +1,9 @@
 package xyz.msws.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,16 +12,19 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks non-jumping speed
+ * Checks if a player's Y differences are too similar
  * 
  * @author imodm
+ * 
+ *         TODO rewrite - buggy while a player is jumping on lilypads doesn't do
+ *         average, merely counts up until max size, very unintentional and
+ *         poorly written
  *
  */
-public class Speed1 implements Check, Listener {
+public class Jesus2 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -38,44 +43,38 @@ public class Speed1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (player.getLocation().getBlock().getType() != Material.AIR)
+			return;
+
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
-			return;
-		if (cp.isRedstoneNearby())
-			return;
-		if (cp.hasMovementRelatedPotion())
+		if (!player.getLocation().getBlock().getRelative(BlockFace.DOWN).isLiquid())
 			return;
 
-		Location to = event.getTo(), from = event.getFrom();
-		if (to.getY() != from.getY())
+		if (event.getTo().getY() != event.getFrom().getY())
 			return;
 
-		if (cp.timeSince(Stat.VERTICAL_CHANGE) < 1000)
-			return;
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				Block b = player.getLocation().clone().add(x, -.09375, z).getBlock();
+				if (b.getType().isSolid() || b.getType() == Material.LILY_PAD)
+					return;
+			}
+		}
 
-		double dist = to.distanceSquared(from);
-
-//		if (dist <= .08199265663630222)
-//			return;
-
-		double max = .1300168;
-
-		if (dist <= max)
-			return;
-
-		cp.flagHack(this, (int) Math.round((dist - max) * 20) + 5, "&7Dist: &e" + dist + "&7 > &a" + max);
+		cp.flagHack(this, 30);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Speed";
+		return "Jesus";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Speed#1";
+		return getCategory() + "#2";
 	}
 
 	@Override

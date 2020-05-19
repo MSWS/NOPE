@@ -1,8 +1,11 @@
 package xyz.msws.anticheat.checks.combat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -36,20 +40,18 @@ public class KillAura2 implements Check, Listener {
 		this.plugin = plugin;
 	}
 
-	@SuppressWarnings("unchecked")
+	private Map<UUID, List<Double>> yaws = new HashMap<>();
+
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
 
 		double yawDiff = Math.abs(Math.abs(event.getTo().getYaw()) - Math.abs(event.getFrom().getYaw()));
 
 		if (yawDiff < 30)
 			return;
 
-		List<Double> fastTimings = (List<Double>) cp.getTempData("killAuraYawTimings");
-		if (fastTimings == null)
-			fastTimings = new ArrayList<>();
+		List<Double> fastTimings = yaws.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		fastTimings.add((double) System.currentTimeMillis());
 
@@ -61,10 +63,9 @@ public class KillAura2 implements Check, Listener {
 				it.remove();
 			}
 		}
-		cp.setTempData("killAuraYawTimings", fastTimings);
+		yaws.put(player.getUniqueId(), fastTimings);
 	}
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
@@ -72,9 +73,7 @@ public class KillAura2 implements Check, Listener {
 		Player player = (Player) event.getDamager();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> fastTimings = (List<Double>) cp.getTempData("killAuraYawTimings");
-		if (fastTimings == null)
-			return;
+		List<Double> fastTimings = yaws.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		Iterator<Double> it = fastTimings.iterator();
 

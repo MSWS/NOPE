@@ -1,5 +1,11 @@
 package xyz.msws.anticheat.checks.render;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -7,6 +13,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -16,8 +30,6 @@ import xyz.msws.anticheat.data.CPlayer;
  * Checks if a player hasn't sent a swing packet before interaction event
  * 
  * @author imodm
- * 
- * @deprecated
  *
  */
 public class NoSwing1 implements Check, Listener {
@@ -29,9 +41,33 @@ public class NoSwing1 implements Check, Listener {
 		return CheckType.RENDER;
 	}
 
+	private Map<UUID, Long> swung = new HashMap<>();
+
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
+
+		if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			throw new OperationNotSupportedException("ProtocolLib is not enabled");
+		this.plugin = plugin;
+
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL,
+				PacketType.Play.Client.ARM_ANIMATION) {
+			@Override
+			public void onPacketReceiving(PacketEvent event) {
+				Player player = event.getPlayer();
+				swung.put(player.getUniqueId(), System.currentTimeMillis());
+			}
+
+			@Override
+			public void onPacketSending(PacketEvent event) {
+			}
+		};
+		manager.addPacketListener(adapter);
+
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -49,10 +85,11 @@ public class NoSwing1 implements Check, Listener {
 		if (event.getAction() == Action.PHYSICAL)
 			return;
 
-		if (cp.timeSince("lastSwing") < 1000)
+		if (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L) < 400)
 			return;
 
-		cp.flagHack(this, 50, "LastSwing: &e" + cp.timeSince("lastSwing") + "&7 >= &a1000");
+		cp.flagHack(this, 50, "LastSwing: &e"
+				+ (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L)) + "&7 >= &a400");
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.movement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -11,9 +14,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -32,6 +37,8 @@ public class ClonedMovement1 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, List<Double>> distances = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -40,7 +47,6 @@ public class ClonedMovement1 implements Check, Listener {
 
 	private final int SIZE = 20;
 
-	@SuppressWarnings({ "unchecked" })
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -51,9 +57,9 @@ public class ClonedMovement1 implements Check, Listener {
 			return;
 		if (cp.isBlockNearby(Material.COBWEB))
 			return;
-		if (cp.timeSince("lastBlockPlace") < 500)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 500)
 			return;
-		if (cp.timeSince("lastTeleported") < 1000)
+		if (cp.timeSince(Stat.TELEPORT) < 1000)
 			return;
 
 		if (player.isOnGround())
@@ -61,7 +67,7 @@ public class ClonedMovement1 implements Check, Listener {
 
 		Location from = event.getFrom(), to = event.getTo();
 
-		if (cp.timeSince("lastHorizontalBlockChange") > 500)
+		if (cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE) > 500)
 			return;
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
@@ -72,18 +78,16 @@ public class ClonedMovement1 implements Check, Listener {
 		if (player.getLocation().getBlock().getType() == Material.COBWEB && dist <= 0.06586018003872596)
 			return;
 
-		List<Double> distances = (ArrayList<Double>) cp.getTempData("teleportDistances");
-		if (distances == null)
-			distances = new ArrayList<>();
+		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		int amo = distances.stream().filter((val) -> val == dist).collect(Collectors.toList()).size();
+		int amo = ds.stream().filter((val) -> val == dist).collect(Collectors.toList()).size();
 
-		distances.add(0, dist);
+		ds.add(0, dist);
 
 		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
-			distances.remove(i);
+			ds.remove(i);
 
-		cp.setTempData("teleportDistances", distances);
+		distances.put(player.getUniqueId(), ds);
 
 		if (amo < SIZE / 4)
 			return;

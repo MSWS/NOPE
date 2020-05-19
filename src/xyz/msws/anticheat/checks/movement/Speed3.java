@@ -1,7 +1,10 @@
 package xyz.msws.anticheat.checks.movement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,9 +13,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -30,6 +35,8 @@ public class Speed3 implements Check, Listener {
 		return CheckType.MOVEMENT;
 	}
 
+	private Map<UUID, List<Double>> distances = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -38,7 +45,6 @@ public class Speed3 implements Check, Listener {
 
 	private final int SIZE = 15;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -46,15 +52,15 @@ public class Speed3 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince("disableFlight") < 2000)
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
-		if (cp.timeSince("iceAndTrapdoor") < 1000)
+		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
-		if (cp.timeSince("disableElytra") < 1000)
+		if (cp.timeSince(Stat.DISABLE_GLIDE) < 1000)
 			return;
-		if (cp.timeSince("lastDamageTaken") < 1000)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
 			return;
 		if (cp.usingElytra())
 			return;
@@ -66,27 +72,25 @@ public class Speed3 implements Check, Listener {
 
 		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
 
-		List<Double> distances = (List<Double>) cp.getTempData("speedDistances");
-		if (distances == null)
-			distances = new ArrayList<>();
+		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		distances.add(0, dist);
+		ds.add(0, dist);
 
-		for (int i = SIZE; i < distances.size(); i++) {
-			distances.remove(i);
+		for (int i = SIZE; i < ds.size(); i++) {
+			ds.remove(i);
 		}
 
-		cp.setTempData("speedDistances", distances);
+		distances.put(player.getUniqueId(), ds);
 
-		if (distances.size() < SIZE)
+		if (ds.size() < SIZE)
 			return;
 
 		double avg = 0;
 
-		for (double d : distances)
+		for (double d : ds)
 			avg += d;
 
-		avg /= distances.size();
+		avg /= ds.size();
 
 		double max = .5575286;
 

@@ -67,7 +67,7 @@ public class NOPE extends JavaPlugin {
 
 		switch (config.getString("ConfigVersion", "")) {
 			case "1.3.1":
-				MSG.log("You are using an up-to-date config.");
+				MSG.log("You are using an outdated config, certain checks will be logged as disabled.");
 				break;
 			default:
 				MSG.warn("Your config version is unknown, it is strongly recommended you reset your config.");

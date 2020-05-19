@@ -6,9 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -39,15 +41,15 @@ public class Speed2 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince("disableFlight") < 2000)
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
-		if (cp.timeSince("iceAndTrapdoor") < 1000)
+		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
 			return;
-		if (cp.timeSince("leaveVehicle") < 100)
+		if (cp.timeSince(Stat.LEAVE_VEHICLE) < 500)
 			return;
-		if (cp.timeSince("lastDamageTaken") < 200)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 200)
 			return;
-		if (cp.timeSince("lastSlimeBlock") < 1000)
+		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 1000)
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;

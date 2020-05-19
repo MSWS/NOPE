@@ -1,5 +1,9 @@
 package xyz.msws.anticheat.checks.player;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,6 +14,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
@@ -30,6 +35,8 @@ public class FastEat1 implements Check, Listener {
 		return CheckType.PLAYER;
 	}
 
+	private Map<UUID, Long> start = new HashMap<>();
+
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
@@ -46,7 +53,6 @@ public class FastEat1 implements Check, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
 		ItemStack hand = player.getInventory().getItemInMainHand();
 		if (hand == null || hand.getType() == Material.AIR)
 			return;
@@ -56,7 +62,7 @@ public class FastEat1 implements Check, Listener {
 		if (!isFood(hand.getType()))
 			return;
 
-		cp.setTempData("foodStartEating", (double) System.currentTimeMillis());
+		start.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -72,7 +78,8 @@ public class FastEat1 implements Check, Listener {
 		if (player.hasPotionEffect(PotionEffectType.SATURATION))
 			return;
 
-		double diff = cp.timeSince("foodStartEating");
+//		double diff = cp.timeSince("foodStartEating");
+		long diff = System.currentTimeMillis() - start.getOrDefault(player.getUniqueId(), 0L);
 
 		if (diff > 1400)
 			return;

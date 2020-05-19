@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
@@ -44,7 +45,7 @@ public class Flight1 implements Check, Listener {
 			return;
 		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
 			return;
-		if (cp.timeSince("lastLiquid") < 400)
+		if (cp.timeSince(Stat.IN_LIQUID) < 400)
 			return;
 
 		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
@@ -58,11 +59,11 @@ public class Flight1 implements Check, Listener {
 		if (cp.isBlockNearby(Material.COBWEB))
 			return;
 
-		if (cp.timeSince("lastOnGround") <= 300)
+		if (cp.timeSince(Stat.ON_GROUND) <= 300)
 			return;
-		if (cp.timeSince("lastBlockPlace") < 1500)
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1500)
 			return;
-		if (cp.timeSince("lastDamageTaken") < 500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 
 		if (player.getVelocity().getY() > 0)
