@@ -70,6 +70,7 @@ import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
 import xyz.msws.anticheat.checks.tick.Blink1;
 import xyz.msws.anticheat.checks.tick.Timer1;
+import xyz.msws.anticheat.checks.world.AutoBuild1;
 import xyz.msws.anticheat.checks.world.FastBreak1;
 import xyz.msws.anticheat.checks.world.IllegalBlockBreak1;
 import xyz.msws.anticheat.checks.world.IllegalBlockPlace1;
@@ -99,7 +100,7 @@ public class Checks {
 				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new ChestStealer1(), new AntiFire1(),
 				new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
 				new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura7(), new Glide1(), new BHop1(),
-				new GhostHand2(), new GlobalSprint1(), new Jesus2()));
+				new GhostHand2(), new GlobalSprint1(), new Jesus2(), new AutoBuild1()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura5(), new SkinBlinker1(), new NoSwing1()));

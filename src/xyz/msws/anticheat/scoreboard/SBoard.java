@@ -77,6 +77,8 @@ public class SBoard {
 					CPlayer cp = plugin.getCPlayer(player);
 
 //					int highVl = cp.getSaveInteger("vls." + cp.getHighestHack());
+					if (cp.getHighestHack() == null)
+						continue;
 					int highVl = cp.getSaveData("vls." + cp.getHighestHack(), Integer.class);
 
 					/*

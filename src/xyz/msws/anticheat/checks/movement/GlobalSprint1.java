@@ -92,7 +92,7 @@ public class GlobalSprint1 implements Check, Listener {
 
 		avg /= ds.size();
 
-		if (avg < .07)
+		if (avg < .5)
 			return;
 
 		cp.flagHack(this, (int) ((avg - .5) * 20), "Avg: &e" + avg);

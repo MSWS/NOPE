@@ -12,8 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +23,7 @@ import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.protocols.WrapperPlayServerSetSlot;
 
 /**
  * Every so often, removes a player's armor piece and sees if they near
@@ -40,7 +41,7 @@ public class AutoArmor1 implements Check, Listener {
 		return CheckType.COMBAT;
 	}
 
-	private final int CHECK_EVERY = 600, WAIT_FOR = 1;
+	private final int CHECK_EVERY = 200, WAIT_FOR = 1;
 
 	@Override
 	public void register(NOPE plugin) {
@@ -57,10 +58,10 @@ public class AutoArmor1 implements Check, Listener {
 			public void run() {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					CPlayer cp = plugin.getCPlayer(target);
-					if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
+					if (cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE) > 1000) // If the player is spam clicking within their
+						// inventory
 						continue;
-					if (cp.timeSince(Stat.INVENTORY_CLICK) < 500) // If the player is spam clicking within their
-																	// inventory
+					if (cp.timeSince(Stat.ON_GROUND) > 2000)
 						continue;
 					Inventory inv = target.getInventory();
 					List<Integer> opens = new ArrayList<>();
@@ -72,29 +73,22 @@ public class AutoArmor1 implements Check, Listener {
 					if (opens.size() <= 3)
 						continue;
 					int open = opens.get(ThreadLocalRandom.current().nextInt(opens.size()));
-					EntityEquipment equipment = target.getEquipment();
-					if (equipment.getArmorContents() == null)
-						continue;
-					for (int i = 0; i < equipment.getArmorContents().length; i++) {
-						ItemStack armor = equipment.getArmorContents()[i];
-						if (armor == null || armor.getType() == Material.AIR)
-							continue;
-						ItemStack[] newArmor = equipment.getArmorContents(), oldArmor = newArmor.clone();
-						newArmor[i] = new ItemStack(Material.AIR);
-						equipment.setArmorContents(newArmor);
-						inv.setItem(open, armor);
-						slot.put(target.getUniqueId(), open);
-						new BukkitRunnable() {
-							@Override
-							public void run() {
-								inv.setItem(slot.get(target.getUniqueId()), new ItemStack(Material.AIR));
-								target.getEquipment().setArmorContents(oldArmor);
-//								cp.removeTempData("autoArmorSlot");
-								slot.remove(target.getUniqueId());
-							}
-						}.runTaskLater(plugin, WAIT_FOR);
-						break;
-					}
+
+					WrapperPlayServerSetSlot packet = new WrapperPlayServerSetSlot();
+					packet.setSlot(open);
+					packet.setSlotData(new ItemStack(Material.DIAMOND_HELMET));
+					packet.sendPacket(target);
+					slot.put(target.getUniqueId(), open);
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							WrapperPlayServerSetSlot packet = new WrapperPlayServerSetSlot();
+							packet.setSlot(open);
+							packet.setSlotData(new ItemStack(Material.AIR));
+							packet.sendPacket(target);
+							slot.remove(target.getUniqueId());
+						}
+					}.runTaskLater(plugin, WAIT_FOR);
 				}
 			}
 		};
@@ -115,8 +109,10 @@ public class AutoArmor1 implements Check, Listener {
 			return;
 
 		event.setCancelled(true);
+		event.setResult(Result.DENY);
+		event.setCurrentItem(new ItemStack(Material.AIR));
 		runCheck().runTaskLater(plugin, ThreadLocalRandom.current().nextInt(10 * 20, 30 * 20));
-		cp.flagHack(this, 100);
+		cp.flagHack(this, 50);
 	}
 
 	@Override
