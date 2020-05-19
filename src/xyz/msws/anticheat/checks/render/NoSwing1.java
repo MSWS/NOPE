@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -96,6 +97,14 @@ public class NoSwing1 implements Check, Listener {
 						+ (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L)) + "&7 >= &a400");
 			}
 		}.runTaskLater(plugin, 1);
+	}
+
+	@EventHandler
+	public void onPlayerCanBuild(BlockCanBuildEvent event) {
+		Player player = event.getPlayer();
+		if (event.isBuildable())
+			return;
+		swung.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
 	@Override
