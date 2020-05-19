@@ -380,7 +380,7 @@ public class MSG {
 		vl = Math.min(vl, maxVl);
 		List<String> colors = plugin.getConfig().getStringList("VlColors");
 		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size()));
-		String color = colors.get(Math.min(index, colors.size() - 1));
+		String color = colors.get(Math.max(Math.min(index, colors.size() - 1), 0));
 
 		return color;
 	}

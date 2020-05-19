@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -85,11 +86,16 @@ public class NoSwing1 implements Check, Listener {
 		if (event.getAction() == Action.PHYSICAL)
 			return;
 
-		if (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L) < 400)
-			return;
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L) < 400)
+					return;
 
-		cp.flagHack(this, 50, "LastSwing: &e"
-				+ (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L)) + "&7 >= &a400");
+				cp.flagHack(NoSwing1.this, 50, "LastSwing: &e"
+						+ (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L)) + "&7 >= &a400");
+			}
+		}.runTaskLater(plugin, 1);
 	}
 
 	@Override

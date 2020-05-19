@@ -15,10 +15,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks average "lag ticks" and flags erroneous behavior
+ * Checks distance over certain amount of time
  * 
  * @author imodm
  *
@@ -32,8 +33,7 @@ public class Timer1 implements Check, Listener {
 		return CheckType.TICK;
 	}
 
-	private Map<UUID, List<Double>> rawTimings = new HashMap<>();
-	private Map<UUID, List<Integer>> avgTimings = new HashMap<>();
+	private Map<UUID, List<Double>> timings = new HashMap<>();
 
 	@Override
 	public void register(NOPE plugin) {
@@ -41,55 +41,50 @@ public class Timer1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int SIZE = 20, AVG_SIZE = 50;
+	private final int SAMPLE_SIZE = 150;
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+		if (player.isInsideVehicle())
+			return;
 
-		List<Double> timings = rawTimings.getOrDefault(player.getUniqueId(), new ArrayList<>());
-		List<Integer> averageTimings = avgTimings.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		if (cp.hasMovementRelatedPotion())
+			return;
 
-		if (timings == null)
-			timings = new ArrayList<>();
+		if (cp.timeSince(Stat.FLYING) < 1000)
+			return;
 
-		if (averageTimings == null)
-			averageTimings = new ArrayList<>();
+		if (cp.timeSince(Stat.ON_ICE) < 1000)
+			return;
 
-		int lagTicks = 0;
+		List<Double> horizontalTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		if (timings.size() >= SIZE) {
-			double last = System.currentTimeMillis();
-			for (double d : timings) {
-				double diff = last - d;
-				if (diff == 0)
-					lagTicks++;
-				last = d;
-			}
-			if (averageTimings.size() >= AVG_SIZE) {
-				double avg = 0;
-				for (double time : averageTimings)
-					avg += time;
-				avg /= averageTimings.size();
+		if (cp.timeSince(Stat.TELEPORT) > 500)
+			horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
 
-				if (Math.round(lagTicks - avg) > 6) {
-					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 2, "&7Lag\n&7 Avg: &e" + avg
-							+ "\n&7 Current: &e" + lagTicks + "\n\n&7TPS: &e" + plugin.getTPS());
-				}
-			}
-			averageTimings.add(0, lagTicks);
-			for (int i = AVG_SIZE; i < averageTimings.size(); i++)
-				averageTimings.remove(i);
-		}
+		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++)
+			horizontalTimings.remove(i);
 
-		timings.add(0, (double) System.currentTimeMillis());
+		timings.put(player.getUniqueId(), horizontalTimings);
 
-		for (int i = SIZE; i < timings.size(); i++)
-			timings.remove(i);
+		if (horizontalTimings.size() < SAMPLE_SIZE)
+			return;
 
-		rawTimings.put(player.getUniqueId(), timings);
-		avgTimings.put(player.getUniqueId(), averageTimings);
+		double avg = 0;
+
+		for (double d : horizontalTimings)
+			avg += d;
+
+		avg /= horizontalTimings.size();
+
+		if (avg > 85)
+			return;
+
+		horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
+		timings.put(player.getUniqueId(), horizontalTimings);
+		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5, "Avg: &e" + avg + "&7 <= &a85");
 	}
 
 	@Override
@@ -99,11 +94,11 @@ public class Timer1 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "Timer#1";
+		return getCategory() + "#1";
 	}
 
 	@Override
 	public boolean lagBack() {
-		return false;
+		return true;
 	}
 }

@@ -68,8 +68,8 @@ import xyz.msws.anticheat.checks.render.InvalidMovement1;
 import xyz.msws.anticheat.checks.render.NoSwing1;
 import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
+import xyz.msws.anticheat.checks.tick.Blink1;
 import xyz.msws.anticheat.checks.tick.Timer1;
-import xyz.msws.anticheat.checks.tick.Timer2;
 import xyz.msws.anticheat.checks.world.FastBreak1;
 import xyz.msws.anticheat.checks.world.IllegalBlockBreak1;
 import xyz.msws.anticheat.checks.world.IllegalBlockPlace1;
@@ -90,8 +90,8 @@ public class Checks {
 		activeChecks = new ArrayList<Check>();
 
 		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
-				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Timer1(),
-				new Timer2(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
+				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Blink1(),
+				new Timer1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
 				new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
 				new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
 				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
