@@ -37,6 +37,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.Global.Stat;
+import xyz.msws.anticheat.events.PlayerFlagEvent;
 import xyz.msws.anticheat.checks.Timing;
 import xyz.msws.anticheat.utils.MSG;
 //import xyz.msws.punish.managers.BanManager;
@@ -206,6 +207,12 @@ public class CPlayer {
 		return cast.cast(getTempData(id));
 	}
 
+	public <T> T getTempData(Stat id, Class<T> cast, T def) {
+		if (getTempData(id) == null)
+			return def;
+		return cast.cast(getTempData(id));
+	}
+
 	public int getTotalVL() {
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
@@ -256,6 +263,11 @@ public class CPlayer {
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
+			return;
+
+		PlayerFlagEvent pfe = new PlayerFlagEvent(this, check);
+		Bukkit.getPluginManager().callEvent(pfe);
+		if (pfe.isCancelled())
 			return;
 
 		if (!check.getDebugName().equals("ManuallyIssued")) {
@@ -415,19 +427,22 @@ public class CPlayer {
 		if (!plugin.getConfig().getString("Log", "NONE").equalsIgnoreCase("NONE"))
 			saveLog(check, timing, token);
 
-		plugin.getStats().addBan();
-
 		removeSaveData("log");
-//		removeTempData("autoClickerTimes"); TODO
 
 		if (plugin.devMode()) {
 			clearVls();
 			return;
 		}
 
+		plugin.getStats().addBan();
+
 		removeSaveData("isBanwaved");
 
 		long time = 0;
+
+		int vl = getSaveData("vls." + check, Integer.class);
+
+		clearVls();
 
 		if (plugin.getConfig().getBoolean("UseBanManager")) {
 			ConfigurationSection durations = plugin.getConfig().getConfigurationSection("BanDurations");
@@ -444,23 +459,20 @@ public class CPlayer {
 			else
 				format = format.replace("%duration%", MSG.getTime(time));
 
-			format = placeholder(format, player, check, token, timing);
+			format = placeholder(format, player, check, token, timing, vl);
 			plugin.getBanManager().ban(player.getUniqueId(), MSG.color(format), time);
 		}
 
 		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE)
 			for (String line : plugin.getConfig().getStringList("CommandsForBanwave"))
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing));
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing, vl));
 		else
 			for (String line : plugin.getConfig().getStringList("CommandsForBan"))
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing));
-		clearVls();
-
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing, vl));
 	}
 
-	private String placeholder(String s, OfflinePlayer p, String check, String token, Timing timing) {
-		s = s.replace("%player%", p.getName()).replace("%hack%", check)
-				.replace("%vl%", getSaveData("vls." + check, Integer.class) + "")
+	private String placeholder(String s, OfflinePlayer p, String check, String token, Timing timing, int vl) {
+		s = s.replace("%player%", p.getName()).replace("%hack%", check).replace("%vl%", vl + "")
 				.replace("%world%", player.isOnline() ? player.getPlayer().getWorld().getName() : "Offline")
 				.replace("%token%", token).replace("%timing%", timing.toString());
 		return MSG.papi(p, s);
@@ -650,10 +662,8 @@ public class CPlayer {
 	}
 
 	public void clearVls() {
-//		for (String entry : plugin.getChecks()getHackVls())
-//			removeSaveData("vls." + entry);
-		for (Check check : plugin.getChecks().getAllChecks())
-			removeSaveData("vls." + check.getCategory());
+		for (Check h : plugin.getChecks().getAllChecks())
+			this.setSaveData("vls." + h.getCategory(), 0);
 	}
 
 	public boolean isInWeirdBlock() {
@@ -737,8 +747,8 @@ public class CPlayer {
 		this.lastSafe = loc;
 	}
 
-	public double timeSince(Stat action) {
-		return System.currentTimeMillis() - getTempDouble(action);
+	public long timeSince(Stat action) {
+		return System.currentTimeMillis() - getTempData(action, Number.class, 0L).longValue();
 	}
 
 	public boolean hasMovementRelatedPotion() {

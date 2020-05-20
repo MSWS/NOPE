@@ -51,7 +51,11 @@ public class Flight4 implements Check, Listener {
 		if (player.isInsideVehicle())
 			return;
 
-		if (player.isFlying() || cp.timeSince(Stat.FLYING) < 5000 || player.isOnGround()|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
+		if (player.isFlying() || cp.timeSince(Stat.FLYING) < 5000 || player.isOnGround()
+				|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
+			return;
+
+		if (cp.timeSince(Stat.CLIMBING) < 4000)
 			return;
 
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)

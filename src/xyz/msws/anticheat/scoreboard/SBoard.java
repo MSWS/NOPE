@@ -20,6 +20,12 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
+
+/**
+ * 
+ * @author imodm
+ * @deprecated
+ */
 public class SBoard {
 	Scoreboard board;
 

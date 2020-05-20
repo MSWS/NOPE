@@ -1,8 +1,12 @@
 package xyz.msws.anticheat;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
@@ -23,6 +27,9 @@ import xyz.msws.anticheat.checks.Checks;
 import xyz.msws.anticheat.checks.Global;
 import xyz.msws.anticheat.checks.TPSChecker;
 import xyz.msws.anticheat.commands.AntiCheatCommand;
+import xyz.msws.anticheat.compatability.AbstractHook;
+import xyz.msws.anticheat.compatability.CrazyEnchantsHook;
+import xyz.msws.anticheat.compatability.McMMOHook;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.data.PlayerManager;
 import xyz.msws.anticheat.data.Stats;
@@ -31,7 +38,6 @@ import xyz.msws.anticheat.listeners.LogImplementation;
 import xyz.msws.anticheat.listeners.LoginAndQuit;
 import xyz.msws.anticheat.listeners.MessageListener;
 import xyz.msws.anticheat.listeners.UpdateCheckerListener;
-import xyz.msws.anticheat.scoreboard.SBoard;
 import xyz.msws.anticheat.utils.MSG;
 import xyz.msws.anticheat.utils.Metrics;
 import xyz.msws.anticheat.utils.Metrics.CustomChart;
@@ -54,6 +60,8 @@ public class NOPE extends JavaPlugin {
 
 	private String newVersion = null;
 
+	private Collection<AbstractHook> compatabilities = new ArrayList<>();
+
 	public void onEnable() {
 		if (!configYml.exists())
 			saveResource("config.yml", true);
@@ -65,34 +73,7 @@ public class NOPE extends JavaPlugin {
 
 		MSG.plugin = this;
 
-		switch (config.getString("ConfigVersion", "")) {
-			case "1.3.2":
-				MSG.log("You are using an up-to-date version of the config.");
-				break;
-			case "1.3.1":
-				MSG.warn("You are using an outdated config, certain checks will be logged as disabled.");
-				break;
-			default:
-				MSG.warn("Your config version is unknown, it is strongly recommended you reset your config.");
-				break;
-		}
-
-		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
-			banManager = new AdvancedBanHook();
-			MSG.log("Successfully hooked into AdvancedBans.");
-		} else if (Bukkit.getPluginManager().isPluginEnabled("MaxBans")) {
-			banManager = new MaxBansHook();
-			MSG.log("Successfully hooked into MaxBans.");
-		} else if (Bukkit.getPluginManager().isPluginEnabled("BanManagement")) {
-			banManager = new BanManagementHook();
-			MSG.log("Successfully hooked into BanManagement.");
-		} else if (Bukkit.getPluginManager().isPluginEnabled("LiteBans")) {
-			banManager = new LiteBansHook();
-			MSG.log("Successfully hooked into LiteBans.");
-		} else {
-			banManager = new NativeBanHook();
-			MSG.log("Unable to find a ban management plugin, using native support.");
-		}
+		MSG.log(checkConfigVersion());
 
 		pManager = new PlayerManager(this);
 		tpsChecker = new TPSChecker(this);
@@ -111,8 +92,64 @@ public class NOPE extends JavaPlugin {
 		new LoginAndQuit(this);
 		new GUIListener(this);
 
-		new SBoard(this);
+//		new SBoard(this);
 
+		banManager = hookBans();
+
+		uploadCustomCharts();
+		runUpdateCheck();
+
+		compatabilities = loadCompatabilities();
+		for (AbstractHook comp : compatabilities)
+			MSG.log("Successfully registerd compatability modifier for " + MSG.FORMAT_INFO + comp.getName() + "&7.");
+
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
+
+		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
+	}
+
+	private Collection<AbstractHook> loadCompatabilities() {
+		Set<AbstractHook> cs = new HashSet<>();
+		if (Bukkit.getPluginManager().isPluginEnabled("mcMMO"))
+			cs.add(new McMMOHook(this));
+		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
+			cs.add(new CrazyEnchantsHook(this));
+		return cs;
+	}
+
+	private String checkConfigVersion() {
+		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
+			return "You are using an up-to-date version of the config.";
+		switch (config.getString("ConfigVersion", "")) {
+			case "1.3.2":
+			case "1.3.1":
+				return "You are using an outdated config, certain checks will be logged as disabled.";
+			default:
+				return "Your config version is unknown, it is strongly recommended you reset your config.";
+		}
+	}
+
+	private BanHook hookBans() {
+		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
+			MSG.log("Successfully hooked into AdvancedBans.");
+			return new AdvancedBanHook();
+		} else if (Bukkit.getPluginManager().isPluginEnabled("MaxBans")) {
+			MSG.log("Successfully hooked into MaxBans.");
+			return new MaxBansHook();
+		} else if (Bukkit.getPluginManager().isPluginEnabled("BanManagement")) {
+			MSG.log("Successfully hooked into BanManagement.");
+			return new BanManagementHook();
+		} else if (Bukkit.getPluginManager().isPluginEnabled("LiteBans")) {
+			MSG.log("Successfully hooked into LiteBans.");
+			return new LiteBansHook();
+		} else {
+			MSG.log("Unable to find a ban management plugin, using native support.");
+			return new NativeBanHook();
+		}
+	}
+
+	private void uploadCustomCharts() {
 		Metrics metrics = new Metrics(this, 7422);
 		CustomChart chart = new Metrics.SingleLineChart("bans", new Callable<Integer>() {
 			@Override
@@ -135,7 +172,9 @@ public class NOPE extends JavaPlugin {
 				return result;
 			}
 		});
+	}
 
+	private void runUpdateCheck() {
 		if (config.getBoolean("UpdateChecker.Enabled", true)) {
 			if (config.getBoolean("UpdateChecker.InGame", true))
 				new UpdateCheckerListener(this);
@@ -158,11 +197,6 @@ public class NOPE extends JavaPlugin {
 				MSG.log(info);
 			});
 		}
-
-		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
-
-		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
 	}
 
 	public BanHook getBanManager() {
@@ -190,7 +224,7 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public String getServerName() {
-		if (!config.getString("BungeeNameOverride").isEmpty())
+		if (!config.getString("BungeeNameOverride", "").isEmpty())
 			return config.getString("BungeeNameOverride");
 		return serverName;
 	}
@@ -267,5 +301,12 @@ public class NOPE extends JavaPlugin {
 
 	public Banwave getBanwave() {
 		return this.banwave;
+	}
+
+	/**
+	 * @return the compatabilities
+	 */
+	public Collection<AbstractHook> getCompatabilities() {
+		return compatabilities;
 	}
 }

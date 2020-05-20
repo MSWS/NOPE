@@ -1,6 +1,5 @@
 package xyz.msws.anticheat.checks.world;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -50,11 +49,13 @@ public class FastBreak1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final EnumSet<Material> mats = EnumSet.of(Material.RED_BED, Material.BLACK_BED, Material.BLUE_BED,
-			Material.BROWN_BED, Material.CYAN_BED, Material.GRAY_BED, Material.GREEN_BED, Material.LIME_BED,
-			Material.MAGENTA_BED, Material.ORANGE_BED, Material.PINK_BED, Material.PURPLE_BED, Material.WHITE_BED,
-			Material.YELLOW_BED, Material.ACACIA_LEAVES, Material.BIRCH_LEAVES, Material.DARK_OAK_LEAVES,
-			Material.JUNGLE_LEAVES, Material.OAK_LEAVES, Material.SPRUCE_LEAVES);
+	private boolean ignoreMat(Material mat) {
+		for (String res : new String[] { "BED", "GLASS", "LEAVES", "ICE" }) {
+			if (mat.toString().contains(res))
+				return true;
+		}
+		return false;
+	}
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
@@ -64,7 +65,7 @@ public class FastBreak1 implements Check, Listener {
 		Block block = event.getClickedBlock();
 		if (block == null || block.getType() == Material.AIR)
 			return;
-		if (mats.contains(block.getType()))
+		if (ignoreMat(block.getType()))
 			return;
 		Location loc = block.getLocation();
 		blockLoc.put(player.getUniqueId(), loc);
@@ -80,7 +81,7 @@ public class FastBreak1 implements Check, Listener {
 		if (!blockTime.containsKey(player.getUniqueId()))
 			return;
 		Block block = event.getBlock();
-		if (mats.contains(block.getType()))
+		if (ignoreMat(block.getType()))
 			return;
 		if (!blockLoc.get(player.getUniqueId()).equals(block.getLocation())) {
 			cp.flagHack(this, 50, "Wrong Block");
@@ -158,7 +159,7 @@ public class FastBreak1 implements Check, Listener {
 			case IRON_AXE:
 			case STONE_AXE:
 			case WOODEN_AXE:
-				for (String res : new String[] { "BANNER", "FENCE", "PLANKS", "SIGN", "WOOD" }) {
+				for (String res : new String[] { "BANNER", "FENCE", "PLANKS", "SIGN", "WOOD", "LOG" }) {
 					if (type.toString().contains(res))
 						return true;
 				}

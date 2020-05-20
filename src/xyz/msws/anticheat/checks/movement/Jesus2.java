@@ -53,6 +53,11 @@ public class Jesus2 implements Check, Listener {
 		if (!player.getLocation().getBlock().getRelative(BlockFace.DOWN).isLiquid())
 			return;
 
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.WATER) // Should be
+																										// stationary
+																										// water
+			return;
+
 		if (event.getTo().getY() != event.getFrom().getY())
 			return;
 

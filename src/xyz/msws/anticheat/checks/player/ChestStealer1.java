@@ -82,7 +82,7 @@ public class ChestStealer1 implements Check, Listener {
 
 		for (int i = 0; i < clickTimings.size(); i++) {
 			double diff = last - clickTimings.get(i);
-			if (cDiff == diff && (event.getClick() != ClickType.SHIFT_LEFT || diff != 0))
+			if (cDiff == diff && (event.getClick() != ClickType.SHIFT_LEFT || diff <= 10))
 				amo++;
 			last = clickTimings.get(i);
 		}

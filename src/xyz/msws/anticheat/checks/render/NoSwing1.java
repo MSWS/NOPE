@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -86,6 +88,20 @@ public class NoSwing1 implements Check, Listener {
 
 		if (event.getAction() == Action.PHYSICAL)
 			return;
+
+		Block clicked = event.getClickedBlock();
+
+		if (clicked != null) {
+
+			Material next = clicked.getRelative(event.getBlockFace()).getType();
+			if (next.toString().contains("BUTTON"))
+				return;
+			if (clicked.getType().toString().contains("BUTTON"))
+				return;
+			// BlockCanBuild is not called if a button is on the blockface
+			if (clicked.getType() == Material.SCAFFOLDING)
+				return;
+		}
 
 		new BukkitRunnable() {
 			@Override

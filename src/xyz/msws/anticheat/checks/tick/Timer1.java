@@ -33,7 +33,7 @@ public class Timer1 implements Check, Listener {
 		return CheckType.TICK;
 	}
 
-	private Map<UUID, List<Double>> timings = new HashMap<>();
+	private Map<UUID, List<Long>> timings = new HashMap<>();
 
 	@Override
 	public void register(NOPE plugin) {
@@ -59,7 +59,7 @@ public class Timer1 implements Check, Listener {
 		if (cp.timeSince(Stat.ON_ICE) < 1000)
 			return;
 
-		List<Double> horizontalTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		List<Long> horizontalTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
 		if (cp.timeSince(Stat.TELEPORT) > 500)
 			horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));

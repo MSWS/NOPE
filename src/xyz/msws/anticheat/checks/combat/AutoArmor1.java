@@ -111,7 +111,7 @@ public class AutoArmor1 implements Check, Listener {
 		event.setCancelled(true);
 		event.setResult(Result.DENY);
 		event.setCurrentItem(new ItemStack(Material.AIR));
-		runCheck().runTaskLater(plugin, ThreadLocalRandom.current().nextInt(10 * 20, 30 * 20));
+//		runCheck().runTaskLater(plugin, ThreadLocalRandom.current().nextInt(10 * 20, 30 * 20));
 		cp.flagHack(this, 50);
 	}
 

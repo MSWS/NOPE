@@ -68,6 +68,11 @@ public class BHop1 implements Check, Listener {
 			lastGround.remove(player.getUniqueId());
 			return;
 		}
+		
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000) {
+			lastGround.remove(player.getUniqueId());
+			return;
+		}
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500) {
 			lastGround.remove(player.getUniqueId());

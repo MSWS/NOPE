@@ -2,12 +2,11 @@ package xyz.msws.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
@@ -16,12 +15,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks if a player moves vertically straight up
+ * Checks average speeds
  * 
  * @author imodm
  *
  */
-public class Flight3 implements Check, Listener {
+public class Speed4 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -36,63 +35,45 @@ public class Flight3 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || cp.isInClimbingBlock())
+		if (player.isFlying())
 			return;
 
 		if (cp.hasMovementRelatedPotion())
-
-			if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
-				return;
-
-		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
-		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 
-		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
+		if (cp.timeSince(Stat.MOVE) < 500)
 			return;
 
-		if (cp.timeSince(Stat.TELEPORT) < 1000)
+		double maxDist = .016230764;
+
+		Location to = event.getTo().clone(), from = event.getFrom().clone();
+		to.setY(0);
+		from.setY(0);
+
+		double dist = to.distanceSquared(from);
+
+		if (dist <= maxDist)
 			return;
 
-		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
-			return;
-
-		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
-			return;
-
-		if (cp.isBlockNearby(Material.SCAFFOLDING))
-			return;
-//		if (cp.timeSince(Stat.CLIMBING) < 1000) {
-//			cp.removeTempData("lastGroundLocation");
-//			return;
-//		}
-
-		Location safe = cp.getLastSafeLocation();
-
-		if (event.getTo().getY() - 3 < safe.getY())
-			return;
-
-		if (event.getTo().getY() <= event.getFrom().getY())
-			return;
-
-		cp.flagHack(this, 10);
+		cp.flagHack(this, (int) ((dist - maxDist) * 100) + 10, "Dist: " + dist + " > " + maxDist);
 	}
 
 	@Override
 	public String getCategory() {
-		return "Flight";
+		return "Speed";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Flight#3";
+		return getCategory() + "#4";
 	}
 
 	@Override
