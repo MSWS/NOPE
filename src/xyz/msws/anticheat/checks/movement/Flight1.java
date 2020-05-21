@@ -56,7 +56,10 @@ public class Flight1 implements Check, Listener {
 		if (to.getY() != from.getY())
 			return;
 
-		if (cp.isBlockNearby(Material.COBWEB))
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1))
+			return;
+
+		if (cp.timeSince(Stat.TELEPORT) < 500)
 			return;
 
 		if (cp.timeSince(Stat.ON_GROUND) <= 300)

@@ -41,13 +41,14 @@ public class Flight3 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || cp.isInClimbingBlock())
+		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
 			return;
 
 		if (cp.hasMovementRelatedPotion())
+			return;
 
-			if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
-				return;
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
+			return;
 
 		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
@@ -67,12 +68,12 @@ public class Flight3 implements Check, Listener {
 		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
 			return;
 
-		if (cp.isBlockNearby(Material.SCAFFOLDING))
+		if (cp.isBlockNearby(Material.SCAFFOLDING, 4, -2))
 			return;
-//		if (cp.timeSince(Stat.CLIMBING) < 1000) {
-//			cp.removeTempData("lastGroundLocation");
-//			return;
-//		}
+
+		if (cp.timeSince(Stat.CLIMBING) < 1000) {
+			return;
+		}
 
 		Location safe = cp.getLastSafeLocation();
 

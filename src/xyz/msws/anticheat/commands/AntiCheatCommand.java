@@ -472,7 +472,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						stats.getDownloads(), stats.getReviews(), stats.getRating()));
 				break;
 			case "servername":
-				MSG.tell(sender, "name: "+plugin.getServerName());
+				MSG.tell(sender, "name: " + plugin.getServerName());
 				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
@@ -500,9 +500,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				}
 			}
 			if (args[0].equalsIgnoreCase("clear")) {
-				if ("all".startsWith(args[args.length - 1].toLowerCase())) {
+				if ("all".startsWith(args[args.length - 1].toLowerCase()))
 					result.add("all");
-				}
 				for (Check c : plugin.getChecks().getAllChecks()) {
 					if (c.getCategory().toLowerCase().startsWith(args[args.length - 1])
 							&& !result.contains(c.getCategory()))

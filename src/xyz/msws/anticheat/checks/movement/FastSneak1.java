@@ -84,7 +84,6 @@ public class FastSneak1 implements Check, Listener {
 		double diff = moveDiff.distanceSquared(look);
 		if (diff > 2)
 			return;
-//		MSG.tell(player, moveDiff.distanceSquared(look) + "");
 
 		double dist = from.distanceSquared(to);
 
@@ -101,7 +100,6 @@ public class FastSneak1 implements Check, Listener {
 		for (int i = distances.size() - SIZE; i < distances.size() && i > SIZE; i++)
 			ds.remove(i);
 
-//		cp.setTempData("sneakDistances", distances);
 		distances.put(player.getUniqueId(), ds);
 
 		if (distances.size() < SIZE)

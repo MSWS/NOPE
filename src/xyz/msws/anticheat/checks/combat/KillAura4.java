@@ -1,13 +1,8 @@
 package xyz.msws.anticheat.checks.combat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,18 +16,13 @@ import xyz.msws.anticheat.data.CPlayer;
 
 /**
  * 
- * 
  * @author imodm
  * 
  *
  */
-public class KillAura6 implements Check, Listener {
-
-	private final int SIZE = 20;
+public class KillAura4 implements Check, Listener {
 
 	private NOPE plugin;
-
-	private Map<UUID, List<Double>> offsets = new HashMap<>();
 
 	@Override
 	public CheckType getType() {
@@ -52,29 +42,20 @@ public class KillAura6 implements Check, Listener {
 		Player player = (Player) event.getDamager();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		double off = getDotDiff(player, event.getEntity().getLocation());
+		Entity target = event.getEntity();
 
-		List<Double> values = offsets.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		Location loc = player.getLocation();
 
-		values.add(0, off);
+		Vector offset = player.getLocation().toVector()
+				.add(loc.getDirection().normalize().multiply(loc.distance(target.getLocation())));
 
-		if (values.size() > SIZE)
-			values = values.subList(0, SIZE);
+		double yawOffset = offset.clone().setY(target.getLocation().getY())
+				.distanceSquared(target.getLocation().toVector());
 
-//		cp.setTempData("KillAuraOffsets", values);
-		offsets.put(player.getUniqueId(), values);
-
-		if (values.size() < SIZE)
+		if (yawOffset < 2)
 			return;
 
-		double avg = 0;
-		for (double v : values)
-			avg += v;
-		avg /= values.size();
-		if (avg > .3)
-			return;
-
-		cp.flagHack(this, (int) ((1 - off) * 50), String.format("Avg: &e%.2f", avg));
+		cp.flagHack(this, (int) ((yawOffset - 1.3) * 10), String.format("Yaw Diff: &e%.3f", yawOffset));
 	}
 
 	@Override
@@ -84,18 +65,11 @@ public class KillAura6 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "KillAura#6";
+		return getCategory() + "#4";
 	}
 
 	@Override
 	public boolean lagBack() {
 		return false;
-	}
-
-	private double getDotDiff(Player player, Location target) {
-		Location eye = player.getLocation();
-		Vector toEntity = target.toVector().subtract(eye.toVector());
-		double dot = toEntity.normalize().dot(eye.getDirection());
-		return dot;
 	}
 }

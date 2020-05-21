@@ -122,6 +122,8 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.3.3":
+				return "You are using an outdated config, the language file also has been updated.";
 			case "1.3.2":
 			case "1.3.1":
 				return "You are using an outdated config, certain checks will be logged as disabled.";

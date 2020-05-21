@@ -452,10 +452,10 @@ public class CPlayer {
 			}
 			time = durations.getLong(check, durations.getLong("Default"));
 
-			String format = String.join("\n", plugin.getConfig().getStringList("TempBanFormat"));
+			String format = String.join("\n", MSG.getStringList("TempBanFormat"));
 
 			if (time == -1)
-				format = String.join("\n", plugin.getConfig().getStringList("PermBanFormat"));
+				format = String.join("\n", MSG.getStringList("PermBanFormat"));
 			else
 				format = format.replace("%duration%", MSG.getTime(time));
 
@@ -804,7 +804,7 @@ public class CPlayer {
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {
 			vertLine.subtract(0, 1, 0);
 		}
-		return online.getLocation().distance(vertLine);
+		return (online.getLocation().getY() - vertLine.getBlockY() - 1) + online.getLocation().getY() % 1;
 	}
 
 	public boolean isRedstoneNearby() {

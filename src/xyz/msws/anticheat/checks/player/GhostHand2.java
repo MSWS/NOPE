@@ -57,6 +57,8 @@ public class GhostHand2 implements Check, Listener {
 			return;
 
 		RayTraceResult result = player.rayTraceBlocks(6, FluidCollisionMode.NEVER);
+		if (result == null)
+			return;
 		if (event.getBlockFace() == result.getHitBlockFace() && block.getType() == result.getHitBlock().getType())
 			return;
 

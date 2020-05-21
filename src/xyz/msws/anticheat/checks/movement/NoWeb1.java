@@ -12,7 +12,6 @@ import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
-import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Checks the speed in a snapshot of time
@@ -57,9 +56,7 @@ public class NoWeb1 implements Check, Listener {
 		if (diff < .012)
 			return;
 
-		if (plugin.devMode())
-			MSG.tell(player, "&d" + diff);
-		cp.flagHack(this, (int) Math.round((diff / .013) * 10.0), "Diff: &e" + diff + "&7 >= &a.012");
+		cp.flagHack(this, (int) Math.round((diff / .013) * 50.0), "Diff: &e" + diff + "&7 >= &a.012");
 	}
 
 	@Override

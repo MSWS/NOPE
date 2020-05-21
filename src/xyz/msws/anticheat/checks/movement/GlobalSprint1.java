@@ -79,7 +79,6 @@ public class GlobalSprint1 implements Check, Listener {
 
 		if (diff < .5)
 			return;
-//		MSG.tell(player, "&a" + diff);
 
 		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<Double>());
 		ds.add(0, dist);

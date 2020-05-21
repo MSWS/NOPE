@@ -28,7 +28,7 @@ import xyz.msws.anticheat.data.CPlayer;
  *         TODO rewrite - buggy while a player is jumping on lilypads doesn't do
  *         average, merely counts up until max size, very unintentional and
  *         poorly written
- *
+ * @deprecated Old
  */
 public class Jesus1 implements Check, Listener {
 
@@ -56,13 +56,8 @@ public class Jesus1 implements Check, Listener {
 
 		if (player.isFlying() || player.isInsideVehicle() || player.isSwimming())
 			return;
-//		if (player.getLocation().getBlock().isLiquid())
-//			return;
 		if (player.getLocation().getBlock().getType() == Material.LAVA)
 			return;
-
-//		if (player.isOnGround())
-//			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
@@ -89,7 +84,7 @@ public class Jesus1 implements Check, Listener {
 			lastDiffs.add(0, (double) System.currentTimeMillis());
 
 		for (int i = 0; i < lastDiffs.size(); i++) {
-			if (i > SIZE || lastDiffs.get(i) > System.currentTimeMillis() - 5000)
+			if (i > SIZE || lastDiffs.get(i) > System.currentTimeMillis() - 10000)
 				lastDiffs.remove(i);
 		}
 

@@ -1,6 +1,8 @@
 package xyz.msws.anticheat.checks.movement;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -8,16 +10,15 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
+import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * TODO
  * 
  * @author imodm
  *
  */
-public class Glide2 implements Check, Listener {
+public class Jesus4 implements Check, Listener {
 
-	@SuppressWarnings("unused")
 	private NOPE plugin;
 
 	@Override
@@ -33,18 +34,31 @@ public class Glide2 implements Check, Listener {
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
-//		Player player = event.getPlayer();
-//		CPlayer cp = plugin.getCPlayer(player);
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+
+		if (!player.isOnGround())
+			return;
+
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+			return;
+		if (!player.getLocation().getBlock().isLiquid())
+			return;
+		if (player.getLocation().add(0, 1, 0).getBlock().isLiquid())
+			return;
+
+		cp.flagHack(this, 50);
+
 	}
 
 	@Override
 	public String getCategory() {
-		return "Glide";
+		return "Jesus";
 	}
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#2";
+		return getCategory() + "#4";
 	}
 
 	@Override

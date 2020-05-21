@@ -57,9 +57,6 @@ public class Speed1 implements Check, Listener {
 
 		double dist = to.distanceSquared(from);
 
-//		if (dist <= .08199265663630222)
-//			return;
-
 		double max = .1300168;
 
 		if (dist <= max)

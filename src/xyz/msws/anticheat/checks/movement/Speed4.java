@@ -52,7 +52,8 @@ public class Speed4 implements Check, Listener {
 		if (cp.timeSince(Stat.MOVE) < 500)
 			return;
 
-		double maxDist = .016230764;
+		double maxDist = .02;
+		
 
 		Location to = event.getTo().clone(), from = event.getFrom().clone();
 		to.setY(0);

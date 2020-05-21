@@ -54,7 +54,6 @@ public class AutoWalk1 implements Check, Listener {
 		if (to.getY() < from.getY())
 			return;
 
-//		cp.setTempData("lastWalkMove", (double) System.currentTimeMillis());
 		lastMove.put(player.getUniqueId(), System.currentTimeMillis());
 
 		if (System.currentTimeMillis() - lastChat.getOrDefault(player.getUniqueId(), 0L) > 50)

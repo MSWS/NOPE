@@ -63,6 +63,9 @@ public class SafeWalk1 implements Check, Listener {
 		if (cp.timeSince(Stat.FLYING) < 300)
 			return;
 
+		if (cp.timeSince(Stat.CLIMBING) < 200)
+			return;
+
 		double yaw = Math.abs(to.getYaw()) % 90;
 
 		if (yaw < 135 && yaw > 45)

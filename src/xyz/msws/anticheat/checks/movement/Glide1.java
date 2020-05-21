@@ -68,13 +68,11 @@ public class Glide1 implements Check, Listener {
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 
 		if (fallDist == 0 || player.getFallDistance() == 0) {
-//			cp.removeTempData("previousFall");
 			lastFall.remove(player.getUniqueId());
 			return;
 		}
 
 		if (!lastFall.containsKey(player.getUniqueId())) {
-//			cp.setTempData("previousFall", fallDist);
 			lastFall.put(player.getUniqueId(), fallDist);
 			return;
 		}
@@ -90,7 +88,6 @@ public class Glide1 implements Check, Listener {
 			fs = fs.subList(0, SIZE);
 		}
 
-//		cp.setTempData("FallDistances", fallDistances);
 		fallDistances.put(player.getUniqueId(), fs);
 
 		if (fallDistances.size() < SIZE)

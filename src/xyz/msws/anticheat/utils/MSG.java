@@ -116,6 +116,10 @@ public class MSG {
 		return plugin.getLang().contains(id) ? plugin.getLang().getString(id) : "[" + id + "] " + def;
 	}
 
+	public static List<String> getStringList(String id) {
+		return plugin.getLang().getStringList(id);
+	}
+
 	/**
 	 * Sends the message colored to the sender CommandSender
 	 * 

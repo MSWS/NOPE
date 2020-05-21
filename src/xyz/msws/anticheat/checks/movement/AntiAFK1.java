@@ -19,7 +19,6 @@ import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
-import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Checks if a player moves their yaw without changing their pitch
@@ -83,9 +82,6 @@ public class AntiAFK1 implements Check, Listener {
 
 		if (samePitchTimings.size() < 25)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&6same: " + samePitchTimings.size());
 
 		cp.flagHack(this, (samePitchTimings.size() - 25) * 3, "Moved with similar Yaw: &e" + samePitchTimings.size());
 	}

@@ -23,6 +23,7 @@ import xyz.msws.anticheat.data.CPlayer;
  *         average, merely counts up until max size, very unintentional and
  *         poorly written
  *
+ * @deprecated
  */
 public class Jesus2 implements Check, Listener {
 
