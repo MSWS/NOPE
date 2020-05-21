@@ -153,18 +153,27 @@ public class Checks {
 	public Result registerCheck(Check check) {
 		if (activeChecks.contains(check))
 			return Result.ALREADY_REGISTERED;
-		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
+		String key = "Checks." + MSG.camelCase(check.getType().toString()) + ".Enabled";
+		if (!plugin.getConfig().isSet(key))
+			plugin.getConfig().set(key, true);
+		if (!plugin.getConfig().getBoolean(key))
 			return Result.DISABLED_NAME;
-		if (!plugin.getConfig()
-				.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled"))
+
+		key = "Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled";
+		if (!plugin.getConfig().isSet(key))
+			plugin.getConfig().set(key, true);
+		if (!plugin.getConfig().getBoolean(key))
 			return Result.DISABLED_CATEGORY;
-		if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory()
-				+ "." + check.getDebugName() + ".Enabled"))
+
+		key = "Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "." + check.getDebugName()
+				+ ".Enabled";
+		if (!plugin.getConfig().isSet(key))
+			plugin.getConfig().set(key, true);
+		if (!plugin.getConfig().getBoolean(key))
 			return Result.DISABLED_DEBUG;
 		try {
 			check.register(plugin);
 		} catch (OperationNotSupportedException e) {
-//			e.printStackTrace();
 			return Result.MISSING_DEPENDENCY;
 		}
 		activeChecks.add(check);
