@@ -90,8 +90,9 @@ public class FastBreak1 implements Check, Listener {
 		double offset = System.currentTimeMillis() - blockTime.get(player.getUniqueId());
 		if (offset > -100)
 			return;
-		cp.flagHack(this, (int) Math.abs((offset + 25)), "Type: &e" + MSG.camelCase(block.getType().toString())
-				+ "\n&7Time diff: &a" + offset + "\n&7Hardness: &e" + block.getType().getHardness());
+		cp.flagHack(this, Math.min((int) Math.abs((offset / 50 + 25)), 100),
+				"Type: &e" + MSG.camelCase(block.getType().toString()) + "\n&7Time diff: &a" + offset
+						+ "\n&7Hardness: &e" + block.getType().getHardness());
 	}
 
 	private long getDigTime(Block block, Player player) {
@@ -107,7 +108,7 @@ public class FastBreak1 implements Check, Listener {
 		}
 
 		if (player.hasPotionEffect(PotionEffectType.FAST_DIGGING)) {
-			seconds -= seconds * .20 * player.getPotionEffect(PotionEffectType.FAST_DIGGING).getAmplifier();
+			seconds -= seconds * .20 * (player.getPotionEffect(PotionEffectType.FAST_DIGGING).getAmplifier() + 1);
 		}
 		if (player.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) {
 			switch (player.getPotionEffect(PotionEffectType.SLOW_DIGGING).getAmplifier()) {
