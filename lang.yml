@@ -7,37 +7,7 @@ Format:
   Developer: '&4&l[&c&lDEV&4&l] &e%player%&7 failed &c%debug% &4%addVl%'
   Banwave: '&6&l[&cBANWAVE&6&l] &e%player% &7is now queued for a &cbanwave&7.'
 AllChecksEnabled: '&aSuccessfully enabled all checks.'
-# Placeholders:
 
-# %player% - The name of the player that was banned
-# %hack% - What hack the player was banned for
-# %vl% - The VL of the hack that the player was at when they were banned
-# %world% - What world the player was in when they were banned, this may be null if they were offline
-# %token% - The ban token
-# %timing% - Can be Banwave or Instant
-# PAPI is also supported
-
-TempBanFormat:
-- '&4&l[&c&lNOPE Anti-Cheat&4&l]'
-- '&7Hacking has been detected on your Minecraft Client.'
-- '&7As such, you have been &ctemporarily banned&7 for &e%duration%&7.'
-- ''
-- '&7Hack Detected: &4%hack% &c(&6%vl%&c)'
-- ''
-- '&7If you believe you were incorrectly banned,'
-- 'Please include the following token when appealing.'
-- '&e%token%'
-
-PermBanFormat:
-- '&4&l[&c&lNOPE Anti-Cheat&4&l]'
-- '&7Hacking has been detected on your Minecraft Client.'
-- '&7As such, you have been &cpermanently banned&7.'
-- ''
-- '&7Hack Detected: &4%hack% &c(&6%vl%&c)'
-- ''
-- '&7If you believe you were incorrectly banned,'
-- 'Please include the following token when appealing.'
-- '&e%token%'
 Help:
   default:
   - perm:nope.command.clear &c/nope clear [Player/All] [Hack/All] &7- Clears VLs of players

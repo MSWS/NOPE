@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import xyz.msws.anticheat.actions.ActionManager;
 import xyz.msws.anticheat.bans.AdvancedBanHook;
 import xyz.msws.anticheat.bans.BanHook;
 import xyz.msws.anticheat.bans.BanManagementHook;
@@ -53,6 +54,7 @@ public class NOPE extends JavaPlugin {
 	private Banwave banwave;
 	private Stats stats;
 	private BanHook banManager;
+	private ActionManager actionManager;
 
 	private String serverName = "Unknown Server";
 
@@ -76,6 +78,9 @@ public class NOPE extends JavaPlugin {
 		MSG.log(checkConfigVersion());
 
 		pManager = new PlayerManager(this);
+		actionManager = new ActionManager(this, configYml);
+		actionManager.loadActions();
+
 		tpsChecker = new TPSChecker(this);
 
 		banwave = new Banwave(this);
@@ -92,8 +97,6 @@ public class NOPE extends JavaPlugin {
 		new LoginAndQuit(this);
 		new GUIListener(this);
 
-//		new SBoard(this);
-
 		banManager = hookBans();
 
 		uploadCustomCharts();
@@ -101,12 +104,16 @@ public class NOPE extends JavaPlugin {
 
 		compatabilities = loadCompatabilities();
 		for (AbstractHook comp : compatabilities)
-			MSG.log("Successfully registerd compatability modifier for " + MSG.FORMAT_INFO + comp.getName() + "&7.");
+			MSG.log("&7Registered compatability for " + MSG.FORMAT_INFO + comp.getName() + "&7.");
 
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
 		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
+	}
+
+	public ActionManager getActionManager() {
+		return actionManager;
 	}
 
 	private Collection<AbstractHook> loadCompatabilities() {
@@ -122,13 +129,13 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.3.4.2":
+			case "1.3.4.1":
 			case "1.3.4":
-				return "You are using a config from an old version however nothing has changed.";
 			case "1.3.3":
-				return "You are using an outdated config, the language file also has been changed.";
 			case "1.3.2":
 			case "1.3.1":
-				return "You are using an outdated config, certain checks will be logged as disabled.";
+				return "Your config is extremely outdated. There are many new features and many features will not work unless you reset your config.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}

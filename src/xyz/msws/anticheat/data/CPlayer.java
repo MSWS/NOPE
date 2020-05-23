@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -37,8 +36,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.Global.Stat;
-import xyz.msws.anticheat.events.PlayerFlagEvent;
 import xyz.msws.anticheat.checks.Timing;
+import xyz.msws.anticheat.events.PlayerFlagEvent;
 import xyz.msws.anticheat.utils.MSG;
 //import xyz.msws.punish.managers.BanManager;
 import xyz.msws.anticheat.utils.Utils;
@@ -241,6 +240,10 @@ public class CPlayer {
 		return highest;
 	}
 
+	public int getVL(String category) {
+		return getDataFile().getInt("vls." + category);
+	}
+
 	public List<String> getHackVls() {
 		List<String> result = new ArrayList<>();
 
@@ -257,8 +260,6 @@ public class CPlayer {
 	public void flagHack(Check check, int vl) {
 		flagHack(check, vl, null);
 	}
-
-	private Map<String, Long> colorTimes = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
@@ -296,7 +297,6 @@ public class CPlayer {
 		setTempData(Stat.FLAGGED, (double) System.currentTimeMillis());
 
 		if (plugin.devMode()) {
-
 			TextComponent component = new TextComponent(MSG.color(
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl));
 
@@ -318,84 +318,13 @@ public class CPlayer {
 				? getSaveData("vls." + check.getCategory(), Integer.class) + vl
 				: vl;
 
-		String color = MSG.getVlColor(nVl);
-
-//		double lastSent = timeSince(color + check.getCategory()); TODO
-
-		teleport: if (lastSafe != null && player.isOnline() && plugin.getConfig().getBoolean("SetBack")
-				&& check.lagBack()) {
-
-			ThreadLocalRandom rnd = ThreadLocalRandom.current();
-
-			if (rnd.nextDouble() < .3)
-				break teleport;
-
-			player.getPlayer().teleport(lastSafe);
-		}
-
-		long lastSent = System.currentTimeMillis() - colorTimes.getOrDefault(color, 0L);
-
-		if (!plugin.devMode()) {
-			if (lastSent > plugin.getConfig().getDouble("SecondsMinimum")
-					&& nVl > plugin.getConfig().getInt("Minimum")) {
-				String message = MSG.getString("Format.Regular",
-						"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7)"),
-						bungee = MSG.getString("Format.Bungee",
-								"&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack%&7check. (VL: &e&o%vl%&7) &9[&b%server%&9]");
-
-				message = message.replace("%player%", player.getName())
-						.replace("%n%",
-								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
-						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
-						.replace("%addVl%", vl + "");
-
-				bungee = bungee.replace("%player%", player.getName())
-						.replace("%n%",
-								(check.getCategory().toLowerCase().charAt(0) + "").matches("(a|e|i|o|u)") ? "n" : "")
-						.replace("%vlCol%", color).replace("%hack%", check.getCategory()).replace("%vl%", nVl + "")
-						.replace("%addVl%", vl + "").replace("%server%", plugin.getServerName());
-
-				MSG.tell("nope.message.normal", message);
-
-				MSG.sendPluginMessage(null, "perm:nope.message.normal " + bungee);
-
-				// TODO
-
-//				setTempData(color + check.getCategory(), (double) System.currentTimeMillis());
-				colorTimes.put(color, System.currentTimeMillis());
-			}
-		}
-
 		MSG.sendPluginMessage(null, "setvl:" + player.getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
 
+		plugin.getActionManager().runActions(player, check.getCategory(), check);
+
 		plugin.getStats().addTrigger(check);
 		plugin.getStats().addVl(check, vl);
-
-		if (nVl >= plugin.getConfig().getInt("VlForBanwave") && !hasSaveData("isBanwaved")) {
-			String message = MSG.getString("Format.Banwave",
-					"&4&l[&c&lNOPE&4&l] &e%player%&7is now queued for a banwave.");
-
-			message = message.replace("%player%", player.getName());
-
-			MSG.tell("nope.message.banwave", message);
-			MSG.sendPluginMessage(null, "perm:nope.message.banwave " + message);
-			addLogMessage("");
-			addLogMessage("BANWAVE check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") TPS: "
-					+ plugin.getTPS() + " time:" + System.currentTimeMillis());
-			String token = MSG.genUUID(16);
-			saveLog(check.getCategory(), Timing.BANWAVE, token);
-			setSaveData("isBanwaved", check.getCategory());
-			MSG.sendPluginMessage(null, "banwave:" + player.getName() + " " + check.getCategory());
-			addLogMessage("BANWAVE Log ID: " + token);
-			addLogMessage("");
-		} else {
-			addLogMessage("Flagged check:" + check.getDebugName() + " VL: " + (nVl - vl) + " (+" + vl + ") TPS: "
-					+ plugin.getTPS() + " time:" + System.currentTimeMillis());
-		}
-
-		if (nVl >= plugin.getConfig().getInt("VlForInstaBan"))
-			ban(check, Timing.INSTANT);
 
 		List<String> lines = getSaveData("log", List.class);
 		if (lines == null)
@@ -415,67 +344,6 @@ public class CPlayer {
 			e.printStackTrace();
 		}
 		return ping;
-	}
-
-	public void ban(Check check, Timing timing) {
-		ban(check.getCategory(), timing);
-	}
-
-	public void ban(String check, Timing timing) {
-		String token = MSG.genUUID(16);
-
-		if (!plugin.getConfig().getString("Log", "NONE").equalsIgnoreCase("NONE"))
-			saveLog(check, timing, token);
-
-		removeSaveData("log");
-
-		if (plugin.devMode()) {
-			clearVls();
-			return;
-		}
-
-		plugin.getStats().addBan();
-
-		removeSaveData("isBanwaved");
-
-		long time = 0;
-
-		int vl = getSaveData("vls." + check, Integer.class);
-
-		clearVls();
-
-		if (plugin.getConfig().getBoolean("UseBanManager")) {
-			ConfigurationSection durations = plugin.getConfig().getConfigurationSection("BanDurations");
-			if (durations == null) {
-				MSG.error("BanDurations is not defined in the config.yml");
-				return;
-			}
-			time = durations.getLong(check, durations.getLong("Default"));
-
-			String format = String.join("\n", MSG.getStringList("TempBanFormat"));
-
-			if (time == -1)
-				format = String.join("\n", MSG.getStringList("PermBanFormat"));
-			else
-				format = format.replace("%duration%", MSG.getTime(time));
-
-			format = placeholder(format, player, check, token, timing, vl);
-			plugin.getBanManager().ban(player.getUniqueId(), MSG.color(format), time);
-		}
-
-		if (timing == Timing.BANWAVE || timing == Timing.MANUAL_BANWAVE)
-			for (String line : plugin.getConfig().getStringList("CommandsForBanwave"))
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing, vl));
-		else
-			for (String line : plugin.getConfig().getStringList("CommandsForBan"))
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholder(line, player, check, token, timing, vl));
-	}
-
-	private String placeholder(String s, OfflinePlayer p, String check, String token, Timing timing, int vl) {
-		s = s.replace("%player%", p.getName()).replace("%hack%", check).replace("%vl%", vl + "")
-				.replace("%world%", player.isOnline() ? player.getPlayer().getWorld().getName() : "Offline")
-				.replace("%token%", token).replace("%timing%", timing.toString());
-		return MSG.papi(p, s);
 	}
 
 	@SuppressWarnings("unchecked")

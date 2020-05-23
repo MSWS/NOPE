@@ -147,6 +147,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				}
 				plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
 				plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
+				plugin.getActionManager().loadActions();
 				MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 				break;
 			case "toggle":

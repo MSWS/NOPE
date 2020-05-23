@@ -16,6 +16,8 @@ import com.google.common.io.ByteStreams;
 
 import io.netty.util.internal.ThreadLocalRandom;
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.checks.Check;
+import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.Utils.Age;
 
 public class MSG {
@@ -140,6 +142,11 @@ public class MSG {
 			return msg;
 		}
 		return new PAPIHook().setPlaceholders(sender, msg);
+	}
+
+	public static String replaceCheckPlaceholder(String s, CPlayer cp, Check check) {
+		return papi(cp.getPlayer(), s.replace("%check%", check.getCategory()).replace("%debug%", check.getDebugName())
+				.replace("%vl%", cp.getVL(check.getCategory()) + "").replace("%player%", cp.getPlayer().getName()));
 	}
 
 	/**

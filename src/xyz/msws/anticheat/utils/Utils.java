@@ -5,6 +5,9 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -56,6 +59,28 @@ public class Utils {
 			default:
 				return 0;
 		}
+	}
+
+	private static Method getHandle;
+	private static Field pingMethod;
+
+	public static int getPing(Player player) {
+		try {
+			if (getHandle == null) {
+				getHandle = player.getClass().getMethod("getHandle");
+				getHandle.setAccessible(true);
+			}
+			Object entityPlayer = getHandle.invoke(player);
+			if (pingMethod == null) {
+				pingMethod = entityPlayer.getClass().getField("ping");
+				pingMethod.setAccessible(true);
+			}
+			return pingMethod.getInt(entityPlayer);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException | NoSuchFieldException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	/**

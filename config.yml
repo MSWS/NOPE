@@ -6,19 +6,18 @@
 #    the default values unless you know what you're doing.
 #
 # ----------------------------------------------------------
-ConfigVersion: 1.3.4.2
+ConfigVersion: 1.4
 #               -------------------------------
 #                     Global Configuration
 #               -------------------------------
 
 Global: true # If disabled, NOPE will be disabled
-# Whether or not to teleport the player back when they're flagged
-SetBack: false 
-Scoreboard: true
+
 # NONE, file, or hastebin
 # hastebin will not work if dev mode is enabled to prevent abuse
 # hastebin will log the link to the log within the file
 Log: file # NONE, file, or hastebin
+
 UpdateChecker:
   Enabled: true
   InGame: true
@@ -28,8 +27,6 @@ BungeeNameOverride: '' # If not empty this will override the server name
 #                     Banwave Configuration
 #               -------------------------------
 
-VlForInstaBan: 1200 # Minimum VL required for instant ban
-VlForBanwave: 800 # Minimum VL required to be queued for banwave
 BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 
 #               -------------------------------
@@ -37,7 +34,7 @@ BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 #       Make sure staff members have nope.message.normal
 #               -------------------------------
 
-Minimum: 30 #Minimum VL to notify staff members
+Minimum: 40 #Minimum VL to notify staff members
 SecondsMinimum: 10000 #Cooldown of hack messages to prevent spam
 
 # Each new color is a new level, this is based off percentage to VL for instant ban
@@ -50,41 +47,70 @@ VlColors:
 # If enabled, developer messages will be sent to the player and commands will not execute
 DevMode: false 
 DebugMode: false
+
 #               -------------------------------
 #                  Action Configuration
+# Actions:
+# kick:Reason        Kick the player for the specified reason
+# ban:Time:Reason    Ban the player for the specified time/reason
+# banwave:Time:Reason            Add the player to the banwave
+# cancel             Teleport the player back
+# pmsg:[Message]     Send a message to the player
+# msg:[all/Permission]:[Message] Can also specify all
+# cmd:[Command]      Run a command as the player
+# ccmd:[Command]     Run a command from console
+# log:type:message   Logs the message either to FILE, INGAME, or CONSOLE (perm: nope.message.normal)
+#
+# Conditions: (<, <=, =, !=, >=, >=)
+# If a condition is not fullfilled, none of the following actinos will be run
+# The ones with > you can replace with the appropriate operator
+#
+# vl>[Amo]           Will run actions if the VL matches the threshold
+# tps>[Amo]          Will run actions if the server's TPS matches the threshold
+# ping>[Amo]         Will run actions if the player's ping matches (NOT RECOMMENDED) players can spoof their ping
+# delay:[Delay]      Wait X milliseconds before executing the NEXT action
+# notdev             Will not run the next actions if the in dev mode
+# rnd:.40            Will run the actions 40% of the time
+# 
+# Placeholders:
+
+# %player% - The name of the player that was banned
+# %hack% - What hack the player was banned for
+# %debug% - The debug ID of the check
+# %vl% - The VL of the hack that the player was at when they were banned
+# %world% - What world the player was in when they were banned, this may be null if they were offline
+# %token% - The ban token (only for ban)
+#
+# PAPI is also supported
 #               -------------------------------
-Checks:
-  Flight:
-    actions: cancel vl>20 
+Actions:
+  FastBreak:
+  - 'basiclog|cancel|vl>400|lagkick|flog|log:FILE:Kicked %player% for %check%|vl>600|cban'
+  FastClimb:
+  - 'basiclog|vl>50|delay:500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
+  Blink:
+  - 'basiclog|vl>200|delay:2000|cancel|tps>15|vl>250|lagkick|vl>500|cancel|flog|cban'
+  KillAura:
+  - 'basiclog|vl>400|flog|vl>600|cban'
+  Speed:
+  - 'basiclog|rndcancel|vl>100|cancel|vl>800|addbanwave|vl>1200|cban|logban'
+  Default:
+  - 'basiclog|vl>20|cancel|vl>100|flog|tps>10|vl>400|ikick|vl>800|addbanwave|vl>1200|cban|logban'
 
-Comnmands:
-  
-
-#               -------------------------------
-#                  Punishment Configuration
-#      Here you can configure how long punishments are for.
-#          NOPE will automatically use a ban manager
-#               if one is on the server. This
-#            duration will be reflected on the bans.
-#                Durations are in milliseconds
-#               -------------------------------
-UseBanManager: true
-
-BanDurations:
-  AutoClicker: -1 # Permanent
-  Flight: 7.884e+9 # 3 Months
-  KillAura: 5.256e+9 # 2 Months
-  Jesus: 2.628e+9 + # 1 Month
-  Default: 2.628e+9 # 1 Month
-
-# Configure Ban Messages in lang.yml
-
-CommandsForBan:
-- say %name% was banned for %hack% (%token%)
-
-CommandsForBanwave:
-- say %name% was banned for %hack% (%token%)
-
+# Commands are loaded and created in order. Define a custom command first before using it in another custom command.
+Commands:
+  flog: 'log:FILE:%player% failed %debug% (%vl%)|delay:5000|log:CONSOLE:%player% failed %debug%'
+  alog: 'vl>20|vl<200|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &a%check%&7 check. (VL: &e%vl%&7)'
+  elog: 'vl>200|vl<400|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &e%check%&7 check. (VL: &e%vl%&7)'
+  clog: 'vl>400|vl<600|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &c%check%&7 check. (VL: &e%vl%&7)'
+  4log: 'vl>600|delay:500|flog|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &4%check%&7 check. (VL: &e%vl%&7)'
+  basiclog: 'alog|elog|clog|4log'
+  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was banned for &b%check%&7.|log:FILE:Banned %player% for %debug% %vl%'
+  ikick: 'delay:60000|kick:Irregular Gameplay'
+  lagkick: 'ping>150|kick:Extreme Ping'
+  rndcancel: 'rnd:.80|cancel'
+  cban: "notdev|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
+  addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
 #               -------------------------------
 #                     Check Configuration
