@@ -6,6 +6,13 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Banwave.BanwaveInfo;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * TODO A minor rework is required to support tokens and proper logging related
+ * to Actions
+ * 
+ * @author imodm
+ *
+ */
 public class BanwaveAction extends AbstractAction {
 
 	private long time;

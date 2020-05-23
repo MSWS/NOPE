@@ -6,6 +6,17 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.actions.LogAction.Type;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Creates actions from an action string
+ * 
+ * The format for an action is lable:[information] each action can have separate
+ * info
+ * 
+ * {@link AbstractAction}
+ * 
+ * @author imodm
+ *
+ */
 public class ActionFactory {
 
 	private NOPE plugin;

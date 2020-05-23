@@ -20,7 +20,6 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
-
 /**
  * 
  * @author imodm

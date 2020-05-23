@@ -38,12 +38,11 @@ public class WrapperPlayServerSetSlot extends AbstractPacket {
 	/**
 	 * Retrieve Window ID.
 	 * <p>
-	 * Notes: the window which is being updated. 0 for player inventory. Note
-	 * that all known window types include the player inventory. This packet
-	 * will only be sent for the currently opened window while the player is
-	 * performing actions, even if it affects the player inventory. After the
-	 * window is closed, a number of these packets are sent to update the
-	 * player's inventory window (0).
+	 * Notes: the window which is being updated. 0 for player inventory. Note that
+	 * all known window types include the player inventory. This packet will only be
+	 * sent for the currently opened window while the player is performing actions,
+	 * even if it affects the player inventory. After the window is closed, a number
+	 * of these packets are sent to update the player's inventory window (0).
 	 * 
 	 * @return The current Window ID
 	 */

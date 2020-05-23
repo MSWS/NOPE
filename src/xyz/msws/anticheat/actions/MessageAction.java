@@ -6,6 +6,12 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Sends a message to a specified target. The target can be ALL or a permission.
+ * 
+ * @author imodm
+ *
+ */
 public class MessageAction extends AbstractAction {
 
 	private String target, message;

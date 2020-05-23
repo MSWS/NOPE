@@ -50,8 +50,8 @@ public class Stats {
 			ItemStack item = new ItemStack(Material.PAPER,
 					Math.max(plugin.getChecks().getChecksWithType(type).size(), 1));
 			ItemMeta meta = item.getItemMeta();
-			meta.setDisplayName(MSG
-					.color(((plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
+			meta.setDisplayName(MSG.color(
+					((plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
 							+ "&l" + MSG.camelCase(type + "")));
 			int vls = getTotalVl(type), triggers = getTotalTriggers(type);
 			List<String> lore = new ArrayList<>();
@@ -170,8 +170,9 @@ public class Stats {
 		for (Check check : checks) {
 			ItemStack item = new ItemStack(Material.PAPER);
 			ItemMeta meta = item.getItemMeta();
-			boolean enabled = plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
-					+ check.getCategory() + "." + check.getDebugName() + ".Enabled")
+			boolean enabled = plugin.getConfig()
+					.getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + "."
+							+ check.getDebugName() + ".Enabled")
 					&& plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled")
 					&& plugin.getConfig().getBoolean(
 							"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled");

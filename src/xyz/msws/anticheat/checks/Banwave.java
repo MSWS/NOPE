@@ -12,6 +12,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Responsible for banning a list of players on a timer.
+ * 
+ * @author imodm
+ *
+ */
 public class Banwave {
 
 	private NOPE plugin;
@@ -64,6 +70,12 @@ public class Banwave {
 		return plugin.getConfig().getInt("BanwaveRate") * 50 + lastBanwave - System.currentTimeMillis();
 	}
 
+	/**
+	 * Simple encapsulation of data to avoid excessive maps
+	 * 
+	 * @author imodm
+	 *
+	 */
 	public class BanwaveInfo {
 		private UUID uuid;
 		private String reason;

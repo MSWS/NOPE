@@ -4,10 +4,10 @@ import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
+
 /**
- * AbstractAction is the parent class for all actions that can be taken against a player when they flag
- * 
- * Actions must be manually 
+ * Represents an action that can be used against a player
+ * {@link AbstractConditionalAction} is for boolean checks
  * 
  * @author imodm
  *
@@ -20,5 +20,10 @@ public abstract class AbstractAction {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Ideally @param player should never be an OfflinePlayer.
+	 * 
+	 * @param check
+	 */
 	public abstract void execute(OfflinePlayer player, Check check);
 }

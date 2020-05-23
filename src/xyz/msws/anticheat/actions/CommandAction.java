@@ -7,6 +7,12 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Makes the player run a command
+ * 
+ * @author imodm
+ *
+ */
 public class CommandAction extends AbstractAction {
 
 	private String command;

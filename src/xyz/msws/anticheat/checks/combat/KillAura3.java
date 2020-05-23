@@ -84,7 +84,7 @@ public class KillAura3 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return getCategory()+"#3";
+		return getCategory() + "#3";
 	}
 
 	@Override

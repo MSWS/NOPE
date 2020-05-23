@@ -6,6 +6,13 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * The biggest and most useful check, used for checking the current VL that the
+ * player is at for the specified hack
+ * 
+ * @author imodm
+ *
+ */
 public class VLActionCheck extends AbstractConditionalAction {
 
 	private int value;

@@ -6,6 +6,12 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Logs the specified message to either CONSOLE, FILE, or INGAME. {@link Type}
+ * 
+ * @author imodm
+ *
+ */
 public class LogAction extends AbstractAction {
 
 	private Type type;

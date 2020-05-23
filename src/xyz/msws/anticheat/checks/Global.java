@@ -243,7 +243,7 @@ public class Global implements Listener {
 		cp.setLastSafeLocation(player.getLocation());
 		cp.setTempData(Stat.JOIN_TIME, (double) System.currentTimeMillis());
 	}
-	
+
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player))

@@ -5,6 +5,13 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * Represents a boolean check that shouldn't do anything action wise Examples
+ * are vl>50, tps<13, etc.
+ * 
+ * @author imodm
+ *
+ */
 public abstract class AbstractConditionalAction extends AbstractAction {
 
 	public AbstractConditionalAction(NOPE plugin) {

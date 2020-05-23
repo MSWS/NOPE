@@ -106,14 +106,36 @@ public class ActionManager {
 		}
 	}
 
+	/**
+	 * Set the list of actiongroups for a specific category
+	 * 
+	 * @param category
+	 * @param actions
+	 */
 	public void setActions(String category, List<ActionGroup> actions) {
 		this.actions.put(category, actions);
 	}
 
+	/**
+	 * Add an actiongroup to the current list of actiongroups for a specific
+	 * category
+	 * 
+	 * @param category
+	 * @param action
+	 */
 	public void addAction(String category, ActionGroup action) {
 		this.actions.getOrDefault(category, new ArrayList<>()).add(action);
 	}
 
+	/**
+	 * Executes all ActionGroups that are assigned for a category, uses the Default
+	 * category if the specified category is not given one
+	 * 
+	 * @param player
+	 * @param category
+	 * @param check
+	 * @return
+	 */
 	public boolean runActions(OfflinePlayer player, String category, Check check) {
 		if (!actions.containsKey(category)) {
 			for (ActionGroup group : actions.get("Default"))
@@ -150,8 +172,6 @@ public class ActionManager {
 					group.add(factory.createAction(action));
 			}
 			actions.put(entry.getKey(), Arrays.asList(group));
-//			actions.put(entry.getKey(),
-//					Arrays.asList(new ActionGroup(Arrays.asList(new CustomAction(plugin, (String) entry.getValue())))));
 		}
 	}
 }

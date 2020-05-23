@@ -13,6 +13,6 @@ public abstract class AbstractHook implements Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, this.plugin);
 	}
-	
+
 	public abstract String getName();
 }

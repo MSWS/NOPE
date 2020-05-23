@@ -53,7 +53,6 @@ public class Speed4 implements Check, Listener {
 			return;
 
 		double maxDist = .02;
-		
 
 		Location to = event.getTo().clone(), from = event.getFrom().clone();
 		to.setY(0);

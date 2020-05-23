@@ -10,6 +10,16 @@ import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * Represents the line of actions that one check can have
+ * 
+ * An example would be: "cancel|vl>50|log:FILE:%player% flagged %check%"
+ * 
+ * This is used for easy management and easy combination of actions.
+ * 
+ * @author imodm
+ *
+ */
 public class ActionGroup implements List<AbstractAction> {
 	private List<AbstractAction> actions;
 

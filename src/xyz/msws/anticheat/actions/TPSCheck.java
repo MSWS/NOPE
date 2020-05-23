@@ -6,6 +6,12 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * Used for checking the server's TPS
+ * 
+ * @author imodm
+ *
+ */
 public class TPSCheck extends AbstractConditionalAction {
 	private int value;
 	private Compare comparer;

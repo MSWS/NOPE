@@ -5,6 +5,13 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * Used to signify a custom action that the config has set, this is extremely
+ * useful
+ * 
+ * @author imodm
+ *
+ */
 public class CustomAction extends AbstractAction {
 
 	private ActionGroup group;

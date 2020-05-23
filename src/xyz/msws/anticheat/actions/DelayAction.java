@@ -5,6 +5,14 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 
+/**
+ * A useful {@link AbstractConditionalAction} for avoiding spam or kicking the
+ * player but not every time they flag a hack. This ONLY prevents the NEXT
+ * action from running, this is unique to only this action.
+ * 
+ * @author imodm
+ *
+ */
 public class DelayAction extends AbstractConditionalAction {
 
 	private long delay, lastActivated;

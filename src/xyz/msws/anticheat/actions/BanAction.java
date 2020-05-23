@@ -8,6 +8,12 @@ import xyz.msws.anticheat.checks.Timing;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Bans, saves logs, and increments statistics
+ * 
+ * @author imodm
+ *
+ */
 public class BanAction extends AbstractAction {
 
 	private String reason;

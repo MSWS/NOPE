@@ -6,6 +6,13 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * Kicks the player with the specified reason. Generally should be used with
+ * delay.
+ * 
+ * @author imodm
+ *
+ */
 public class KickAction extends AbstractAction {
 
 	private String reason;

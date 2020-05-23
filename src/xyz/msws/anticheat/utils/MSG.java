@@ -137,6 +137,14 @@ public class MSG {
 			sender.sendMessage(color(msg));
 	}
 
+	/**
+	 * Replaces all PAPI placeholders appropriate, automatically makes sure PAPI is
+	 * enabled to avoid {@link ClassNotFoundException}.
+	 * 
+	 * @param sender
+	 * @param msg
+	 * @return
+	 */
 	public static String papi(OfflinePlayer sender, String msg) {
 		if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			return msg;
@@ -144,6 +152,14 @@ public class MSG {
 		return new PAPIHook().setPlaceholders(sender, msg);
 	}
 
+	/**
+	 * Replaces the standard placeholders related to checks.
+	 * 
+	 * @param s
+	 * @param cp
+	 * @param check
+	 * @return
+	 */
 	public static String replaceCheckPlaceholder(String s, CPlayer cp, Check check) {
 		return papi(cp.getPlayer(), s.replace("%check%", check.getCategory()).replace("%debug%", check.getDebugName())
 				.replace("%vl%", cp.getVL(check.getCategory()) + "").replace("%player%", cp.getPlayer().getName()));

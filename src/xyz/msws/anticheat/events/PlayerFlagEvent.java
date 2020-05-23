@@ -25,7 +25,7 @@ public class PlayerFlagEvent extends Event implements Cancellable {
 	public CPlayer getCPlayer() {
 		return player;
 	}
-	
+
 	public Player getPlayer() {
 		return player.getPlayer().getPlayer();
 	}

@@ -10,7 +10,7 @@ import me.confuser.banmanager.data.PlayerBanData;
 import me.confuser.banmanager.data.PlayerData;
 
 public class BanManagementHook implements BanHook {
-	
+
 	@Override
 	public void ban(UUID player, String reason, long time) {
 		PlayerBanData banData = new PlayerBanData(new PlayerData(player, Bukkit.getOfflinePlayer(player).getName()),

@@ -1,5 +1,11 @@
 package xyz.msws.anticheat.actions;
 
+/**
+ * Used for easy comparisons used by {@link AbstractConditionalAction}
+ * 
+ * @author imodm
+ *
+ */
 public enum Compare {
 	LESS_THAN("<"), LESS_THAN_EQUALS("<="), EQUALS("="), NOT_EQUALS("!="), GREATER_THAN(">"), GREATER_THAN_EQUALS(">=");
 

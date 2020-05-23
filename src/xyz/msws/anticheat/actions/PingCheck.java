@@ -7,6 +7,15 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.Utils;
 
+/**
+ * Another {@link AbstractConditionalAction} that is used for checking the
+ * player's ping.
+ * 
+ * <b>PingSpoof</b> is a thing. Do not use this to allow bypasses.
+ * 
+ * @author imodm
+ *
+ */
 public class PingCheck extends AbstractConditionalAction {
 	private int value;
 	private Compare comparer;
