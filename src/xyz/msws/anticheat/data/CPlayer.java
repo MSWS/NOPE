@@ -5,17 +5,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,10 +31,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.Global.Stat;
-import xyz.msws.anticheat.checks.Timing;
 import xyz.msws.anticheat.events.PlayerFlagEvent;
 import xyz.msws.anticheat.utils.MSG;
-//import xyz.msws.punish.managers.BanManager;
 import xyz.msws.anticheat.utils.Utils;
 
 /**
@@ -56,6 +49,8 @@ public class CPlayer {
 
 	private File saveFile, dataFile;
 	private YamlConfiguration data;
+
+	private Log log;
 
 	private Location lastSafe;
 
@@ -268,6 +263,10 @@ public class CPlayer {
 
 		PlayerFlagEvent pfe = new PlayerFlagEvent(this, check);
 		Bukkit.getPluginManager().callEvent(pfe);
+
+		if (timeSince(Stat.JOIN_TIME) < 5000)
+			return;
+
 		if (pfe.isCancelled())
 			return;
 
@@ -280,13 +279,6 @@ public class CPlayer {
 			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + "."
 					+ check.getCategory() + "." + check.getDebugName() + ".Enabled"))
 				return;
-		}
-
-		if (timeSince(Stat.JOIN_TIME) < 5000) {
-			if (plugin.devMode())
-				MSG.tell("nope.message.dev", "&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c"
-						+ check.getDebugName() + " &8[CANCELLED]");
-			return;
 		}
 
 		if (bypassCheck(check)) {
@@ -346,165 +338,40 @@ public class CPlayer {
 		return ping;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void saveLog(String check, Timing timing, String token) {
-		new File(plugin.getDataFolder(), "logs/instant").mkdirs();
-		new File(plugin.getDataFolder(), "logs/banwaves").mkdirs();
+	public String saveLog(Check check) {
+		new File(plugin.getDataFolder(), "logs/").mkdirs();
 
-		File logFile;
+		String token = "";
 
-		if (timing == Timing.INSTANT) {
-			logFile = new File(plugin.getDataFolder(), "logs/instant/" + token + ".log");
-		} else {
-			logFile = new File(plugin.getDataFolder(), "logs/banwaves/" + token + ".log");
+		if (plugin.getConfig().getString("Log", "none").equalsIgnoreCase("none")) {
+			return null;
 		}
 
-		List<String> prefix = new ArrayList<>();
+		List<String> lines = log.getLinesFrom(0);
 
-		List<String> lines = getSaveData("log", List.class);
-		if (lines == null)
-			lines = new ArrayList<>();
+		if (plugin.getConfig().getString("Log").equalsIgnoreCase("file")) {
+			token = MSG.genUUID(16);
+			File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
 
-		List<String> revised = new ArrayList<>();
-
-		int longest = 0;
-
-		long timeElapsed = 0;
-
-		for (int i = 0; i < lines.size(); i++) {
-			String line = lines.get(i);
-
-			long time = 0;
-			int tmpLong = 0;
-
-			for (String k : line.split(" ")) {
-				if (k.startsWith("time:")) {
-					time = System.currentTimeMillis() - Long.parseLong(k.substring("time:".length()));
-					line = line.replace(k,
-							"[" + MSG.getTime(time).replace("milliseconds", "ms").replace("milliseconds", "ms").trim()
-									+ "]");
-					break;
-				}
-				if (k.startsWith("check:")) {
-					if (k.split("check:")[1].length() > longest)
-						tmpLong = k.split("check:")[1].length();
-				}
-			}
-			if (time < 120000) {
-				if (time > timeElapsed && line.startsWith("Flagged "))
-					timeElapsed = time;
-				revised.add(line);
-				if (tmpLong > longest)
-					longest = tmpLong;
-			}
-		}
-
-		longest++;
-
-		Map<String, Integer> flags = new HashMap<>();
-
-		for (int i = 0; i < revised.size(); i++) {
-			String line = revised.get(i);
-
-			for (String k : line.split(" ")) {
-				if (!k.startsWith("check:"))
-					continue;
-
-				String checkName = k.substring("check:".length());
-
-				flags.put(checkName, flags.containsKey(checkName) ? flags.get(checkName) + 1 : 1);
-
-				String replace = "";
-
-				for (int a = checkName.length(); a < longest; a++) {
-					replace += " ";
-				}
-
-				line = line.replace(k, checkName + replace + "|");
-
-				revised.set(i, line);
-			}
-		}
-
-		Date now = new Date(System.currentTimeMillis());
-
-		SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss aaa z '-' MM/dd/yyyy");
-
-//		int totalFlags = 0;
-//		for (Entry<String, Integer> entry : flags.entrySet()) {
-//			totalFlags += entry.getValue();
-//		}
-
-		prefix.add("Beginning log for " + player.getName() + " (" + uuid + ")");
-		if (plugin.devMode())
-			prefix.add("[WARNING] Developer Mode WAS Enabled During This Ban");
-//		prefix.add("Hack: " + check + " (" + getSaveInteger("vls." + check) + "/" + getTotalVL() + ")");
-		prefix.add("Hack: " + check + " (" + getSaveData("vls." + check, Integer.class) + "/" + getTotalVL() + ")");
-		prefix.add("Timing: " + MSG.camelCase(timing + ""));
-		prefix.add("Date: " + format.format(now));
-		prefix.add("Time elapsed: " + MSG.getTime(timeElapsed));
-
-//		double hackScore = totalFlags * getTotalVL();
-//
-//		prefix.add("Hack Score: " + hackScore / (timeElapsed / 120000.0) / 100000.0);
-
-		prefix.add("");
-
-		prefix.add("Total amount of checks");
-
-		flags = flags.entrySet().stream().sorted(Entry.comparingByValue())
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e2, e1) -> e1, LinkedHashMap::new));
-
-		for (Entry<String, Integer> entry : flags.entrySet()) {
-			prefix.add(entry.getKey() + ": " + entry.getValue());
-		}
-
-		prefix.add("");
-
-		revised.addAll(0, prefix);
-
-		revised.add("");
-		revised.add("Banning " + player.getName() + " for " + check + " (VL: "
-				+ getSaveData("vls." + check, Integer.class) + ")");
-
-		for (int i = 1; i < revised.size(); i++) {
-			if (revised.get(i).isEmpty() && revised.get(i - 1).isEmpty()) {
-				revised.remove(i);
-				i--;
-			}
-		}
-
-		// Saving files
-
-		if (plugin.getConfig().getString("Log").equalsIgnoreCase("hastebin") && !plugin.devMode()) {
-			// Don't upload a new hastebin file for every ban when dev mode is on, it's
-			// extremely spammy
-			String data = String.join("\n", revised);
 			try {
-				String link = Utils.post(data, false);
-				revised.clear();
-				revised.add("Hastebin Link: " + link);
-				MSG.log("Generated new hastebin for banwave token &e" + token + "&7: &b" + link);
+				Files.write(logFile.toPath(), lines, StandardCharsets.UTF_8);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				token = Utils.post(String.join("\n", lines), false);
+				token = token.substring(token.indexOf("/") + 1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
-		try {
-			Files.write(logFile.toPath(), revised, StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return token;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void addLogMessage(String msg) {
-		List<String> lines = getSaveData("log", List.class);
-		if (lines == null)
-			lines = new ArrayList<>();
-
-		lines.add(msg);
-		setSaveData("log", lines);
+		log.addLine(msg);
 	}
 
 	public Location getLastSafeLocation() {

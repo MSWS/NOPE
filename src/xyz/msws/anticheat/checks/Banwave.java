@@ -44,6 +44,7 @@ public class Banwave {
 					plugin.getBanManager().ban(player.getUniqueId(), entry.getValue().getReason(),
 							entry.getValue().getDuration());
 				}
+				toBan.clear();
 				if (!forced)
 					lastBanwave = System.currentTimeMillis();
 			}

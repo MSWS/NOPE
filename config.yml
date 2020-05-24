@@ -6,7 +6,7 @@
 #    the default values unless you know what you're doing.
 #
 # ----------------------------------------------------------
-ConfigVersion: 1.4
+ConfigVersion: 1.4.1
 #               -------------------------------
 #                     Global Configuration
 #               -------------------------------
