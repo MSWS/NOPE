@@ -61,7 +61,7 @@ public class CPlayer {
 		this.player = player;
 		this.uuid = player.getUniqueId();
 		this.log = new Log(player.getUniqueId());
-		
+
 		this.tempData = new HashMap<>();
 
 		dataFile = new File(plugin.getDataFolder() + "/data");
@@ -362,7 +362,7 @@ public class CPlayer {
 		} else {
 			try {
 				token = Utils.post(String.join("\n", lines), false);
-				token = token.substring(token.indexOf("/") + 1);
+				token = token.substring(token.lastIndexOf("/") + 1);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

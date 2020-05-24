@@ -116,7 +116,8 @@ public class Webhook {
 					int length = out.length;
 
 					http.setFixedLengthStreamingMode(length);
-					http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+					http.addRequestProperty("Content-Type", "application/json; charset=UTF-8");
+					http.addRequestProperty("User-Agent", "Java-NOPEWebhook");
 					http.connect();
 					try (OutputStream os = http.getOutputStream()) {
 						os.write(out);

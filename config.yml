@@ -194,7 +194,8 @@ Commands:
  #rndcancel Has an 80% chance of teleporting the player back
   rndcancel: 'rnd:.80|cancel'
  #cban Only bans the player if dev mode is disabled, it also logs the ban
-  cban: "notdev|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%|logban"
+ # We log the ban first so we can get the VL data first
+  cban: "notdev|logban|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
 #               -------------------------------
