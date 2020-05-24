@@ -1,10 +1,11 @@
-package xyz.msws.anticheat.actions;
+package xyz.msws.anticheat.actions.actions;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.AbstractConditionalAction;
 import xyz.msws.anticheat.checks.Check;
 
 /**

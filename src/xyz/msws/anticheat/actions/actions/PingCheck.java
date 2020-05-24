@@ -1,9 +1,11 @@
-package xyz.msws.anticheat.actions;
+package xyz.msws.anticheat.actions.actions;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.AbstractConditionalAction;
+import xyz.msws.anticheat.actions.Compare;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.Utils;
 

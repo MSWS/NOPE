@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -79,6 +80,9 @@ public class NoSwing1 implements Check, Listener {
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (player.getGameMode() == GameMode.ADVENTURE)
+			return;
 
 		if (event.getAction() == Action.RIGHT_CLICK_AIR)
 			return;

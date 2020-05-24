@@ -60,7 +60,8 @@ public class CPlayer {
 		this.plugin = plugin;
 		this.player = player;
 		this.uuid = player.getUniqueId();
-
+		this.log = new Log(player.getUniqueId());
+		
 		this.tempData = new HashMap<>();
 
 		dataFile = new File(plugin.getDataFolder() + "/data");

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.actions.CommandAction;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 

@@ -1,8 +1,10 @@
-package xyz.msws.anticheat.actions;
+package xyz.msws.anticheat.actions.actions;
 
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.AbstractAction;
+import xyz.msws.anticheat.actions.Webhook;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -16,10 +18,18 @@ public class LogAction extends AbstractAction {
 
 	private Type type;
 	private String message;
+	private Webhook hook;
 
 	public LogAction(NOPE plugin, Type type, String message) {
 		super(plugin);
 		this.type = type;
+		this.message = message;
+	}
+
+	public LogAction(NOPE plugin, Webhook hook, String message) {
+		super(plugin);
+		this.type = Type.WEBHOOK;
+		this.hook = hook;
 		this.message = message;
 	}
 
@@ -36,11 +46,14 @@ public class LogAction extends AbstractAction {
 			case INGAME:
 				MSG.tell("nope.message.normal", msg);
 				break;
+			case WEBHOOK:
+				hook.sendMessage(msg, plugin.getCPlayer(player), check);
+				break;
 		}
 	}
 
 	public enum Type {
-		CONSOLE, FILE, INGAME;
+		CONSOLE, FILE, INGAME, WEBHOOK;
 	}
 
 }

@@ -1,8 +1,9 @@
 package xyz.msws.anticheat.data;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ public class Log {
 	private UUID uuid;
 	private String token;
 
-	private LinkedHashMap<Long, String> log = new LinkedHashMap<Long, String>();
+	private Map<Long, String> log = new HashMap<Long, String>();
 
 	public Log(UUID uuid) {
 		this.uuid = uuid;
@@ -35,7 +36,7 @@ public class Log {
 	@SuppressWarnings("unchecked")
 	public List<String> getLinesFrom(long time) {
 		if (time <= 0)
-			return (List<String>) log.values();
+			return new ArrayList<>(log.values());
 		long minTime = System.currentTimeMillis() - time;
 		Entry<Long, String>[] arr = (Entry<Long, String>[]) log.entrySet().toArray();
 		List<String> result = new ArrayList<>();

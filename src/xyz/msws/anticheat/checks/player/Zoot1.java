@@ -71,7 +71,8 @@ public class Zoot1 implements Check, Listener {
 						if (System.currentTimeMillis() - reset.getOrDefault(player.getUniqueId(), 0L) < 2000)
 							return;
 
-						cp.flagHack(Zoot1.this, (int) Math.round((oldPotionTicks - currentTicks - (RATE + 15)) / 20));
+						cp.flagHack(Zoot1.this,
+								Math.min((int) Math.round((oldPotionTicks - currentTicks - (RATE + 15)) / 20), 200));
 					}
 				}
 			}

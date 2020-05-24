@@ -1,8 +1,9 @@
-package xyz.msws.anticheat.actions;
+package xyz.msws.anticheat.actions.actions;
 
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.AbstractAction;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.data.CPlayer;
 

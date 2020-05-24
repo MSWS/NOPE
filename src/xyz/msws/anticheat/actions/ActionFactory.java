@@ -3,7 +3,22 @@ package xyz.msws.anticheat.actions;
 import org.apache.commons.lang.StringUtils;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.actions.LogAction.Type;
+import xyz.msws.anticheat.actions.actions.BanAction;
+import xyz.msws.anticheat.actions.actions.BanwaveAction;
+import xyz.msws.anticheat.actions.actions.CancelAction;
+import xyz.msws.anticheat.actions.actions.CommandAction;
+import xyz.msws.anticheat.actions.actions.CustomAction;
+import xyz.msws.anticheat.actions.actions.DelayAction;
+import xyz.msws.anticheat.actions.actions.KickAction;
+import xyz.msws.anticheat.actions.actions.LogAction;
+import xyz.msws.anticheat.actions.actions.MessageAction;
+import xyz.msws.anticheat.actions.actions.MessagePlayerAction;
+import xyz.msws.anticheat.actions.actions.NotDevCheck;
+import xyz.msws.anticheat.actions.actions.PingCheck;
+import xyz.msws.anticheat.actions.actions.RandomCheck;
+import xyz.msws.anticheat.actions.actions.TPSCheck;
+import xyz.msws.anticheat.actions.actions.VLActionCheck;
+import xyz.msws.anticheat.actions.actions.LogAction.Type;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -71,8 +86,10 @@ public class ActionFactory {
 		if (data.startsWith("log:")) {
 			try {
 				String logType = rawData.substring("log:".length(), rawData.indexOf(":", "log:".length()));
-				return new LogAction(plugin, Type.valueOf(logType),
-						rawData.substring("log:".length() + logType.length() + 1));
+				String message = rawData.substring("log:".length() + logType.length() + 1);
+				if (manager.hasWebHook(logType))
+					return new LogAction(plugin, manager.getWebHook(logType), message);
+				return new LogAction(plugin, Type.valueOf(logType), message);
 			} catch (IllegalArgumentException e) {
 				MSG.error("Invalid log format: " + rawData.substring("log:".length()));
 				return null;

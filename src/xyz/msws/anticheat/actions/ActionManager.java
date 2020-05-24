@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -33,8 +34,12 @@ public class ActionManager {
 	private ActionFactory factory;
 
 	private Map<String, List<ActionGroup>> actions;
+	private Map<String, Webhook> webhooks;
+
+	private NOPE plugin;
 
 	public ActionManager(NOPE plugin, File file) {
+		this.plugin = plugin;
 		this.file = file;
 		this.factory = new ActionFactory(plugin, this);
 
@@ -68,8 +73,27 @@ public class ActionManager {
 		return actions.getOrDefault(type, new ArrayList<>());
 	}
 
+	@Nullable
+	public List<Webhook> getWebHooks() {
+		return (List<Webhook>) webhooks.values();
+	}
+
+	@Nullable
+	public Map<String, Webhook> getWebHookMap() {
+		return webhooks;
+	}
+
+	@Nullable
+	public Webhook getWebHook(String name) {
+		return webhooks.get(name);
+	}
+
 	public boolean hasAction(String type) {
 		return actions.containsKey(type);
+	}
+
+	public boolean hasWebHook(String name) {
+		return webhooks.containsKey(name);
 	}
 
 	/**
@@ -78,6 +102,7 @@ public class ActionManager {
 	@SuppressWarnings("unchecked")
 	public void loadActions() {
 		actions = new HashMap<>();
+		loadWebhooks();
 		loadCustomActions();
 		if (section == null) {
 			MSG.error("Actions section is null.");
@@ -103,6 +128,17 @@ public class ActionManager {
 				groups.add(group);
 			}
 			actions.put(entry.getKey(), groups);
+		}
+	}
+
+	private void loadWebhooks() {
+		webhooks = new HashMap<>();
+		ConfigurationSection conf = YamlConfiguration.loadConfiguration(file);
+		if (!conf.isConfigurationSection("Webhooks"))
+			return;
+		conf = conf.getConfigurationSection("Webhooks");
+		for (String name : conf.getKeys(false)) {
+			webhooks.put(name, new Webhook(plugin, conf.getConfigurationSection(name)));
 		}
 	}
 

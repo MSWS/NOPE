@@ -161,8 +161,16 @@ public class MSG {
 	 * @return
 	 */
 	public static String replaceCheckPlaceholder(String s, CPlayer cp, Check check) {
-		return papi(cp.getPlayer(), s.replace("%check%", check.getCategory()).replace("%debug%", check.getDebugName())
-				.replace("%vl%", cp.getVL(check.getCategory()) + "").replace("%player%", cp.getPlayer().getName()));
+
+		s = s.replace("%check%", check.getCategory()).replace("%debug%", check.getDebugName())
+				.replace("%vl%", cp.getVL(check.getCategory()) + "").replace("%player%", cp.getPlayer().getName())
+				.replace("%world%",
+						cp.getPlayer().isOnline() ? cp.getPlayer().getPlayer().getWorld().getName() : "Offline")
+				.replace("%uuid%", cp.getPlayer().getUniqueId().toString())
+				.replace("%nuuid%", cp.getPlayer().getUniqueId().toString().replace("-", ""))
+				.replace("%server%", plugin.getServerName());
+
+		return papi(cp.getPlayer(), s);
 	}
 
 	/**

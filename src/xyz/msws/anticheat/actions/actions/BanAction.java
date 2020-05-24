@@ -1,8 +1,9 @@
-package xyz.msws.anticheat.actions;
+package xyz.msws.anticheat.actions.actions;
 
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.actions.AbstractAction;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
@@ -29,6 +30,7 @@ public class BanAction extends AbstractAction {
 		CPlayer cp = plugin.getCPlayer(player);
 		String token = cp.saveLog(check);
 		String res = MSG.replaceCheckPlaceholder(reason, cp, check).replace("%token%", token);
+		cp.clearVls();
 
 		plugin.getStats().addBan();
 		plugin.getBanwave().removePlayer(player.getUniqueId());
