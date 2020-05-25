@@ -3,6 +3,7 @@ package xyz.msws.anticheat.checks.movement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,6 +47,9 @@ public class Flight2 implements Check, Listener {
 		Location to = event.getTo(), from = event.getFrom();
 
 		if (to.getY() != from.getY())
+			return;
+
+		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
 
 		boolean isBlockNearby = false;

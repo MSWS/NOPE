@@ -50,8 +50,10 @@ public class Glide1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isOnGround() || player.isFlying())
+		if (player.isOnGround() || player.isFlying()) {
 			fallDistances.remove(player.getUniqueId());
+			return;
+		}
 
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
@@ -61,13 +63,12 @@ public class Glide1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.ON_GROUND) < 500 || cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
-
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 
-		if (fallDist == 0 || player.getFallDistance() == 0) {
+		if (fallDist == 0) {
 			lastFall.remove(player.getUniqueId());
 			return;
 		}
@@ -84,13 +85,11 @@ public class Glide1 implements Check, Listener {
 
 		fs.add(0, diff);
 
-		if (fs.size() > SIZE) {
-			fs = fs.subList(0, SIZE);
-		}
+		fs = fs.subList(0, Math.min(fs.size(), SIZE));
 
 		fallDistances.put(player.getUniqueId(), fs);
 
-		if (fallDistances.size() < SIZE)
+		if (fs.size() < SIZE)
 			return;
 
 		double avg = 0;

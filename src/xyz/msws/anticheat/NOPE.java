@@ -130,7 +130,7 @@ public class NOPE extends JavaPlugin {
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
 			case "1.4":
-				return "You are using a recent config and nothing significant has changed.";
+				return "You are using a recent config, a new addition is webhooks. If you would like to use these please reset your config.";
 			case "1.3.4.2":
 			case "1.3.4.1":
 			case "1.3.4":

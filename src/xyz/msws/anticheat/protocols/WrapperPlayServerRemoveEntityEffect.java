@@ -20,20 +20,21 @@ package xyz.msws.anticheat.protocols;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.potion.PotionEffectType;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
-public class WrapperPlayServerEntityStatus extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.ENTITY_STATUS;
+public class WrapperPlayServerRemoveEntityEffect extends AbstractPacket {
+	public static final PacketType TYPE = PacketType.Play.Server.REMOVE_ENTITY_EFFECT;
 
-	public WrapperPlayServerEntityStatus() {
+	public WrapperPlayServerRemoveEntityEffect() {
 		super(new PacketContainer(TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
-	public WrapperPlayServerEntityStatus(PacketContainer packet) {
+	public WrapperPlayServerRemoveEntityEffect(PacketContainer packet) {
 		super(packet, TYPE);
 	}
 
@@ -77,23 +78,11 @@ public class WrapperPlayServerEntityStatus extends AbstractPacket {
 		return getEntity(event.getPlayer().getWorld());
 	}
 
-	/**
-	 * Retrieve Entity Status.
-	 * <p>
-	 * Notes: see below
-	 * 
-	 * @return The current Entity Status
-	 */
-	public byte getEntityStatus() {
-		return handle.getBytes().read(0);
+	public PotionEffectType getEffect() {
+		return handle.getEffectTypes().read(0);
 	}
 
-	/**
-	 * Set Entity Status.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setEntityStatus(byte value) {
-		handle.getBytes().write(0, value);
+	public void setEffect(PotionEffectType value) {
+		handle.getEffectTypes().write(0, value);
 	}
 }

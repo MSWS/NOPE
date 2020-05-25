@@ -21,6 +21,7 @@ Global: true # If disabled, NOPE will be disabled
 
 Log: file # NONE, file, or hastebin
 
+# Permission to be notified ingame is nope.message.udpate
 UpdateChecker:
   Enabled: true
   InGame: true
@@ -62,7 +63,7 @@ Webhooks:
         name: "%player% Ban"
         avatar_url: 'https://i.imgur.com/U33fgPg.png'
       title: '%player% was banned for %check%'
-      color: dd0000
+      color: 14483456
       fields:
         check:
           name: "Check"
@@ -128,7 +129,7 @@ Webhooks:
 # log:WEBHOOK:message Logs the message to the specified webhook
 # NOTE: PLEASE use a delay for discord webhooks otherwise you might get autoblocked
 #
-# Conditions: (<, <=, =, !=, >=, >=)
+# Conditions: (<, <=, =, !=, >=, >)
 # If a condition is not fullfilled, none of the following actinos will be run
 # The ones with > you can replace with the appropriate operator
 #

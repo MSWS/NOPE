@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -44,10 +46,18 @@ public class Zoot1 implements Check, Listener {
 
 	@SuppressWarnings("unused")
 	private NOPE plugin;
+	private ZootProtocol zp;
 
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
+		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			try {
+				zp = new ZootProtocol(plugin);
+			} catch (OperationNotSupportedException e) {
+				e.printStackTrace();
+			}
+
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
 		new BukkitRunnable() {
@@ -71,6 +81,9 @@ public class Zoot1 implements Check, Listener {
 						if (System.currentTimeMillis() - reset.getOrDefault(player.getUniqueId(), 0L) < 2000)
 							return;
 
+						if (zp != null && System.currentTimeMillis() - zp.getLastStatus(player.getUniqueId()) < 500)
+							return;
+
 						cp.flagHack(Zoot1.this,
 								Math.min((int) Math.round((oldPotionTicks - currentTicks - (RATE + 15)) / 20), 200));
 					}
@@ -88,7 +101,7 @@ public class Zoot1 implements Check, Listener {
 	}
 
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
+	public void onConsume(PlayerItemConsumeEvent event) {
 		Player player = event.getPlayer();
 		ItemStack hand = event.getItem();
 

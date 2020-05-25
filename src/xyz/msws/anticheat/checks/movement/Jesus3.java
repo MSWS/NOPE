@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,6 +58,9 @@ public class Jesus3 implements Check, Listener {
 			return;
 
 		if (player.getLocation().clone().add(0, 2, 0).getBlock().isLiquid())
+			return;
+
+		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
 
 		Location vertLine = player.getLocation();
