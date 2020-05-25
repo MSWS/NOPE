@@ -2,14 +2,14 @@ package xyz.msws.anticheat.data;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -45,7 +45,7 @@ public class CPlayer {
 	private OfflinePlayer player;
 	private UUID uuid;
 
-	private Map<Stat, Object> tempData;
+	private EnumMap<Stat, Long> tempData;
 
 	private File saveFile, dataFile;
 	private YamlConfiguration data;
@@ -56,13 +56,15 @@ public class CPlayer {
 
 	private NOPE plugin;
 
+	private String currentInventory;
+
 	public CPlayer(OfflinePlayer player, NOPE plugin) {
 		this.plugin = plugin;
 		this.player = player;
 		this.uuid = player.getUniqueId();
 		this.log = new Log(player.getUniqueId());
 
-		this.tempData = new HashMap<>();
+		this.tempData = new EnumMap<>(Stat.class);
 
 		dataFile = new File(plugin.getDataFolder() + "/data");
 		dataFile.mkdir();
@@ -76,6 +78,14 @@ public class CPlayer {
 		data = YamlConfiguration.loadConfiguration(saveFile);
 	}
 
+	public void setInventory(String inv) {
+		this.currentInventory = inv;
+	}
+
+	public String getInventory() {
+		return this.currentInventory;
+	}
+
 	public OfflinePlayer getPlayer() {
 		return this.player;
 	}
@@ -84,7 +94,7 @@ public class CPlayer {
 		return new ArrayList<>(tempData.keySet());
 	}
 
-	public Map<Stat, Object> getTempData() {
+	public Map<Stat, Long> getTempData() {
 		return tempData;
 	}
 
@@ -105,7 +115,7 @@ public class CPlayer {
 		return online.hasPermission("nope.bypass." + check.getType() + "." + check.getDebugName());
 	}
 
-	public void setTempData(Stat id, Object obj) {
+	public void setTempData(Stat id, Long obj) {
 		tempData.put(id, obj);
 	}
 
@@ -265,7 +275,7 @@ public class CPlayer {
 		PlayerFlagEvent pfe = new PlayerFlagEvent(this, check);
 		Bukkit.getPluginManager().callEvent(pfe);
 
-		if (timeSince(Stat.JOIN_TIME) < 5000)
+		if (timeSince(Stat.JOIN_TIME) < 1000)
 			return;
 
 		if (pfe.isCancelled())
@@ -287,7 +297,7 @@ public class CPlayer {
 			return;
 		}
 
-		setTempData(Stat.FLAGGED, (double) System.currentTimeMillis());
+		setTempData(Stat.FLAGGED, System.currentTimeMillis());
 
 		if (plugin.devMode()) {
 			TextComponent component = new TextComponent(MSG.color(
@@ -300,7 +310,6 @@ public class CPlayer {
 						new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, ChatColor.stripColor(MSG.color(debug))));
 
 			}
-
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission("nope.message.dev"))
 					player.spigot().sendMessage(component);
@@ -326,48 +335,71 @@ public class CPlayer {
 		setSaveData("log", lines);
 	}
 
-	public int getPing() {
-		int ping = 0;
-
-		try {
-			Object entityPlayer = player.getClass().getMethod("getHandle").invoke(player);
-			ping = (int) entityPlayer.getClass().getField("ping").get(entityPlayer);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-				| SecurityException | NoSuchFieldException e) {
-			e.printStackTrace();
-		}
-		return ping;
-	}
-
+	/**
+	 * This method should be called asynchronously
+	 * 
+	 * @param check
+	 * @return
+	 */
 	public String saveLog(Check check) {
-		new File(plugin.getDataFolder(), "logs/").mkdirs();
-
-		String token = "";
-
 		if (plugin.getConfig().getString("Log", "none").equalsIgnoreCase("none")) {
 			return null;
 		}
 
-		List<String> lines = log.getLinesFrom(0);
+		List<String> lines = new ArrayList<>();
+		List<String> prefix = new ArrayList<>();
+		prefix.add("Starting new log for " + player.getName() + " (" + player.getUniqueId() + ")");
+		prefix.add("Server: " + plugin.getServerName());
+		prefix.add("Server Version: " + Bukkit.getVersion() + " Bukkit: " + Bukkit.getBukkitVersion());
+		prefix.add(
+				"NOPE Version: " + plugin.getDescription().getVersion() + " (Online: " + plugin.getNewVersion() + ")");
+		prefix.add("");
+		prefix.add(player.getName() + " was ultimately banned for " + check.getDebugName() + " at a VL of "
+				+ getVL(check.getCategory()));
+		String cat = plugin.getConfig().isConfigurationSection("Actions." + check.getCategory()) ? check.getCategory()
+				: "Default";
+		prefix.add("The actions listed for " + check.getCategory() + " (" + cat + ")" + " are:");
+		prefix.addAll(plugin.getConfig().getStringList("Actions." + check.getCategory()));
 
-		if (plugin.getConfig().getString("Log").equalsIgnoreCase("file")) {
-			token = MSG.genUUID(16);
-			File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
+		prefix.add("");
+		prefix.add("Temporary Data Dumb:");
+		for (Entry<Stat, Long> entry : this.getTempData().entrySet()) {
+			prefix.add("  " + entry.getKey() + ": " + entry.getValue() + " ("
+					+ (System.currentTimeMillis() - entry.getValue()) + ")");
+		}
+		prefix.add("");
+		prefix.add(player.getName() + "'s flags:");
+		for (String hack : this.getHackVls()) {
+			if (this.getVL(hack) == 0)
+				continue;
+			prefix.add(hack + ": " + this.getVL(hack));
+		}
+		prefix.add("");
 
+		lines.addAll(prefix);
+		lines.addAll(log.getLinesFrom(0));
+
+		if (plugin.getConfig().getString("Log").equalsIgnoreCase("hastebin")) {
 			try {
-				Files.write(logFile.toPath(), lines, StandardCharsets.UTF_8);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				token = Utils.post(String.join("\n", lines), false);
-				token = token.substring(token.lastIndexOf("/") + 1);
+				String token = Utils.uploadHastebin(String.join("\n", lines));
+				return token;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
+		new File(plugin.getDataFolder(), "logs/").mkdirs();
+
+		String token = "";
+
+		token = MSG.genUUID(16);
+		File logFile = new File(plugin.getDataFolder(), "logs/" + token + ".log");
+
+		try {
+			Files.write(logFile.toPath(), lines, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return token;
 	}
 

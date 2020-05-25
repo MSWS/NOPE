@@ -547,7 +547,17 @@ public class Utils {
 		return false;
 	}
 
-	public static String post(String text, boolean raw) throws IOException {
+	/**
+	 * Uploads the text to hastebin and return the ID.
+	 * 
+	 * @param text
+	 * @param raw
+	 * @return
+	 * @throws IOException
+	 */
+	public static String uploadHastebin(String text) throws IOException {
+		if (Bukkit.isPrimaryThread())
+			MSG.warn("Possible synchronous call to upload.");
 		byte[] postData = text.getBytes(StandardCharsets.UTF_8);
 		int postDataLength = postData.length;
 
@@ -572,11 +582,12 @@ public class Utils {
 			e.printStackTrace();
 		}
 
+		if (response == null)
+			return null;
+
 		if (response.contains("\"key\"")) {
 			response = response.substring(response.indexOf(":") + 2, response.length() - 2);
-
-			String postURL = raw ? "https://hastebin.com/raw/" : "https://hastebin.com/";
-			response = postURL + response;
+			return response;
 		}
 
 		return response;

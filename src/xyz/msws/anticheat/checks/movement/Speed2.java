@@ -38,7 +38,7 @@ public class Speed2 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		if (player.isFlying() || player.isInsideVehicle())
+		if (player.isFlying() || player.isInsideVehicle() || player.isGliding())
 			return;
 
 		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
@@ -50,6 +50,8 @@ public class Speed2 implements Check, Listener {
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 200)
 			return;
 		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 1000)
+			return;
+		if (cp.timeSince(Stat.DISABLE_GLIDE) < 2000)
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;

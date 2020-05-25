@@ -47,8 +47,4 @@ public class Log {
 		}
 		return result;
 	}
-
-	public void save() {
-
-	}
 }

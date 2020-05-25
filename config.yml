@@ -5,19 +5,18 @@
 #   This is the configuration for NOPE. I recommend keeping
 #    the default values unless you know what you're doing.
 #
+#          There is a YouTube tutorial available at
+#         https://www.youtube.com/watch?v=XVuXKsJEAkQ
+#
 # ----------------------------------------------------------
 
-ConfigVersion: 1.4.2
+ConfigVersion: 1.4.3
 
 #               -------------------------------
 #                     Global Configuration
 #               -------------------------------
 
 Global: true # If disabled, NOPE will be disabled
-
-# NONE, file, or hastebin
-# hastebin will not work if dev mode is enabled to prevent abuse
-# hastebin will log the link to the log within the file
 
 Log: file # NONE, file, or hastebin
 
@@ -37,7 +36,7 @@ BungeeNameOverride: '' # If not empty this will override the server name
 BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 
 # If enabled, developer messages will be sent to the player and commands will not execute
-DevMode: false 
+DevMode: false
 DebugMode: false
 
 #               -------------------------------
@@ -116,7 +115,10 @@ Webhooks:
 
 #               -------------------------------
 #                  Action Configuration
-# Actions:
+#
+#    Please note that bans are not necesssarily instantaneous.
+#           Please add a delay to prevent duplicate bans.
+#
 # kick:Reason         Kick the player for the specified reason
 # ban:Time:Reason     Ban the player for the specified time/reason
 # banwave:Time:Reason Add the player to the banwave
@@ -136,7 +138,7 @@ Webhooks:
 # vl>[Amo]           If the VL matches the threshold
 # tps>[Amo]          If the server's TPS matches the threshold
 # ping>[Amo]         If the player's ping matches (NOT RECOMMENDED) players can spoof their ping
-# delay:[Delay]      Wait X milliseconds before executing the NEXT action
+# delay:[Delay]      Wait X milliseconds before executing the NEXT action (eg: kick a player if the last call of this was > 60 seconds ago)
 # notdev             Will not run the next actions if the in dev mode
 # rnd:.40            Will run the actions 40% of the time
 # 
@@ -187,7 +189,7 @@ Commands:
  #basiclog combines all above log commands into 1 for simple usage
   basiclog: 'alog|elog|clog|flog|4log|weblog'
  #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was banned for &b%check%&7.|log:FILE:Banned %player% for %debug% %vl%|log:banExample:'
+  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was banned for &b%check%&7.|log:FILE:Banned %player% for %debug% %vl%|delay:5000|log:banExample:'
  #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging 
   ikick: 'delay:60000|kick:Irregular Gameplay'
  #lagkick Kicks the player if their ping is too high
@@ -196,7 +198,7 @@ Commands:
   rndcancel: 'rnd:.80|cancel'
  #cban Only bans the player if dev mode is disabled, it also logs the ban
  # We log the ban first so we can get the VL data first
-  cban: "notdev|logban|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
+  cban: "notdev|delay:5000|logban|delay:5000|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
 #               -------------------------------

@@ -40,7 +40,7 @@ public class Speed4 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying())
+		if (player.isFlying() || player.isGliding())
 			return;
 
 		if (cp.hasMovementRelatedPotion())
@@ -50,6 +50,9 @@ public class Speed4 implements Check, Listener {
 			return;
 
 		if (cp.timeSince(Stat.MOVE) < 500)
+			return;
+
+		if (cp.timeSince(Stat.TOGGLE_GLIDE) < 500)
 			return;
 
 		double maxDist = .02;

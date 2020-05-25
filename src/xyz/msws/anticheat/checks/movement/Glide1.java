@@ -63,6 +63,8 @@ public class Glide1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.ON_GROUND) < 500 || cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
+		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 2000)
+			return;
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 

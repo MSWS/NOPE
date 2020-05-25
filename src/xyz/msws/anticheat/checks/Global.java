@@ -75,10 +75,10 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		double time = System.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		boolean onGround = player.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
-		cp.setTempData(Stat.MOVE, (double) time);
+		cp.setTempData(Stat.MOVE, time);
 
 		Location from = event.getFrom(), to = event.getTo();
 
@@ -96,30 +96,30 @@ public class Global implements Listener {
 		}
 
 		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
-			cp.setTempData(Stat.IN_LIQUID, (double) time);
+			cp.setTempData(Stat.IN_LIQUID, time);
 
 		if (from.getY() != to.getY())
-			cp.setTempData(Stat.VERTICAL_CHANGE, (double) time);
+			cp.setTempData(Stat.VERTICAL_CHANGE, time);
 
 		if (onGround) {
-			cp.setTempData(Stat.ON_GROUND, (double) time);
+			cp.setTempData(Stat.ON_GROUND, time);
 			if (!weirdBlock && player.getLocation().subtract(0, .1, 0).getBlock().getType().isSolid()) {
 				cp.setLastSafeLocation(player.getLocation());
 			}
 		} else {
-			cp.setTempData(Stat.IN_AIR, (double) time);
+			cp.setTempData(Stat.IN_AIR, time);
 		}
 
 		if (cp.isBlockAbove()) {
 			if (player.getLocation().clone().add(0, -.5, 0).getBlock().getType().toString().contains("ICE") || player
 					.getLocation().clone().subtract(0, .05, 0).getBlock().getType().toString().contains("TRAP")) {
-				cp.setTempData(Stat.ICE_TRAPDOOR, (double) System.currentTimeMillis());
+				cp.setTempData(Stat.ICE_TRAPDOOR, time);
 
 			}
 		}
 
 		if (player.getLocation().clone().subtract(0, 1, 0).getBlock().getType().toString().contains("ICE"))
-			cp.setTempData(Stat.ON_ICE, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ON_ICE, time);
 
 		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
@@ -136,25 +136,25 @@ public class Global implements Listener {
 		}
 
 		if (isBlockNearby)
-			cp.setTempData(Stat.FLIGHT_GROUNDED, (double) time);
+			cp.setTempData(Stat.FLIGHT_GROUNDED, time);
 
 		if (climbing)
-			cp.setTempData(Stat.CLIMBING, (double) time);
+			cp.setTempData(Stat.CLIMBING, time);
 
 		if (weirdBlock)
-			cp.setTempData(Stat.IN_WEIRD_BLOCK, (double) time);
+			cp.setTempData(Stat.IN_WEIRD_BLOCK, time);
 
 		if (player.isInsideVehicle())
-			cp.setTempData(Stat.IN_VEHICLE, (double) time);
+			cp.setTempData(Stat.IN_VEHICLE, time);
 
 		if (player.isFlying() || cp.usingElytra())
-			cp.setTempData(Stat.FLYING, (double) time);
+			cp.setTempData(Stat.FLYING, time);
 
 		if (player.isSprinting())
-			cp.setTempData(Stat.SPRINTING, (double) time);
+			cp.setTempData(Stat.SPRINTING, time);
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
-			cp.setTempData(Stat.HORIZONTAL_BLOCKCHANGE, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.HORIZONTAL_BLOCKCHANGE, time);
 
 		Location vertLine = player.getLocation().clone();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0)
@@ -163,17 +163,17 @@ public class Global implements Listener {
 		Block lowestBlock = vertLine.getBlock();
 
 		if (lowestBlock.getType() == Material.SLIME_BLOCK || lowestBlock.getType() == Material.HONEY_BLOCK)
-			cp.setTempData(Stat.ON_SLIMEBLOCK, (double) time);
+			cp.setTempData(Stat.ON_SLIMEBLOCK, time);
 
 		if (cp.isRedstoneNearby())
-			cp.setTempData(Stat.NEAR_REDSTONE, (double) time);
+			cp.setTempData(Stat.NEAR_REDSTONE, time);
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-		cp.setTempData(Stat.BLOCK_PLACE, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.BLOCK_PLACE, System.currentTimeMillis());
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -181,12 +181,12 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData(Stat.TOGGLE_FLIGHT, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TOGGLE_FLIGHT, System.currentTimeMillis());
 
 		if (player.isFlying()) {
-			cp.setTempData(Stat.DISABLE_FLIGHT, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.DISABLE_FLIGHT, System.currentTimeMillis());
 		} else {
-			cp.setTempData(Stat.ENABLE_FLIGHT, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ENABLE_FLIGHT, System.currentTimeMillis());
 		}
 	}
 
@@ -198,12 +198,12 @@ public class Global implements Listener {
 		Player player = ((Player) event.getEntity());
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData(Stat.TOGGLE_GLIDE, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TOGGLE_GLIDE, System.currentTimeMillis());
 
 		if (player.isGliding()) {
-			cp.setTempData(Stat.DISABLE_GLIDE, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.DISABLE_GLIDE, System.currentTimeMillis());
 		} else {
-			cp.setTempData(Stat.ENABLE_GLIDE, (double) System.currentTimeMillis());
+			cp.setTempData(Stat.ENABLE_GLIDE, System.currentTimeMillis());
 		}
 	}
 
@@ -214,7 +214,7 @@ public class Global implements Listener {
 		Player player = ((Player) event.getExited());
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData(Stat.LEAVE_VEHICLE, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.LEAVE_VEHICLE, System.currentTimeMillis());
 
 	}
 
@@ -223,7 +223,7 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData(Stat.TELEPORT, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.TELEPORT, System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -233,7 +233,7 @@ public class Global implements Listener {
 			return;
 		Player player = (Player) ent;
 		CPlayer cp = plugin.getCPlayer(player);
-		cp.setTempData(Stat.DAMAGE_TAKEN, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.DAMAGE_TAKEN, System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -241,7 +241,7 @@ public class Global implements Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setLastSafeLocation(player.getLocation());
-		cp.setTempData(Stat.JOIN_TIME, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.JOIN_TIME, System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -252,7 +252,7 @@ public class Global implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		cp.setTempData(Stat.INVENTORY_CLICK, (double) System.currentTimeMillis());
+		cp.setTempData(Stat.INVENTORY_CLICK, System.currentTimeMillis());
 
 	}
 

@@ -70,12 +70,11 @@ public class GUIListener implements Listener {
 					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
 							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
 					player.openInventory(plugin.getStats().getInventory());
-					cp.setTempData(Stat.OPEN_INVENTORY, "stats");
+					cp.setInventory("stats");
 					break;
 				}
 				player.openInventory(plugin.getStats().getInventory(type));
-				cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
-//			cp.setTempData("openCheckType", );
+				cp.setInventory("hackType");
 				openCheckType.put(player.getUniqueId(),
 						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
 				break;
@@ -88,18 +87,15 @@ public class GUIListener implements Listener {
 							!plugin.getConfig()
 									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
 											+ hack + ".Enabled"));
-//					cp.setTempData("ignoreInventory", 1);
 					ignore.add(player.getUniqueId());
 					player.openInventory(
 							plugin.getStats().getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
-					cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
+					cp.setInventory("hackType");
 					break;
 				}
-//				cp.setTempData("ignoreInventory", 1);
 				ignore.add(player.getUniqueId());
 				player.openInventory(plugin.getStats().getInventory(hack));
-				cp.setTempData(Stat.OPEN_INVENTORY, "hackCategory");
-//				cp.setTempData("openHackCategory", hack);
+				cp.setInventory("hackCategory");
 				openHackCategory.put(player.getUniqueId(), hack);
 				break;
 			case "hackCategory":
@@ -109,10 +105,9 @@ public class GUIListener implements Listener {
 				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
 						!plugin.getConfig()
 								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
-//				cp.setTempData("ignoreInventory", 1);
 				ignore.add(player.getUniqueId());
 				player.openInventory(plugin.getStats().getInventory(hackCategory));
-				cp.setTempData(Stat.OPEN_INVENTORY, "hackCategory");
+				cp.setInventory("hackCategory");
 				break;
 		}
 	}
@@ -138,13 +133,12 @@ public class GUIListener implements Listener {
 
 		switch (inv) {
 			case "hackType":
-//				cp.setTempData("ignoreInventory", 1);
 				ignore.add(player.getUniqueId());
 				new BukkitRunnable() {
 					@Override
 					public void run() {
 						player.openInventory(plugin.getStats().getInventory());
-						cp.setTempData(Stat.OPEN_INVENTORY, "stats");
+						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
 				return;
@@ -154,7 +148,7 @@ public class GUIListener implements Listener {
 					public void run() {
 						player.openInventory(plugin.getStats()
 								.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
-						cp.setTempData(Stat.OPEN_INVENTORY, "hackType");
+						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);
 				return;
