@@ -129,6 +129,8 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.4.1":
+				return "Your config is recent and nothing new has changed.";
 			case "1.4":
 				return "You are using a recent config, a new addition is webhooks. If you would like to use these please reset your config.";
 			case "1.3.4.2":
@@ -185,6 +187,35 @@ public class NOPE extends JavaPlugin {
 				return result;
 			}
 		});
+		metrics.addCustomChart(chart);
+		chart = new Metrics.SimplePie("defaultactions", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return NOPE.this.getConfig().getString("Actions.Default", "Unset");
+			}
+		});
+		metrics.addCustomChart(chart);
+		chart = new Metrics.SimplePie("configversion", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return NOPE.this.getConfig().getString("ConfigVersion", "Unknown");
+			}
+		});
+		metrics.addCustomChart(chart);
+		chart = new Metrics.SimplePie("bungeeoverride", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return NOPE.this.getConfig().getString("BungeeNameOverride", "Unset");
+			}
+		});
+		metrics.addCustomChart(chart);
+		chart = new Metrics.SimplePie("updatechecker", new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return NOPE.this.getConfig().getString("UpdateChecker", "Unset");
+			}
+		});
+		metrics.addCustomChart(chart);
 	}
 
 	private void runUpdateCheck() {
