@@ -30,6 +30,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Checks if a player hasn't sent a swing packet before interaction event
@@ -96,11 +97,14 @@ public class NoSwing1 implements Check, Listener {
 		Block clicked = event.getClickedBlock();
 
 		if (clicked != null) {
-
-			Material next = clicked.getRelative(event.getBlockFace()).getType();
-			if (next.toString().contains("BUTTON"))
+			if (clicked.getType().isInteractable() && !player.isSneaking()) // Signs
 				return;
-			if (clicked.getType().toString().contains("BUTTON"))
+			if (clicked.getType() == Material.REDSTONE_WIRE)
+				return;
+			Material next = clicked.getRelative(event.getBlockFace()).getType();
+			if (next.isInteractable())
+				return;
+			if (next == Material.REDSTONE_WIRE)
 				return;
 			// BlockCanBuild is not called if a button is on the blockface
 			if (clicked.getType() == Material.SCAFFOLDING)
@@ -113,7 +117,7 @@ public class NoSwing1 implements Check, Listener {
 				if (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L) < 400)
 					return;
 
-				cp.flagHack(NoSwing1.this, 50, "LastSwing: &e"
+				cp.flagHack(NoSwing1.this, 10, "LastSwing: &e"
 						+ (System.currentTimeMillis() - swung.getOrDefault(player.getUniqueId(), 0L)) + "&7 >= &a400");
 			}
 		}.runTaskLater(plugin, 1);
@@ -124,6 +128,7 @@ public class NoSwing1 implements Check, Listener {
 		Player player = event.getPlayer();
 		if (event.isBuildable())
 			return;
+		MSG.tell(player, "swung");
 		swung.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 

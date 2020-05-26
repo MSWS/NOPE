@@ -41,7 +41,7 @@ public class Speed2 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle() || player.isGliding())
 			return;
 
-		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
 			return;

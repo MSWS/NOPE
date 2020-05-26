@@ -45,6 +45,8 @@ public class Flight1 implements Check, Listener {
 			return;
 		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
 			return;
+		if (cp.timeSince(Stat.FLYING) < 500)
+			return;
 		if (cp.timeSince(Stat.IN_LIQUID) < 400)
 			return;
 

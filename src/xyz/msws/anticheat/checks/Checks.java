@@ -37,6 +37,7 @@ import xyz.msws.anticheat.checks.movement.GlobalSprint1;
 import xyz.msws.anticheat.checks.movement.InventoryMove1;
 import xyz.msws.anticheat.checks.movement.NoWeb1;
 import xyz.msws.anticheat.checks.movement.Spider1;
+import xyz.msws.anticheat.checks.movement.Step1;
 import xyz.msws.anticheat.checks.movement.flight.Flight1;
 import xyz.msws.anticheat.checks.movement.flight.Flight2;
 import xyz.msws.anticheat.checks.movement.flight.Flight3;
@@ -100,7 +101,7 @@ public class Checks {
 				new NoSlowDown4(), new FastEat1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
 				new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
 				new KillAura4(), new Glide1(), new BHop1(), new GhostHand2(), new GlobalSprint1(), new AutoBuild1(),
-				new Speed4(), new Jesus1(), new Jesus2()));
+				new Speed4(), new Jesus1(), new Jesus2(), new Step1()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura2(), new SkinBlinker1(), new NoSwing1()));

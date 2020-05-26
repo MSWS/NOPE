@@ -65,6 +65,9 @@ public class Flight4 implements Check, Listener {
 		if (cp.timeSince(Stat.ON_GROUND) < 1000)
 			return;
 
+		if (cp.timeSince(Stat.IN_VEHICLE) < 1000)
+			return;
+
 		if (player.getLocation().getBlock().isLiquid())
 			return;
 

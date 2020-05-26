@@ -53,7 +53,7 @@ public class Spider1 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 200)
+		if (cp.timeSince(Stat.FLYING) < 1000)
 			return;
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
