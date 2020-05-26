@@ -37,7 +37,6 @@ public class ScoreboardAssigner implements Listener {
 
 	@EventHandler
 	public void onDev(DevModeToggleEvent event) {
-		MSG.announce("dev toggled " + plugin.devMode());
 		for (Player p : Bukkit.getOnlinePlayers())
 			giveScoreboard(p);
 	}

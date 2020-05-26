@@ -57,6 +57,8 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (player.getFallDistance() > 4)
 			return;
+		if (player.getLocation().getBlock().isLiquid())
+			return;
 		if (cp.usingElytra())
 			return;
 

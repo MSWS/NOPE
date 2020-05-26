@@ -20,7 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -48,7 +47,7 @@ public class GUIListener implements Listener {
 
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasTempData(Stat.OPEN_INVENTORY))
+		if (cp.getInventory() == null)
 			return;
 
 		event.setCancelled(true);
@@ -58,7 +57,7 @@ public class GUIListener implements Listener {
 
 		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
-		switch (cp.getTempString(Stat.OPEN_INVENTORY)) {
+		switch (cp.getInventory()) {
 			case "stats":
 				CheckType type;
 				try {
@@ -119,10 +118,10 @@ public class GUIListener implements Listener {
 		Player player = (Player) event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasTempData(Stat.OPEN_INVENTORY))
+		if (cp.getInventory() == null)
 			return;
 
-		String inv = cp.getTempString(Stat.OPEN_INVENTORY);
+		String inv = cp.getInventory();
 
 		if (ignore.contains(player.getUniqueId())) {
 			ignore.remove(player.getUniqueId());
@@ -156,6 +155,6 @@ public class GUIListener implements Listener {
 				break;
 		}
 
-		cp.removeTempData(Stat.OPEN_INVENTORY);
+		cp.setInventory(null);
 	}
 }

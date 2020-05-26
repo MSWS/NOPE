@@ -45,8 +45,6 @@ import xyz.msws.anticheat.checks.movement.flight.Flight5;
 import xyz.msws.anticheat.checks.movement.flight.Flight6;
 import xyz.msws.anticheat.checks.movement.jesus.Jesus1;
 import xyz.msws.anticheat.checks.movement.jesus.Jesus2;
-import xyz.msws.anticheat.checks.movement.jesus.Jesus3;
-import xyz.msws.anticheat.checks.movement.jesus.Jesus4;
 import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown1;
 import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown2;
 import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown3;
@@ -95,14 +93,14 @@ public class Checks {
 		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Blink1(),
 				new Timer1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
-				new Jesus1(), new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(),
-				new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
-				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
-				new KillAura1(), new KillAura3(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
-				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(),
-				new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(),
-				new Spider1(), new KillAura4(), new Glide1(), new BHop1(), new GhostHand2(), new GlobalSprint1(),
-				new Jesus2(), new AutoBuild1(), new Speed4(), new Jesus3(), new Jesus4()));
+				new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
+				new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(), new HighCPS1(),
+				new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(), new KillAura1(),
+				new KillAura3(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(),
+				new NoSlowDown4(), new FastEat1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(),
+				new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
+				new KillAura4(), new Glide1(), new BHop1(), new GhostHand2(), new GlobalSprint1(), new AutoBuild1(),
+				new Speed4(), new Jesus1(), new Jesus2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura2(), new SkinBlinker1(), new NoSwing1()));

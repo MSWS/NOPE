@@ -22,6 +22,9 @@ public class DevScoreboard extends CScoreboard implements Listener {
 		setTitle(MSG.color("&c&l[&4&lNOPE&c&l - &dDEV&c&l]"));
 		this.player = player;
 		lines.clear();
+		lines.add("");
+		lines.add("&7- &cMSWS");
+		lines.add("&aThank you for using NOPE");
 
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -36,8 +39,6 @@ public class DevScoreboard extends CScoreboard implements Listener {
 		if (!player.equals(this.player))
 			return;
 		CPlayer cp = plugin.getCPlayer(player);
-//		long time = System.currentTimeMillis();
-//		boolean onGround = player.isOnGround(), weirdBlock = cp.isInWeirdBlock(), climbing = cp.isInClimbingBlock();
 
 		Location from = event.getFrom(), to = event.getTo();
 
@@ -48,7 +49,7 @@ public class DevScoreboard extends CScoreboard implements Listener {
 				to.getZ() - from.getZ()));
 		lines.add("&9Fall: &e" + String.format("%.3f", player.getFallDistance()));
 		double dst = cp.distanceToGround();
-		lines.add(String.format("&9DST: &b%.3f &b(&2%s&b)", dst,
+		lines.add(String.format("&9DST: &b%.3f &b(&a%s&b)", dst,
 				MSG.camelCase(player.getLocation().clone().subtract(0, dst, 0).getBlock().getType().toString())));
 		lines.add("");
 		lines.add(String.format("&9In: &e%s &7(S: %s&7, L: %s&7)", MSG.camelCase(to.getBlock().getType().toString()),

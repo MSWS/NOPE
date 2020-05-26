@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -46,17 +46,10 @@ public class Zoot1 implements Check, Listener {
 
 	@SuppressWarnings("unused")
 	private NOPE plugin;
-	private ZootProtocol zp;
 
 	@Override
 	public void register(NOPE plugin) {
 		this.plugin = plugin;
-		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
-			try {
-				zp = new ZootProtocol(plugin);
-			} catch (OperationNotSupportedException e) {
-				e.printStackTrace();
-			}
 
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 
@@ -79,9 +72,6 @@ public class Zoot1 implements Check, Listener {
 							continue;
 
 						if (System.currentTimeMillis() - reset.getOrDefault(player.getUniqueId(), 0L) < 2000)
-							return;
-
-						if (zp != null && System.currentTimeMillis() - zp.getLastStatus(player.getUniqueId()) < 500)
 							return;
 
 						cp.flagHack(Zoot1.this,
@@ -114,6 +104,15 @@ public class Zoot1 implements Check, Listener {
 	@EventHandler
 	public void onDeath(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
+		reset.put(player.getUniqueId(), System.currentTimeMillis());
+	}
+
+	@EventHandler
+	public void onEntityEffect(EntityPotionEffectEvent event) {
+		Entity ent = event.getEntity();
+		if (!(ent instanceof Player))
+			return;
+		Player player = (Player) ent;
 		reset.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
