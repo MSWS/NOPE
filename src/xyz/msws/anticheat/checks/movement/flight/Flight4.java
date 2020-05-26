@@ -56,6 +56,9 @@ public class Flight4 implements Check, Listener {
 				|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
 
+		if (cp.timeSince(Stat.TELEPORT) < 1000)
+			return;
+
 		if (cp.timeSince(Stat.CLIMBING) < 4000)
 			return;
 

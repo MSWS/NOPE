@@ -49,6 +49,9 @@ public class GlobalSprint1 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
+		if (cp.timeSince(Stat.FLYING) < 1000)
+			return;
+
 		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 

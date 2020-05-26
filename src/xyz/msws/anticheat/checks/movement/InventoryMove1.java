@@ -47,6 +47,9 @@ public class InventoryMove1 implements Check, Listener {
 		if (event.getClick() == ClickType.CREATIVE && event.getAction() == InventoryAction.PLACE_ALL)
 			return;
 
+		if (cp.timeSince(Stat.FLYING) < 300)
+			return;
+
 		if (cp.timeSince(Stat.TELEPORT) < 1000)
 			return;
 		if (cp.timeSince(Stat.IN_LIQUID) < 1000)

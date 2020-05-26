@@ -44,7 +44,9 @@ public class Step1 implements Check, Listener {
 
 				if (cp.hasMovementRelatedPotion())
 					continue;
-				if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000 || cp.timeSince(Stat.TELEPORT) < 500)
+				if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000 || cp.timeSince(Stat.TELEPORT) < 2000)
+					continue;
+				if (player.isFlying() || player.isGliding())
 					continue;
 				double diff = loc.getY() - lastY.getOrDefault(player.getUniqueId(), loc.getY());
 				lastY.put(player.getUniqueId(), loc.getY());

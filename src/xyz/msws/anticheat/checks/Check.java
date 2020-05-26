@@ -13,5 +13,9 @@ public interface Check {
 
 	public String getDebugName();
 
-	public boolean lagBack();
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	boolean lagBack();
 }
