@@ -1,9 +1,7 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.speed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,12 +14,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks if a player moves completely horizontally without being on the ground
+ * Checks jumping speed
  * 
  * @author imodm
  *
  */
-public class Flight1 implements Check, Listener {
+public class Speed2 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -40,49 +38,46 @@ public class Flight1 implements Check, Listener {
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
-		if (player.isOnGround())
-			return;
-		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
-			return;
-		if (cp.timeSince(Stat.IN_LIQUID) < 400)
+		if (player.isFlying() || player.isInsideVehicle() || player.isGliding())
 			return;
 
-		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
+			return;
+		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
+			return;
+		if (cp.timeSince(Stat.LEAVE_VEHICLE) < 500)
+			return;
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 200)
+			return;
+		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 1000)
+			return;
+		if (cp.timeSince(Stat.DISABLE_GLIDE) < 2000)
+			return;
+		if (cp.hasMovementRelatedPotion())
+			return;
+		if (player.getFallDistance() > 4)
+			return;
+		if (cp.usingElytra())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
 
-		if (to.getY() != from.getY())
+		double dist = to.distanceSquared(from);
+
+		if (dist < .7)
 			return;
 
-		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1))
-			return;
-
-		if (cp.timeSince(Stat.TELEPORT) < 500)
-			return;
-
-		if (cp.timeSince(Stat.ON_GROUND) <= 300)
-			return;
-		if (cp.timeSince(Stat.BLOCK_PLACE) < 1500)
-			return;
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
-			return;
-
-		if (player.getVelocity().getY() > 0)
-			return;
-
-		cp.flagHack(this, 30);
+		cp.flagHack(this, (int) Math.round((dist - .7) * 20), "Dist: &e" + dist + "&7 >= &a.7");
 	}
 
 	@Override
 	public String getCategory() {
-		return "Flight";
+		return "Speed";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "Flight#1";
+		return "Speed#2";
 	}
 
 	@Override

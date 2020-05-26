@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.noslowdown;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +20,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks the average speed of a player while they're blocking either in air or
- * on ground
+ * Checks the average speed of a player while they're blocking and on the ground
  * 
  * @author imodm
  *
  */
-public class NoSlowDown3 implements Check, Listener {
+public class NoSlowDown1 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -58,6 +57,9 @@ public class NoSlowDown3 implements Check, Listener {
 		if (!player.isBlocking())
 			return;
 
+		if (!player.isOnGround())
+			return;
+
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
@@ -71,7 +73,7 @@ public class NoSlowDown3 implements Check, Listener {
 		for (double d : ds)
 			avg += d;
 
-		avg /= ds.size();
+		avg /= distances.size();
 
 		ds.add(0, dist);
 
@@ -80,13 +82,13 @@ public class NoSlowDown3 implements Check, Listener {
 
 		distances.put(player.getUniqueId(), ds);
 
-		if (ds.size() < SIZE)
+		if (distances.size() < SIZE)
 			return;
 
-		if (avg <= .43)
+		if (avg <= .176)
 			return;
 
-		cp.flagHack(this, (int) Math.round((avg - .29) * 400.0), "Avg: &e" + avg + "&7 > &a.43");
+		cp.flagHack(this, (int) Math.round((avg - .16) * 400.0), "Average: &e" + avg + ">&a.176");
 	}
 
 	@Override
@@ -96,7 +98,7 @@ public class NoSlowDown3 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "NoSlowDown#3";
+		return "NoSlowDown#1";
 	}
 
 	@Override

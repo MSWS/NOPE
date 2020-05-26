@@ -39,6 +39,8 @@ import xyz.msws.anticheat.listeners.LogImplementation;
 import xyz.msws.anticheat.listeners.LoginAndQuit;
 import xyz.msws.anticheat.listeners.MessageListener;
 import xyz.msws.anticheat.listeners.UpdateCheckerListener;
+import xyz.msws.anticheat.scoreboard.ScoreboardAssigner;
+import xyz.msws.anticheat.scoreboard.ScoreboardModule;
 import xyz.msws.anticheat.utils.MSG;
 import xyz.msws.anticheat.utils.Metrics;
 import xyz.msws.anticheat.utils.Metrics.CustomChart;
@@ -50,6 +52,7 @@ public class NOPE extends JavaPlugin {
 
 	private PlayerManager pManager;
 	private TPSChecker tpsChecker;
+	private ScoreboardModule scoreboard;
 	private Checks checks;
 	private Banwave banwave;
 	private Stats stats;
@@ -98,6 +101,9 @@ public class NOPE extends JavaPlugin {
 		new GUIListener(this);
 
 		banManager = hookBans();
+		scoreboard = new ScoreboardModule(this);
+		scoreboard.initialize();
+		new ScoreboardAssigner(this);
 
 		uploadCustomCharts();
 		runUpdateCheck();
@@ -110,6 +116,10 @@ public class NOPE extends JavaPlugin {
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 
 		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
+	}
+
+	public ScoreboardModule getScoreboardModule() {
+		return scoreboard;
 	}
 
 	public ActionManager getActionManager() {
@@ -129,18 +139,13 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.4.3":
+				return "Your config is slightly outdated, scoreboards have been readded.";
+			case "1.4.2.1":
 			case "1.4.2":
 			case "1.4.1":
-				return "Your config is slightly outdated, log settings have changed.";
 			case "1.4":
-				return "You are using a recent config, a new addition is webhooks. If you would like to use these please reset your config.";
-			case "1.3.4.2":
-			case "1.3.4.1":
-			case "1.3.4":
-			case "1.3.3":
-			case "1.3.2":
-			case "1.3.1":
-				return "Your config is extremely outdated. There are many new features and many features will not work unless you reset your config.";
+				return "Your config is slightly outdated, log and scoreboard settings have changed.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}

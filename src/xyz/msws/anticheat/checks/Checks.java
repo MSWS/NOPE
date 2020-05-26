@@ -32,34 +32,33 @@ import xyz.msws.anticheat.checks.movement.BHop1;
 import xyz.msws.anticheat.checks.movement.ClonedMovement1;
 import xyz.msws.anticheat.checks.movement.FastClimb1;
 import xyz.msws.anticheat.checks.movement.FastSneak1;
-import xyz.msws.anticheat.checks.movement.Flight1;
-import xyz.msws.anticheat.checks.movement.Flight2;
-import xyz.msws.anticheat.checks.movement.Flight3;
-import xyz.msws.anticheat.checks.movement.Flight4;
-import xyz.msws.anticheat.checks.movement.Flight5;
-import xyz.msws.anticheat.checks.movement.Flight6;
 import xyz.msws.anticheat.checks.movement.Glide1;
 import xyz.msws.anticheat.checks.movement.GlobalSprint1;
 import xyz.msws.anticheat.checks.movement.InventoryMove1;
-import xyz.msws.anticheat.checks.movement.Jesus1;
-import xyz.msws.anticheat.checks.movement.Jesus2;
-import xyz.msws.anticheat.checks.movement.Jesus3;
-import xyz.msws.anticheat.checks.movement.Jesus4;
-import xyz.msws.anticheat.checks.movement.NoSlowDown1;
-import xyz.msws.anticheat.checks.movement.NoSlowDown2;
-import xyz.msws.anticheat.checks.movement.NoSlowDown3;
-import xyz.msws.anticheat.checks.movement.NoSlowDown4;
-import xyz.msws.anticheat.checks.movement.NoSlowDown5;
 import xyz.msws.anticheat.checks.movement.NoWeb1;
-import xyz.msws.anticheat.checks.movement.Speed1;
-import xyz.msws.anticheat.checks.movement.Speed2;
-import xyz.msws.anticheat.checks.movement.Speed3;
-import xyz.msws.anticheat.checks.movement.Speed4;
 import xyz.msws.anticheat.checks.movement.Spider1;
+import xyz.msws.anticheat.checks.movement.flight.Flight1;
+import xyz.msws.anticheat.checks.movement.flight.Flight2;
+import xyz.msws.anticheat.checks.movement.flight.Flight3;
+import xyz.msws.anticheat.checks.movement.flight.Flight4;
+import xyz.msws.anticheat.checks.movement.flight.Flight5;
+import xyz.msws.anticheat.checks.movement.flight.Flight6;
+import xyz.msws.anticheat.checks.movement.jesus.Jesus1;
+import xyz.msws.anticheat.checks.movement.jesus.Jesus2;
+import xyz.msws.anticheat.checks.movement.jesus.Jesus3;
+import xyz.msws.anticheat.checks.movement.jesus.Jesus4;
+import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown1;
+import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown2;
+import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown3;
+import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown4;
+import xyz.msws.anticheat.checks.movement.noslowdown.NoSlowDown5;
+import xyz.msws.anticheat.checks.movement.speed.Speed1;
+import xyz.msws.anticheat.checks.movement.speed.Speed2;
+import xyz.msws.anticheat.checks.movement.speed.Speed3;
+import xyz.msws.anticheat.checks.movement.speed.Speed4;
 import xyz.msws.anticheat.checks.player.AntiFire1;
 import xyz.msws.anticheat.checks.player.AutoSwitch1;
 import xyz.msws.anticheat.checks.player.AutoTool1;
-import xyz.msws.anticheat.checks.player.ChestStealer1;
 import xyz.msws.anticheat.checks.player.FastEat1;
 import xyz.msws.anticheat.checks.player.GhostHand2;
 import xyz.msws.anticheat.checks.player.NoFall1;
@@ -100,11 +99,10 @@ public class Checks {
 				new IllegalBlockBreak1(), new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(),
 				new HighCPS1(), new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
 				new KillAura1(), new KillAura3(), new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(),
-				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new ChestStealer1(), new AntiFire1(),
-				new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
-				new AutoSwitch1(), new FastBreak1(), new Spider1(), new KillAura4(), new Glide1(), new BHop1(),
-				new GhostHand2(), new GlobalSprint1(), new Jesus2(), new AutoBuild1(), new Speed4(), new Jesus3(),
-				new Jesus4()));
+				new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(),
+				new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(),
+				new Spider1(), new KillAura4(), new Glide1(), new BHop1(), new GhostHand2(), new GlobalSprint1(),
+				new Jesus2(), new AutoBuild1(), new Speed4(), new Jesus3(), new Jesus4()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new KillAura2(), new SkinBlinker1(), new NoSwing1()));

@@ -10,13 +10,14 @@
 #
 # ----------------------------------------------------------
 
-ConfigVersion: 1.4.3
+ConfigVersion: 1.4.4
 
 #               -------------------------------
 #                     Global Configuration
 #               -------------------------------
 
 Global: true # If disabled, NOPE will be disabled
+Scoreboard: true
 
 Log: file # NONE, file, or hastebin
 
@@ -132,7 +133,7 @@ Webhooks:
 # NOTE: PLEASE use a delay for discord webhooks otherwise you might get autoblocked
 #
 # Conditions: (<, <=, =, !=, >=, >)
-# If a condition is not fullfilled, none of the following actinos will be run
+# If a condition is not fullfilled, none of the following actions will be run
 # The ones with > you can replace with the appropriate operator
 #
 # vl>[Amo]           If the VL matches the threshold
@@ -140,6 +141,7 @@ Webhooks:
 # ping>[Amo]         If the player's ping matches (NOT RECOMMENDED) players can spoof their ping
 # delay:[Delay]      Wait X milliseconds before executing the NEXT action (eg: kick a player if the last call of this was > 60 seconds ago)
 # notdev             Will not run the next actions if the in dev mode
+# isdev              Will run the next actions if in dev mode
 # rnd:.40            Will run the actions 40% of the time
 # 
 # Placeholders:

@@ -410,16 +410,6 @@ public class MSG {
 		return mills;
 	}
 
-	public static String getVlColor(int vl) {
-		int maxVl = plugin.getConfig().getInt("VlForBanwave");
-		vl = Math.min(vl, maxVl);
-		List<String> colors = plugin.getConfig().getStringList("VlColors");
-		int index = (int) Math.floor(((double) vl / (double) maxVl) * (colors.size()));
-		String color = colors.get(Math.max(Math.min(index, colors.size() - 1), 0));
-
-		return color;
-	}
-
 	public static String genUUID(int length) {
 		String[] keys = new String[100];
 		int pos = 0;

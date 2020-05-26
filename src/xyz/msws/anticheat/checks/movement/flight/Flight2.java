@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.flight;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,14 +16,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * 
- * Checks if the player's last ongrond position is too low and too far away
- * <i>conveniently</i> also checks Jesus
+ * Same as @see Flight1 but different onGround detection
  * 
  * @author imodm
- * 
+ *
  */
-public class Flight4 implements Check, Listener {
+public class Flight2 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -43,51 +41,43 @@ public class Flight4 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.hasMovementRelatedPotion())
+		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
 			return;
 
-		if (cp.isBlockNearby(Material.SCAFFOLDING))
-			return;
+		Location to = event.getTo(), from = event.getFrom();
 
-		if (player.isInsideVehicle())
-			return;
-
-		if (player.isFlying() || cp.timeSince(Stat.FLYING) < 5000 || player.isOnGround()
-				|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
-			return;
-
-		if (cp.timeSince(Stat.CLIMBING) < 4000)
-			return;
-
-		if (cp.timeSince(Stat.IN_LIQUID) < 500)
-			return;
-
-		if (cp.timeSince(Stat.ON_GROUND) < 1000)
-			return;
-
-		if (player.getLocation().getBlock().isLiquid())
+		if (to.getY() != from.getY())
 			return;
 
 		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
 
-		Location safe = cp.getLastSafeLocation();
+		boolean isBlockNearby = false;
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
+					isBlockNearby = true;
+					break;
+				}
+				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR) {
+					isBlockNearby = true;
+					break;
+				}
+			}
+		}
 
-		if (!safe.getWorld().equals(player.getLocation().getWorld()))
+		if (isBlockNearby) {
+			return;
+		}
+
+		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 1000)
 			return;
 
-		double yDiff = safe.getY() - player.getLocation().getY();
-
-		if (yDiff >= 0)
-			return;
-
-		double dist = safe.distanceSquared(player.getLocation());
-
-		if (dist < 10)
-			return;
-
-		cp.flagHack(this, Math.max(Math.min((int) Math.round((dist - 10) * 10.0), 50), 10),
-				"Dist: &e" + dist + "&7 >= &a10\n&7YDiff: &e" + yDiff + "&7 < 0");
+		cp.flagHack(this, 20);
 	}
 
 	@Override
@@ -97,7 +87,7 @@ public class Flight4 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "Flight#4";
+		return "Flight#2";
 	}
 
 	@Override

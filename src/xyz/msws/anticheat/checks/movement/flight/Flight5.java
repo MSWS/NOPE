@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.flight;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;

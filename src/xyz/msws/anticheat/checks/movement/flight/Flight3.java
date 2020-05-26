@@ -1,13 +1,13 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.flight;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.checks.Check;
@@ -16,12 +16,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Same as @see Flight1 but different onGround detection
+ * Checks if a player moves vertically straight up
  * 
  * @author imodm
  *
  */
-public class Flight2 implements Check, Listener {
+public class Flight3 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -44,40 +44,46 @@ public class Flight2 implements Check, Listener {
 		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
 			return;
 
-		Location to = event.getTo(), from = event.getFrom();
-
-		if (to.getY() != from.getY())
+		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
 			return;
 
-		boolean isBlockNearby = false;
-		for (int x = -1; x <= 1; x++) {
-			for (int z = -1; z <= 1; z++) {
-				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
-					break;
-				}
-				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
-					break;
-				}
-				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR) {
-					isBlockNearby = true;
-					break;
-				}
-			}
+		if (cp.timeSince(Stat.FLYING) < 2000)
+			return;
+
+		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)
+			return;
+
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
+			return;
+
+		if (cp.timeSince(Stat.TELEPORT) < 1000)
+			return;
+
+		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
+			return;
+
+		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
+			return;
+
+		if (cp.isBlockNearby(Material.SCAFFOLDING, 4, -2))
+			return;
+
+		if (cp.timeSince(Stat.CLIMBING) < 1000) {
+			return;
 		}
 
-		if (isBlockNearby) {
-			return;
-		}
+		Location safe = cp.getLastSafeLocation();
 
-		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 1000)
+		if (event.getTo().getY() - 3 < safe.getY())
 			return;
 
-		cp.flagHack(this, 20);
+		if (event.getTo().getY() <= event.getFrom().getY())
+			return;
+
+		cp.flagHack(this, 10);
 	}
 
 	@Override
@@ -87,7 +93,7 @@ public class Flight2 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return "Flight#2";
+		return "Flight#3";
 	}
 
 	@Override

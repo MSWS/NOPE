@@ -9,6 +9,7 @@ import xyz.msws.anticheat.actions.actions.CancelAction;
 import xyz.msws.anticheat.actions.actions.CommandAction;
 import xyz.msws.anticheat.actions.actions.CustomAction;
 import xyz.msws.anticheat.actions.actions.DelayAction;
+import xyz.msws.anticheat.actions.actions.IsDevCheck;
 import xyz.msws.anticheat.actions.actions.KickAction;
 import xyz.msws.anticheat.actions.actions.LogAction;
 import xyz.msws.anticheat.actions.actions.MessageAction;
@@ -119,6 +120,8 @@ public class ActionFactory {
 		}
 		if (data.startsWith("notdev"))
 			return new NotDevCheck(plugin);
+		if (data.startsWith("isdev"))
+			return new IsDevCheck(plugin);
 
 		MSG.error("Invalid action format: " + rawData);
 		return null;

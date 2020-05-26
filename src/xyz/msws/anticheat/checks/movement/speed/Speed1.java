@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.speed;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,12 +14,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks the player's speed in a snapshot of time while on ground
+ * Checks non-jumping speed
  * 
  * @author imodm
  *
  */
-public class NoSlowDown4 implements Check, Listener {
+public class Speed1 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -43,31 +43,36 @@ public class NoSlowDown4 implements Check, Listener {
 
 		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
-
-		if (!player.isBlocking())
+		if (cp.isRedstoneNearby())
 			return;
-
-		if (cp.timeSince(Stat.IN_LIQUID) < 500)
+		if (cp.hasMovementRelatedPotion())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();
-
-		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
-
-		if (dist < .47)
+		if (to.getY() != from.getY())
 			return;
 
-		cp.flagHack(this, (int) Math.round((dist - .43) * 400.0), "Dist: &e" + dist + "&7 >= &a.47");
+		if (cp.timeSince(Stat.VERTICAL_CHANGE) < 1000)
+			return;
+
+		double dist = to.distanceSquared(from);
+
+		double max = .1300168;
+
+		if (dist <= max)
+			return;
+
+		cp.flagHack(this, (int) Math.round((dist - max) * 20) + 5, "&7Dist: &e" + dist + "&7 > &a" + max);
 	}
 
 	@Override
 	public String getCategory() {
-		return "NoSlowDown";
+		return "Speed";
 	}
 
 	@Override
 	public String getDebugName() {
-		return "NoSlowDown#4";
+		return "Speed#1";
 	}
 
 	@Override

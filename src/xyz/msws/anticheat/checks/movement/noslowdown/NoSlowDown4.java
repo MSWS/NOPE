@@ -1,10 +1,9 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.noslowdown;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -15,12 +14,12 @@ import xyz.msws.anticheat.checks.Global.Stat;
 import xyz.msws.anticheat.data.CPlayer;
 
 /**
- * Checks average speeds
+ * Checks the player's speed in a snapshot of time while on ground
  * 
  * @author imodm
  *
  */
-public class Speed4 implements Check, Listener {
+public class NoSlowDown4 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -35,48 +34,40 @@ public class Speed4 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
-		if (player.isFlying() || player.isGliding())
+		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.hasMovementRelatedPotion())
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
+		if (!player.isBlocking())
 			return;
 
-		if (cp.timeSince(Stat.MOVE) < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (cp.timeSince(Stat.TOGGLE_GLIDE) < 500)
+		Location to = event.getTo(), from = event.getFrom();
+
+		double dist = Math.abs(to.getX() - from.getX()) + Math.abs(to.getZ() - from.getZ());
+
+		if (dist < .47)
 			return;
 
-		double maxDist = .02;
-
-		Location to = event.getTo().clone(), from = event.getFrom().clone();
-		to.setY(0);
-		from.setY(0);
-
-		double dist = to.distanceSquared(from);
-
-		if (dist <= maxDist)
-			return;
-
-		cp.flagHack(this, (int) ((dist - maxDist) * 100) + 10, "Dist: " + dist + " > " + maxDist);
+		cp.flagHack(this, (int) Math.round((dist - .43) * 400.0), "Dist: &e" + dist + "&7 >= &a.47");
 	}
 
 	@Override
 	public String getCategory() {
-		return "Speed";
+		return "NoSlowDown";
 	}
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#4";
+		return "NoSlowDown#4";
 	}
 
 	@Override

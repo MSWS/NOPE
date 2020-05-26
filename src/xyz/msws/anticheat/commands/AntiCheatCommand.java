@@ -22,6 +22,8 @@ import xyz.msws.anticheat.PluginInfo.Stats;
 import xyz.msws.anticheat.checks.Check;
 import xyz.msws.anticheat.checks.CheckType;
 import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.events.DevModeToggleEvent;
+import xyz.msws.anticheat.events.PlayerToggleScoreboardEvent;
 import xyz.msws.anticheat.utils.MSG;
 
 public class AntiCheatCommand implements CommandExecutor, TabCompleter {
@@ -170,6 +172,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 										.replace("%status%", enabledDisable(plugin.devMode()))
 										.replace("%name%", "Developer Mode"));
 						plugin.saveConfig();
+						Bukkit.getPluginManager().callEvent(new DevModeToggleEvent(plugin.devMode()));
 						break;
 					case "debug":
 						if (!sender.hasPermission("nope.command.toggle.debug")) {
@@ -253,7 +256,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 							return true;
 						}
 						if (!(sender instanceof Player)) {
-							MSG.tell(sender, "no scoreboard 4 u");
+							MSG.tell(sender, "You must be a player to have a scoreboard.");
 							return true;
 						}
 						cp = plugin.getCPlayer(((Player) sender));
@@ -264,7 +267,9 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 										.replace("%status%",
 												enabledDisable(cp.getSaveData("scoreboard", Boolean.class)))
 										.replace("%name%", "your Scoreboard"));
-						((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+//						((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+						Bukkit.getPluginManager().callEvent(new PlayerToggleScoreboardEvent((Player) sender,
+								cp.getSaveData("scoreboard", Boolean.class)));
 						break;
 				}
 				break;
@@ -538,7 +543,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 
 		String result = "";
 		for (String hack : vls.keySet()) {
-			result += MSG.getVlColor(vls.get(hack)) + hack + " " + vls.get(hack) + "&7, ";
+			result += hack + " " + vls.get(hack) + "&7, ";
 		}
 		result = result.substring(0, Math.max(result.length() - 2, 0));
 		return result;

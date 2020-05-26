@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.flight;
 
 import java.util.HashMap;
 import java.util.Map;

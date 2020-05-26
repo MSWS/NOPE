@@ -25,7 +25,7 @@ import xyz.msws.anticheat.data.CPlayer;
  * clicks
  * 
  * @author imodm
- *
+ * @deprecated
  */
 public class ChestStealer1 implements Check, Listener {
 
@@ -91,7 +91,6 @@ public class ChestStealer1 implements Check, Listener {
 			return;
 
 		cp.flagHack(this, (amo - (SIZE / 4)) * 5 + 10, "Amo: &e" + amo + "&7 > &a" + (SIZE / 4));
-
 	}
 
 	@Override

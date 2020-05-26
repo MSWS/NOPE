@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.checks.movement;
+package xyz.msws.anticheat.checks.movement.speed;
 
 import java.util.ArrayList;
 import java.util.HashMap;
