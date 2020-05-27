@@ -1,5 +1,6 @@
 package xyz.msws.anticheat.checks.render;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.PacketType;
@@ -25,12 +27,12 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.google.common.collect.Sets;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
-import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Checks if a player hasn't sent a swing packet before interaction event
@@ -77,6 +79,9 @@ public class NoSwing1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	private EnumSet<Material> odd = Sets.newEnumSet(Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK),
+			Material.class);
+
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -93,6 +98,12 @@ public class NoSwing1 implements Check, Listener {
 
 		if (event.getAction() == Action.PHYSICAL)
 			return;
+
+		if (event.getItem() != null && event.getItem().getType() != Material.AIR) {
+			ItemStack item = event.getItem();
+			if (odd.contains(item.getType()))
+				return;
+		}
 
 		Block clicked = event.getClickedBlock();
 
@@ -128,7 +139,6 @@ public class NoSwing1 implements Check, Listener {
 		Player player = event.getPlayer();
 		if (event.isBuildable())
 			return;
-		MSG.tell(player, "swung");
 		swung.put(player.getUniqueId(), System.currentTimeMillis());
 	}
 
