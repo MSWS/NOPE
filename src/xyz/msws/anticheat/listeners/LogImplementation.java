@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.data.CPlayer;
 
 public class LogImplementation implements Listener {
 

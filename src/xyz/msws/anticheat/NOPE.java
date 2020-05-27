@@ -15,32 +15,34 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.msws.anticheat.actions.ActionManager;
-import xyz.msws.anticheat.bans.AdvancedBanHook;
-import xyz.msws.anticheat.bans.BanHook;
-import xyz.msws.anticheat.bans.BanManagementHook;
-import xyz.msws.anticheat.bans.LiteBansHook;
-import xyz.msws.anticheat.bans.MaxBansHook;
-import xyz.msws.anticheat.bans.NativeBanHook;
-import xyz.msws.anticheat.checks.Banwave;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.Checks;
-import xyz.msws.anticheat.checks.Global;
-import xyz.msws.anticheat.checks.TPSChecker;
 import xyz.msws.anticheat.commands.AntiCheatCommand;
-import xyz.msws.anticheat.compatability.AbstractHook;
-import xyz.msws.anticheat.compatability.CrazyEnchantsHook;
-import xyz.msws.anticheat.compatability.McMMOHook;
-import xyz.msws.anticheat.data.CPlayer;
-import xyz.msws.anticheat.data.PlayerManager;
-import xyz.msws.anticheat.data.Stats;
 import xyz.msws.anticheat.listeners.GUIListener;
 import xyz.msws.anticheat.listeners.LogImplementation;
 import xyz.msws.anticheat.listeners.LoginAndQuit;
 import xyz.msws.anticheat.listeners.MessageListener;
 import xyz.msws.anticheat.listeners.UpdateCheckerListener;
-import xyz.msws.anticheat.scoreboard.ScoreboardAssigner;
-import xyz.msws.anticheat.scoreboard.ScoreboardModule;
+import xyz.msws.anticheat.modules.AbstractModule;
+import xyz.msws.anticheat.modules.actions.ActionManager;
+import xyz.msws.anticheat.modules.animations.AnimationManager;
+import xyz.msws.anticheat.modules.bans.AdvancedBanHook;
+import xyz.msws.anticheat.modules.bans.BanHook;
+import xyz.msws.anticheat.modules.bans.BanManagementHook;
+import xyz.msws.anticheat.modules.bans.LiteBansHook;
+import xyz.msws.anticheat.modules.bans.MaxBansHook;
+import xyz.msws.anticheat.modules.bans.NativeBanHook;
+import xyz.msws.anticheat.modules.checks.Banwave;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.Checks;
+import xyz.msws.anticheat.modules.checks.Global;
+import xyz.msws.anticheat.modules.checks.TPSChecker;
+import xyz.msws.anticheat.modules.compatability.AbstractHook;
+import xyz.msws.anticheat.modules.compatability.CrazyEnchantsHook;
+import xyz.msws.anticheat.modules.compatability.McMMOHook;
+import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.PlayerManager;
+import xyz.msws.anticheat.modules.data.Stats;
+import xyz.msws.anticheat.modules.scoreboard.ScoreboardAssigner;
+import xyz.msws.anticheat.modules.scoreboard.ScoreboardModule;
 import xyz.msws.anticheat.utils.MSG;
 import xyz.msws.anticheat.utils.Metrics;
 import xyz.msws.anticheat.utils.Metrics.CustomChart;
@@ -50,15 +52,6 @@ public class NOPE extends JavaPlugin {
 	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
 			langYml = new File(getDataFolder(), "lang.yml");
 
-	private PlayerManager pManager;
-	private TPSChecker tpsChecker;
-	private ScoreboardModule scoreboard;
-	private Checks checks;
-	private Banwave banwave;
-	private Stats stats;
-	private BanHook banManager;
-	private ActionManager actionManager;
-
 	private String serverName = "Unknown Server";
 
 	private PluginInfo pluginInfo;
@@ -66,6 +59,8 @@ public class NOPE extends JavaPlugin {
 	private String newVersion = null;
 
 	private Collection<AbstractHook> compatabilities = new ArrayList<>();
+
+	private HashSet<AbstractModule> modules = new HashSet<>();
 
 	public void onEnable() {
 		if (!configYml.exists())
@@ -79,31 +74,24 @@ public class NOPE extends JavaPlugin {
 		MSG.plugin = this;
 
 		MSG.log(checkConfigVersion());
+		modules.add(new ActionManager(this, configYml));
+		modules.add(new PlayerManager(this));
+		modules.add(new TPSChecker(this));
+		modules.add(new Banwave(this));
+		modules.add(new Checks(this));
+		modules.add(new Stats(this));
+		modules.add(new Global(this));
+		modules.add(hookBans());
+		modules.add(new ScoreboardModule(this));
+		modules.add(new ScoreboardAssigner(this));
+		modules.add(new AnimationManager(this));
 
-		pManager = new PlayerManager(this);
-		actionManager = new ActionManager(this, configYml);
-		actionManager.loadActions();
-
-		tpsChecker = new TPSChecker(this);
-
-		banwave = new Banwave(this);
-
-		checks = new Checks(this);
-		checks.registerChecks();
-
-		stats = new Stats(this);
-
-		new Global(this);
 		new AntiCheatCommand(this);
-
 		new LogImplementation(this);
 		new LoginAndQuit(this);
 		new GUIListener(this);
 
-		banManager = hookBans();
-		scoreboard = new ScoreboardModule(this);
-		scoreboard.initialize();
-		new ScoreboardAssigner(this);
+		enableModules();
 
 		uploadCustomCharts();
 		runUpdateCheck();
@@ -118,12 +106,32 @@ public class NOPE extends JavaPlugin {
 		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
 	}
 
-	public ScoreboardModule getScoreboardModule() {
-		return scoreboard;
+	private void enableModules() {
+		for (AbstractModule mod : modules)
+			mod.enable();
 	}
 
+	public <T extends AbstractModule> T getModule(Class<T> cast) {
+		for (AbstractModule module : modules)
+			if (module.getClass().equals(cast))
+				return cast.cast(module);
+		return null;
+	}
+
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public ScoreboardModule getScoreboardModule() {
+		return getModule(ScoreboardModule.class);
+	}
+
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public ActionManager getActionManager() {
-		return actionManager;
+		return getModule(ActionManager.class);
 	}
 
 	private Collection<AbstractHook> loadCompatabilities() {
@@ -156,19 +164,19 @@ public class NOPE extends JavaPlugin {
 	private BanHook hookBans() {
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
 			MSG.log("Successfully hooked into AdvancedBans.");
-			return new AdvancedBanHook();
+			return new AdvancedBanHook(this);
 		} else if (Bukkit.getPluginManager().isPluginEnabled("MaxBans")) {
 			MSG.log("Successfully hooked into MaxBans.");
-			return new MaxBansHook();
+			return new MaxBansHook(this);
 		} else if (Bukkit.getPluginManager().isPluginEnabled("BanManagement")) {
 			MSG.log("Successfully hooked into BanManagement.");
-			return new BanManagementHook();
+			return new BanManagementHook(this);
 		} else if (Bukkit.getPluginManager().isPluginEnabled("LiteBans")) {
 			MSG.log("Successfully hooked into LiteBans.");
-			return new LiteBansHook();
+			return new LiteBansHook(this);
 		} else {
 			MSG.log("Unable to find a ban management plugin, using native support.");
-			return new NativeBanHook();
+			return new NativeBanHook(this);
 		}
 	}
 
@@ -177,7 +185,7 @@ public class NOPE extends JavaPlugin {
 		CustomChart chart = new Metrics.SingleLineChart("bans", new Callable<Integer>() {
 			@Override
 			public Integer call() throws Exception {
-				return stats.getAllBans();
+				return getModule(Stats.class).getAllBans();
 			}
 		});
 		metrics.addCustomChart(chart);
@@ -186,6 +194,8 @@ public class NOPE extends JavaPlugin {
 			@Override
 			public Map<String, int[]> call() throws Exception {
 				Map<String, int[]> result = new HashMap<>();
+				Checks checks = getModule(Checks.class);
+				Stats stats = getModule(Stats.class);
 				for (Check check : checks.getAllChecks()) {
 					int[] arr = new int[2];
 					arr[0] = stats.getTotalVl(check);
@@ -265,11 +275,11 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public BanHook getBanManager() {
-		return banManager;
+		return getModule(BanHook.class);
 	}
 
 	public TPSChecker getTPSChecker() {
-		return tpsChecker;
+		return getModule(TPSChecker.class);
 	}
 
 	public String getNewVersion() {
@@ -281,11 +291,11 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public Stats getStats() {
-		return stats;
+		return getModule(Stats.class);
 	}
 
 	public float getTPS() {
-		return tpsChecker.getTPS();
+		return getTPSChecker().getTPS();
 	}
 
 	public String getServerName() {
@@ -299,10 +309,12 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		stats.saveData();
+		getModule(Stats.class).saveData();
 
-		for (OfflinePlayer p : pManager.getLoadedPlayers())
-			pManager.removePlayer(p); // Clear all loaded player data and save to files
+		PlayerManager pm = getModule(PlayerManager.class);
+
+		for (OfflinePlayer p : pm.getLoadedPlayers())
+			pm.removePlayer(p); // Clear all loaded player data and save to files
 
 	}
 
@@ -345,11 +357,15 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public Checks getChecks() {
-		return this.checks;
+		return getModule(Checks.class);
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public PlayerManager getPlayerManager() {
-		return pManager;
+		return getModule(PlayerManager.class);
 	}
 
 	public boolean devMode() {
@@ -361,11 +377,11 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public CPlayer getCPlayer(OfflinePlayer off) {
-		return pManager.getPlayer(off);
+		return getModule(PlayerManager.class).getPlayer(off);
 	}
 
 	public Banwave getBanwave() {
-		return this.banwave;
+		return getModule(Banwave.class);
 	}
 
 	/**

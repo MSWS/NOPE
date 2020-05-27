@@ -16,10 +16,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.checks.Global.Stat;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Global.Stat;
+import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
  * Gets the average speed while a player is sneaking and flags if too high

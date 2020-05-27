@@ -11,6 +11,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.data.PlayerManager;
 
 public class LoginAndQuit implements Listener {
 
@@ -35,6 +36,6 @@ public class LoginAndQuit implements Listener {
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		plugin.getPlayerManager().removePlayer(event.getPlayer());
+		plugin.getModule(PlayerManager.class).removePlayer(event.getPlayer());
 	}
 }

@@ -10,19 +10,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.checks.Global.Stat;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Global.Stat;
+import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.protocols.WrapperPlayServerSetSlot;
 
 /**

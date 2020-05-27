@@ -19,8 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
 public class GUIListener implements Listener {

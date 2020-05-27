@@ -16,8 +16,8 @@ import com.google.common.io.ByteStreams;
 
 import io.netty.util.internal.ThreadLocalRandom;
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.Utils.Age;
 
 public class MSG {

@@ -19,11 +19,14 @@ import org.bukkit.entity.Player;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.PluginInfo;
 import xyz.msws.anticheat.PluginInfo.Stats;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
 import xyz.msws.anticheat.events.DevModeToggleEvent;
-import xyz.msws.anticheat.events.PlayerToggleScoreboardEvent;
+import xyz.msws.anticheat.events.player.PlayerToggleScoreboardEvent;
+import xyz.msws.anticheat.modules.animations.AnimationManager;
+import xyz.msws.anticheat.modules.animations.GWENAnimation;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.PlayerManager;
 import xyz.msws.anticheat.utils.MSG;
 
 public class AntiCheatCommand implements CommandExecutor, TabCompleter {
@@ -477,8 +480,9 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						"&4[NOPE] &7NOPE has reached &b%d&7 downloads, &a%d&7 reviews, and is averaging about &e%.2f&7.",
 						stats.getDownloads(), stats.getReviews(), stats.getRating()));
 				break;
-			case "servername":
-				MSG.tell(sender, "name: " + plugin.getServerName());
+			case "testanimation":
+				AnimationManager anim = plugin.getModule(AnimationManager.class);
+				anim.startAnimation((Player) sender, new GWENAnimation(plugin, (Player) sender));
 				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
@@ -492,7 +496,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
 			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
-					"removebanwave", "time", "stats", "enablechecks", "online" }) {
+					"removebanwave", "time", "stats", "enablechecks", "online", "testanimation" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()) && sender.hasPermission("nope.command." + res))
 					result.add(res);
 			}
@@ -530,7 +534,7 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 	}
 
 	private String formatVls(OfflinePlayer player) {
-		CPlayer cp = plugin.getPlayerManager().getPlayer(player);
+		CPlayer cp = plugin.getModule(PlayerManager.class).getPlayer(player);
 		HashMap<String, Integer> vls = new HashMap<>();
 		ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)

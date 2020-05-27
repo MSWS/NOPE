@@ -15,9 +15,9 @@ import org.bukkit.util.RayTraceResult;
 import com.google.common.collect.Sets;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
  * 

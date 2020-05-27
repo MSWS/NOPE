@@ -13,9 +13,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
  * Checks if a player sends a chat message while moving

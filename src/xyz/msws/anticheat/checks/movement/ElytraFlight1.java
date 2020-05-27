@@ -18,10 +18,10 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.util.Vector;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.checks.Check;
-import xyz.msws.anticheat.checks.CheckType;
-import xyz.msws.anticheat.checks.Global.Stat;
-import xyz.msws.anticheat.data.CPlayer;
+import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Global.Stat;
+import xyz.msws.anticheat.modules.data.CPlayer;
 
 public class ElytraFlight1 implements Check, Listener {
 
@@ -60,6 +60,8 @@ public class ElytraFlight1 implements Check, Listener {
 
 		CPlayer cp = plugin.getCPlayer(player);
 		if (cp.timeSince(Stat.ON_GROUND) < 200)
+			return;
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 		cp.flagHack(this, (int) ((newLength - oldLength) * 100), "Old: &e" + oldLength + "&7\nNew: " + newLength);
 
