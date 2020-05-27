@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.AbstractModule;
+import xyz.msws.anticheat.modules.bans.BanHook;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -38,7 +39,7 @@ public class Banwave extends AbstractModule {
 			public void run() {
 				for (Entry<UUID, BanwaveInfo> entry : toBan.entrySet()) {
 					OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-					plugin.getBanManager().ban(player.getUniqueId(), entry.getValue().getReason(),
+					plugin.getModule(BanHook.class).ban(player.getUniqueId(), entry.getValue().getReason(),
 							entry.getValue().getDuration());
 				}
 				toBan.clear();

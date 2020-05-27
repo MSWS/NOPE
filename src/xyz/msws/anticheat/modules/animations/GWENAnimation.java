@@ -1,5 +1,6 @@
 package xyz.msws.anticheat.modules.animations;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -9,12 +10,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.protocols.WrapperPlayServerExplosion;
 
 public class GWENAnimation extends AbstractAnimation {
 
-	public GWENAnimation(NOPE plugin, Player player) {
-		super(plugin, player);
+	public GWENAnimation(NOPE plugin, Player player, Check check) {
+		super(plugin, player, check);
 	}
 
 	private BukkitTask task;
@@ -33,13 +35,15 @@ public class GWENAnimation extends AbstractAnimation {
 
 		for (int i = 0; i < guardians.length; i++) {
 			guardians[i] = (Guardian) player.getWorld().spawnEntity(player.getLocation(), EntityType.GUARDIAN);
+			guardians[i].setAI(false);
+			guardians[i].setSilent(true);
+			guardians[i].setInvulnerable(true);
 			try {
 				lasers[i] = new Laser(guardians[i].getLocation(), player.getLocation(), -1, 64);
 				lasers[i].start(plugin);
 			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
-			guardians[i].setAI(false);
 		}
 
 		Location origin = player.getLocation().clone();
@@ -53,7 +57,7 @@ public class GWENAnimation extends AbstractAnimation {
 
 				long diff = System.currentTimeMillis() - startTime;
 				float speed = 2 + (float) ((double) diff / (double) maxTime) * 5;
-				float radius = (float) (3 + Math.abs(Math.cos(diff / 1000.0)) * 2.0);
+				float radius = (float) (4 + Math.cos(diff / 1000.0) * 2.0);
 				if (player.getLocation().getBlockX() != origin.getBlockX()
 						|| player.getLocation().getBlockZ() != origin.getBlockZ()) {
 					Location l = origin.clone();
@@ -99,17 +103,22 @@ public class GWENAnimation extends AbstractAnimation {
 				laser.stop();
 		}
 
-		WrapperPlayServerExplosion ex = new WrapperPlayServerExplosion();
-		ex.setPlayerVelocityX(0);
-		ex.setPlayerVelocityY(0);
-		ex.setPlayerVelocityZ(0);
-		ex.setX(player.getLocation().getX());
-		ex.setY(player.getLocation().getY());
-		ex.setZ(player.getLocation().getZ());
-		ex.setRadius(5);
-		ex.broadcastPacket();
+		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+			WrapperPlayServerExplosion ex = new WrapperPlayServerExplosion();
+			ex.setPlayerVelocityX(0);
+			ex.setPlayerVelocityY(0);
+			ex.setPlayerVelocityZ(0);
+			ex.setX(player.getLocation().getX());
+			ex.setY(player.getLocation().getY());
+			ex.setZ(player.getLocation().getZ());
+			ex.setRadius(5);
+			ex.broadcastPacket();
+		}
+
 		player.stopSound(Sound.ENTITY_GUARDIAN_ATTACK);
 		task.cancel();
+		if (action != null)
+			action.activate(player, check);
 	}
 
 	@Override

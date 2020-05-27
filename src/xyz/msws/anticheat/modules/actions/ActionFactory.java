@@ -3,6 +3,7 @@ package xyz.msws.anticheat.modules.actions;
 import org.apache.commons.lang.StringUtils;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.actions.actions.AnimationAction;
 import xyz.msws.anticheat.modules.actions.actions.BanAction;
 import xyz.msws.anticheat.modules.actions.actions.BanwaveAction;
 import xyz.msws.anticheat.modules.actions.actions.CancelAction;
@@ -20,6 +21,7 @@ import xyz.msws.anticheat.modules.actions.actions.RandomCheck;
 import xyz.msws.anticheat.modules.actions.actions.TPSCheck;
 import xyz.msws.anticheat.modules.actions.actions.VLActionCheck;
 import xyz.msws.anticheat.modules.actions.actions.LogAction.Type;
+import xyz.msws.anticheat.modules.animations.AnimationManager.AnimationType;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -109,6 +111,16 @@ public class ActionFactory {
 			reason = rawData.substring(len + timeString.length() + 1);
 			return data.startsWith("banwave") ? new BanwaveAction(plugin, time, reason)
 					: new BanAction(plugin, time, reason);
+		}
+		if (data.startsWith("animation:")) {
+			try {
+				String animType = rawData.substring("animation:".length(), rawData.indexOf(":", "animation:".length()));
+				String customGroup = rawData.substring("animation:".length() + animType.length() + 1);
+				return new AnimationAction(plugin, AnimationType.valueOf(animType), customGroup);
+			} catch (IllegalArgumentException e) {
+				MSG.error("Invalid animation format: " + rawData.substring("animation:".length()));
+				return null;
+			}
 		}
 		if (data.startsWith("rnd:")) {
 			try {

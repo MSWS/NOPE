@@ -120,6 +120,7 @@ Webhooks:
 #    Please note that bans are not necesssarily instantaneous.
 #           Please add a delay to prevent duplicate bans.
 #
+# animation:[TYPE]:Action
 # kick:Reason         Kick the player for the specified reason
 # ban:Time:Reason     Ban the player for the specified time/reason
 # banwave:Time:Reason Add the player to the banwave
@@ -198,9 +199,10 @@ Commands:
   lagkick: 'ping>150|kick:Extreme Ping'
  #rndcancel Has an 80% chance of teleporting the player back
   rndcancel: 'rnd:.80|cancel'
+  canimate: "logban|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
  #cban Only bans the player if dev mode is disabled, it also logs the ban
  # We log the ban first so we can get the VL data first
-  cban: "notdev|delay:5000|logban|delay:5000|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
+  cban: "notdev|delay:5000|animation:NOPE:canimate"
   addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
 #               -------------------------------

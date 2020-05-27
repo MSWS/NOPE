@@ -62,6 +62,8 @@ public class NOPE extends JavaPlugin {
 
 	private HashSet<AbstractModule> modules = new HashSet<>();
 
+	private PlayerManager pManager;
+
 	public void onEnable() {
 		if (!configYml.exists())
 			saveResource("config.yml", true);
@@ -112,9 +114,10 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public <T extends AbstractModule> T getModule(Class<T> cast) {
-		for (AbstractModule module : modules)
-			if (module.getClass().equals(cast))
+		for (AbstractModule module : modules) {
+			if (cast.isAssignableFrom(module.getClass()))
 				return cast.cast(module);
+		}
 		return null;
 	}
 
@@ -274,10 +277,18 @@ public class NOPE extends JavaPlugin {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public BanHook getBanManager() {
 		return getModule(BanHook.class);
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public TPSChecker getTPSChecker() {
 		return getModule(TPSChecker.class);
 	}
@@ -377,7 +388,9 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public CPlayer getCPlayer(OfflinePlayer off) {
-		return getModule(PlayerManager.class).getPlayer(off);
+		if (pManager == null)
+			pManager = getModule(PlayerManager.class);
+		return pManager.getPlayer(off);
 	}
 
 	public Banwave getBanwave() {

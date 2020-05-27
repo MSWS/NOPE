@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -21,8 +23,10 @@ import xyz.msws.anticheat.PluginInfo;
 import xyz.msws.anticheat.PluginInfo.Stats;
 import xyz.msws.anticheat.events.DevModeToggleEvent;
 import xyz.msws.anticheat.events.player.PlayerToggleScoreboardEvent;
+import xyz.msws.anticheat.modules.animations.AbstractAnimation;
 import xyz.msws.anticheat.modules.animations.AnimationManager;
 import xyz.msws.anticheat.modules.animations.GWENAnimation;
+import xyz.msws.anticheat.modules.animations.NOPEAnimation;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
@@ -482,7 +486,54 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				break;
 			case "testanimation":
 				AnimationManager anim = plugin.getModule(AnimationManager.class);
-				anim.startAnimation((Player) sender, new GWENAnimation(plugin, (Player) sender));
+
+				if (args.length < 2) {
+					MSG.tell(sender, "Please specify an animation.");
+					return true;
+				}
+
+				AbstractAnimation a = null;
+
+				Check check = new Check() {
+
+					@Override
+					public void register(NOPE plugin) throws OperationNotSupportedException {
+					}
+
+					@Override
+					public boolean lagBack() {
+						return false;
+					}
+
+					@Override
+					public CheckType getType() {
+						return CheckType.MISC;
+					}
+
+					@Override
+					public String getDebugName() {
+						return "AnimationTest#1";
+					}
+
+					@Override
+					public String getCategory() {
+						return "AnimationTest";
+					}
+				};
+
+				switch (args[1].toLowerCase()) {
+					case "gwen":
+						a = new GWENAnimation(plugin, (Player) sender, check);
+						break;
+					case "nope":
+						a = new NOPEAnimation(plugin, (Player) sender, check);
+						break;
+					default:
+						MSG.tell(sender, "Unknown animation.");
+						return true;
+				}
+
+				anim.startAnimation((Player) sender, a);
 				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
@@ -524,6 +575,13 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 			if (args[0].equalsIgnoreCase("toggle")) {
 				for (String res : new String[] { "cancel", "dev", "debug", "logs", "global", "globalscoreboard",
 						"scoreboard" }) {
+					if (sender.hasPermission("nope.command.toggle." + res)
+							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
+						result.add(res);
+				}
+			}
+			if (args[0].equalsIgnoreCase("testanimation")) {
+				for (String res : new String[] { "gwen", "nope" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

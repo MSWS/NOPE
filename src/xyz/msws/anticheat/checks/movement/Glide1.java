@@ -58,7 +58,7 @@ public class Glide1 implements Check, Listener {
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 500)
+		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.ON_GROUND) < 500 || cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)

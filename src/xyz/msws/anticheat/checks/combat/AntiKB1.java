@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.animations.AnimationManager;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.checks.Global.Stat;
@@ -44,6 +45,9 @@ public class AntiKB1 implements Check, Listener {
 		Player player = (Player) event.getEntity();
 
 		CPlayer cp = plugin.getCPlayer(player);
+
+		if (plugin.getModule(AnimationManager.class).isInAnimation(player))
+			return;
 
 		if (player.isBlocking())
 			return;

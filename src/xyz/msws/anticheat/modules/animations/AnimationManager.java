@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.AbstractModule;
+import xyz.msws.anticheat.modules.checks.Check;
 
 public class AnimationManager extends AbstractModule {
 
@@ -20,6 +21,12 @@ public class AnimationManager extends AbstractModule {
 	@Override
 	public void enable() {
 
+	}
+
+	public boolean isInAnimation(Player player) {
+		if (animations.containsKey(player.getUniqueId()))
+			return !animations.get(player.getUniqueId()).completed();
+		return false;
 	}
 
 	public boolean startAnimation(Player player, AbstractAnimation animation) {
@@ -35,6 +42,20 @@ public class AnimationManager extends AbstractModule {
 	public void disable() {
 		for (AbstractAnimation animation : animations.values())
 			animation.stop(true);
+	}
+
+	public AbstractAnimation createAnimation(AnimationType type, Player player, Check check) {
+		switch (type) {
+			case GWEN:
+				return new GWENAnimation(plugin, player, check);
+			case NOPE:
+				return new NOPEAnimation(plugin, player, check);
+		}
+		return null;
+	}
+
+	public enum AnimationType {
+		GWEN, NOPE;
 	}
 
 }
