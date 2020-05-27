@@ -8,11 +8,9 @@ import xyz.msws.anticheat.modules.AbstractModule;
 
 public abstract class AbstractHook extends AbstractModule implements Listener {
 
-	protected NOPE plugin;
-
 	public AbstractHook(NOPE plugin) {
 		super(plugin);
-		Bukkit.getPluginManager().registerEvents(this, this.plugin);
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override

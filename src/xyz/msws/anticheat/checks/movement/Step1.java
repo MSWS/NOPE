@@ -48,7 +48,7 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (player.isFlying() || player.isGliding())
 					continue;
-				if (cp.timeSince(Stat.FLYING) < 500)
+				if (cp.timeSince(Stat.FLYING) < 2000)
 					continue;
 				double diff = loc.getY() - lastY.getOrDefault(player.getUniqueId(), loc.getY());
 				lastY.put(player.getUniqueId(), loc.getY());
