@@ -52,6 +52,8 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (cp.timeSince(Stat.RESPAWN) < 1000)
 					continue;
+				if (cp.timeSince(Stat.REDSTONE) < 500)
+					continue;
 				double diff = loc.getY() - lastY.getOrDefault(player.getUniqueId(), loc.getY());
 				lastY.put(player.getUniqueId(), loc.getY());
 

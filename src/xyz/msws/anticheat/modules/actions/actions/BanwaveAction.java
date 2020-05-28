@@ -5,7 +5,7 @@ import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractAction;
-import xyz.msws.anticheat.modules.checks.Banwave.BanwaveInfo;
+import xyz.msws.anticheat.modules.bans.Banwave.BanwaveInfo;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;

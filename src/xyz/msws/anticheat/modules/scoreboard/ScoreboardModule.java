@@ -121,7 +121,6 @@ public class ScoreboardModule extends AbstractModule {
 
 	public void removeScoreboard(Player p) {
 		assigned.remove(p.getUniqueId());
-		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 	}
 
 }

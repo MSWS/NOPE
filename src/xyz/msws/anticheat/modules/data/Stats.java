@@ -204,6 +204,8 @@ public class Stats extends AbstractModule {
 	}
 
 	public void saveData() {
+		if (stats == null || statsFile == null)
+			return;
 		try {
 			stats.save(statsFile);
 		} catch (Exception e) {

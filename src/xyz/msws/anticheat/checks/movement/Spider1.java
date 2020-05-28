@@ -46,7 +46,8 @@ public class Spider1 implements Check, Listener {
 
 		if (player.isOnGround() || player.isFlying())
 			return;
-
+		if (to.getY() < from.getY())
+			return;
 		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
@@ -58,11 +59,7 @@ public class Spider1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
-
 		if (cp.isInClimbingBlock())
-			return;
-
-		if (to.getY() < from.getY())
 			return;
 
 		if (cp.timeSince(Stat.ON_GROUND) < 1000)
@@ -75,6 +72,9 @@ public class Spider1 implements Check, Listener {
 			return;
 
 		if (cp.timeSince(Stat.CLIMBING) < 500)
+			return;
+
+		if (cp.timeSince(Stat.REDSTONE) < 1000)
 			return;
 
 		if (player.isInsideVehicle() && player.getVehicle().getType() == EntityType.HORSE)

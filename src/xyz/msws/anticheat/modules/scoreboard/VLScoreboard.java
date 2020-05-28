@@ -42,8 +42,8 @@ public class VLScoreboard extends CScoreboard {
 		vls = sortByValue(vls);
 		lines.add("");
 
-		lines.add("&b" + MSG.getTime(plugin.getBanwave().timeToNextBanwave()));
-		lines.add("&9Banwave in...");
+		lines.add("&9" + MSG.getTime(plugin.getBanwave().timeToNextBanwave()));
+		lines.add("&bBanwave in...");
 		lines.add("");
 
 		int i = 0;

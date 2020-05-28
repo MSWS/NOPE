@@ -53,6 +53,8 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.DISABLE_GLIDE) < 2000)
 			return;
+		if (cp.timeSince(Stat.REDSTONE) < 1000)
+			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
 		if (player.getFallDistance() > 4)

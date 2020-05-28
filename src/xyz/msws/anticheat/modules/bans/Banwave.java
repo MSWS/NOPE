@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.modules.checks;
+package xyz.msws.anticheat.modules.bans;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.AbstractModule;
-import xyz.msws.anticheat.modules.bans.BanHook;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -122,6 +121,7 @@ public class Banwave extends AbstractModule {
 
 	@Override
 	public void disable() {
-		bw.cancel();
+		if (bw != null)
+			bw.cancel();
 	}
 }

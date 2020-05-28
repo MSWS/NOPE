@@ -1,5 +1,9 @@
 package xyz.msws.anticheat.modules.checks;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
@@ -124,9 +129,6 @@ public class Global extends AbstractModule implements Listener {
 
 		if (lowestBlock.getType() == Material.SLIME_BLOCK || lowestBlock.getType() == Material.HONEY_BLOCK)
 			cp.setTempData(Stat.ON_SLIMEBLOCK, time);
-
-		if (cp.isRedstoneNearby())
-			cp.setTempData(Stat.NEAR_REDSTONE, time);
 	}
 
 	@EventHandler
@@ -187,6 +189,20 @@ public class Global extends AbstractModule implements Listener {
 	}
 
 	@EventHandler
+	public void onPush(BlockPistonExtendEvent event) {
+		List<Block> affected = new ArrayList<>(event.getBlocks()); // Clone to make it mutable
+		affected.add(event.getBlock());
+
+		for (Block b : affected) {
+			for (Player p : b.getLocation().getWorld().getNearbyEntities(b.getLocation(), 2, 2, 2).parallelStream()
+					.filter(e -> e instanceof Player).map(e -> (Player) e).collect(Collectors.toList())) {
+				CPlayer cp = plugin.getCPlayer(p);
+				cp.setTempData(Stat.REDSTONE, System.currentTimeMillis());
+			}
+		}
+	}
+
+	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
 		Entity ent = event.getEntity();
 		if (!(ent instanceof Player))
@@ -195,7 +211,7 @@ public class Global extends AbstractModule implements Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setTempData(Stat.DAMAGE_TAKEN, System.currentTimeMillis());
 	}
-	
+
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
@@ -235,10 +251,119 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player left their vehicle
 		 */
-		LEAVE_VEHICLE, TELEPORT, TOGGLE_GLIDE, DISABLE_GLIDE, ENABLE_GLIDE, BLOCK_PLACE, NEAR_REDSTONE, ON_SLIMEBLOCK,
-		HORIZONTAL_BLOCKCHANGE, SPRINTING, FLYING, IN_VEHICLE, FLIGHT_GROUNDED, ON_ICE, ICE_TRAPDOOR, VERTICAL_CHANGE,
-		IN_AIR, IN_LIQUID, ON_GROUND, MOVE, FLAGGED, CLIMBING, IN_WEIRD_BLOCK, TOGGLE_FLIGHT, DISABLE_FLIGHT,
-		ENABLE_FLIGHT, INVENTORY_CLICK, OPEN_INVENTORY, RESPAWN;
+		LEAVE_VEHICLE,
+		/**
+		 * Last time the player teleported
+		 */
+		TELEPORT,
+		/**
+		 * Last time the player toggled gliding
+		 */
+		TOGGLE_GLIDE,
+		/**
+		 * Last time the player disabled gliding
+		 */
+		DISABLE_GLIDE,
+		/**
+		 * Last time the player enabled gliding
+		 */
+		ENABLE_GLIDE,
+		/**
+		 * Last time the player placed a block
+		 */
+		BLOCK_PLACE,
+		/**
+		 * Last time the player was affected by redstone/pistons
+		 */
+		REDSTONE,
+		/**
+		 * Last time the player was on a slimeblock
+		 */
+		ON_SLIMEBLOCK,
+		/**
+		 * Last time the player's block was changed horizontally
+		 */
+		HORIZONTAL_BLOCKCHANGE,
+		/**
+		 * Last time the player was sprinting
+		 */
+		SPRINTING,
+		/**
+		 * Last time the player was flying or gliding
+		 */
+		FLYING,
+		/**
+		 * Last time the player was in a vehicle
+		 */
+		IN_VEHICLE,
+		/**
+		 * Last time the player had any block nearby
+		 */
+		FLIGHT_GROUNDED,
+		/**
+		 * Last time the player was on ice
+		 */
+		ON_ICE,
+		/**
+		 * Last time the player had ice/trapdoor combo
+		 */
+		ICE_TRAPDOOR,
+		/**
+		 * Last time the player's Y coordinate changed
+		 */
+		VERTICAL_CHANGE,
+		/**
+		 * Last time the player was surrounded by air
+		 */
+		IN_AIR,
+		/**
+		 * Last time the player was in liquid
+		 */
+		IN_LIQUID,
+		/**
+		 * Last time the player was on the ground ({@link Player#isOnGround()}
+		 */
+		ON_GROUND,
+		/**
+		 * Last time the player moved
+		 */
+		MOVE,
+		/**
+		 * Last time the player failed a check
+		 */
+		FLAGGED,
+		/**
+		 * Last time the player was in a climbing block
+		 */
+		CLIMBING,
+		/**
+		 * Last time the player was in a weird block {@link CPlayer#isInWeirdBlock()}
+		 */
+		IN_WEIRD_BLOCK,
+		/**
+		 * Last time the player toggled flying
+		 */
+		TOGGLE_FLIGHT,
+		/**
+		 * Last time the player disabled flight
+		 */
+		DISABLE_FLIGHT,
+		/**
+		 * Last time the player enabled flight
+		 */
+		ENABLE_FLIGHT,
+		/**
+		 * Last time the player clicked in an inventory
+		 */
+		INVENTORY_CLICK,
+		/**
+		 * Last time the player opened their inventory
+		 */
+		OPEN_INVENTORY,
+		/**
+		 * Last time the player respawned
+		 */
+		RESPAWN;
 	}
 
 	@Override

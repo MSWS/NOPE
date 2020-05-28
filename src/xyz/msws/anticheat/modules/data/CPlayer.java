@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -578,23 +577,5 @@ public class CPlayer {
 			vertLine.subtract(0, 1, 0);
 		}
 		return (online.getLocation().getY() - vertLine.getBlockY() - 1) + online.getLocation().getY() % 1;
-	}
-
-	public boolean isRedstoneNearby() {
-		if (!player.isOnline())
-			return false;
-		Player online = player.getPlayer();
-
-		List<Material> blockTypes = Arrays.asList(Material.PISTON_HEAD, Material.STICKY_PISTON);
-		int range = 2;
-		for (int x = -range; x <= range; x++) {
-			for (int y = -range; y <= range; y++) {
-				for (int z = -range; z <= range; z++) {
-					if (blockTypes.contains(online.getLocation().clone().add(x, y, z).getBlock().getType()))
-						return true;
-				}
-			}
-		}
-		return false;
 	}
 }

@@ -43,7 +43,7 @@ public class Speed1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
-		if (cp.isRedstoneNearby())
+		if (cp.timeSince(Stat.REDSTONE) < 2000)
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
