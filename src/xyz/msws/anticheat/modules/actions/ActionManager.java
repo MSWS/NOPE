@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -34,8 +33,8 @@ public class ActionManager extends AbstractModule {
 
 	private ActionFactory factory;
 
-	private Map<String, List<ActionGroup>> actions;
-	private Map<String, Webhook> webhooks;
+	private Map<String, List<ActionGroup>> actions = new HashMap<>();
+	private Map<String, Webhook> webhooks = new HashMap<>();
 
 	public ActionManager(NOPE plugin, File file) {
 		super(plugin);
@@ -63,17 +62,14 @@ public class ActionManager extends AbstractModule {
 		return actions.getOrDefault(type, new ArrayList<>());
 	}
 
-	@Nullable
 	public List<Webhook> getWebHooks() {
 		return (List<Webhook>) webhooks.values();
 	}
 
-	@Nullable
 	public Map<String, Webhook> getWebHookMap() {
 		return webhooks;
 	}
 
-	@Nullable
 	public Webhook getWebHook(String name) {
 		return webhooks.get(name);
 	}
@@ -218,5 +214,6 @@ public class ActionManager extends AbstractModule {
 	@Override
 	public void disable() {
 		actions.clear();
+		webhooks.clear();
 	}
 }

@@ -53,7 +53,7 @@ public class Spider1 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 1000)
+		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
@@ -68,7 +68,7 @@ public class Spider1 implements Check, Listener {
 		if (cp.timeSince(Stat.ON_GROUND) < 1000)
 			return;
 
-		if (cp.timeSince(Stat.IN_LIQUID) < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
 
 		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)
@@ -88,8 +88,7 @@ public class Spider1 implements Check, Listener {
 
 		double dist = cp.distanceToGround() - 1 + (player.getLocation().getY() % 1);
 
-		double max = 1.2522033402537218;
-
+		double max = 1.2595999415636072;
 		if (dist <= max)
 			return;
 

@@ -40,6 +40,8 @@ public class AutoBuild1 implements Check, Listener {
 		Block actual = player.getEyeLocation().clone().add(aim).getBlock();
 		if (block.equals(actual))
 			return;
+		if (block.getType().toString().contains("BED"))
+			return;
 		double dist = block.getLocation().distanceSquared(actual.getLocation());
 		if (dist <= 2)
 			return;

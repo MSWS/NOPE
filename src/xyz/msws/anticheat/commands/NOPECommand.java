@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -33,10 +34,10 @@ import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.modules.data.PlayerManager;
 import xyz.msws.anticheat.utils.MSG;
 
-public class AntiCheatCommand implements CommandExecutor, TabCompleter {
+public class NOPECommand implements CommandExecutor, TabCompleter {
 	private NOPE plugin;
 
-	public AntiCheatCommand(NOPE plugin) {
+	public NOPECommand(NOPE plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("nope").setExecutor(this);
 	}
@@ -65,7 +66,8 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				if (args[1].equalsIgnoreCase("all")) {
 					target = "everyone's";
 
-					for (OfflinePlayer p : plugin.getPlayerManager().getLoadedPlayers()) {
+					for (UUID uuid : plugin.getPlayerManager().getLoadedPlayers()) {
+						OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
 						cp = plugin.getCPlayer(p);
 						if (args[2].equalsIgnoreCase("all")) {
 							cp.clearVls();
@@ -118,13 +120,14 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 				MSG.tell(sender, "&7You cleared &e" + target + "&7 VLs for &c" + hack);
 				break;
 			case "vl":
+			case "vls":
 				if (!sender.hasPermission("nope.command.vl")) {
 					MSG.noPerm(sender, "nope.command.vl");
 					return true;
 				}
 				if (args.length == 1) {
 					boolean shown = false;
-					for (OfflinePlayer p : plugin.getPlayerManager().getLoadedPlayers()) {
+					for (Player p : Bukkit.getOnlinePlayers()) {
 						cp = plugin.getCPlayer(p);
 						String vls = formatVls(p);
 						if (vls.isEmpty())
@@ -224,10 +227,6 @@ public class AntiCheatCommand implements CommandExecutor, TabCompleter {
 						}
 
 						plugin.getConfig().set("Log", nextValue);
-//						MSG.tell(sender,
-//								MSG.getString("Toggle", "you %status% %name%")
-//										.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("Log")))
-//										.replace("%name%", "Logs"));
 						MSG.tell(sender,
 								MSG.getString("LogToggle", "You set logs to %status%").replace("%status%", nextValue));
 						plugin.saveConfig();

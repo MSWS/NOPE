@@ -41,7 +41,7 @@ public class Timer1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int SAMPLE_SIZE = 150;
+	private final int SAMPLE_SIZE = 500;
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {

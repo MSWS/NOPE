@@ -42,6 +42,8 @@ public class AntiFire1 implements Check {
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
 						continue;
+					if (player.isDead())
+						continue;
 					CPlayer cp = plugin.getCPlayer(player);
 
 					int oldFireTicks = ticks.getOrDefault(player.getUniqueId(), 0);

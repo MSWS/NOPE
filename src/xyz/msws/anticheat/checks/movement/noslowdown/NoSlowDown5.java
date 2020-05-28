@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -28,6 +29,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Global.Stat;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 public class NoSlowDown5 implements Check, Listener {
@@ -73,6 +75,9 @@ public class NoSlowDown5 implements Check, Listener {
 		if (!isFood(item.getType()))
 			return;
 
+		if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
+			return;
+
 		if (player.getFoodLevel() >= 20 && item.getType() != Material.GOLDEN_APPLE
 				&& item.getType() != Material.ENCHANTED_GOLDEN_APPLE)
 			return;
@@ -104,6 +109,9 @@ public class NoSlowDown5 implements Check, Listener {
 			return;
 
 		if (player.isFlying() || player.isGliding())
+			return;
+
+		if (cp.timeSince(Stat.FLYING) < 300)
 			return;
 
 		if (cp.hasMovementRelatedPotion())

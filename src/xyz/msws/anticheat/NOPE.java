@@ -15,7 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import xyz.msws.anticheat.commands.AntiCheatCommand;
+import xyz.msws.anticheat.commands.NOPECommand;
 import xyz.msws.anticheat.listeners.GUIListener;
 import xyz.msws.anticheat.listeners.LogImplementation;
 import xyz.msws.anticheat.listeners.LoginAndQuit;
@@ -88,7 +88,7 @@ public class NOPE extends JavaPlugin {
 		modules.add(new ScoreboardAssigner(this));
 		modules.add(new AnimationManager(this));
 
-		new AntiCheatCommand(this);
+		new NOPECommand(this);
 		new LogImplementation(this);
 		new LoginAndQuit(this);
 		new GUIListener(this);
@@ -151,6 +151,7 @@ public class NOPE extends JavaPlugin {
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
 			case "1.5":
+			case "1.5.0.1":
 				return "Your config version is slightly old however nothing has changed.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
@@ -313,13 +314,8 @@ public class NOPE extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		getModule(Stats.class).saveData();
-
-		PlayerManager pm = getModule(PlayerManager.class);
-
-		for (OfflinePlayer p : pm.getLoadedPlayers())
-			pm.removePlayer(p); // Clear all loaded player data and save to files
-
+		for (AbstractModule mod : modules)
+			mod.disable();
 	}
 
 	public void saveData() {

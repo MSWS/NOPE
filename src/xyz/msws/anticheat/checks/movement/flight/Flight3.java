@@ -77,7 +77,7 @@ public class Flight3 implements Check, Listener {
 
 		Location safe = cp.getLastSafeLocation();
 
-		if (event.getTo().getY() - 3 < safe.getY())
+		if (event.getTo().getY() - 2 < safe.getY())
 			return;
 
 		if (event.getTo().getY() <= event.getFrom().getY())

@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.events.DevModeToggleEvent;
+import xyz.msws.anticheat.events.player.PlayerToggleScoreboardEvent;
 import xyz.msws.anticheat.modules.AbstractModule;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
@@ -29,6 +30,11 @@ public class ScoreboardAssigner extends AbstractModule implements Listener {
 	public void onDev(DevModeToggleEvent event) {
 		for (Player p : Bukkit.getOnlinePlayers())
 			giveScoreboard(p);
+	}
+
+	@EventHandler
+	public void onToggle(PlayerToggleScoreboardEvent event) {
+		giveScoreboard(event.getPlayer());
 	}
 
 	private void giveScoreboard(Player player) {

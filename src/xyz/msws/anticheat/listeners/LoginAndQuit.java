@@ -3,6 +3,7 @@ package xyz.msws.anticheat.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -29,13 +30,12 @@ public class LoginAndQuit implements Listener {
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-//		out.writeUTF("NOPE");
 		out.writeUTF("GetServer");
 		player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
-		plugin.getModule(PlayerManager.class).removePlayer(event.getPlayer());
+		plugin.getModule(PlayerManager.class).removePlayer(event.getPlayer().getUniqueId());
 	}
 }

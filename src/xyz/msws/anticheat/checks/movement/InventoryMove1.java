@@ -56,7 +56,7 @@ public class InventoryMove1 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 300)
 			return;
-		if (cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE) > 500)
+		if (cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE) > 0)
 			return;
 
 		event.setCancelled(true);

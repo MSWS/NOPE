@@ -50,6 +50,8 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (cp.timeSince(Stat.FLYING) < 2000)
 					continue;
+				if (cp.timeSince(Stat.RESPAWN) < 1000)
+					continue;
 				double diff = loc.getY() - lastY.getOrDefault(player.getUniqueId(), loc.getY());
 				lastY.put(player.getUniqueId(), loc.getY());
 
@@ -63,6 +65,11 @@ public class Step1 implements Check, Listener {
 		}, 0, 1);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
+				CPlayer cp = plugin.getCPlayer(player);
+				if (cp.timeSince(Stat.FLYING) < 10000)
+					continue;
+				if (cp.timeSince(Stat.RESPAWN) < 1000)
+					continue;
 				double avg = 0;
 				int amo = 0;
 				TreeMap<Double, Integer> vals = yVals.getOrDefault(player.getUniqueId(), new TreeMap<>());
@@ -76,8 +83,7 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (avg < 1)
 					continue;
-				CPlayer cp = plugin.getCPlayer(player);
-				cp.flagHack(this, (int) ((avg * 15) + 5 * amo), "Avg: &e" + avg + "\n&7Size: &e" + amo);
+				cp.flagHack(this, Math.min((int) ((avg * 15) + 5 * amo), 50), "Avg: &e" + avg + "\n&7Size: &e" + amo);
 			}
 			yVals.clear();
 		}, 0, 20);

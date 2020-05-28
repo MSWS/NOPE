@@ -27,6 +27,7 @@ import xyz.msws.anticheat.modules.data.CPlayer;
  * 
  * @author imodm
  *
+ * @deprecated
  */
 public class KillAura2 implements Check, Listener {
 
@@ -77,8 +78,9 @@ public class KillAura2 implements Check, Listener {
 
 		double diff = Math.abs(eLoc.getYaw() - packet.getYaw()) + Math.abs(eLoc.getPitch() - packet.getPitch());
 
-		if (diff == 0)
+		if (diff <= 45)
 			return;
+		
 
 		if (plugin.getTPS() < 18)
 			return;

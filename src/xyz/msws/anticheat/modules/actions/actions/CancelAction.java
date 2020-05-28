@@ -1,6 +1,9 @@
 package xyz.msws.anticheat.modules.actions.actions;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractAction;
@@ -25,6 +28,16 @@ public class CancelAction extends AbstractAction {
 		if (!player.isOnline())
 			return;
 		CPlayer cp = plugin.getCPlayer(player);
+
+		Location safe = cp.getLastSafeLocation();
+
+		if (!safe.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+			return;
+		if (safe.getBlock().getRelative(BlockFace.UP).getType() != Material.AIR)
+			return;
+		if (safe.distanceSquared(player.getPlayer().getLocation()) > 100)
+			return;
+
 		player.getPlayer().teleport(cp.getLastSafeLocation());
 	}
 

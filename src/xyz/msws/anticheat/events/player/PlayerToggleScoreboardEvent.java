@@ -24,4 +24,8 @@ public class PlayerToggleScoreboardEvent extends PlayerEvent {
 		return handlers;
 	}
 
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
+
 }

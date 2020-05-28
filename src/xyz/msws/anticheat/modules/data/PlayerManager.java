@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 
@@ -13,32 +14,35 @@ import xyz.msws.anticheat.modules.AbstractModule;
 public class PlayerManager extends AbstractModule {
 	private NOPE plugin;
 
-	private Map<OfflinePlayer, CPlayer> players = new HashMap<>();
+	private Map<UUID, CPlayer> players = new HashMap<>();
 
 	public PlayerManager(NOPE plugin) {
 		super(plugin);
 		this.plugin = plugin;
-
 	}
 
 	public CPlayer getPlayer(OfflinePlayer player) {
+		return getPlayer(player.getUniqueId());
+	}
+
+	public CPlayer getPlayer(UUID player) {
 		if (!players.containsKey(player))
 			players.put(player, new CPlayer(player, plugin));
 		return players.get(player);
 	}
 
-	public List<OfflinePlayer> getLoadedPlayers() {
-		return new ArrayList<OfflinePlayer>(players.keySet());
+	public List<UUID> getLoadedPlayers() {
+		return new ArrayList<UUID>(players.keySet());
 	}
 
-	public void removePlayer(OfflinePlayer player) {
+	public void removePlayer(UUID player) {
 		if (players.containsKey(player))
 			players.get(player).saveData();
 		players.remove(player);
 	}
 
 	public void clearPlayers() {
-		for (OfflinePlayer player : players.keySet())
+		for (UUID player : players.keySet())
 			removePlayer(player);
 	}
 

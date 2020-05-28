@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
@@ -194,6 +195,13 @@ public class Global extends AbstractModule implements Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		cp.setTempData(Stat.DAMAGE_TAKEN, System.currentTimeMillis());
 	}
+	
+	@EventHandler
+	public void onRespawn(PlayerRespawnEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		cp.setTempData(Stat.RESPAWN, System.currentTimeMillis());
+	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
@@ -230,7 +238,7 @@ public class Global extends AbstractModule implements Listener {
 		LEAVE_VEHICLE, TELEPORT, TOGGLE_GLIDE, DISABLE_GLIDE, ENABLE_GLIDE, BLOCK_PLACE, NEAR_REDSTONE, ON_SLIMEBLOCK,
 		HORIZONTAL_BLOCKCHANGE, SPRINTING, FLYING, IN_VEHICLE, FLIGHT_GROUNDED, ON_ICE, ICE_TRAPDOOR, VERTICAL_CHANGE,
 		IN_AIR, IN_LIQUID, ON_GROUND, MOVE, FLAGGED, CLIMBING, IN_WEIRD_BLOCK, TOGGLE_FLIGHT, DISABLE_FLIGHT,
-		ENABLE_FLIGHT, INVENTORY_CLICK, OPEN_INVENTORY;
+		ENABLE_FLIGHT, INVENTORY_CLICK, OPEN_INVENTORY, RESPAWN;
 	}
 
 	@Override

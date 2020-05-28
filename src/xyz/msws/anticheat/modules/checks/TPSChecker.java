@@ -45,6 +45,7 @@ public class TPSChecker extends AbstractModule {
 
 	@Override
 	public void disable() {
-		task.cancel();
+		if (task != null && !task.isCancelled())
+			task.cancel();
 	}
 }

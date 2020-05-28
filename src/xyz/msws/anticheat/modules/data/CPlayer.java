@@ -79,6 +79,10 @@ public class CPlayer {
 		data = YamlConfiguration.loadConfiguration(saveFile);
 	}
 
+	public CPlayer(UUID player, NOPE plugin) {
+		this(Bukkit.getOfflinePlayer(player), plugin);
+	}
+
 	public void setInventory(String inv) {
 		this.currentInventory = inv;
 	}

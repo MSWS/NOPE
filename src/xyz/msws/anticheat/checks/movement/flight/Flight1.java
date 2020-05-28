@@ -49,6 +49,8 @@ public class Flight1 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.IN_LIQUID) < 400)
 			return;
+		if (cp.timeSince(Stat.RESPAWN) < 1000)
+			return;
 
 		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
@@ -58,7 +60,7 @@ public class Flight1 implements Check, Listener {
 		if (to.getY() != from.getY())
 			return;
 
-		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1))
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1, 2))
 			return;
 
 		if (cp.timeSince(Stat.TELEPORT) < 500)

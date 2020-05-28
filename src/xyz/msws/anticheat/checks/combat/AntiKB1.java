@@ -49,6 +49,9 @@ public class AntiKB1 implements Check, Listener {
 		if (plugin.getModule(AnimationManager.class).isInAnimation(player))
 			return;
 
+		if (player.isDead())
+			return;
+
 		if (player.isBlocking())
 			return;
 
@@ -72,6 +75,8 @@ public class AntiKB1 implements Check, Listener {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
+				if (player.isDead())
+					return;
 				if (!origin.getWorld().equals(player.getWorld()))
 					return;
 				double dist = player.getLocation().distanceSquared(origin);

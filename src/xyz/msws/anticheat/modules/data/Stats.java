@@ -297,6 +297,7 @@ public class Stats extends AbstractModule {
 
 	@Override
 	public void disable() {
+		saveData();
 		statsFile = null;
 		stats = null;
 	}

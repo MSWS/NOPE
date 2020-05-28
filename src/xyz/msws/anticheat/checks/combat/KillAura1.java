@@ -24,6 +24,7 @@ import xyz.msws.anticheat.modules.data.CPlayer;
  * 
  * @author imodm
  *
+ * @deprecated
  */
 public class KillAura1 implements Check, Listener {
 

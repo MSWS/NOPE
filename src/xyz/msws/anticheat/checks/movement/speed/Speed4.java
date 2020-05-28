@@ -55,7 +55,10 @@ public class Speed4 implements Check, Listener {
 		if (cp.timeSince(Stat.TOGGLE_GLIDE) < 500)
 			return;
 
-		double maxDist = .02;
+		if (cp.timeSince(Stat.IN_VEHICLE) < 2000)
+			return;
+
+		double maxDist = 0.02500431987726535;
 
 		Location to = event.getTo().clone(), from = event.getFrom().clone();
 		to.setY(0);

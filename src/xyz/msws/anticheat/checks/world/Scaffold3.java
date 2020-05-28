@@ -61,6 +61,9 @@ public class Scaffold3 implements Check, Listener {
 		if (target.isLiquid())
 			return;
 
+		if (event.getBlockFace() == BlockFace.UP)
+			return;
+
 		List<Block> blocks = player.getLastTwoTargetBlocks((Set<Material>) null, 10);
 		BlockFace face = null;
 		if (blocks.size() > 1) {

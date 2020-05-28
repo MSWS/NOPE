@@ -59,7 +59,7 @@ public class ElytraFlight1 implements Check, Listener {
 			return;
 
 		CPlayer cp = plugin.getCPlayer(player);
-		if (cp.timeSince(Stat.ON_GROUND) < 200)
+		if (cp.timeSince(Stat.ON_GROUND) < 500)
 			return;
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;

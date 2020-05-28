@@ -60,12 +60,12 @@ public class ScoreboardModule extends AbstractModule {
 
 	@Override
 	public void disable() {
+		for (Player p : Bukkit.getOnlinePlayers())
+			removeScoreboard(p);
 		assigned = new HashMap<>();
 
-		runner.cancel();
-
-		for (Player p : Bukkit.getOnlinePlayers())
-			p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		if (runner != null && !runner.isCancelled())
+			runner.cancel();
 	}
 
 	private void setTitle(Player player, String value) {

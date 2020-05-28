@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import xyz.msws.anticheat.NOPE;
@@ -114,6 +115,12 @@ public class BHop1 implements Check, Listener {
 
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		Player player = event.getPlayer();
+		lastGround.remove(player.getUniqueId());
+	}
+
+	@EventHandler
+	public void onDeath(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
 		lastGround.remove(player.getUniqueId());
 	}
