@@ -57,7 +57,6 @@ import xyz.msws.anticheat.checks.player.AutoSwitch1;
 import xyz.msws.anticheat.checks.player.AutoTool1;
 import xyz.msws.anticheat.checks.player.FastEat1;
 import xyz.msws.anticheat.checks.player.GhostHand2;
-import xyz.msws.anticheat.checks.player.NoFall1;
 import xyz.msws.anticheat.checks.player.SafeWalk1;
 import xyz.msws.anticheat.checks.player.SelfHarm1;
 import xyz.msws.anticheat.checks.player.Zoot1;
@@ -78,7 +77,6 @@ import xyz.msws.anticheat.checks.world.Scaffold3;
 import xyz.msws.anticheat.modules.AbstractModule;
 import xyz.msws.anticheat.utils.MSG;
 
-@SuppressWarnings("deprecation")
 public class Checks extends AbstractModule {
 	private List<Check> activeChecks;
 
@@ -171,8 +169,8 @@ public class Checks extends AbstractModule {
 
 		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Blink1(),
-				new Timer1(), new NoFall1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(),
-				new FastBow1(), new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
+				new Timer1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(), new FastBow1(),
+				new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
 				new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(), new HighCPS1(),
 				new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
 				new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(),

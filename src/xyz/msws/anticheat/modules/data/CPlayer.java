@@ -9,6 +9,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -254,6 +257,10 @@ public class CPlayer {
 		return getDataFile().getInt("vls." + category);
 	}
 
+	public void setVL(String category, int vl) {
+		getDataFile().set("vls." + category, vl);
+	}
+
 	public List<String> getHackVls() {
 		List<String> result = new ArrayList<>();
 
@@ -411,9 +418,8 @@ public class CPlayer {
 		log.addLine(msg);
 	}
 
+	@Nullable
 	public Location getLastSafeLocation() {
-		if (lastSafe == null)
-			return ((Player) player).getLocation();
 		return lastSafe;
 	}
 

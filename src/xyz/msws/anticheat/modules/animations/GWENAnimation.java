@@ -8,6 +8,7 @@ import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
@@ -24,7 +25,7 @@ public class GWENAnimation extends AbstractAnimation {
 	private Guardian[] guardians = new Guardian[4];
 	private Laser[] lasers = new Laser[4];
 
-	private long maxTime = 5000;
+	private long maxTime = 7000;
 
 	@Override
 	public boolean start() {
@@ -56,8 +57,8 @@ public class GWENAnimation extends AbstractAnimation {
 			public void run() {
 
 				long diff = System.currentTimeMillis() - startTime;
-				float speed = 2 + (float) ((double) diff / (double) maxTime) * 5;
-				float radius = (float) (4 + Math.cos(diff / 1000.0) * 2.0);
+				float speed = -2 + (float) ((double) diff / (double) maxTime) * 6;
+				float radius = (float) (5 + Math.cos(diff / 500.0) * 1.0);
 				if (player.getLocation().getBlockX() != origin.getBlockX()
 						|| player.getLocation().getBlockZ() != origin.getBlockZ()) {
 					Location l = origin.clone();
@@ -71,7 +72,11 @@ public class GWENAnimation extends AbstractAnimation {
 					double xOffset = Math.cos(i * Math.PI / 2 + (diff / 1000.0 * speed)) * radius;
 					double zOffset = Math.sin(i * Math.PI / 2 + (diff / 1000.0 * speed)) * radius;
 					Location loc = player.getLocation().clone();
-					loc.add(xOffset, 5, zOffset);
+					loc.add(xOffset, 6, zOffset);
+
+					Vector offset = player.getLocation().toVector().subtract(loc.toVector());
+					loc.setDirection(offset);
+
 					Guardian guard = guardians[i];
 					guard.teleport(loc);
 
@@ -128,7 +133,7 @@ public class GWENAnimation extends AbstractAnimation {
 
 	@Override
 	public String getName() {
-		return null;
+		return "GWEN";
 	}
 
 }

@@ -60,7 +60,7 @@ public class Global extends AbstractModule implements Listener {
 			MSG.tell(player, String.format("&9OnGround&7: %s", MSG.TorF(player.isOnGround())));
 		}
 
-		if (to.getBlock().isLiquid() || from.getBlock().isLiquid())
+		if (cp.isBlockNearby(Material.WATER) || cp.isBlockNearby(Material.LAVA))
 			cp.setTempData(Stat.IN_LIQUID, time);
 
 		if (from.getY() != to.getY())
@@ -382,18 +382,21 @@ public class Global extends AbstractModule implements Listener {
 				double lastFlag = cp.timeSince(Stat.FLAGGED);
 
 				int diff = 1;
-				if (cp.hasTempData(Stat.FLAGGED))
+				if (cp.hasTempData(Stat.FLAGGED)) {
 					if (lastFlag > 1.8e+6) {
-						diff = 20;
-					} else if (lastFlag > 600000) {
 						diff = 10;
-					} else if (lastFlag > 300000) {
+					} else if (lastFlag > 600000) {
 						diff = 5;
+					} else if (lastFlag > 300000) {
+						diff = 4;
 					} else if (lastFlag > 50000) {
 						diff = 3;
 					} else if (lastFlag > 10000) {
 						diff = 2;
 					}
+				} else {
+					diff = 10;
+				}
 
 				for (String hack : vlSection.getKeys(false)) {
 //					if (cp.getSaveInteger("vls." + hack) == 0)

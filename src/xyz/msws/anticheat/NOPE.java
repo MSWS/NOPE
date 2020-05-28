@@ -35,6 +35,7 @@ import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.modules.checks.Global;
 import xyz.msws.anticheat.modules.checks.TPSChecker;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.compatability.AbstractHook;
 import xyz.msws.anticheat.modules.compatability.CrazyEnchantsHook;
 import xyz.msws.anticheat.modules.compatability.McMMOHook;
@@ -79,6 +80,7 @@ public class NOPE extends JavaPlugin {
 		modules.add(new ActionManager(this, configYml));
 		modules.add(new PlayerManager(this));
 		modules.add(new TPSChecker(this));
+		modules.add(new TPSManager(this));
 		modules.add(new Banwave(this));
 		modules.add(new Checks(this));
 		modules.add(new Stats(this));

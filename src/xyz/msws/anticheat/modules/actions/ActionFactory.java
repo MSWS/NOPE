@@ -3,6 +3,7 @@ package xyz.msws.anticheat.modules.actions;
 import org.apache.commons.lang.StringUtils;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.actions.actions.AddVLAction;
 import xyz.msws.anticheat.modules.actions.actions.AnimationAction;
 import xyz.msws.anticheat.modules.actions.actions.BanAction;
 import xyz.msws.anticheat.modules.actions.actions.BanwaveAction;
@@ -18,6 +19,7 @@ import xyz.msws.anticheat.modules.actions.actions.MessagePlayerAction;
 import xyz.msws.anticheat.modules.actions.actions.NotDevCheck;
 import xyz.msws.anticheat.modules.actions.actions.PingCheck;
 import xyz.msws.anticheat.modules.actions.actions.RandomCheck;
+import xyz.msws.anticheat.modules.actions.actions.SetVLAction;
 import xyz.msws.anticheat.modules.actions.actions.TPSCheck;
 import xyz.msws.anticheat.modules.actions.actions.VLActionCheck;
 import xyz.msws.anticheat.modules.actions.actions.LogAction.Type;
@@ -129,6 +131,15 @@ public class ActionFactory {
 				MSG.error("Invalid rnd number: " + rawData.substring("rnd:".length()));
 				return null;
 			}
+		}
+		if (data.startsWith("setvl:") || data.startsWith("addvl:")) {
+			String num = rawData.substring("setvl:".length());
+			if (!StringUtils.isNumeric(num.startsWith("-") ? num.substring(1) : num)) {
+				MSG.error("Invalid VL: " + num);
+				return null;
+			}
+			return data.startsWith("addvl:") ? new AddVLAction(plugin, Integer.parseInt(num))
+					: new SetVLAction(plugin, Integer.parseInt(num));
 		}
 		if (data.startsWith("notdev"))
 			return new NotDevCheck(plugin);

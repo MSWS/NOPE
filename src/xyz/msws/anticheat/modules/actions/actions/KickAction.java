@@ -1,5 +1,6 @@
 package xyz.msws.anticheat.modules.actions.actions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
@@ -27,7 +28,10 @@ public class KickAction extends AbstractAction {
 	public void execute(OfflinePlayer player, Check check) {
 		if (!player.isOnline())
 			return;
-		player.getPlayer().kickPlayer(MSG.color(MSG.replaceCheckPlaceholder(reason, plugin.getCPlayer(player), check)));
+		Bukkit.getScheduler().runTask(plugin, () -> {
+			player.getPlayer()
+					.kickPlayer(MSG.color(MSG.replaceCheckPlaceholder(reason, plugin.getCPlayer(player), check)));
+		});
 	}
 
 }

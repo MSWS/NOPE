@@ -81,6 +81,10 @@ public class Flight4 implements Check, Listener {
 			return;
 
 		Location safe = cp.getLastSafeLocation();
+		if (safe == null)
+			return;
+		if (!safe.getWorld().equals(player.getWorld()))
+			return;
 
 		if (!safe.getWorld().equals(player.getLocation().getWorld()))
 			return;

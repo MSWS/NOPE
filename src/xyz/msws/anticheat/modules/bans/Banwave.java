@@ -121,7 +121,9 @@ public class Banwave extends AbstractModule {
 
 	@Override
 	public void disable() {
-		if (bw != null)
+		if (bw != null && !bw.isCancelled())
 			bw.cancel();
+		runBanwave(true);
+		toBan.clear();
 	}
 }

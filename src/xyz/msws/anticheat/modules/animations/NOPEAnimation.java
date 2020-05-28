@@ -2,6 +2,7 @@ package xyz.msws.anticheat.modules.animations;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Evoker;
@@ -21,13 +22,14 @@ public class NOPEAnimation extends AbstractAnimation {
 	}
 
 	private BukkitTask task;
-	private long maxTime = 5000;
+	private long maxTime = 7000;
 
 	private Evoker[] evokers = new Evoker[8];
 
 	public boolean start() {
 		if (player == null || !player.isValid())
 			return false;
+		player.setGameMode(GameMode.SURVIVAL);
 		Location origin = player.getLocation().clone();
 
 		double radius = 5;
@@ -72,7 +74,7 @@ public class NOPEAnimation extends AbstractAnimation {
 
 				if (damageCounter >= damageDelay) {
 					damageCounter = 0;
-					if (ThreadLocalRandom.current().nextDouble() > .4)
+					if (ThreadLocalRandom.current().nextDouble() > .7)
 						damageDelay -= 1;
 
 					for (Evoker e : evokers) {
@@ -102,9 +104,12 @@ public class NOPEAnimation extends AbstractAnimation {
 
 	@Override
 	public void stop(boolean manual) {
-		for (Evoker e : evokers)
-			e.remove();
-		task.cancel();
+		if (evokers != null)
+			for (Evoker e : evokers)
+				if (e != null && e.isValid())
+					e.remove();
+		if (task != null && !task.isCancelled())
+			task.cancel();
 		if (action != null)
 			action.activate(player, check);
 	}

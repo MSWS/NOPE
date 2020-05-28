@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -37,8 +37,15 @@ import xyz.msws.anticheat.utils.MSG;
 public class NOPECommand implements CommandExecutor, TabCompleter {
 	private NOPE plugin;
 
+	private Map<String, Subcommand> subs;
+
 	public NOPECommand(NOPE plugin) {
 		this.plugin = plugin;
+
+		subs = new HashMap<>();
+		subs.put("testlag", new TestlagSubcommand(plugin));
+		subs.put("clear", new ClearSubcommand(plugin));
+
 		plugin.getCommand("nope").setExecutor(this);
 	}
 
@@ -51,74 +58,15 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		OfflinePlayer off;
 		CPlayer cp;
 
+		if (subs.containsKey(args[0].toLowerCase())) {
+			CommandResult result = subs.get(args[0].toLowerCase()).execute(sender, args);
+			if (result == CommandResult.SUCCESS)
+				return true;
+			MSG.tell(sender, result.getMessage());
+			return true;
+		}
+
 		switch (args[0].toLowerCase()) {
-			case "clear":
-				if (!sender.hasPermission("nope.command.clear")) {
-					MSG.noPerm(sender, "nope.command.clear");
-					return true;
-				}
-				if (args.length < 3) {
-					MSG.sendHelp(sender, 0, "default");
-					return true;
-				}
-				String target = "", hack = "";
-
-				if (args[1].equalsIgnoreCase("all")) {
-					target = "everyone's";
-
-					for (UUID uuid : plugin.getPlayerManager().getLoadedPlayers()) {
-						OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-						cp = plugin.getCPlayer(p);
-						if (args[2].equalsIgnoreCase("all")) {
-							cp.clearVls();
-							MSG.sendPluginMessage(null, "clearvl:" + p.getName());
-							hack = "all hacks";
-						} else {
-							boolean found = false;
-							for (Check h : plugin.getChecks().getAllChecks()) {
-								if (args[2].equalsIgnoreCase(h.getCategory())) {
-									cp.setSaveData("vls." + h.getCategory(), 0);
-									MSG.sendPluginMessage(null, "setvl:" + p.getName() + " " + h + " 0");
-									hack = h.getCategory();
-									found = true;
-									break;
-								}
-							}
-							if (!found) {
-								MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
-								return true;
-							}
-						}
-					}
-				} else {
-					cp = plugin.getCPlayer(Bukkit.getOfflinePlayer(args[1]));
-					target = cp.getPlayer().getName() + "'"
-							+ (cp.getPlayer().getName().toLowerCase().endsWith("s") ? "" : "s");
-
-					if (args[2].equalsIgnoreCase("all")) {
-						cp.clearVls();
-						MSG.sendPluginMessage(null, "clearvl:" + cp.getPlayer().getName());
-						hack = "all hacks";
-					} else {
-						boolean found = false;
-						for (Check h : plugin.getChecks().getAllChecks()) {
-							if (args[2].equalsIgnoreCase(h.getCategory())) {
-								cp.setSaveData("vls." + h.getCategory(), 0);
-								MSG.sendPluginMessage(null, "setvl:" + cp.getPlayer().getName() + " " + h + " 0");
-								hack = h.getCategory();
-								found = true;
-								break;
-							}
-						}
-						if (!found) {
-							MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
-							return true;
-						}
-					}
-				}
-
-				MSG.tell(sender, "&7You cleared &e" + target + "&7 VLs for &c" + hack);
-				break;
 			case "vl":
 			case "vls":
 				if (!sender.hasPermission("nope.command.vl")) {
@@ -194,20 +142,6 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 								MSG.getString("Toggle", "you %status% %name%")
 										.replace("%status%", enabledDisable(plugin.debugMode()))
 										.replace("%name%", "Debug Mode"));
-						plugin.saveConfig();
-						break;
-					case "lagback":
-					case "setback":
-					case "cancel":
-						if (!sender.hasPermission("nope.command.toggle.cancel")) {
-							MSG.noPerm(sender, "nope.command.toggle.cancel");
-							return true;
-						}
-						plugin.getConfig().set("SetBack", !plugin.getConfig().getBoolean("SetBack"));
-						MSG.tell(sender,
-								MSG.getString("Toggle", "you %status% %name%")
-										.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("SetBack")))
-										.replace("%name%", "Setbacks"));
 						plugin.saveConfig();
 						break;
 					case "log":
@@ -484,14 +418,14 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 						stats.getDownloads(), stats.getReviews(), stats.getRating()));
 				break;
 			case "testanimation":
-				AnimationManager anim = plugin.getModule(AnimationManager.class);
+				AnimationManager aMod = plugin.getModule(AnimationManager.class);
 
 				if (args.length < 2) {
 					MSG.tell(sender, "Please specify an animation.");
 					return true;
 				}
 
-				AbstractAnimation a = null;
+				AbstractAnimation anim = null;
 
 				Check check = new Check() {
 
@@ -520,19 +454,32 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 					}
 				};
 
+				Player animTarget = null;
+
+				if (args.length > 2 && sender.hasPermission("nope.command.testanimation.others")) {
+					animTarget = Bukkit.getPlayer(args[2]);
+				} else if (sender instanceof Player) {
+					animTarget = (Player) sender;
+				}
+
+				if (animTarget == null) {
+					MSG.tell(sender, MSG.ERROR + "Unknown player.");
+					return true;
+				}
+
 				switch (args[1].toLowerCase()) {
 					case "gwen":
-						a = new GWENAnimation(plugin, (Player) sender, check);
+						anim = new GWENAnimation(plugin, (Player) sender, check);
 						break;
 					case "nope":
-						a = new NOPEAnimation(plugin, (Player) sender, check);
+						anim = new NOPEAnimation(plugin, (Player) sender, check);
 						break;
 					default:
-						MSG.tell(sender, "Unknown animation.");
+						MSG.tell(sender, MSG.ERROR + "Unknown animation.");
 						return true;
 				}
 
-				anim.startAnimation((Player) sender, a);
+				aMod.startAnimation((Player) sender, anim);
 				break;
 			default:
 				MSG.sendHelp(sender, 0, "default");
@@ -546,7 +493,7 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		List<String> result = new ArrayList<>();
 		if (args.length <= 1) {
 			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
-					"removebanwave", "time", "stats", "enablechecks", "online", "testanimation" }) {
+					"removebanwave", "time", "stats", "enablechecks", "online", "testanimation", "testlag" }) {
 				if (res.toLowerCase().startsWith(args[0].toLowerCase()) && sender.hasPermission("nope.command." + res))
 					result.add(res);
 			}
@@ -572,8 +519,7 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("toggle")) {
-				for (String res : new String[] { "cancel", "dev", "debug", "logs", "global", "globalscoreboard",
-						"scoreboard" }) {
+				for (String res : new String[] { "dev", "debug", "logs", "global", "globalscoreboard", "scoreboard" }) {
 					if (sender.hasPermission("nope.command.toggle." + res)
 							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
 						result.add(res);

@@ -70,6 +70,5 @@ public class ScoreboardAssigner extends AbstractModule implements Listener {
 
 	@Override
 	public void disable() {
-
 	}
 }
