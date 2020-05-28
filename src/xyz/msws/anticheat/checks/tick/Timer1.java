@@ -23,6 +23,7 @@ import xyz.msws.anticheat.modules.data.CPlayer;
  * 
  * @author imodm
  *
+ * @deprecated Just really bad
  */
 public class Timer1 implements Check, Listener {
 

@@ -66,7 +66,7 @@ import xyz.msws.anticheat.checks.render.NoSwing1;
 import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
 import xyz.msws.anticheat.checks.tick.Blink1;
-import xyz.msws.anticheat.checks.tick.Timer1;
+import xyz.msws.anticheat.checks.tick.Timer2;
 import xyz.msws.anticheat.checks.world.AutoBuild1;
 import xyz.msws.anticheat.checks.world.FastBreak1;
 import xyz.msws.anticheat.checks.world.IllegalBlockBreak1;
@@ -169,18 +169,18 @@ public class Checks extends AbstractModule {
 
 		checkList.addAll(Sets.newHashSet(new Flight1(), new Flight2(), new Flight3(), new Flight4(), new Flight5(),
 				new Flight6(), new Speed1(), new Speed2(), new Speed3(), new ClonedMovement1(), new Blink1(),
-				new Timer1(), new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(), new FastBow1(),
-				new FastSneak1(), new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(),
-				new IllegalBlockPlace1(), new NoWeb1(), new AutoWalk1(), new AutoClicker1(), new HighCPS1(),
-				new HighCPS2(), new HighCPS3(), new AntiAFK1(), new AutoSneak1(), new InventoryMove1(),
-				new AntiRotate1(), new NoSlowDown1(), new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(),
-				new FastEat1(), new AntiFire1(), new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(),
-				new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(), new Glide1(),
-				new BHop1(), new GhostHand2(), new GlobalSprint1(), new AutoBuild1(), new Speed4(), new Jesus1(),
-				new Jesus2(), new Step1(), new ElytraFlight1()));
+				new Scaffold1(), new Scaffold2(), new Scaffold3(), new FastClimb1(), new FastBow1(), new FastSneak1(),
+				new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(),
+				new NoWeb1(), new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(),
+				new AntiAFK1(), new AutoSneak1(), new InventoryMove1(), new AntiRotate1(), new NoSlowDown1(),
+				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(),
+				new SelfHarm1(), new AntiKB1(), new Zoot1(), new AutoArmor1(), new SafeWalk1(), new AutoTool1(),
+				new AutoSwitch1(), new FastBreak1(), new Spider1(), new Glide1(), new BHop1(), new GhostHand2(),
+				new GlobalSprint1(), new AutoBuild1(), new Speed4(), new Jesus1(), new Jesus2(), new Step1(),
+				new ElytraFlight1()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1()));
+			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer2()));
 		} else {
 			MSG.warn("ProtocolLib is not enabled, certain checks will not work.");
 		}

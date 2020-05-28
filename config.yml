@@ -175,7 +175,7 @@ Actions:
   ElytraFlight:
   - 'basiclog|vl>500|ikick|vl>800|addbanwave|vl>1000|cban'
   Timer:
-  - 'basiclog|vl>300|rndcancel|delay:10000|tpsdecrement|vl>500|lagkick|vl>600|ikick'
+  - 'basiclog|vl>300|rndcancel|delay:10000|tpsdecrement|vl>500|lagkick|vl>600|ikick|vl>800|cban'
   Default:
   - 'basiclog|vl>20|cancel|vl>100|flog|tps>10|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   # You can specify multiple actiongroups for one category
@@ -221,57 +221,29 @@ Commands:
 Checks:
   Movement:
     Enabled: true
+    Step:
+      Enabled: true
+      Step#1:
+        Enabled: true
+    InventoryMove:
+      Enabled: true
+      InventoryMove#1:
+        Enabled: true
+    Spider:
+      Enabled: true
+      Spider#1:
+        Enabled: true
     NoSlowDown:
       Enabled: true
+      NoSlowDown#1:
+        Enabled: true
+      NoSlowDown#2:
+        Enabled: true
       NoSlowDown#4:
         Enabled: true
       NoSlowDown#5:
         Enabled: true
-      NoSlowDown#2:
-        Enabled: true
-      NoSlowDown#1:
-        Enabled: true
       NoSlowDown#3:
-        Enabled: true
-    FastSneak:
-      Enabled: true
-      FastSneak#1:
-        Enabled: true
-    Jesus:
-      Enabled: true
-      Jesus#2:
-        Enabled: true
-      Jesus#1:
-        Enabled: true
-    FastClimb:
-      Enabled: true
-      FastClimb#1:
-        Enabled: true
-    Glide:
-      Enabled: true
-      Glide#1:
-        Enabled: true
-    AntiAFK:
-      Enabled: true
-      AntiAFK#1:
-        Enabled: true
-    AutoWalk:
-      Enabled: true
-      AutoWalk#1:
-        Enabled: true
-    Speed:
-      Enabled: true
-      Speed#1:
-        Enabled: true
-      Speed#4:
-        Enabled: true
-      Speed#3:
-        Enabled: true
-      Speed#2:
-        Enabled: true
-    BHop:
-      Enabled: true
-      BHop#1:
         Enabled: true
     Flight:
       Enabled: true
@@ -279,81 +251,79 @@ Checks:
         Enabled: true
       Flight#4:
         Enabled: true
-      Flight#6:
-        Enabled: true
       Flight#5:
         Enabled: true
       Flight#2:
         Enabled: true
+      Flight#6:
+        Enabled: true
       Flight#3:
         Enabled: true
-    AntiRotate:
+    AutoWalk:
       Enabled: true
-      AntiRotate#1:
+      AutoWalk#1:
+        Enabled: true
+    BHop:
+      Enabled: true
+      BHop#1:
         Enabled: true
     ClonedMovements:
       Enabled: true
       ClonedMovement#1:
         Enabled: true
-    Spider:
+    ElytraFlight:
       Enabled: true
-      Spider#1:
+      ElytraFlight#1:
         Enabled: true
-    InventoryMove:
+    Speed:
       Enabled: true
-      InventoryMove#1:
+      Speed#1:
+        Enabled: true
+      Speed#2:
+        Enabled: true
+      Speed#4:
+        Enabled: true
+      Speed#3:
+        Enabled: true
+    Jesus:
+      Enabled: true
+      Jesus#1:
+        Enabled: true
+      Jesus#2:
+        Enabled: true
+    AntiAFK:
+      Enabled: true
+      AntiAFK#1:
+        Enabled: true
+    FastClimb:
+      Enabled: true
+      FastClimb#1:
+        Enabled: true
+    AntiRotate:
+      Enabled: true
+      AntiRotate#1:
+        Enabled: true
+    FastSneak:
+      Enabled: true
+      FastSneak#1:
         Enabled: true
     NoWeb:
       Enabled: true
       NoWeb#1:
         Enabled: true
-    Step:
+    Glide:
       Enabled: true
-      Step#1:
-        Enabled: true
-    ElytraFlight:
-      Enabled: true
-      ElytraFlight#1:
+      Glide#1:
         Enabled: true
     GlobalSprint:
       Enabled: true
       GlobalSprint#1:
-        Enabled: true
-  Render:
-    Enabled: true
-    NoSwing:
-      Enabled: true
-      NoSwing#1:
-        Enabled: true
-    SkinBlinker:
-      Enabled: true
-      SkinBlinker#1:
-        Enabled: true
-    InvalidMovement:
-      Enabled: true
-      InvalidMovement#1:
-        Enabled: true
-    AutoSneak:
-      Enabled: true
-      AutoSneak#1:
-        Enabled: true
-    Spinbot:
-      Enabled: true
-      Spinbot#1:
         Enabled: true
   World:
     Enabled: true
     IllegalBlockPlace:
       Enabled: true
       IllegalBlockPlace#1:
-        Enabled: true
-    AutoBuild:
-      Enabled: true
-      AutoBuild#1:
-        Enabled: true
-    FastBreak:
-      Enabled: true
-      FastBreak#1:
         Enabled: true
     Scaffold:
       Enabled: true
@@ -367,50 +337,16 @@ Checks:
       Enabled: true
       IllegalBlockBreak#1:
         Enabled: true
-  Combat:
-    Enabled: true
-    AutoArmor:
+    AutoBuild:
       Enabled: true
-      AutoArmor#1:
+      AutoBuild#1:
         Enabled: true
-    HighCPS:
+    FastBreak:
       Enabled: true
-      HighCPS#2:
-        Enabled: true
-      HighCPS#1:
-        Enabled: true
-      HighCPS#3:
-        Enabled: true
-    FastBow:
-      Enabled: true
-      FastBow#1:
-        Enabled: true
-    AntiKB:
-      Enabled: true
-      AntiKB#1:
-        Enabled: true
-    AutoClicker:
-      Enabled: true
-      AutoClicker#1:
+      FastBreak#1:
         Enabled: true
   Player:
     Enabled: true
-    GhostHand:
-      Enabled: true
-      GhostHand#2:
-        Enabled: true
-    SelfHarm:
-      Enabled: true
-      SelfHarm#1:
-        Enabled: true
-    SafeWalk:
-      Enabled: true
-      SafeWalk#1:
-        Enabled: true
-    AntiFire:
-      Enabled: true
-      AntiFire#1:
-        Enabled: true
     Zoot:
       Enabled: true
       Zoot#1:
@@ -423,13 +359,77 @@ Checks:
       Enabled: true
       AutoTool#1:
         Enabled: true
+    SafeWalk:
+      Enabled: true
+      SafeWalk#1:
+        Enabled: true
+    SelfHarm:
+      Enabled: true
+      SelfHarm#1:
+        Enabled: true
+    GhostHand:
+      Enabled: true
+      GhostHand#2:
+        Enabled: true
+    AntiFire:
+      Enabled: true
+      AntiFire#1:
+        Enabled: true
+  Render:
+    Enabled: true
+    InvalidMovement:
+      Enabled: true
+      InvalidMovement#1:
+        Enabled: true
+    Spinbot:
+      Enabled: true
+      Spinbot#1:
+        Enabled: true
+    NoSwing:
+      Enabled: true
+      NoSwing#1:
+        Enabled: true
+    AutoSneak:
+      Enabled: true
+      AutoSneak#1:
+        Enabled: true
+    SkinBlinker:
+      Enabled: true
+      SkinBlinker#1:
+        Enabled: true
+  Combat:
+    Enabled: true
+    AutoClicker:
+      Enabled: true
+      AutoClicker#1:
+        Enabled: true
+    FastBow:
+      Enabled: true
+      FastBow#1:
+        Enabled: true
+    HighCPS:
+      Enabled: true
+      HighCPS#2:
+        Enabled: true
+      HighCPS#3:
+        Enabled: true
+      HighCPS#1:
+        Enabled: true
+    AntiKB:
+      Enabled: true
+      AntiKB#1:
+        Enabled: true
+    AutoArmor:
+      Enabled: true
+      AutoArmor#1:
+        Enabled: true
   Tick:
     Enabled: true
-    Timer:
-      Enabled: true
-      Timer#1:
-        Enabled: true
     Blink:
       Enabled: true
       Blink#1:
+        Enabled: true
+    Timer:
+      Enabled: true
+      Timer#2:
         Enabled: true

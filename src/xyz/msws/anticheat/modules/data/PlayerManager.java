@@ -12,13 +12,10 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.AbstractModule;
 
 public class PlayerManager extends AbstractModule {
-	private NOPE plugin;
-
 	private Map<UUID, CPlayer> players = new HashMap<>();
 
 	public PlayerManager(NOPE plugin) {
 		super(plugin);
-		this.plugin = plugin;
 	}
 
 	public CPlayer getPlayer(OfflinePlayer player) {
@@ -26,8 +23,7 @@ public class PlayerManager extends AbstractModule {
 	}
 
 	public CPlayer getPlayer(UUID player) {
-		if (!players.containsKey(player))
-			players.put(player, new CPlayer(player, plugin));
+		players.putIfAbsent(player, new CPlayer(player, plugin));
 		return players.get(player);
 	}
 
