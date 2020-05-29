@@ -43,7 +43,6 @@ public class ClearSubcommand extends Subcommand {
 			return CommandResult.NO_PERMISSION;
 		}
 		if (args.length < 3) {
-			MSG.sendHelp(sender, 0, "default");
 			return CommandResult.MISSING_ARGUMENT;
 		}
 		String target = "", hack = "";
