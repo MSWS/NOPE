@@ -2,6 +2,8 @@ package xyz.msws.anticheat.commands;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.anticheat.NOPE;
@@ -14,16 +16,12 @@ public abstract class Subcommand {
 		this.plugin = plugin;
 	}
 
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	public List<String[]> tabCompletions() {
-		return null;
-	}
+	@Nullable
+	public abstract List<String[]> tabCompletions();
 
 	public abstract String getName();
+
+	public abstract String getUsage();
 
 	public abstract CommandResult execute(CommandSender sender, String[] args);
 }

@@ -1,9 +1,14 @@
-package xyz.msws.anticheat.commands;
+package xyz.msws.anticheat.commands.sub;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.commands.CommandResult;
+import xyz.msws.anticheat.commands.Subcommand;
 import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -34,6 +39,16 @@ public class TestlagSubcommand extends Subcommand {
 		plugin.getModule(TPSManager.class).setDelay(delay);
 		MSG.tell(sender, "Successfully set the delay to " + delay);
 		return CommandResult.SUCCESS;
+	}
+
+	@Override
+	public List<String[]> tabCompletions() {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public String getUsage() {
+		return "<delay>";
 	}
 
 }

@@ -1,4 +1,4 @@
-package xyz.msws.anticheat.commands;
+package xyz.msws.anticheat.commands.sub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.commands.CommandResult;
+import xyz.msws.anticheat.commands.Subcommand;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.modules.data.PlayerManager;
@@ -30,7 +32,7 @@ public class ClearSubcommand extends Subcommand {
 		List<String[]> result = new ArrayList<>();
 		result.add(new String[] { "all" });
 		result.add(new String[] { "all", "Flight" });
-		return super.tabCompletions();
+		return result;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -102,6 +104,11 @@ public class ClearSubcommand extends Subcommand {
 
 		MSG.tell(sender, "&7You cleared &e" + target + "&7 VLs for &c" + hack);
 		return CommandResult.SUCCESS;
+	}
+
+	@Override
+	public String getUsage() {
+		return "[target] [hack]";
 	}
 
 }
