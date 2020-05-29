@@ -79,8 +79,8 @@ public class NoSwing1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private EnumSet<Material> odd = Sets.newEnumSet(Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK),
-			Material.class);
+	private EnumSet<Material> odd = Sets.newEnumSet(
+			Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK, Material.LILY_PAD), Material.class);
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
@@ -110,7 +110,7 @@ public class NoSwing1 implements Check, Listener {
 		if (clicked != null) {
 			if (clicked.getType().isInteractable() && !player.isSneaking()) // Signs
 				return;
-			if (clicked.getType() == Material.REDSTONE_WIRE)
+			if (clicked.getType() == Material.REDSTONE_WIRE || clicked.getType() == Material.LILY_PAD)
 				return;
 			Material next = clicked.getRelative(event.getBlockFace()).getType();
 			if (next.isInteractable())

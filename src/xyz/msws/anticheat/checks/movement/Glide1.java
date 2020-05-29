@@ -58,6 +58,9 @@ public class Glide1 implements Check, Listener {
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
+		if (player.isSwimming())
+			return;
+
 		if (cp.timeSince(Stat.FLYING) < 2000)
 			return;
 
@@ -65,7 +68,7 @@ public class Glide1 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 2000)
 			return;
-		if (cp.timeSince(Stat.IN_LIQUID) < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
 
 		double fallDist = event.getFrom().getY() - event.getTo().getY();

@@ -103,6 +103,9 @@ public class Global extends AbstractModule implements Listener {
 		if (isBlockNearby)
 			cp.setTempData(Stat.FLIGHT_GROUNDED, time);
 
+		if (cp.isBlockNearby(Material.LILY_PAD))
+			cp.setTempData(Stat.LILY_PAD, time);
+
 		if (climbing)
 			cp.setTempData(Stat.CLIMBING, time);
 
@@ -363,7 +366,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player respawned
 		 */
-		RESPAWN;
+		RESPAWN,
+		/**
+		 * Last time the player was near a lily pad
+		 */
+		LILY_PAD;
 	}
 
 	@Override

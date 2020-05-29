@@ -55,29 +55,21 @@ public class Flight2 implements Check, Listener {
 		if (player.getNearbyEntities(2, 3, 2).stream().anyMatch(e -> e.getType() == EntityType.BOAT))
 			return;
 
-		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
-				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
-					break;
-				}
-				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
-					break;
-				}
-				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR) {
-					isBlockNearby = true;
-					break;
-				}
+				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid())
+					return;
+				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid())
+					return;
+				if (player.getLocation().clone().add(x, 0, z).getBlock().getType() != Material.AIR)
+					return;
 			}
 		}
 
-		if (isBlockNearby) {
-			return;
-		}
-
 		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 1000)
+			return;
+
+		if (cp.timeSince(Stat.LILY_PAD) < 500)
 			return;
 
 		cp.flagHack(this, 20);

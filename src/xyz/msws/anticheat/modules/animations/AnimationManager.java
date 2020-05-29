@@ -30,12 +30,9 @@ public class AnimationManager extends AbstractModule {
 	}
 
 	public boolean startAnimation(Player player, AbstractAnimation animation) {
-		if (animations.containsKey(player.getUniqueId())) {
-			animations.get(player.getUniqueId()).stop(false);
-		}
 		animations.put(player.getUniqueId(), animation);
 		animation.start();
-		return false;
+		return true;
 	}
 
 	@Override

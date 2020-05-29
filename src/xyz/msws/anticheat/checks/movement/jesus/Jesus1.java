@@ -57,6 +57,9 @@ public class Jesus1 implements Check, Listener {
 		if (cp.timeSince(Stat.FLYING) < 3000)
 			return;
 
+		if (cp.timeSince(Stat.LILY_PAD) < 1000)
+			return;
+
 		if (player.getLocation().clone().add(0, 2, 0).getBlock().isLiquid())
 			return;
 
@@ -117,7 +120,6 @@ public class Jesus1 implements Check, Listener {
 			return;
 
 		cp.flagHack(this, 10, "Average: &e" + avg + "\n&7AVD: &a" + avv);
-
 	}
 
 	@Override

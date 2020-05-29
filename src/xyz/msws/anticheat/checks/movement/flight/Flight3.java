@@ -65,6 +65,9 @@ public class Flight3 implements Check, Listener {
 		if (cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)
 			return;
 
+		if (cp.timeSince(Stat.LILY_PAD) < 500)
+			return;
+
 		if (player.hasPotionEffect(PotionEffectType.LEVITATION))
 			return;
 

@@ -44,8 +44,10 @@ public class Step1 implements Check, Listener {
 
 				if (cp.hasMovementRelatedPotion())
 					continue;
-				if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000 || cp.timeSince(Stat.TELEPORT) < 2000)
+				if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
 					continue;
+				if (cp.timeSince(Stat.TELEPORT) < 1000)
+					yVals.put(player.getUniqueId(), new TreeMap<>());
 				if (player.isFlying() || player.isGliding())
 					continue;
 				if (cp.timeSince(Stat.FLYING) < 2000)
@@ -72,6 +74,8 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (cp.timeSince(Stat.RESPAWN) < 1000)
 					continue;
+				if (cp.timeSince(Stat.TELEPORT) < 2000)
+					continue;
 				double avg = 0;
 				int amo = 0;
 				TreeMap<Double, Integer> vals = yVals.getOrDefault(player.getUniqueId(), new TreeMap<>());
@@ -80,6 +84,7 @@ public class Step1 implements Check, Listener {
 					avg += entry.getValue() * entry.getKey();
 					amo += entry.getValue();
 				}
+				
 				avg /= amo;
 				if (avg == 0 || amo == 0)
 					continue;

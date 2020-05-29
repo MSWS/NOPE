@@ -29,6 +29,9 @@ public class ToggleSubcommand extends Subcommand {
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
 		CPlayer cp;
+		if (args.length < 2) {
+			return CommandResult.MISSING_ARGUMENT;
+		}
 		switch (args[1].toLowerCase()) {
 			case "dev":
 				if (!sender.hasPermission("nope.command.toggle.dev")) {

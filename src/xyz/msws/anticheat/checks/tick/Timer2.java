@@ -22,6 +22,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Global.Stat;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
@@ -74,10 +75,12 @@ public class Timer2 implements Check {
 				ts.add(0, System.currentTimeMillis());
 				times.put(player.getUniqueId(), ts);
 
-				if (avg > 50)
+				if (avg >= 50)
 					return;
 				final double finalAverage = avg;
 				CPlayer cp = Timer2.this.plugin.getCPlayer(player);
+				if (cp.timeSince(Stat.JOIN_TIME) < 1000)
+					return;
 				Bukkit.getScheduler().runTask(Timer2.this.plugin, () -> {
 					cp.flagHack(Timer2.this, (int) ((50 - finalAverage) * 10), "Avg: &e" + finalAverage);
 				});

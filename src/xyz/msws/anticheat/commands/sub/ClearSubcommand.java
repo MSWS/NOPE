@@ -2,7 +2,9 @@ package xyz.msws.anticheat.commands.sub;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +14,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
 import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.modules.data.PlayerManager;
 import xyz.msws.anticheat.utils.MSG;
@@ -30,8 +33,21 @@ public class ClearSubcommand extends Subcommand {
 	@Override
 	public List<String[]> tabCompletions() {
 		List<String[]> result = new ArrayList<>();
-		result.add(new String[] { "all" });
-		result.add(new String[] { "all", "Flight" });
+
+		List<String> checks = new ArrayList<>();
+		Set<String> playerNames = Bukkit.getOnlinePlayers().stream().map(n -> n.getName()).collect(Collectors.toSet());
+
+		for (Check check : plugin.getModule(Checks.class).getAllChecks()) {
+			if (checks.contains(check.getCategory()))
+				continue;
+			checks.add(check.getCategory());
+		}
+
+		checks.add("all");
+		checks.addAll(playerNames);
+		result.add(checks.toArray(new String[checks.size()]));
+		checks.removeAll(playerNames);
+		result.add(checks.toArray(new String[checks.size()]));
 		return result;
 	}
 

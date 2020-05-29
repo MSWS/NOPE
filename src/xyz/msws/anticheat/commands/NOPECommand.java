@@ -22,6 +22,7 @@ import xyz.msws.anticheat.commands.sub.StatsSubcommand;
 import xyz.msws.anticheat.commands.sub.TestAnimationSubcommand;
 import xyz.msws.anticheat.commands.sub.TestlagSubcommand;
 import xyz.msws.anticheat.commands.sub.TimeSubcommand;
+import xyz.msws.anticheat.commands.sub.ToggleSubcommand;
 import xyz.msws.anticheat.commands.sub.VLSubcommand;
 import xyz.msws.anticheat.commands.sub.WarnSubcommand;
 import xyz.msws.anticheat.utils.MSG;
@@ -49,6 +50,7 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		subs.put("online", new OnlineSubcommand(plugin));
 		subs.put("testanimation", new TestAnimationSubcommand(plugin));
 		subs.put("warn", new WarnSubcommand(plugin));
+		subs.put("toggle", new ToggleSubcommand(plugin));
 		plugin.getCommand("nope").setExecutor(this);
 	}
 
@@ -81,64 +83,21 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 			if (args.length > 1) {
 				if (sub.tabCompletions() == null || sub.tabCompletions().isEmpty())
 					continue;
-				if (sub.tabCompletions().size() <= args.length - 1)
+				if (sub.tabCompletions().size() < args.length - 1)
 					continue;
 				if (!sub.getName().equalsIgnoreCase(args[0]))
 					continue;
-				String[] res = sub.tabCompletions().get(args.length - 1);
+				String[] res = sub.tabCompletions().get(args.length - 2);
 				for (String r : res) {
-					if (r.startsWith(args[args.length - 1].toLowerCase())) {
+					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
 						result.add(r);
 					}
 				}
 			} else {
-				if (sub.getName().toLowerCase().startsWith(args[args.length - 1]))
+				if (sub.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 					result.add(sub.getName());
 			}
 		}
-//
-//		if (args.length <= 1) {
-//			for (String res : new String[] { "clear", "vl", "toggle", "reset", "flag", "checks", "banwave",
-//					"removebanwave", "time", "stats", "enablechecks", "online", "testanimation", "testlag" }) {
-//				if (res.toLowerCase().startsWith(args[0].toLowerCase()) && sender.hasPermission("nope.command." + res))
-//					result.add(res);
-//			}
-//		}
-//
-//		if (args.length >= 2 && args.length <= 3) {
-//			if (args[0].matches("(?i)(clear|removebanwave|banwave|flag)")) {
-//				for (Player target : Bukkit.getOnlinePlayers()) {
-//					if (target.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-//						result.add(target.getName());
-//				}
-//			}
-//			if (args[0].equalsIgnoreCase("clear")) {
-//				if ("all".startsWith(args[args.length - 1].toLowerCase()))
-//					result.add("all");
-//				for (Check c : plugin.getChecks().getAllChecks()) {
-//					if (c.getCategory().toLowerCase().startsWith(args[args.length - 1])
-//							&& !result.contains(c.getCategory()))
-//						result.add(c.getCategory());
-//				}
-//			}
-//		}
-//
-//		if (args.length == 2) {
-//			if (args[0].equalsIgnoreCase("toggle")) {
-//				for (String res : new String[] { "dev", "debug", "logs", "global", "globalscoreboard", "scoreboard" }) {
-//					if (sender.hasPermission("nope.command.toggle." + res)
-//							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
-//						result.add(res);
-//				}
-//			}
-//			if (args[0].equalsIgnoreCase("testanimation")) {
-//				for (String res : new String[] { "gwen", "nope" }) {
-//					if (sender.hasPermission("nope.command.toggle." + res)
-//							&& res.toLowerCase().startsWith(args[1].toLowerCase()))
-//						result.add(res);
-//				}
-//			}
-//		}
 		return result;
 	}
 }
