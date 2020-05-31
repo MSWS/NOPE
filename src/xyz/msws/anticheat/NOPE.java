@@ -154,6 +154,7 @@ public class NOPE extends JavaPlugin {
 		switch (config.getString("ConfigVersion", "")) {
 			case "1.5":
 			case "1.5.0.1":
+			case "1.5.0.2":
 				return "Your config version is slightly old however nothing has changed.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
