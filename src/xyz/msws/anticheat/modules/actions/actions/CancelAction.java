@@ -32,6 +32,8 @@ public class CancelAction extends AbstractAction {
 		Location safe = cp.getLastSafeLocation();
 		if (safe == null)
 			return;
+		if (!safe.getWorld().equals(player.getPlayer().getWorld()))
+			return;
 		if (!safe.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
 			return;
 		if (safe.getBlock().getRelative(BlockFace.UP).getType() != Material.AIR)
