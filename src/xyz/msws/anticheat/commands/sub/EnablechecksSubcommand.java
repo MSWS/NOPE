@@ -8,6 +8,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
 import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.utils.MSG;
 
 public class EnablechecksSubcommand extends Subcommand {
@@ -17,7 +18,7 @@ public class EnablechecksSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -33,7 +34,7 @@ public class EnablechecksSubcommand extends Subcommand {
 			return CommandResult.NO_PERMISSION;
 		}
 		plugin.getConfig().set("Checks", null);
-		for (Check check : plugin.getChecks().getAllChecks()) {
+		for (Check check : plugin.getModule(Checks.class).getAllChecks()) {
 			plugin.getConfig().set("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled", true);
 			plugin.getConfig().set(
 					"Checks." + MSG.camelCase(check.getType() + "") + "." + check.getCategory() + ".Enabled", true);

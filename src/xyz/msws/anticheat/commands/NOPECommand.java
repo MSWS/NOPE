@@ -65,6 +65,11 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 			CommandResult result = cmd.execute(sender, args);
 			if (result == CommandResult.SUCCESS)
 				return true;
+			if (result == CommandResult.NO_PERMISSION) {
+				MSG.tell(sender,
+						MSG.getString("NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &e%perm%&c permission."));
+				return true;
+			}
 			MSG.tell(sender, "&4NOPE > &cProper usage for " + cmd.getName());
 			MSG.tell(sender, "&7/nope " + cmd.getName() + " " + cmd.getUsage());
 			MSG.tell(sender, result.getMessage());
@@ -80,24 +85,23 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		List<String> result = new ArrayList<>();
 
 		for (Subcommand sub : subs.values()) {
+			List<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {
-				if (sub.tabCompletions() == null || sub.tabCompletions().isEmpty())
+				if (completions == null || completions.isEmpty())
 					continue;
-				if (sub.tabCompletions().size() < args.length - 1)
+				if (completions.size() < args.length - 1)
 					continue;
 				if (!sub.getName().equalsIgnoreCase(args[0]))
 					continue;
-				String[] res = sub.tabCompletions().get(args.length - 2);
-				for (String r : res) {
-					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+				String[] res = completions.get(args.length - 2);
+				for (String r : res)
+					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(r);
-					}
-				}
-			} else {
-				if (sub.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-					result.add(sub.getName());
-			}
+
+			} else if (sub.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+				result.add(sub.getName());
 		}
-		return result;
+
+		return result.isEmpty() ? null : result;
 	}
 }

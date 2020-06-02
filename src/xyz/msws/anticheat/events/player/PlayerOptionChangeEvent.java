@@ -4,24 +4,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
+import xyz.msws.anticheat.modules.data.PlayerOption;
+
 /**
- * @deprecated Unused
  * @author imodm
  *
  */
-public class PlayerToggleScoreboardEvent extends PlayerEvent {
+public class PlayerOptionChangeEvent extends PlayerEvent {
 
 	private final static HandlerList handlers = new HandlerList();
 
-	private boolean to;
+	private PlayerOption option;
 
-	public PlayerToggleScoreboardEvent(Player who, boolean to) {
+	public PlayerOptionChangeEvent(Player who, PlayerOption option) {
 		super(who);
-		this.to = to;
+		this.option = option;
 	}
 
-	public boolean getTo() {
-		return to;
+	public PlayerOption getOption() {
+		return option;
 	}
 
 	@Override

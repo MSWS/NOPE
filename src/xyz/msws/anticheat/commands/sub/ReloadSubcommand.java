@@ -20,7 +20,7 @@ public class ReloadSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return new ArrayList<>();
 	}
 

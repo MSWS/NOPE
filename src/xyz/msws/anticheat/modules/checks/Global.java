@@ -33,6 +33,11 @@ import xyz.msws.anticheat.utils.MSG;
 public class Global extends AbstractModule implements Listener {
 	public Global(NOPE plugin) {
 		super(plugin);
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			CPlayer cp = plugin.getCPlayer(player);
+			cp.setTempData(Stat.JOIN_TIME, System.currentTimeMillis());
+		}
 	}
 
 	@EventHandler
@@ -47,7 +52,7 @@ public class Global extends AbstractModule implements Listener {
 
 		Location from = event.getFrom(), to = event.getTo();
 
-		if (plugin.debugMode()) {
+		if (plugin.getOption("debug").asBoolean()) {
 			MSG.tell(player, " ");
 			MSG.tell(player, "&9From &e" + String.format("%.3f, %.3f, %.3f", from.getX(), from.getY(), from.getZ()));
 			MSG.tell(player, "&9To &6" + String.format("%.3f, %.3f, %.3f", to.getX(), to.getY(), to.getZ()));
@@ -86,22 +91,18 @@ public class Global extends AbstractModule implements Listener {
 		if (player.getLocation().clone().subtract(0, 1, 0).getBlock().getType().toString().contains("ICE"))
 			cp.setTempData(Stat.ON_ICE, time);
 
-		boolean isBlockNearby = false;
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				if (player.getLocation().clone().add(x, -.1, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
+					cp.setTempData(Stat.FLIGHT_GROUNDED, time);
 					break;
 				}
 				if (player.getLocation().clone().add(x, -1.5, z).getBlock().getType().isSolid()) {
-					isBlockNearby = true;
+					cp.setTempData(Stat.FLIGHT_GROUNDED, time);
 					break;
 				}
 			}
 		}
-
-		if (isBlockNearby)
-			cp.setTempData(Stat.FLIGHT_GROUNDED, time);
 
 		if (cp.isBlockNearby(Material.LILY_PAD))
 			cp.setTempData(Stat.LILY_PAD, time);
@@ -406,12 +407,9 @@ public class Global extends AbstractModule implements Listener {
 				}
 
 				for (String hack : vlSection.getKeys(false)) {
-//					if (cp.getSaveInteger("vls." + hack) == 0)
 					if (cp.getSaveData("vls." + hack, Integer.class) == 0)
 						continue;
-//					cp.setSaveData("vls." + hack, cp.getSaveInteger("vls." + hack) - diff);
 					cp.setSaveData("vls." + hack, cp.getSaveData("vls." + hack, Integer.class) - diff);
-//					if (cp.getSaveInteger("vls." + hack) < 0)
 					if (cp.getSaveData("vls." + hack, Integer.class) < 0)
 						cp.setSaveData("vls." + hack, 0);
 					MSG.sendPluginMessage(null,

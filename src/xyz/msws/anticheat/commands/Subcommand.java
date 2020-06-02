@@ -17,7 +17,7 @@ public abstract class Subcommand {
 	}
 
 	@Nullable
-	public abstract List<String[]> tabCompletions();
+	public abstract List<String[]> tabCompletions(CommandSender sender);
 
 	public abstract String getName();
 

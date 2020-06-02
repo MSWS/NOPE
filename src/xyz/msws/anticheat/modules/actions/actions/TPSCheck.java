@@ -7,6 +7,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractConditionalAction;
 import xyz.msws.anticheat.modules.actions.Compare;
 import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 
 /**
  * Used for checking the server's TPS
@@ -34,7 +35,7 @@ public class TPSCheck extends AbstractConditionalAction {
 
 	@Override
 	public boolean getValue(OfflinePlayer player, Check check) {
-		return comparer.check(((Float) plugin.getTPS()).intValue(), value);
+		return comparer.check(((Float) plugin.getModule(TPSManager.class).getTPS()).intValue(), value);
 	}
 
 }

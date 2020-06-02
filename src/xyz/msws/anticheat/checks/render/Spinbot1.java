@@ -18,7 +18,6 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
-import xyz.msws.anticheat.utils.MSG;
 
 /**
  * Checks if yaw differences is constant
@@ -81,9 +80,6 @@ public class Spinbot1 implements Check, Listener {
 
 		if (amo < SIZE / 2)
 			return;
-
-		if (plugin.devMode())
-			MSG.tell(player, "&c" + amo + " (" + diff + ")");
 
 		cp.flagHack(this, (amo - SIZE / 2) * 5, "Amo: &e" + amo + "&7>=" + (SIZE / 2) + "\nDiff: &e" + diff);
 	}

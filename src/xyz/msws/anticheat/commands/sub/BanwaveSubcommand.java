@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -19,7 +20,7 @@ public class BanwaveSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return null;
 	}
 
@@ -46,7 +47,7 @@ public class BanwaveSubcommand extends Subcommand {
 			return CommandResult.SUCCESS;
 		}
 		MSG.sendPluginMessage(null, "banwave");
-		plugin.getBanwave().runBanwave(true).run();
+		plugin.getModule(Banwave.class).runBanwave(true).run();
 		MSG.tell(sender, "&cSuccessfully initiated banwave.");
 		return CommandResult.SUCCESS;
 	}

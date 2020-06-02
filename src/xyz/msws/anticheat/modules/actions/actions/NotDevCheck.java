@@ -21,7 +21,7 @@ public class NotDevCheck extends AbstractConditionalAction {
 
 	@Override
 	public boolean getValue(OfflinePlayer player, Check check) {
-		return !plugin.devMode();
+		return !plugin.getOption("dev").asBoolean();
 	}
 
 }

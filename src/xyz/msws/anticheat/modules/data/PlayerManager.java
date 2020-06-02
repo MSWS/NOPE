@@ -38,8 +38,9 @@ public class PlayerManager extends AbstractModule {
 	}
 
 	public void clearPlayers() {
-		for (UUID player : players.keySet())
-			removePlayer(player);
+		if (players != null)
+			for (UUID player : players.keySet())
+				removePlayer(player);
 	}
 
 	@Override

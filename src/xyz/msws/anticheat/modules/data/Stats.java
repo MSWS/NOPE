@@ -16,15 +16,19 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.AbstractModule;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.utils.MSG;
 
 public class Stats extends AbstractModule {
 	private File statsFile;
 
 	private YamlConfiguration stats;
+	private Checks checks;
 
 	public Stats(NOPE plugin) {
 		super(plugin);
+		
+		this.checks = plugin.getModule(Checks.class);
 	}
 
 	public Inventory getInventory() {
@@ -36,7 +40,7 @@ public class Stats extends AbstractModule {
 		Inventory inv = Bukkit.createInventory(null, size, "All Checks");
 		for (CheckType type : CheckType.values()) {
 			ItemStack item = new ItemStack(Material.PAPER,
-					Math.max(plugin.getChecks().getChecksWithType(type).size(), 1));
+					Math.max(checks.getChecksWithType(type).size(), 1));
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName(MSG.color(
 					((plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")
@@ -47,7 +51,7 @@ public class Stats extends AbstractModule {
 			lore.add(MSG.color("&8" + type.getDescription()));
 			lore.add(MSG.color(""));
 			lore.add(MSG.color("&c&lTotal Checks"));
-			lore.add(MSG.color("&4" + plugin.getChecks().getChecksWithType(type).size()));
+			lore.add(MSG.color("&4" + checks.getChecksWithType(type).size()));
 			lore.add(MSG.color(""));
 			lore.add(MSG.color("&c&lTotal VLs"));
 			lore.add(MSG.color("&4" + vls));
@@ -94,7 +98,7 @@ public class Stats extends AbstractModule {
 
 	public Inventory getInventory(CheckType type) {
 		List<String> categories = new ArrayList<>();
-		for (Check check : plugin.getChecks().getChecksWithType(type)) {
+		for (Check check : checks.getChecksWithType(type)) {
 			if (!categories.contains(check.getCategory()))
 				categories.add(check.getCategory());
 		}
@@ -108,7 +112,7 @@ public class Stats extends AbstractModule {
 		Inventory inv = Bukkit.createInventory(null, size, MSG.camelCase(type + ""));
 
 		for (String category : categories) {
-			ItemStack item = new ItemStack(Material.PAPER, plugin.getChecks().getChecksByCategory(category).size());
+			ItemStack item = new ItemStack(Material.PAPER, checks.getChecksByCategory(category).size());
 			ItemMeta meta = item.getItemMeta();
 			boolean enabled = plugin.getConfig()
 					.getBoolean("Checks." + MSG.camelCase(type + "") + "." + category + ".Enabled")
@@ -118,7 +122,7 @@ public class Stats extends AbstractModule {
 			List<String> lore = new ArrayList<>();
 
 			lore.add(MSG.color("&c&lTotal Checks"));
-			lore.add(MSG.color("&4" + plugin.getChecks().getChecksByCategory(category).size()));
+			lore.add(MSG.color("&4" + checks.getChecksByCategory(category).size()));
 			lore.add(MSG.color(""));
 			lore.add(MSG.color("&c&lTotal VLs"));
 			lore.add(MSG.color("&4" + vls));
@@ -146,16 +150,16 @@ public class Stats extends AbstractModule {
 	}
 
 	public Inventory getInventory(String category) {
-		List<Check> checks = plugin.getChecks().getChecksByCategory(category);
+		List<Check> cs = checks.getChecksByCategory(category);
 		int size;
 		for (size = 9; size < 54; size += 9) {
-			if (size > checks.size())
+			if (size > cs.size())
 				break;
 		}
 
 		Inventory inv = Bukkit.createInventory(null, size, category);
 
-		for (Check check : checks) {
+		for (Check check : cs) {
 			ItemStack item = new ItemStack(Material.PAPER);
 			ItemMeta meta = item.getItemMeta();
 			boolean enabled = plugin.getConfig()
@@ -215,7 +219,7 @@ public class Stats extends AbstractModule {
 
 	public int getTotalVl(CheckType checkType) {
 		int result = 0;
-		for (Check check : plugin.getChecks().getChecksWithType(checkType)) {
+		for (Check check : checks.getChecksWithType(checkType)) {
 			result += stats.getInt(check.getDebugName() + ".vl");
 		}
 		return result;
@@ -223,7 +227,7 @@ public class Stats extends AbstractModule {
 
 	public int getTotalTriggers(CheckType checkType) {
 		int result = 0;
-		for (Check check : plugin.getChecks().getChecksWithType(checkType)) {
+		for (Check check : checks.getChecksWithType(checkType)) {
 			result += stats.getInt(check.getDebugName() + ".triggers");
 		}
 		return result;
@@ -239,7 +243,7 @@ public class Stats extends AbstractModule {
 
 	public int getTotalVl(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getChecksByCategory(category)) {
+		for (Check check : checks.getChecksByCategory(category)) {
 			vl += getTotalVl(check);
 		}
 		return vl;
@@ -247,7 +251,7 @@ public class Stats extends AbstractModule {
 
 	public int getTotalTriggers(String category) {
 		int vl = 0;
-		for (Check check : plugin.getChecks().getChecksByCategory(category)) {
+		for (Check check : checks.getChecksByCategory(category)) {
 			vl += getTotalTriggers(check);
 		}
 		return vl;

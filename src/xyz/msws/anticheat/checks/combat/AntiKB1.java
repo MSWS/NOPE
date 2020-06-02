@@ -14,6 +14,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.animations.AnimationManager;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.checks.Global.Stat;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
@@ -69,7 +70,7 @@ public class AntiKB1 implements Check, Listener {
 
 		Location origin = player.getLocation();
 
-		if (plugin.getTPS() < 18)
+		if (plugin.getModule(TPSManager.class).getTPS() < 18)
 			return;
 
 		new BukkitRunnable() {
@@ -82,9 +83,9 @@ public class AntiKB1 implements Check, Listener {
 				double dist = player.getLocation().distanceSquared(origin);
 				if (dist > 0)
 					return;
-				if (plugin.getTPS() < 15)
+				if (plugin.getModule(TPSManager.class).getTPS() < 15)
 					return;
-				cp.flagHack(AntiKB1.this, 10, "TPS: &e" + plugin.getTPS());
+				cp.flagHack(AntiKB1.this, 10, "TPS: &e" + plugin.getModule(TPSManager.class).getTPS());
 			}
 		}.runTaskLater(plugin, 5);
 	}

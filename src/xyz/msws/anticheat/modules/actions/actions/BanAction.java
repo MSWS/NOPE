@@ -6,8 +6,10 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractAction;
 import xyz.msws.anticheat.modules.bans.BanHook;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.Stats;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -40,8 +42,8 @@ public class BanAction extends AbstractAction {
 			String res = MSG.replaceCheckPlaceholder(reason, cp, check).replace("%token%", token);
 			cp.clearVls();
 
-			plugin.getStats().addBan();
-			plugin.getBanwave().removePlayer(player.getUniqueId());
+			plugin.getModule(Stats.class).addBan();
+			plugin.getModule(Banwave.class).removePlayer(player.getUniqueId());
 
 			Bukkit.getScheduler().runTask(plugin, () -> {
 				plugin.getModule(BanHook.class).ban(player.getUniqueId(), res, time);

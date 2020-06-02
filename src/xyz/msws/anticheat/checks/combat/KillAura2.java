@@ -21,6 +21,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
@@ -80,9 +81,8 @@ public class KillAura2 implements Check, Listener {
 
 		if (diff <= 45)
 			return;
-		
 
-		if (plugin.getTPS() < 18)
+		if (plugin.getModule(TPSManager.class).getTPS() < 18)
 			return;
 
 		cp.flagHack(this, (int) Math.round(diff * 5) + 20, "Invalid Packet Diff: &e" + diff);

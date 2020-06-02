@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractAction;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.modules.bans.Banwave.BanwaveInfo;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.data.CPlayer;
@@ -30,19 +31,19 @@ public class BanwaveAction extends AbstractAction {
 
 	@Override
 	public void execute(OfflinePlayer player, Check check) {
-		if (plugin.getBanwave().isInBanwave(player.getUniqueId()))
+		if (plugin.getModule(Banwave.class).isInBanwave(player.getUniqueId()))
 			return;
 		CPlayer cp = plugin.getCPlayer(player);
 
-		BanwaveInfo info = plugin.getBanwave().new BanwaveInfo(player.getUniqueId(), reason, time);
-		plugin.getBanwave().addPlayer(player.getUniqueId(), info);
+		BanwaveInfo info = plugin.getModule(Banwave.class).new BanwaveInfo(player.getUniqueId(), reason, time);
+		plugin.getModule(Banwave.class).addPlayer(player.getUniqueId(), info);
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			String r = MSG.replaceCheckPlaceholder(reason, cp, check);
 
 			String token = cp.saveLog(check);
 			r = r.replace("%token%", token);
 
-			plugin.getBanwave().addPlayer(player.getUniqueId(), info);
+			plugin.getModule(Banwave.class).addPlayer(player.getUniqueId(), info);
 		});
 
 	}

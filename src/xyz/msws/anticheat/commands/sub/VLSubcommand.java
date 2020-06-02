@@ -32,10 +32,9 @@ public class VLSubcommand extends Subcommand {
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
 
-		if (!sender.hasPermission("nope.command.vl")) {
-			MSG.noPerm(sender, "nope.command.vl");
+		if (!sender.hasPermission("nope.command.vl"))
 			return CommandResult.NO_PERMISSION;
-		}
+
 		CPlayer cp;
 		if (args.length == 1) {
 			boolean shown = false;
@@ -86,7 +85,7 @@ public class VLSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return new ArrayList<>();
 	}
 

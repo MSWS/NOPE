@@ -30,7 +30,8 @@ public class CancelAction extends AbstractAction {
 		CPlayer cp = plugin.getCPlayer(player);
 
 		Location safe = cp.getLastSafeLocation();
-
+		if (safe == null)
+			return;
 		if (!safe.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
 			return;
 		if (safe.getBlock().getRelative(BlockFace.UP).getType() != Material.AIR)

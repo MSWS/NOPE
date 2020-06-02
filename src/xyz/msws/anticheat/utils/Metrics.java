@@ -40,7 +40,6 @@ import com.google.gson.JsonPrimitive;
  * <p>
  * Check out https://bStats.org/ to learn more about bStats!
  */
-@SuppressWarnings({ "unused" })
 public class Metrics {
 
 	static {

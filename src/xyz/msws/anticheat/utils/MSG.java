@@ -212,15 +212,6 @@ public class MSG {
 	}
 
 	/**
-	 * Sends a no permission message to the target
-	 * 
-	 * @param sender CommandSender to send message to
-	 */
-	public static void noPerm(CommandSender sender, String perm) {
-		tell(sender, getString("NoPermission", "Insufficient Permissions").replace("%perm%", perm));
-	}
-
-	/**
 	 * Colored boolean
 	 * 
 	 * @param bool true/false
@@ -381,33 +372,6 @@ public class MSG {
 		if (isNegative)
 			name = "-" + name;
 		return name + " " + suff;
-	}
-
-	public static double getMills(String msg) {
-		String val = "";
-		double mills = -1;
-		for (char c : msg.toCharArray()) {
-			if ((c + "").matches("[0-9\\.-]")) {
-				val = val + c;
-			} else {
-				break;
-			}
-		}
-		try {
-			mills = Double.valueOf(val) * 1000;
-		} catch (Exception e) {
-			return 0.0;
-		}
-
-		Double amo[] = { 60.0, 3600.0, 86400.0, 604800.0, 2.628e+6, 3.154e+7, 3.154e+8, 3.154e+9 };
-		String[] names = { "m", "h", "d", "w", "mo", "y", "de", "c" };
-		for (int i = amo.length - 1; i >= 0; i--) {
-			if (msg.toLowerCase().contains(names[i])) {
-				mills = mills * amo[i];
-				break;
-			}
-		}
-		return mills;
 	}
 
 	public static String genUUID(int length) {

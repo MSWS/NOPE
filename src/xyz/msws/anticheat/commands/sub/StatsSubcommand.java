@@ -10,6 +10,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.Stats;
 import xyz.msws.anticheat.utils.MSG;
 
 public class StatsSubcommand extends Subcommand {
@@ -19,7 +20,7 @@ public class StatsSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return null;
 	}
 
@@ -40,7 +41,7 @@ public class StatsSubcommand extends Subcommand {
 
 		Player player = (Player) sender;
 		CPlayer cp = plugin.getCPlayer(player);
-		player.openInventory(plugin.getStats().getInventory());
+		player.openInventory(plugin.getModule(Stats.class).getInventory());
 		player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, 1);
 		cp.setInventory("stats");
 		return CommandResult.SUCCESS;

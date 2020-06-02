@@ -9,6 +9,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.utils.MSG;
 
 public class MessageListener implements PluginMessageListener {
@@ -70,7 +71,7 @@ public class MessageListener implements PluginMessageListener {
 			OfflinePlayer off = Bukkit.getOfflinePlayer(msg.split(" ")[0].substring("removebanwave:".length()));
 			plugin.getCPlayer(off).removeSaveData("isBanwaved");
 		} else if (msg.equals("banwave")) {
-			plugin.getBanwave().runBanwave(true);
+			plugin.getModule(Banwave.class).runBanwave(true);
 		} else {
 			MSG.announce(msg);
 		}

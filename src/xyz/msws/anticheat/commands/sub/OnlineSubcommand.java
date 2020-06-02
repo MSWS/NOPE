@@ -18,7 +18,7 @@ public class OnlineSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		// TODO Auto-generated method stub
 		return null;
 	}

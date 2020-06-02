@@ -31,7 +31,7 @@ public class ClearSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		List<String[]> result = new ArrayList<>();
 
 		List<String> checks = new ArrayList<>();
@@ -76,7 +76,7 @@ public class ClearSubcommand extends Subcommand {
 					hack = "all hacks";
 				} else {
 					boolean found = false;
-					for (Check h : plugin.getChecks().getAllChecks()) {
+					for (Check h : plugin.getModule(Checks.class).getAllChecks()) {
 						if (args[2].equalsIgnoreCase(h.getCategory())) {
 							cp.setSaveData("vls." + h.getCategory(), 0);
 							MSG.sendPluginMessage(null, "setvl:" + p.getName() + " " + h + " 0");
@@ -101,7 +101,7 @@ public class ClearSubcommand extends Subcommand {
 				hack = "all hacks";
 			} else {
 				boolean found = false;
-				for (Check h : plugin.getChecks().getAllChecks()) {
+				for (Check h : plugin.getModule(Checks.class).getAllChecks()) {
 					if (args[2].equalsIgnoreCase(h.getCategory())) {
 						cp.setSaveData("vls." + h.getCategory(), 0);
 						MSG.sendPluginMessage(null, "setvl:" + cp.getPlayer().getName() + " " + h + " 0");

@@ -26,7 +26,7 @@ public class TestAnimationSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		List<String[]> result = new ArrayList<>();
 		List<String> names = new ArrayList<>();
 		for (AnimationType type : AnimationType.values())

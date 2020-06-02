@@ -2,12 +2,15 @@ package xyz.msws.anticheat;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+
+import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -34,12 +37,13 @@ import xyz.msws.anticheat.modules.bans.NativeBanHook;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.modules.checks.Global;
-import xyz.msws.anticheat.modules.checks.TPSChecker;
 import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.compatability.AbstractHook;
 import xyz.msws.anticheat.modules.compatability.CrazyEnchantsHook;
 import xyz.msws.anticheat.modules.compatability.McMMOHook;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.ConfigOption;
+import xyz.msws.anticheat.modules.data.Option;
 import xyz.msws.anticheat.modules.data.PlayerManager;
 import xyz.msws.anticheat.modules.data.Stats;
 import xyz.msws.anticheat.modules.scoreboard.ScoreboardAssigner;
@@ -61,6 +65,8 @@ public class NOPE extends JavaPlugin {
 
 	private Collection<AbstractHook> compatabilities = new ArrayList<>();
 
+	private Map<String, Option> options;
+
 	private HashSet<AbstractModule> modules = new HashSet<>();
 
 	private PlayerManager pManager;
@@ -76,26 +82,16 @@ public class NOPE extends JavaPlugin {
 
 		MSG.plugin = this;
 
+		registerOptions();
+
 		MSG.log(checkConfigVersion());
-		modules.add(new ActionManager(this, configYml));
-		modules.add(new PlayerManager(this));
-		modules.add(new TPSChecker(this));
-		modules.add(new TPSManager(this));
-		modules.add(new Banwave(this));
-		modules.add(new Checks(this));
-		modules.add(new Stats(this));
-		modules.add(new Global(this));
-		modules.add(hookBans());
-		modules.add(new ScoreboardModule(this));
-		modules.add(new ScoreboardAssigner(this));
-		modules.add(new AnimationManager(this));
+
+		loadModules();
 
 		new NOPECommand(this);
 		new LogImplementation(this);
 		new LoginAndQuit(this);
 		new GUIListener(this);
-
-		enableModules();
 
 		uploadCustomCharts();
 		runUpdateCheck();
@@ -106,8 +102,46 @@ public class NOPE extends JavaPlugin {
 
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
+	}
 
-		MSG.log("&aPlease report any bugs at the github. (https://github.com/MSWS/AntiCheat)");
+	private String checkConfigVersion() {
+		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
+			return "You are using an up-to-date version of the config.";
+		switch (config.getString("ConfigVersion", "")) {
+			case "1.5.1":
+			case "1.5":
+			case "1.5.0.1":
+			case "1.5.0.2":
+				return "Your language file has changed significantly, it is recommended you reset it.";
+			default:
+				return "Your config version is unknown, it is strongly recommended you reset your config.";
+		}
+	}
+
+	private void loadModules() {
+		modules.add(new ActionManager(this, configYml));
+		modules.add(new PlayerManager(this));
+		modules.add(new TPSManager(this));
+		modules.add(new Banwave(this));
+		modules.add(new Checks(this));
+		modules.add(new Stats(this));
+		modules.add(new Global(this));
+		modules.add(hookBans());
+		modules.add(new ScoreboardModule(this));
+		modules.add(new ScoreboardAssigner(this));
+		modules.add(new AnimationManager(this));
+		enableModules();
+	}
+
+	private void registerOptions() {
+		options = new HashMap<>();
+		options.put("global", new ConfigOption(config, "Global", Arrays.asList(true, false)));
+		options.put("gscoreboard", new ConfigOption(config, "Scoreboard", true, false));
+		options.put("log", new ConfigOption(config, "Log", "NONE", "file", "hastebin"));
+		options.put("updatechecker", new ConfigOption(config, "UpdateChecker.Enabled", true, false));
+		options.put("bungeename", new ConfigOption(config, "BungeeNameOverride", (Object[]) null));
+		options.put("dev", new ConfigOption(config, "DevMode", true, false));
+		options.put("debug", new ConfigOption(config, "Debug", Arrays.asList(true, false)));
 	}
 
 	private void enableModules() {
@@ -146,19 +180,6 @@ public class NOPE extends JavaPlugin {
 		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
 			cs.add(new CrazyEnchantsHook(this));
 		return cs;
-	}
-
-	private String checkConfigVersion() {
-		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
-			return "You are using an up-to-date version of the config.";
-		switch (config.getString("ConfigVersion", "")) {
-			case "1.5":
-			case "1.5.0.1":
-			case "1.5.0.2":
-				return "Your config version is slightly old however nothing has changed.";
-			default:
-				return "Your config version is unknown, it is strongly recommended you reset your config.";
-		}
 	}
 
 	private BanHook hookBans() {
@@ -274,36 +295,12 @@ public class NOPE extends JavaPlugin {
 		}
 	}
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public BanHook getBanManager() {
-		return getModule(BanHook.class);
-	}
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public TPSChecker getTPSChecker() {
-		return getModule(TPSChecker.class);
-	}
-
 	public String getNewVersion() {
 		return newVersion;
 	}
 
 	public PluginInfo getPluginInfo() {
 		return pluginInfo;
-	}
-
-	public Stats getStats() {
-		return getModule(Stats.class);
-	}
-
-	public float getTPS() {
-		return getTPSChecker().getTPS();
 	}
 
 	public String getServerName() {
@@ -359,22 +356,18 @@ public class NOPE extends JavaPlugin {
 		this.lang = lang;
 	}
 
-	public Checks getChecks() {
-		return getModule(Checks.class);
-	}
-
 	/**
-	 * @deprecated
+	 * @deprecated use {@link ConfigOption}
 	 * @return
 	 */
-	public PlayerManager getPlayerManager() {
-		return getModule(PlayerManager.class);
-	}
-
 	public boolean devMode() {
 		return config.getBoolean("DevMode");
 	}
 
+	/**
+	 * @deprecated use {@link ConfigOption}
+	 * @return
+	 */
 	public boolean debugMode() {
 		return config.getBoolean("DebugMode");
 	}
@@ -385,14 +378,19 @@ public class NOPE extends JavaPlugin {
 		return pManager.getPlayer(off);
 	}
 
-	public Banwave getBanwave() {
-		return getModule(Banwave.class);
-	}
-
 	/**
 	 * @return the compatabilities
 	 */
 	public Collection<AbstractHook> getCompatabilities() {
 		return compatabilities;
+	}
+
+	@Nullable
+	public Option getOption(String key) {
+		return options.get(key);
+	}
+
+	public Map<String, Option> getOptionMappings() {
+		return options;
 	}
 }

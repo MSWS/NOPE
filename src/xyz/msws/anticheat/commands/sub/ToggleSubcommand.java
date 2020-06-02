@@ -10,9 +10,11 @@ import org.bukkit.entity.Player;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
-import xyz.msws.anticheat.events.DevModeToggleEvent;
-import xyz.msws.anticheat.events.player.PlayerToggleScoreboardEvent;
+import xyz.msws.anticheat.events.OptionChangeEvent;
+import xyz.msws.anticheat.events.player.PlayerOptionChangeEvent;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.Option;
+import xyz.msws.anticheat.modules.data.PlayerOption;
 import xyz.msws.anticheat.utils.MSG;
 
 public class ToggleSubcommand extends Subcommand {
@@ -28,109 +30,71 @@ public class ToggleSubcommand extends Subcommand {
 
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
-		CPlayer cp;
-		if (args.length < 2) {
+		if (args.length < 2)
 			return CommandResult.MISSING_ARGUMENT;
-		}
-		switch (args[1].toLowerCase()) {
-			case "dev":
-				if (!sender.hasPermission("nope.command.toggle.dev")) {
-					return CommandResult.NO_PERMISSION;
-				}
-				plugin.getConfig().set("DevMode", !plugin.devMode());
-				MSG.tell(sender, MSG.getString("Toggle", "you %status% %name%")
-						.replace("%status%", enabledDisable(plugin.devMode())).replace("%name%", "Developer Mode"));
-				plugin.saveConfig();
-				Bukkit.getPluginManager().callEvent(new DevModeToggleEvent(plugin.devMode()));
-				break;
-			case "debug":
-				if (!sender.hasPermission("nope.command.toggle.debug")) {
-					return CommandResult.NO_PERMISSION;
-				}
-				plugin.getConfig().set("DebugMode", !plugin.debugMode());
-				MSG.tell(sender, MSG.getString("Toggle", "you %status% %name%")
-						.replace("%status%", enabledDisable(plugin.debugMode())).replace("%name%", "Debug Mode"));
-				plugin.saveConfig();
-				break;
-			case "log":
-			case "logs":
-				if (!sender.hasPermission("nope.command.toggle.logs")) {
-					return CommandResult.NO_PERMISSION;
-				}
-				String nextValue = "";
-				String current = plugin.getConfig().getString("Log");
-				if (current.equalsIgnoreCase("none")) {
-					nextValue = "file";
-				} else if (current.equalsIgnoreCase("file")) {
-					nextValue = "hastebin";
-				} else {
-					nextValue = "NONE";
-				}
 
-				plugin.getConfig().set("Log", nextValue);
-				MSG.tell(sender, MSG.getString("LogToggle", "You set logs to %status%").replace("%status%", nextValue));
-				plugin.saveConfig();
-				break;
-			case "global":
-				if (!sender.hasPermission("nope.command.toggle.global")) {
+		String id = args[1];
+
+		if (sender instanceof Player) {
+			CPlayer cp = plugin.getCPlayer((Player) sender);
+			Option option = cp.getOption(id);
+
+			if (option != null) {
+				if (!sender.hasPermission("nope.command.toggle." + id))
 					return CommandResult.NO_PERMISSION;
-				}
-				plugin.getConfig().set("Global", !plugin.getConfig().getBoolean("Global"));
+				Object value = args.length > 2 ? args[2] : option.toggle();
+				if (value == null)
+					return CommandResult.MISSING_ARGUMENT;
+
+				PlayerOptionChangeEvent poce = new PlayerOptionChangeEvent((Player) sender, (PlayerOption) option);
+				Bukkit.getPluginManager().callEvent(poce);
+
 				MSG.tell(sender,
-						MSG.getString("Toggle", "you %status% %name%")
-								.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("Global")))
-								.replace("%name%", "Global"));
-				plugin.saveConfig();
-				break;
-			case "globalscoreboard":
-				if (!sender.hasPermission("nope.command.toggle.globalscoreboard")) {
-					return CommandResult.NO_PERMISSION;
-				}
-				plugin.getConfig().set("Scoreboard", !plugin.getConfig().getBoolean("Scoreboard"));
-				MSG.tell(sender,
-						MSG.getString("Toggle", "you %status% %name%")
-								.replace("%status%", enabledDisable(plugin.getConfig().getBoolean("Scoreboard")))
-								.replace("%name%", "Global Scoreboard"));
-				plugin.saveConfig();
-				break;
-			case "scoreboard":
-				if (!sender.hasPermission("nope.command.toggle.scoreboard")) {
-					return CommandResult.NO_PERMISSION;
-				}
-				if (!(sender instanceof Player)) {
-					MSG.tell(sender, "You must be a player to have a scoreboard.");
-					return CommandResult.PLAYER_ONLY;
-				}
-				cp = plugin.getCPlayer(((Player) sender));
-				cp.setSaveData("scoreboard",
-						cp.hasSaveData("scoreboard") ? !cp.getSaveData("scoreboard", Boolean.class) : true);
-				MSG.tell(sender,
-						MSG.getString("Toggle", "you %status% %name%")
-								.replace("%status%", enabledDisable(cp.getSaveData("scoreboard", Boolean.class)))
-								.replace("%name%", "your Scoreboard"));
-				Bukkit.getPluginManager().callEvent(
-						new PlayerToggleScoreboardEvent((Player) sender, cp.getSaveData("scoreboard", Boolean.class)));
+						MSG.getString("PlayerToggleOption", "&4NOPE > &7Successfully your %option% to &e%value%&7.")
+								.replace("%option%", id).replace("%value%", value.toString()));
 				return CommandResult.SUCCESS;
-			default:
-				return CommandResult.INVALID_ARGUMENT;
+			}
 		}
+
+		Option option = plugin.getOption(id);
+
+		if (option == null)
+			return CommandResult.INVALID_ARGUMENT;
+
+		if (!sender.hasPermission("nope.command.toggle." + id))
+			return CommandResult.NO_PERMISSION;
+
+		Object value = args.length > 2 ? option.set(args[2]) : option.toggle();
+		if (value == null)
+			return CommandResult.MISSING_ARGUMENT;
+
+		OptionChangeEvent event = new OptionChangeEvent(option);
+		Bukkit.getPluginManager().callEvent(event);
+
+		MSG.tell(sender,
+				MSG.getString("ToggleOption", "&4NOPE > &7Successfully set the option %option% to &e%value%&7.")
+						.replace("%option%", id).replace("%value%", value.toString()));
+		plugin.saveConfig();
 		return CommandResult.SUCCESS;
 	}
 
-	private String enabledDisable(boolean toggle) {
-		return toggle ? "&aenabled" : "&cdisabled";
-	}
-
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		List<String[]> result = new ArrayList<>();
-		result.add(new String[] { "dev", "debug", "log", "global", "globalscoreboard" });
+		List<String> first = new ArrayList<>();
+		first.addAll(plugin.getOptionMappings().keySet());
+
+		if (sender instanceof Player) {
+			CPlayer cp = plugin.getCPlayer((Player) sender);
+			first.addAll(cp.getOptionMappings().keySet());
+		}
+		result.add(first.toArray(new String[0]));
 		return result;
 	}
 
 	@Override
 	public String getUsage() {
-		return "[setting]";
+		return "[setting] <value>";
 	}
 
 }

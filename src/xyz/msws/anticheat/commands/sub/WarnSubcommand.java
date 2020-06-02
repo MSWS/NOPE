@@ -21,7 +21,7 @@ public class WarnSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return null;
 	}
 

@@ -21,13 +21,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.data.Stats;
 import xyz.msws.anticheat.utils.MSG;
 
 public class GUIListener implements Listener {
 	private NOPE plugin;
+	private Stats stats;
 
 	public GUIListener(NOPE plugin) {
 		this.plugin = plugin;
+		this.stats = plugin.getModule(Stats.class);
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
@@ -68,11 +71,11 @@ public class GUIListener implements Listener {
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
 							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
-					player.openInventory(plugin.getStats().getInventory());
+					player.openInventory(stats.getInventory());
 					cp.setInventory("stats");
 					break;
 				}
-				player.openInventory(plugin.getStats().getInventory(type));
+				player.openInventory(stats.getInventory(type));
 				cp.setInventory("hackType");
 				openCheckType.put(player.getUniqueId(),
 						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
@@ -88,12 +91,12 @@ public class GUIListener implements Listener {
 											+ hack + ".Enabled"));
 					ignore.add(player.getUniqueId());
 					player.openInventory(
-							plugin.getStats().getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
 					cp.setInventory("hackType");
 					break;
 				}
 				ignore.add(player.getUniqueId());
-				player.openInventory(plugin.getStats().getInventory(hack));
+				player.openInventory(stats.getInventory(hack));
 				cp.setInventory("hackCategory");
 				openHackCategory.put(player.getUniqueId(), hack);
 				break;
@@ -105,7 +108,7 @@ public class GUIListener implements Listener {
 						!plugin.getConfig()
 								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
 				ignore.add(player.getUniqueId());
-				player.openInventory(plugin.getStats().getInventory(hackCategory));
+				player.openInventory(stats.getInventory(hackCategory));
 				cp.setInventory("hackCategory");
 				break;
 		}
@@ -136,7 +139,7 @@ public class GUIListener implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						player.openInventory(plugin.getStats().getInventory());
+						player.openInventory(stats.getInventory());
 						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
@@ -145,8 +148,8 @@ public class GUIListener implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						player.openInventory(plugin.getStats()
-								.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+						player.openInventory(
+								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
 						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);

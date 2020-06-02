@@ -6,13 +6,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
-
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -34,6 +34,7 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.events.player.PlayerFlagEvent;
 import xyz.msws.anticheat.modules.actions.ActionManager;
 import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.checks.Checks;
 import xyz.msws.anticheat.modules.checks.Global.Stat;
 import xyz.msws.anticheat.utils.MSG;
 import xyz.msws.anticheat.utils.Utils;
@@ -47,19 +48,14 @@ import xyz.msws.anticheat.utils.Utils;
 public class CPlayer {
 	private OfflinePlayer player;
 	private UUID uuid;
-
 	private EnumMap<Stat, Long> tempData;
-
 	private File saveFile, dataFile;
 	private YamlConfiguration data;
-
 	private Log log;
-
 	private Location lastSafe;
-
 	private NOPE plugin;
-
 	private String currentInventory;
+	private Map<String, PlayerOption> options;
 
 	public CPlayer(OfflinePlayer player, NOPE plugin) {
 		this.plugin = plugin;
@@ -79,6 +75,10 @@ public class CPlayer {
 			e.printStackTrace();
 		}
 		data = YamlConfiguration.loadConfiguration(saveFile);
+
+		options = new HashMap<>();
+		options.put("scoreboard", new PlayerOption(this, "scoreboard", true));
+		options.put("notifications", new PlayerOption(this, "notifications", true));
 	}
 
 	public CPlayer(UUID player, NOPE plugin) {
@@ -116,8 +116,6 @@ public class CPlayer {
 		if (online.hasPermission("nope.bypass." + check.getType()))
 			return true;
 		if (online.hasPermission("nope.bypass." + check.getCategory()))
-			return true;
-		if (online.hasPermission("nope.bypass." + check.getType() + "." + check.getCategory()))
 			return true;
 		return online.hasPermission("nope.bypass." + check.getType() + "." + check.getDebugName());
 	}
@@ -225,6 +223,15 @@ public class CPlayer {
 		return cast.cast(getTempData(id));
 	}
 
+	@Nullable
+	public PlayerOption getOption(String key) {
+		return options.get(key);
+	}
+
+	public Map<String, PlayerOption> getOptionMappings() {
+		return options;
+	}
+
 	public int getTotalVL() {
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
@@ -286,7 +293,7 @@ public class CPlayer {
 		PlayerFlagEvent pfe = new PlayerFlagEvent(this, check);
 		Bukkit.getPluginManager().callEvent(pfe);
 
-		if (timeSince(Stat.JOIN_TIME) < 1000)
+		if (timeSince(Stat.JOIN_TIME) < 5000)
 			return;
 
 		if (pfe.isCancelled())
@@ -310,7 +317,7 @@ public class CPlayer {
 
 		setTempData(Stat.FLAGGED, System.currentTimeMillis());
 
-		if (plugin.devMode()) {
+		if (plugin.getOption("dev").asBoolean()) {
 			TextComponent component = new TextComponent(MSG.color(
 					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl));
 
@@ -336,8 +343,8 @@ public class CPlayer {
 
 		plugin.getModule(ActionManager.class).runActions(player, check.getCategory(), check);
 
-		plugin.getStats().addTrigger(check);
-		plugin.getStats().addVl(check, vl);
+		plugin.getModule(Stats.class).addTrigger(check);
+		plugin.getModule(Stats.class).addVl(check, vl);
 
 		List<String> lines = getSaveData("log", List.class);
 		if (lines == null)
@@ -440,7 +447,7 @@ public class CPlayer {
 	}
 
 	public void clearVls() {
-		for (Check h : plugin.getChecks().getAllChecks())
+		for (Check h : plugin.getModule(Checks.class).getAllChecks())
 			this.setSaveData("vls." + h.getCategory(), 0);
 	}
 

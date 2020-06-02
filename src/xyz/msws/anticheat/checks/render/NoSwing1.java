@@ -79,8 +79,8 @@ public class NoSwing1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private EnumSet<Material> odd = Sets.newEnumSet(
-			Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK, Material.LILY_PAD), Material.class);
+	private EnumSet<Material> odd = Sets.newEnumSet(Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK,
+			Material.LILY_PAD, Material.LADDER, Material.VINE), Material.class);
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {

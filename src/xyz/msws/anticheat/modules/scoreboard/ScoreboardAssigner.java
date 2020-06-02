@@ -7,8 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import xyz.msws.anticheat.NOPE;
-import xyz.msws.anticheat.events.DevModeToggleEvent;
-import xyz.msws.anticheat.events.player.PlayerToggleScoreboardEvent;
+import xyz.msws.anticheat.events.OptionChangeEvent;
+import xyz.msws.anticheat.events.player.PlayerOptionChangeEvent;
 import xyz.msws.anticheat.modules.AbstractModule;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
@@ -27,13 +27,17 @@ public class ScoreboardAssigner extends AbstractModule implements Listener {
 	}
 
 	@EventHandler
-	public void onDev(DevModeToggleEvent event) {
+	public void onDev(OptionChangeEvent event) {
+		if (!(event.getOption().getKey().equals("Scoreboard") || event.getOption().getKey().equals("DevMode")))
+			return;
 		for (Player p : Bukkit.getOnlinePlayers())
 			giveScoreboard(p);
 	}
 
 	@EventHandler
-	public void onToggle(PlayerToggleScoreboardEvent event) {
+	public void onToggle(PlayerOptionChangeEvent event) {
+		if (!event.getOption().getKey().equals("scoreboard"))
+			return;
 		giveScoreboard(event.getPlayer());
 	}
 
@@ -41,10 +45,12 @@ public class ScoreboardAssigner extends AbstractModule implements Listener {
 		sb.removeScoreboard(player);
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (!cp.hasSaveData("scoreboard") || !cp.getSaveData("scoreboard", Boolean.class))
+		if (!cp.getOption("scoreboard").asBoolean() || !plugin.getOption("gscoreboard").asBoolean()) {
+			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			return;
+		}
 
-		if (plugin.devMode()) {
+		if (plugin.getOption("dev").asBoolean()) {
 			if (!player.hasPermission("nope.scoreboard.dev"))
 				return;
 			sb.setScoreboard(player, new DevScoreboard(plugin, player));

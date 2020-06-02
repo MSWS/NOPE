@@ -1,11 +1,16 @@
 package xyz.msws.anticheat.modules.actions.actions;
 
+import java.util.stream.Collectors;
+
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.actions.AbstractAction;
 import xyz.msws.anticheat.modules.actions.Webhook;
 import xyz.msws.anticheat.modules.checks.Check;
+import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
 /**
@@ -44,9 +49,17 @@ public class LogAction extends AbstractAction {
 				plugin.getCPlayer(player).addLogMessage(msg);
 				break;
 			case INGAME:
-				MSG.tell("nope.message.normal", msg);
+				for (Player p : Bukkit.getOnlinePlayers().stream().filter(p -> p.hasPermission("nope.message.normal"))
+						.collect(Collectors.toList())) {
+					CPlayer cp = plugin.getCPlayer(p);
+					if (!cp.getOption("notifications").asBoolean())
+						continue;
+					MSG.tell(p, msg);
+				}
 				break;
 			case WEBHOOK:
+				if (hook == null)
+					throw new NullPointerException("Invalid log action, no hook specified");
 				hook.sendMessage(msg, plugin.getCPlayer(player), check);
 				break;
 		}

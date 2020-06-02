@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
@@ -42,7 +43,7 @@ public class VLScoreboard extends CScoreboard {
 		vls = sortByValue(vls);
 		lines.add("");
 
-		lines.add("&9" + MSG.getTime(plugin.getBanwave().timeToNextBanwave()));
+		lines.add("&9" + MSG.getTime(plugin.getModule(Banwave.class).timeToNextBanwave()));
 		lines.add("&bBanwave in...");
 		lines.add("");
 

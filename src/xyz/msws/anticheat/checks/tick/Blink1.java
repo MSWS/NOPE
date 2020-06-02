@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
@@ -67,8 +68,9 @@ public class Blink1 implements Check, Listener {
 					avg += time;
 				avg /= averageTimings.size();
 				if (Math.round(lagTicks - avg) > 6) {
-					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 2, "&7Lag\n&7 Avg: &e" + avg
-							+ "\n&7 Current: &e" + lagTicks + "\n\n&7TPS: &e" + plugin.getTPS());
+					cp.flagHack(this, (int) (Math.round(lagTicks - avg) - 5) * 2,
+							"&7Lag\n&7 Avg: &e" + avg + "\n&7 Current: &e" + lagTicks + "\n\n&7TPS: &e"
+									+ plugin.getModule(TPSManager.class).getTPS());
 				}
 			}
 			averageTimings.add(0, lagTicks);

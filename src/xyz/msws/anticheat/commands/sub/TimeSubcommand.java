@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
+import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.utils.MSG;
 
 public class TimeSubcommand extends Subcommand {
@@ -16,7 +17,7 @@ public class TimeSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions() {
+	public List<String[]> tabCompletions(CommandSender sender) {
 		return null;
 	}
 
@@ -30,8 +31,8 @@ public class TimeSubcommand extends Subcommand {
 		if (!sender.hasPermission("nope.command.time")) {
 			return CommandResult.NO_PERMISSION;
 		}
-		MSG.tell(sender,
-				"&4&l[&c&lNOPE&4&l] &7Next banwave: &e" + MSG.getTime(plugin.getBanwave().timeToNextBanwave()));
+		MSG.tell(sender, "&4&l[&c&lNOPE&4&l] &7Next banwave: &e"
+				+ MSG.getTime(plugin.getModule(Banwave.class).timeToNextBanwave()));
 		return CommandResult.SUCCESS;
 	}
 

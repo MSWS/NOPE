@@ -3,6 +3,11 @@ package xyz.msws.anticheat.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * @deprecated Unused
+ * @author imodm
+ *
+ */
 public class DevModeToggleEvent extends Event {
 	private final static HandlerList handlers = new HandlerList();
 
