@@ -84,7 +84,7 @@ public class Step1 implements Check, Listener {
 					avg += entry.getValue() * entry.getKey();
 					amo += entry.getValue();
 				}
-				
+
 				avg /= amo;
 				if (avg == 0 || amo == 0)
 					continue;

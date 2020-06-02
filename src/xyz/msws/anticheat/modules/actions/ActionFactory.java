@@ -14,6 +14,7 @@ import xyz.msws.anticheat.modules.actions.actions.DelayAction;
 import xyz.msws.anticheat.modules.actions.actions.IsDevCheck;
 import xyz.msws.anticheat.modules.actions.actions.KickAction;
 import xyz.msws.anticheat.modules.actions.actions.LogAction;
+import xyz.msws.anticheat.modules.actions.actions.LogAction.Type;
 import xyz.msws.anticheat.modules.actions.actions.MessageAction;
 import xyz.msws.anticheat.modules.actions.actions.MessagePlayerAction;
 import xyz.msws.anticheat.modules.actions.actions.NotDevCheck;
@@ -22,7 +23,6 @@ import xyz.msws.anticheat.modules.actions.actions.RandomCheck;
 import xyz.msws.anticheat.modules.actions.actions.SetVLAction;
 import xyz.msws.anticheat.modules.actions.actions.TPSCheck;
 import xyz.msws.anticheat.modules.actions.actions.VLActionCheck;
-import xyz.msws.anticheat.modules.actions.actions.LogAction.Type;
 import xyz.msws.anticheat.modules.animations.AnimationManager.AnimationType;
 import xyz.msws.anticheat.utils.MSG;
 

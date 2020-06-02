@@ -27,7 +27,7 @@ public class Stats extends AbstractModule {
 
 	public Stats(NOPE plugin) {
 		super(plugin);
-		
+
 		this.checks = plugin.getModule(Checks.class);
 	}
 
@@ -39,8 +39,7 @@ public class Stats extends AbstractModule {
 		}
 		Inventory inv = Bukkit.createInventory(null, size, "All Checks");
 		for (CheckType type : CheckType.values()) {
-			ItemStack item = new ItemStack(Material.PAPER,
-					Math.max(checks.getChecksWithType(type).size(), 1));
+			ItemStack item = new ItemStack(Material.PAPER, Math.max(checks.getChecksWithType(type).size(), 1));
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName(MSG.color(
 					((plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled")) ? "&a" : "&c")

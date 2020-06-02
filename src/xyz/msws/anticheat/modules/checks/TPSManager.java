@@ -67,10 +67,10 @@ public class TPSManager extends AbstractModule {
 	public void disable() {
 		if (task != null && !task.isCancelled())
 			task.cancel();
-		if(checker!=null&&!checker.isCancelled())
+		if (checker != null && !checker.isCancelled())
 			checker.cancel();
 	}
-	
+
 	public float getTPS() {
 		return tps;
 	}

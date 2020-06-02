@@ -14,8 +14,8 @@ import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.animations.AnimationManager;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
-import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.checks.Global.Stat;
+import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
