@@ -21,6 +21,10 @@ import xyz.msws.anticheat.checks.combat.FastBow1;
 import xyz.msws.anticheat.checks.combat.HighCPS1;
 import xyz.msws.anticheat.checks.combat.HighCPS2;
 import xyz.msws.anticheat.checks.combat.HighCPS3;
+import xyz.msws.anticheat.checks.combat.KillAura1;
+import xyz.msws.anticheat.checks.combat.KillAura2;
+import xyz.msws.anticheat.checks.combat.KillAura3;
+import xyz.msws.anticheat.checks.combat.KillAura4;
 import xyz.msws.anticheat.checks.movement.AntiAFK1;
 import xyz.msws.anticheat.checks.movement.AntiRotate1;
 import xyz.msws.anticheat.checks.movement.AutoWalk1;
@@ -57,12 +61,14 @@ import xyz.msws.anticheat.checks.player.AutoSwitch1;
 import xyz.msws.anticheat.checks.player.AutoTool1;
 import xyz.msws.anticheat.checks.player.FastEat1;
 import xyz.msws.anticheat.checks.player.GhostHand2;
+import xyz.msws.anticheat.checks.player.HealthTags1;
 import xyz.msws.anticheat.checks.player.SafeWalk1;
 import xyz.msws.anticheat.checks.player.SelfHarm1;
 import xyz.msws.anticheat.checks.player.Zoot1;
 import xyz.msws.anticheat.checks.render.AutoSneak1;
 import xyz.msws.anticheat.checks.render.InvalidMovement1;
 import xyz.msws.anticheat.checks.render.NoSwing1;
+import xyz.msws.anticheat.checks.render.PlayerESP1;
 import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
 import xyz.msws.anticheat.checks.tick.Blink1;
@@ -176,11 +182,12 @@ public class Checks extends AbstractModule {
 				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(),
 				new SelfHarm1(), new AntiKB1(), new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(),
 				new FastBreak1(), new Spider1(), new Glide1(), new BHop1(), new GhostHand2(), new GlobalSprint1(),
-				new AutoBuild1(), new Speed4(), new Jesus1(), new Jesus2(), new Step1(), new ElytraFlight1()));
+				new AutoBuild1(), new Speed4(), new Jesus1(), new Jesus2(), new Step1(), new ElytraFlight1(),
+				new KillAura1(), new KillAura2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer2(),
-					new AutoArmor1()));
+					new AutoArmor1(), new KillAura3(), new KillAura4(), new HealthTags1(), new PlayerESP1()));
 		} else {
 			MSG.warn("ProtocolLib is not enabled, certain checks will not work.");
 		}
@@ -190,6 +197,8 @@ public class Checks extends AbstractModule {
 
 	@Override
 	public void disable() {
-
+		for (Check check : activeChecks)
+			check.disable();
+		activeChecks.clear();
 	}
 }

@@ -90,7 +90,7 @@ public class FastBreak1 implements Check, Listener {
 		double offset = System.currentTimeMillis() - blockTime.get(player.getUniqueId());
 		if (offset > -100)
 			return;
-		cp.flagHack(this, Math.min((int) Math.abs(offset) / 10 + 25, 50),
+		cp.flagHack(this, Math.min((int) Math.abs(offset) / 10 + 25, 100),
 				"Type: &e" + MSG.camelCase(block.getType().toString()) + "\n&7Time diff: &a" + offset
 						+ "\n&7Hardness: &e" + block.getType().getHardness());
 	}

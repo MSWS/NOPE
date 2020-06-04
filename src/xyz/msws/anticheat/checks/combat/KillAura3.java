@@ -1,10 +1,13 @@
 package xyz.msws.anticheat.checks.combat;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,70 +15,181 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.util.Vector;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers.EntityUseAction;
+import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.modules.npc.NPC;
+import xyz.msws.anticheat.modules.npc.NPCModule;
+import xyz.msws.anticheat.protocols.WrapperPlayClientUseEntity;
 
 /**
- * 
+ * Yes this uses NPCs
  * 
  * @author imodm
- * 
- * @deprecated
  *
  */
 public class KillAura3 implements Check, Listener {
-
-	private final int SIZE = 20;
-
-	private NOPE plugin;
-
-	private Map<UUID, List<Double>> offsets = new HashMap<>();
 
 	@Override
 	public CheckType getType() {
 		return CheckType.COMBAT;
 	}
 
+	private NOPE plugin;
+	private NPCModule npcs;
+
 	@Override
-	public void register(NOPE plugin) {
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
+		this.npcs = plugin.getModule(NPCModule.class);
+
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+
+		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
+			@Override
+			public void onPacketReceiving(PacketEvent event) {
+				WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
+
+				Player player = event.getPlayer();
+
+				if (packet.getType() != EntityUseAction.ATTACK)
+					return;
+				if (!npcs.hasNPC(player.getUniqueId()))
+					return;
+				NPC npc = npcs.getNPC(player.getUniqueId());
+
+				if (npc.getEntityID() != packet.getTargetID())
+					return;
+
+				event.setCancelled(true);
+
+				npcs.removeNPC(player);
+				CPlayer cp = KillAura3.this.plugin.getCPlayer(player);
+				Bukkit.getScheduler().runTask(plugin, () -> {
+					cp.flagHack(KillAura3.this, 20);
+				});
+			}
+
+			@Override
+			public void onPacketSending(PacketEvent event) {
+			}
+		};
+		manager.addPacketListener(adapter);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				Map<UUID, NPC> list = npcs.getNPCs();
+
+				Iterator<Entry<UUID, NPC>> it = list.entrySet().iterator();
+				while (it.hasNext()) {
+					Entry<UUID, NPC> entry = it.next();
+
+					if (!Bukkit.getOfflinePlayer(entry.getKey()).isOnline())
+						continue;
+					Player player = Bukkit.getPlayer(entry.getKey());
+					NPC npc = entry.getValue();
+					npc.setHealth(player.getHealth() - 3);
+					npc.setPing(ThreadLocalRandom.current().nextInt(90, 150));
+					npc.setItem(ItemSlot.MAINHAND, player.getInventory().getItemInMainHand());
+					npc.setItem(ItemSlot.CHEST, player.getInventory().getChestplate());
+
+					Location loc = player.getLocation().clone();
+					loc.setPitch(ThreadLocalRandom.current().nextFloat() * 90);
+					Location target = loc.add(loc.getDirection().normalize().multiply(-3));
+					target.setDirection(player.getLocation().toVector().subtract(target.toVector()));
+					npc.moveOrTeleport(target);
+				}
+
+			}
+		}.runTaskTimerAsynchronously(plugin, 0, 1);
+
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+	}
+
+	private Map<UUID, BukkitTask> removes = new HashMap<>();
+
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		if (event.getTo().getPitch() > -60)
+			return;
+		if (!npcs.hasNPC(player.getUniqueId()))
+			return;
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (removes.containsKey(player.getUniqueId()))
+					removes.get(player.getUniqueId()).cancel();
+				removes.remove(player.getUniqueId());
+				npcs.removeNPC(player);
+			}
+		}.runTaskLater(plugin, 10);
 	}
 
 	@EventHandler
-	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof Player))
-			return;
-		Player player = (Player) event.getDamager();
-		CPlayer cp = plugin.getCPlayer(player);
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Player) {
+			Player player = (Player) event.getDamager();
 
-		double off = getDotDiff(player, event.getEntity().getLocation());
+			NPCModule module = plugin.getModule(NPCModule.class);
+			if (module == null)
+				return;
 
-		List<Double> values = offsets.getOrDefault(player.getUniqueId(), new ArrayList<>());
+			module.getOrSpawn(player);
 
-		values.add(0, off);
+			if (removes.containsKey(player.getUniqueId())) {
+				removes.get(player.getUniqueId()).cancel();
+			}
 
-		if (values.size() > SIZE)
-			values = values.subList(0, SIZE);
+			removes.put(player.getUniqueId(), new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (!npcs.hasNPC(player.getUniqueId()))
+						return;
+					npcs.removeNPC(player);
+					removes.remove(player.getUniqueId());
+				}
+			}.runTaskLater(plugin, 20 * 5));
+		}
 
-//		cp.setTempData("KillAuraOffsets", values);
-		offsets.put(player.getUniqueId(), values);
+		if (event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
 
-		if (values.size() < SIZE)
-			return;
+			NPCModule module = plugin.getModule(NPCModule.class);
+			if (module == null)
+				return;
 
-		double avg = 0;
-		for (double v : values)
-			avg += v;
-		avg /= values.size();
-		if (avg > .3)
-			return;
+			module.getOrSpawn(player);
 
-		cp.flagHack(this, (int) ((1 - off) * 50), String.format("Avg: &e%.2f", avg));
+			if (removes.containsKey(player.getUniqueId())) {
+				removes.get(player.getUniqueId()).cancel();
+			}
+
+			removes.put(player.getUniqueId(), new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (!npcs.hasNPC(player.getUniqueId()))
+						return;
+					npcs.removeNPC(player);
+					removes.remove(player.getUniqueId());
+				}
+			}.runTaskLater(plugin, 20 * 5));
+		}
 	}
 
 	@Override
@@ -93,10 +207,4 @@ public class KillAura3 implements Check, Listener {
 		return false;
 	}
 
-	private double getDotDiff(Player player, Location target) {
-		Location eye = player.getLocation();
-		Vector toEntity = target.toVector().subtract(eye.toVector());
-		double dot = toEntity.normalize().dot(eye.getDirection());
-		return dot;
-	}
 }

@@ -1,4 +1,4 @@
-NoPermission: '&4&l[&c&lNOPE&4&l] &cYou lack the &e%perm%&c permission.'
+NoPermission: '&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions.'
 ToggleOption: '&4NOPE > &7Successfully set the &a%option% &7option to &e%value%&7.'
 PlayerToggleOption: '&4NOPE > &7Successfully set your &a%option% &7to &e%value%&7.'
 LogToggle: '&4NOPE > &7You set logs to &e%status%&7.'

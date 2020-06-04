@@ -28,4 +28,7 @@ public interface Check {
 	 * @return
 	 */
 	boolean lagBack();
+
+	public default void disable() {
+	}
 }

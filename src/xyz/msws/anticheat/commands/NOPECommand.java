@@ -67,7 +67,7 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 				return true;
 			if (result == CommandResult.NO_PERMISSION) {
 				MSG.tell(sender,
-						MSG.getString("NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &e%perm%&c permission."));
+						MSG.getString("NoPermission", "&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions."));
 				return true;
 			}
 			MSG.tell(sender, "&4NOPE > &cProper usage for " + cmd.getName());

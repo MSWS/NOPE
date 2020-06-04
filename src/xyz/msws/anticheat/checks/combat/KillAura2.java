@@ -1,91 +1,113 @@
 package xyz.msws.anticheat.checks.combat;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
-import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
 /**
+ * This KillAura check compares if the player perfectly attacks as their attack
+ * cooldown expires
  * 
  * @author imodm
  *
- * @deprecated
  */
 public class KillAura2 implements Check, Listener {
-
-	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
 		return CheckType.COMBAT;
 	}
 
-	private Map<UUID, Location> directions = new HashMap<>();
+	private NOPE plugin;
 
 	@Override
-	public void register(NOPE plugin) throws UnsupportedOperationException {
-		if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
-			throw new UnsupportedOperationException("ProtocolLib is not enabled");
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
-
-		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
-			@Override
-			public void onPacketReceiving(PacketEvent event) {
-				Player player = event.getPlayer();
-				directions.put(player.getUniqueId(), player.getLocation());
-			}
-
-			@Override
-			public void onPacketSending(PacketEvent event) {
-			}
-		};
-		manager.addPacketListener(adapter);
 	}
 
+	private Map<UUID, List<Long>> timings = new HashMap<>();
+	private Map<UUID, Long> next = new HashMap<>();
+
+	private static Method cMethod;
+	private static Method getHandle;
+
+	private final int SIZE = 10;
+
 	@EventHandler
-	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
+	public void onAttack(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
 			return;
 		Player player = (Player) event.getDamager();
+
+		float cd = 0;
+
+		try {
+			if (getHandle == null || cMethod == null) {
+				getHandle = player.getClass().getMethod("getHandle");
+				getHandle.setAccessible(true);
+				Object entityPlayer = getHandle.invoke(player);
+
+				cMethod = entityPlayer.getClass().getMethod("getCooldownPeriod");
+				cMethod.setAccessible(true);
+			}
+			Object entityPlayer = getHandle.invoke(player);
+
+			Object cooldown = cMethod.invoke(entityPlayer);
+			cd = (float) cooldown;
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		if (!next.containsKey(player.getUniqueId())) {
+			next.put(player.getUniqueId(), System.currentTimeMillis() + (long) cd * 50);
+			return;
+		}
+
+		List<Long> times = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		times.add(0, System.currentTimeMillis() - next.get(player.getUniqueId()));
+		times = times.subList(0, Math.min(times.size(), SIZE));
+
+		timings.put(player.getUniqueId(), times);
+		next.put(player.getUniqueId(), System.currentTimeMillis() + (long) cd * 50);
+
+		if (times.size() < SIZE)
+			return;
+
+		double avg = 0;
+		for (long l : times)
+			avg += l;
+		avg /= times.size();
+
+		double avd = 0;
+		for (long l : times)
+			avd += Math.abs(avg - l);
+		avd /= times.size();
+
+		if (avd > 20)
+			return;
+
 		CPlayer cp = plugin.getCPlayer(player);
-
-//		if (!cp.hasTempData("lastEntityHitDirection"))
-//			return;
-		if (!directions.containsKey(player.getUniqueId()))
-			return;
-
-		Location eLoc = player.getLocation(), packet = directions.get(player.getUniqueId());
-
-		double diff = Math.abs(eLoc.getYaw() - packet.getYaw()) + Math.abs(eLoc.getPitch() - packet.getPitch());
-
-		if (diff <= 45)
-			return;
-
-		if (plugin.getModule(TPSManager.class).getTPS() < 18)
-			return;
-
-		cp.flagHack(this, (int) Math.round(diff * 5) + 20, "Invalid Packet Diff: &e" + diff);
+		cp.flagHack(this, 10, "Average: &e" + avg + "&7\nAVD: &a" + avd);
 	}
 
 	@Override
@@ -102,4 +124,5 @@ public class KillAura2 implements Check, Listener {
 	public boolean lagBack() {
 		return false;
 	}
+
 }

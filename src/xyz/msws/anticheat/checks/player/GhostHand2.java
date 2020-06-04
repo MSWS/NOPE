@@ -74,7 +74,7 @@ public class GhostHand2 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#2";
+		return getCategory() + "#1";
 	}
 
 	@Override

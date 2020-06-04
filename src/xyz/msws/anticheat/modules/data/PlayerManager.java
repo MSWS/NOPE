@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
@@ -38,9 +39,12 @@ public class PlayerManager extends AbstractModule {
 	}
 
 	public void clearPlayers() {
-		if (players != null)
-			for (UUID player : players.keySet())
-				removePlayer(player);
+		if (players == null)
+			return;
+		for (Entry<UUID, CPlayer> entry : players.entrySet()) {
+			entry.getValue().saveData();
+		}
+		players.clear();
 	}
 
 	@Override

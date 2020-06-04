@@ -1,61 +1,86 @@
 package xyz.msws.anticheat.checks.combat;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.util.Vector;
+import org.bukkit.util.RayTraceResult;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers.EntityUseAction;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
+import xyz.msws.anticheat.protocols.WrapperPlayClientUseEntity;
 
 /**
+ * Checks to see if the entity that was hit is behind a wall/block
  * 
  * @author imodm
- * 
- * @deprecated
+ *
  */
-public class KillAura4 implements Check, Listener {
-
-	private NOPE plugin;
+public class KillAura4 implements Check {
 
 	@Override
 	public CheckType getType() {
 		return CheckType.COMBAT;
 	}
 
+	private NOPE plugin;
+
 	@Override
-	public void register(NOPE plugin) {
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
-	}
 
-	@EventHandler
-	public void onEntityDamgedByEntity(EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof Player))
-			return;
-		Player player = (Player) event.getDamager();
-		CPlayer cp = plugin.getCPlayer(player);
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
-		Entity target = event.getEntity();
+		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
+			@Override
+			public void onPacketReceiving(PacketEvent event) {
+				WrapperPlayClientUseEntity packet = new WrapperPlayClientUseEntity(event.getPacket());
+				Player player = event.getPlayer();
 
-		Location loc = player.getLocation();
+				if (packet.getType() != EntityUseAction.ATTACK)
+					return;
 
-		Vector offset = player.getLocation().toVector()
-				.add(loc.getDirection().normalize().multiply(loc.distance(target.getLocation())));
+				Entity ent = packet.getTarget(player.getWorld());
 
-		double yawOffset = offset.clone().setY(target.getLocation().getY())
-				.distanceSquared(target.getLocation().toVector());
+				RayTraceResult result = player.rayTraceBlocks(20);
 
-		if (yawOffset < 2)
-			return;
+				if (result == null || result.getHitBlock() == null)
+					return;
 
-		cp.flagHack(this, (int) ((yawOffset - 1.3) * 10), String.format("Yaw Diff: &e%.3f", yawOffset));
+				Location pos = result.getHitPosition().toLocation(player.getWorld());
+
+				double bLength = pos.distanceSquared(player.getLocation());
+				double eLength = player.getLocation().distanceSquared(ent.getLocation());
+
+				if (bLength > eLength)
+					return;
+
+				CPlayer cp = KillAura4.this.plugin.getCPlayer(player);
+				Bukkit.getScheduler().runTask(plugin, () -> {
+
+					cp.flagHack(KillAura4.this, 30,
+							String.format("Ent Dist: &e%.2f&7\n&7Wall Dist: &a%.2f", eLength, bLength));
+				});
+			}
+
+			@Override
+			public void onPacketSending(PacketEvent event) {
+			}
+		};
+		manager.addPacketListener(adapter);
+
 	}
 
 	@Override
@@ -72,4 +97,5 @@ public class KillAura4 implements Check, Listener {
 	public boolean lagBack() {
 		return false;
 	}
+
 }

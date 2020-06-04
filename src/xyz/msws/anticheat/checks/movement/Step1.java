@@ -52,7 +52,7 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (cp.timeSince(Stat.FLYING) < 2000)
 					continue;
-				if (cp.timeSince(Stat.RESPAWN) < 1000)
+				if (cp.timeSince(Stat.RESPAWN) < 2000)
 					continue;
 				if (cp.timeSince(Stat.REDSTONE) < 500)
 					continue;
@@ -72,7 +72,7 @@ public class Step1 implements Check, Listener {
 				CPlayer cp = plugin.getCPlayer(player);
 				if (cp.timeSince(Stat.FLYING) < 10000)
 					continue;
-				if (cp.timeSince(Stat.RESPAWN) < 1000)
+				if (cp.timeSince(Stat.RESPAWN) < 2000)
 					continue;
 				if (cp.timeSince(Stat.TELEPORT) < 2000)
 					continue;

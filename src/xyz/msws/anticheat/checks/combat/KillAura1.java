@@ -1,94 +1,56 @@
 package xyz.msws.anticheat.checks.combat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
 import xyz.msws.anticheat.modules.checks.CheckType;
 import xyz.msws.anticheat.modules.data.CPlayer;
 
-/**
- * Compares yaw rates right before a player hits an entity
- * 
- * @author imodm
- *
- * @deprecated
- */
 public class KillAura1 implements Check, Listener {
-
-	private NOPE plugin;
 
 	@Override
 	public CheckType getType() {
 		return CheckType.COMBAT;
 	}
 
+	private NOPE plugin;
+
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
 	}
 
-	private Map<UUID, List<Double>> yaws = new HashMap<>();
-
 	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
-
-		double yawDiff = Math.abs(Math.abs(event.getTo().getYaw()) - Math.abs(event.getFrom().getYaw()));
-
-		if (yawDiff < 30)
-			return;
-
-		List<Double> fastTimings = yaws.getOrDefault(player.getUniqueId(), new ArrayList<>());
-
-		fastTimings.add((double) System.currentTimeMillis());
-
-		Iterator<Double> it = fastTimings.iterator();
-
-		while (it.hasNext()) {
-			double val = it.next();
-			if (System.currentTimeMillis() - val > 250) {
-				it.remove();
-			}
-		}
-		yaws.put(player.getUniqueId(), fastTimings);
-	}
-
-	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+	public void onMove(EntityDamageByEntityEvent event) {
 		if (!(event.getDamager() instanceof Player))
 			return;
 		Player player = (Player) event.getDamager();
+
 		CPlayer cp = plugin.getCPlayer(player);
 
-		List<Double> fastTimings = yaws.getOrDefault(player.getUniqueId(), new ArrayList<>());
+		Vector real = event.getEntity().getLocation().toVector().subtract(player.getEyeLocation().toVector());
+		Vector pvec = player.getEyeLocation().getDirection();
 
-		Iterator<Double> it = fastTimings.iterator();
+		real.setY(0);
+		pvec.setY(0);
 
-		while (it.hasNext()) {
-			double val = it.next();
-			if (System.currentTimeMillis() - val > 250) {
-				it.remove();
-			}
-		}
+		real.normalize();
+		pvec.normalize();
 
-		if (fastTimings.size() <= 4)
+		double diff = real.dot(pvec);
+
+		if (diff > .8)
 			return;
-
-		cp.flagHack(this, 50, "Rotated too quickly: &e" + fastTimings.size());
+		cp.flagHack(this, (int) ((.8 - diff) * 10), "Diff: &e" + diff);
 	}
 
 	@Override
@@ -105,4 +67,5 @@ public class KillAura1 implements Check, Listener {
 	public boolean lagBack() {
 		return false;
 	}
+
 }

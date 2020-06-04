@@ -46,6 +46,7 @@ import xyz.msws.anticheat.modules.data.ConfigOption;
 import xyz.msws.anticheat.modules.data.Option;
 import xyz.msws.anticheat.modules.data.PlayerManager;
 import xyz.msws.anticheat.modules.data.Stats;
+import xyz.msws.anticheat.modules.npc.NPCModule;
 import xyz.msws.anticheat.modules.scoreboard.ScoreboardAssigner;
 import xyz.msws.anticheat.modules.scoreboard.ScoreboardModule;
 import xyz.msws.anticheat.utils.MSG;
@@ -108,6 +109,8 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.5.2":
+				return "Your config is slightly outdated, KillAura has been re-added.";
 			case "1.5.1":
 			case "1.5":
 			case "1.5.0.1":
@@ -130,6 +133,8 @@ public class NOPE extends JavaPlugin {
 		modules.add(new ScoreboardModule(this));
 		modules.add(new ScoreboardAssigner(this));
 		modules.add(new AnimationManager(this));
+		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			modules.add(new NPCModule(this));
 		enableModules();
 	}
 
@@ -210,7 +215,6 @@ public class NOPE extends JavaPlugin {
 			}
 		});
 		metrics.addCustomChart(chart);
-
 		chart = new Metrics.AdvancedBarChart("checkweights", new Callable<Map<String, int[]>>() {
 			@Override
 			public Map<String, int[]> call() throws Exception {
@@ -256,7 +260,6 @@ public class NOPE extends JavaPlugin {
 				return NOPE.this.getConfig().getString("UpdateChecker.Enabled", "Unset");
 			}
 		});
-
 		metrics.addCustomChart(chart);
 		chart = new Metrics.SimplePie("customactions", new Callable<String>() {
 			@Override
@@ -266,7 +269,6 @@ public class NOPE extends JavaPlugin {
 				return NOPE.this.getConfig().getConfigurationSection("Commands").getKeys(false).size() + "";
 			}
 		});
-
 		metrics.addCustomChart(chart);
 	}
 

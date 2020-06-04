@@ -47,7 +47,7 @@ public class AutoClicker1 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	private final int SIZE = 100;
+	private final int SIZE = 20;
 
 	private Map<UUID, List<Double>> timings = new HashMap<>();
 
