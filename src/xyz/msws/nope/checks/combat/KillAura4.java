@@ -53,6 +53,14 @@ public class KillAura4 implements Check {
 					return;
 
 				Entity ent = packet.getTarget(player.getWorld());
+				CPlayer cp = KillAura4.this.plugin.getCPlayer(player);
+
+				if (ent == null) {
+					Bukkit.getScheduler().runTask(plugin, () -> {
+						cp.flagHack(KillAura4.this, 30, "Hit invalid entity");
+					});
+					return;
+				}
 
 				RayTraceResult result = player.rayTraceBlocks(20);
 
@@ -67,7 +75,6 @@ public class KillAura4 implements Check {
 				if (bLength > eLength)
 					return;
 
-				CPlayer cp = KillAura4.this.plugin.getCPlayer(player);
 				Bukkit.getScheduler().runTask(plugin, () -> {
 
 					cp.flagHack(KillAura4.this, 30,
