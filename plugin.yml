@@ -14,6 +14,7 @@ softdepend:
 - PlaceholderAPI
 - mcMMO
 - CrazyEnchantments
+- TrainCarts
 commands:
   nope:
     usage: /<command>

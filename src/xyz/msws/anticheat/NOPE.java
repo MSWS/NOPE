@@ -41,6 +41,7 @@ import xyz.msws.anticheat.modules.checks.TPSManager;
 import xyz.msws.anticheat.modules.compatability.AbstractHook;
 import xyz.msws.anticheat.modules.compatability.CrazyEnchantsHook;
 import xyz.msws.anticheat.modules.compatability.McMMOHook;
+import xyz.msws.anticheat.modules.compatability.TraincartsHook;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.modules.data.ConfigOption;
 import xyz.msws.anticheat.modules.data.Option;
@@ -184,6 +185,8 @@ public class NOPE extends JavaPlugin {
 			cs.add(new McMMOHook(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
 			cs.add(new CrazyEnchantsHook(this));
+		if (Bukkit.getPluginManager().isPluginEnabled("TrainCarts"))
+			cs.add(new TraincartsHook(this));
 		return cs;
 	}
 
