@@ -92,7 +92,7 @@ public class GWENAnimation extends AbstractAnimation {
 					player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GUARDIAN_ATTACK, 1, 1);
 
 				if (System.currentTimeMillis() - startTime > maxTime)
-					stop(true);
+					stop();
 				ticks++;
 			}
 		}.runTaskTimer(plugin, 0, 1);
@@ -100,7 +100,7 @@ public class GWENAnimation extends AbstractAnimation {
 	}
 
 	@Override
-	public void stop(boolean manual) {
+	public void stop() {
 		for (Guardian g : guardians)
 			g.remove();
 		for (Laser laser : lasers) {

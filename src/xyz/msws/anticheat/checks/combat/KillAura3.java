@@ -103,10 +103,6 @@ public class KillAura3 implements Check, Listener {
 						continue;
 					Player player = Bukkit.getPlayer(entry.getKey());
 					NPC npc = entry.getValue();
-					npc.setHealth(player.getHealth() - 3);
-					npc.setPing(ThreadLocalRandom.current().nextInt(90, 150));
-					npc.setItem(ItemSlot.MAINHAND, player.getInventory().getItemInMainHand());
-					npc.setItem(ItemSlot.CHEST, player.getInventory().getChestplate());
 
 					Location loc = player.getLocation().clone();
 					loc.setPitch(ThreadLocalRandom.current().nextFloat() * 90);
@@ -145,51 +141,42 @@ public class KillAura3 implements Check, Listener {
 	public void onDamage(EntityDamageByEntityEvent event) {
 		if (event.getDamager() instanceof Player) {
 			Player player = (Player) event.getDamager();
-
-			NPCModule module = plugin.getModule(NPCModule.class);
-			if (module == null)
-				return;
-
-			module.getOrSpawn(player);
-
-			if (removes.containsKey(player.getUniqueId())) {
-				removes.get(player.getUniqueId()).cancel();
-			}
-
-			removes.put(player.getUniqueId(), new BukkitRunnable() {
-				@Override
-				public void run() {
-					if (!npcs.hasNPC(player.getUniqueId()))
-						return;
-					npcs.removeNPC(player);
-					removes.remove(player.getUniqueId());
-				}
-			}.runTaskLater(plugin, 20 * 5));
+			spawnNPC(player);
 		}
 
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 
-			NPCModule module = plugin.getModule(NPCModule.class);
-			if (module == null)
-				return;
-
-			module.getOrSpawn(player);
-
-			if (removes.containsKey(player.getUniqueId())) {
-				removes.get(player.getUniqueId()).cancel();
-			}
-
-			removes.put(player.getUniqueId(), new BukkitRunnable() {
-				@Override
-				public void run() {
-					if (!npcs.hasNPC(player.getUniqueId()))
-						return;
-					npcs.removeNPC(player);
-					removes.remove(player.getUniqueId());
-				}
-			}.runTaskLater(plugin, 20 * 5));
+			spawnNPC(player);
 		}
+	}
+
+	private void spawnNPC(Player player) {
+		NPCModule module = plugin.getModule(NPCModule.class);
+		if (module == null)
+			return;
+
+		NPC npc = module.getOrSpawn(player);
+		npc.setHealth(player.getHealth() - 3);
+		npc.setPing(ThreadLocalRandom.current().nextInt(90, 150));
+
+		npc.setItem(ItemSlot.MAINHAND, player.getInventory().getItemInMainHand());
+		npc.setItem(ItemSlot.CHEST, player.getInventory().getChestplate());
+		npc.setOnGround(true);
+
+		if (removes.containsKey(player.getUniqueId())) {
+			removes.get(player.getUniqueId()).cancel();
+		}
+
+		removes.put(player.getUniqueId(), new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (!npcs.hasNPC(player.getUniqueId()))
+					return;
+				npcs.removeNPC(player);
+				removes.remove(player.getUniqueId());
+			}
+		}.runTaskLater(plugin, 20 * 5));
 	}
 
 	@Override

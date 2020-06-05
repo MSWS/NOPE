@@ -41,9 +41,10 @@ public abstract class AbstractAnimation {
 		return this.action;
 	}
 
-	public abstract void stop(boolean manual);
+	public abstract void stop();
 
 	public abstract boolean completed();
 
 	public abstract String getName();
+
 }

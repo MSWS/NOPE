@@ -70,6 +70,8 @@ public class Glide1 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
+			return;
 
 		double fallDist = event.getFrom().getY() - event.getTo().getY();
 

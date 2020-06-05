@@ -38,9 +38,6 @@ public class CancelAction extends AbstractAction {
 			return;
 		if (safe.getBlock().getRelative(BlockFace.UP).getType() != Material.AIR)
 			return;
-		if (safe.distanceSquared(player.getPlayer().getLocation()) > 100)
-			return;
-
 		player.getPlayer().teleport(cp.getLastSafeLocation());
 	}
 

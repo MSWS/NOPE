@@ -3,6 +3,7 @@ package xyz.msws.anticheat.modules.animations;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.entity.Player;
 
@@ -31,14 +32,15 @@ public class AnimationManager extends AbstractModule {
 
 	public boolean startAnimation(Player player, AbstractAnimation animation) {
 		animations.put(player.getUniqueId(), animation);
-		animation.start();
-		return true;
+		return animation.start();
 	}
 
 	@Override
 	public void disable() {
-		for (AbstractAnimation animation : animations.values())
-			animation.stop(true);
+		for (AbstractAnimation animation : animations.values()
+				.stream().filter(a->!a.completed())
+				.collect(Collectors.toList()))
+			animation.stop();
 	}
 
 	public AbstractAnimation createAnimation(AnimationType type, Player player, Check check) {

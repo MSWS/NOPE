@@ -46,7 +46,7 @@ import xyz.msws.anticheat.utils.Utils;
  *
  */
 public class CPlayer {
-	private OfflinePlayer player;
+//	private OfflinePlayer player;
 	private UUID uuid;
 	private EnumMap<Stat, Long> tempData;
 	private File saveFile, dataFile;
@@ -57,11 +57,11 @@ public class CPlayer {
 	private String currentInventory;
 	private Map<String, PlayerOption> options;
 
-	public CPlayer(OfflinePlayer player, NOPE plugin) {
+	public CPlayer(UUID player, NOPE plugin) {
+
 		this.plugin = plugin;
-		this.player = player;
-		this.uuid = player.getUniqueId();
-		this.log = new Log(player.getUniqueId());
+		this.uuid = player;
+		this.log = new Log(player);
 
 		this.tempData = new EnumMap<>(Stat.class);
 
@@ -81,10 +81,6 @@ public class CPlayer {
 		options.put("notifications", new PlayerOption(this, "notifications", true));
 	}
 
-	public CPlayer(UUID player, NOPE plugin) {
-		this(Bukkit.getOfflinePlayer(player), plugin);
-	}
-
 	public void setInventory(String inv) {
 		this.currentInventory = inv;
 	}
@@ -94,7 +90,7 @@ public class CPlayer {
 	}
 
 	public OfflinePlayer getPlayer() {
-		return this.player;
+		return Bukkit.getOfflinePlayer(uuid);
 	}
 
 	public List<Stat> getTempEntries() {
@@ -110,9 +106,9 @@ public class CPlayer {
 	}
 
 	public boolean bypassCheck(Check check) {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 		if (online.hasPermission("nope.bypass." + check.getType()))
 			return true;
 		if (online.hasPermission("nope.bypass." + check.getCategory()))
@@ -135,9 +131,9 @@ public class CPlayer {
 	}
 
 	public boolean usingElytra() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		return player.getPlayer().isGliding();
+		return getPlayer().getPlayer().isGliding();
 	}
 
 	public void saveData() {
@@ -289,7 +285,6 @@ public class CPlayer {
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
 			return;
-
 		PlayerFlagEvent pfe = new PlayerFlagEvent(this, check);
 		Bukkit.getPluginManager().callEvent(pfe);
 
@@ -318,8 +313,8 @@ public class CPlayer {
 		setTempData(Stat.FLAGGED, System.currentTimeMillis());
 
 		if (plugin.getOption("dev").asBoolean()) {
-			TextComponent component = new TextComponent(MSG.color(
-					"&4&l[&c&lDEV&4&l] &e" + player.getName() + " &7failed &c" + check.getDebugName() + " &4+" + vl));
+			TextComponent component = new TextComponent(MSG.color("&4&l[&c&lDEV&4&l] &e" + getPlayer().getName()
+					+ " &7failed &c" + check.getDebugName() + " &4+" + vl));
 
 			if (debug != null && !debug.isEmpty()) {
 				component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -328,9 +323,9 @@ public class CPlayer {
 						new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, ChatColor.stripColor(MSG.color(debug))));
 
 			}
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.hasPermission("nope.message.dev"))
-					player.spigot().sendMessage(component);
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				if (p.hasPermission("nope.message.dev"))
+					p.spigot().sendMessage(component);
 			}
 		}
 
@@ -338,10 +333,16 @@ public class CPlayer {
 				? getSaveData("vls." + check.getCategory(), Integer.class) + vl
 				: vl;
 
-		MSG.sendPluginMessage(null, "setvl:" + player.getName() + " " + check.getCategory() + " " + nVl);
+		MSG.sendPluginMessage(null, "setvl:" + getPlayer().getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
 
-		plugin.getModule(ActionManager.class).runActions(player, check.getCategory(), check);
+//		if (getPlayer().isOnline()) {
+//			Player p = Bukkit.getPlayer(getPlayer().getUniqueId());
+//			plugin.getModule(ActionManager.class).runActions(p, check.getCategory(), check);
+//		} else {
+//			plugin.getModule(ActionManager.class).runActions(player, check.getCategory(), check);
+//		}
+		plugin.getModule(ActionManager.class).runActions(getPlayer(), check.getCategory(), check);
 
 		plugin.getModule(Stats.class).addTrigger(check);
 		plugin.getModule(Stats.class).addVl(check, vl);
@@ -366,13 +367,13 @@ public class CPlayer {
 
 		List<String> lines = new ArrayList<>();
 		List<String> prefix = new ArrayList<>();
-		prefix.add("Starting new log for " + player.getName() + " (" + player.getUniqueId() + ")");
+		prefix.add("Starting new log for " + getPlayer().getName() + " (" + getPlayer().getUniqueId() + ")");
 		prefix.add("Server: " + plugin.getServerName());
 		prefix.add("Server Version: " + Bukkit.getVersion() + " Bukkit: " + Bukkit.getBukkitVersion());
 		prefix.add(
 				"NOPE Version: " + plugin.getDescription().getVersion() + " (Online: " + plugin.getNewVersion() + ")");
 		prefix.add("");
-		prefix.add(player.getName() + " was ultimately banned for " + check.getDebugName() + " at a VL of "
+		prefix.add(getPlayer().getName() + " was ultimately banned for " + check.getDebugName() + " at a VL of "
 				+ getVL(check.getCategory()));
 		String cat = plugin.getConfig().isConfigurationSection("Actions." + check.getCategory()) ? check.getCategory()
 				: "Default";
@@ -386,7 +387,7 @@ public class CPlayer {
 					+ (System.currentTimeMillis() - entry.getValue()) + ")");
 		}
 		prefix.add("");
-		prefix.add(player.getName() + "'s flags:");
+		prefix.add(getPlayer().getName() + "'s flags:");
 		for (String hack : this.getHackVls()) {
 			if (this.getVL(hack) == 0)
 				continue;
@@ -435,9 +436,9 @@ public class CPlayer {
 	 * @return
 	 */
 	public boolean isOnGround() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 		if (isInWeirdBlock())
 			return true;
 		if (online.isFlying())
@@ -452,9 +453,9 @@ public class CPlayer {
 	}
 
 	public boolean isInWeirdBlock() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 
 		String[] nonfull = { "FENCE", "SOUL_SAND", "CHEST", "BREWING_STAND", "END_PORTAL_FRAME", "ENCHANTMENT_TABLE",
 				"BED", "SLAB", "STEP", "CAKE", "DAYLIGHT_SENSOR", "CAULDRON", "DIODE", "REDSTONE_COMPARATOR",
@@ -501,9 +502,9 @@ public class CPlayer {
 	}
 
 	public boolean isBlockNearby(Material mat, int range, double yOffset) {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 		for (int x = -range; x <= range; x++) {
 			for (int z = -range; z <= range; z++) {
 				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
@@ -515,9 +516,9 @@ public class CPlayer {
 	}
 
 	public boolean isBlockNearby(String mat, int range, double yOffset) {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 		for (int x = -range; x <= range; x++) {
 			for (int z = -range; z <= range; z++) {
 				Material material = online.getLocation().clone().add(x, yOffset, z).getBlock().getType();
@@ -538,12 +539,12 @@ public class CPlayer {
 
 	public boolean hasMovementRelatedPotion() {
 
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
 		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW,
 				PotionEffectType.LEVITATION };
 
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 
 		for (PotionEffectType type : movement) {
 			if (online.hasPotionEffect(type))
@@ -554,10 +555,10 @@ public class CPlayer {
 	}
 
 	public boolean isInClimbingBlock() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
 
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 
 		Block block = online.getLocation().getBlock();
 
@@ -566,9 +567,9 @@ public class CPlayer {
 	}
 
 	public boolean isBlockAbove() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return false;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
@@ -581,9 +582,9 @@ public class CPlayer {
 	}
 
 	public double distanceToGround() {
-		if (!player.isOnline())
+		if (!getPlayer().isOnline())
 			return 0;
-		Player online = player.getPlayer();
+		Player online = getPlayer().getPlayer();
 
 		Location vertLine = online.getLocation();
 		while (!vertLine.getBlock().getType().isSolid() && vertLine.getY() > 0) {

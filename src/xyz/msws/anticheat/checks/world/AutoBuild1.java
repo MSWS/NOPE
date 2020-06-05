@@ -3,6 +3,7 @@ package xyz.msws.anticheat.checks.world;
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,6 +42,8 @@ public class AutoBuild1 implements Check, Listener {
 		if (block.equals(actual))
 			return;
 		if (block.getType().toString().contains("BED"))
+			return;
+		if (block.getType() == Material.TALL_GRASS)
 			return;
 		double dist = block.getLocation().distanceSquared(actual.getLocation());
 		if (dist <= 2)

@@ -100,6 +100,8 @@ public class Webhook {
 
 	public void sendMessage(String content, CPlayer cp, Check check) {
 		data.put("content", content);
+		if (!plugin.isEnabled())
+			return;
 		new BukkitRunnable() {
 			@Override
 			public void run() {

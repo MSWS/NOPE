@@ -27,10 +27,12 @@ public class NOPEAnimation extends AbstractAnimation {
 	private Evoker[] evokers = new Evoker[8];
 
 	public boolean start() {
-		if (player == null || !player.isValid())
+		if (player == null)
 			return false;
+
 		player.setGameMode(GameMode.SURVIVAL);
 		Location origin = player.getLocation().clone();
+		this.startTime = System.currentTimeMillis();
 
 		double radius = 5;
 
@@ -74,7 +76,7 @@ public class NOPEAnimation extends AbstractAnimation {
 
 				if (damageCounter >= damageDelay) {
 					damageCounter = 0;
-					if (ThreadLocalRandom.current().nextDouble() > .7)
+					if (ThreadLocalRandom.current().nextDouble() > .5)
 						damageDelay -= 1;
 
 					for (Evoker e : evokers) {
@@ -95,15 +97,15 @@ public class NOPEAnimation extends AbstractAnimation {
 				damageCounter++;
 
 				if (System.currentTimeMillis() - startTime > maxTime)
-					stop(true);
+					stop();
 			}
 		}.runTaskTimer(plugin, 0, 1);
 
-		return super.start();
+		return true;
 	}
 
 	@Override
-	public void stop(boolean manual) {
+	public void stop() {
 		if (evokers != null)
 			for (Evoker e : evokers)
 				if (e != null && e.isValid())

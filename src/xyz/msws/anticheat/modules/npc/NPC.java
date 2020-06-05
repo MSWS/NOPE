@@ -138,6 +138,10 @@ public class NPC {
 		return onGround;
 	}
 
+	public void setOnGround(boolean grounded) {
+		this.onGround = grounded;
+	}
+
 	/**
 	 * https://www.spigotmc.org/threads/spawn-entity-using-protocollib-wrappers.370803/
 	 * 
