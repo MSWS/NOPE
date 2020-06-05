@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -66,9 +67,19 @@ public class PlayerESP1 implements Check, Listener {
 					Player player = Bukkit.getPlayer(entry.getKey());
 
 					ThreadLocalRandom rnd = ThreadLocalRandom.current();
-					for (NPC n : entry.getValue()) {
+					for (int i = 0; i < entry.getValue().size(); i++) {
+						NPC n = entry.getValue().get(i);
 						Location l = player.getLocation();
 						l = l.add(rnd.nextDouble(-100, 100), rnd.nextDouble(-10, 20), rnd.nextDouble(-100, 100));
+
+						if (!l.getWorld().equals(n.getLocation().getWorld())) {
+							n.remove();
+							n = new NPC(l);
+							n.spawn(player);
+							n.setVisible(false);
+							entry.getValue().set(i, n);
+							return;
+						}
 
 						n.moveOrTeleport(l);
 					}
@@ -99,11 +110,19 @@ public class PlayerESP1 implements Check, Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onGamemode(PlayerGameModeChangeEvent event) {
 		Player player = event.getPlayer();
-		if (event.getNewGameMode() != GameMode.SPECTATOR) {
-			spawnNPCs(player);
+		if (event.getNewGameMode() == GameMode.SPECTATOR) {
+			clearNPCs(player);
 			return;
 		}
-		clearNPCs(player);
+		if (player.getGameMode() == GameMode.SPECTATOR) {
+			spawnNPCs(player);
+		}
+	}
+
+	@EventHandler
+	public void onSwitch(PlayerChangedWorldEvent event) {
+		Player player = event.getPlayer();
+		spawnNPCs(player);
 	}
 
 	private void clearNPCs(Player player) {
@@ -112,11 +131,10 @@ public class PlayerESP1 implements Check, Listener {
 	}
 
 	private void spawnNPCs(Player player) {
-		if (player.getGameMode() == GameMode.SPECTATOR)
-			return;
 		List<NPC> ns = npcs.getOrDefault(player.getUniqueId(), new ArrayList<>());
 		for (NPC npc : ns)
 			npc.remove();
+		ns.clear();
 		ThreadLocalRandom rnd = ThreadLocalRandom.current();
 		for (int i = 0; i < 100; i++) {
 			Location l = player.getLocation();

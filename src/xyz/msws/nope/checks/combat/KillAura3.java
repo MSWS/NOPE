@@ -108,6 +108,14 @@ public class KillAura3 implements Check, Listener {
 					loc.setPitch(ThreadLocalRandom.current().nextFloat() * 90);
 					Location target = loc.add(loc.getDirection().normalize().multiply(-3));
 					target.setDirection(player.getLocation().toVector().subtract(target.toVector()));
+
+					if (!target.getWorld().equals(npc.getLocation().getWorld())) {
+						npcs.removeNPC(player);
+						npc = npcs.getOrSpawn(player);
+						list.put(entry.getKey(), npc);
+						return;
+					}
+
 					npc.moveOrTeleport(target);
 				}
 

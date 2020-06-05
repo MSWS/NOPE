@@ -135,6 +135,9 @@ public class NPC {
 	 * @param loc
 	 */
 	public void moveOrTeleport(Location loc) {
+		if (!this.loc.getWorld().equals(loc.getWorld()))
+			throw new IllegalStateException("Attempted to teleport NPC cross-world.");
+
 		if (loc.distanceSquared(this.loc) > 64) {
 			// Teleport
 			WrapperPlayServerEntityTeleport tp = new WrapperPlayServerEntityTeleport();
