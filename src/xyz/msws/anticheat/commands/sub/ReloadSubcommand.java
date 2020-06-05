@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.CommandResult;
 import xyz.msws.anticheat.commands.Subcommand;
-import xyz.msws.anticheat.modules.actions.ActionManager;
 import xyz.msws.anticheat.utils.MSG;
 
 public class ReloadSubcommand extends Subcommand {
@@ -36,7 +35,7 @@ public class ReloadSubcommand extends Subcommand {
 		}
 		plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
 		plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
-		plugin.getModule(ActionManager.class).loadActions();
+		plugin.reload();
 		MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
 		return CommandResult.SUCCESS;
 	}

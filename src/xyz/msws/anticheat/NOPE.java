@@ -124,6 +124,13 @@ public class NOPE extends JavaPlugin {
 		}
 	}
 
+	public void reload() {
+		onDisable();
+		for (AbstractModule mod : modules) {
+			mod.enable();
+		}
+	}
+
 	private void loadModules() {
 		modules.add(new ActionManager(this, configYml));
 		modules.add(new PlayerManager(this));

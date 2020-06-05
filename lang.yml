@@ -8,6 +8,8 @@ Format:
   Developer: '&4&l[&c&lDEV&4&l] &e%player%&7 failed &c%debug% &4%addVl%'
   Banwave: '&6&l[&cBANWAVE&6&l] &e%player% &7is now queued for a &cbanwave&7.'
 AllChecksEnabled: '&aSuccessfully enabled all checks.'
+BanwaveExecuted: '&7Successfully executed the banwave'
+BanwaveAdded: '&7Successfully added &e%player% &7to the banwave.'
 
 Help:
   default:

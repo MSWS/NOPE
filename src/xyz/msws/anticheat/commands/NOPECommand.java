@@ -12,6 +12,7 @@ import org.bukkit.command.TabCompleter;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.commands.sub.BanwaveSubcommand;
+import xyz.msws.anticheat.commands.sub.ChecksSubcommand;
 import xyz.msws.anticheat.commands.sub.ClearSubcommand;
 import xyz.msws.anticheat.commands.sub.EnablechecksSubcommand;
 import xyz.msws.anticheat.commands.sub.OnlineSubcommand;
@@ -51,6 +52,8 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		subs.put("testanimation", new TestAnimationSubcommand(plugin));
 		subs.put("warn", new WarnSubcommand(plugin));
 		subs.put("toggle", new ToggleSubcommand(plugin));
+		subs.put("checks", new ChecksSubcommand(plugin));
+
 		plugin.getCommand("nope").setExecutor(this);
 	}
 
