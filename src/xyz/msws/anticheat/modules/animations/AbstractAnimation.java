@@ -2,9 +2,11 @@ package xyz.msws.anticheat.modules.animations;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import xyz.msws.anticheat.NOPE;
+import xyz.msws.anticheat.events.AnimationStartEvent;
 import xyz.msws.anticheat.modules.actions.ActionGroup;
 import xyz.msws.anticheat.modules.checks.Check;
 
@@ -28,10 +30,17 @@ public abstract class AbstractAnimation {
 		this.check = check;
 	}
 
-	public boolean start() {
+	public boolean queue() {
+		AnimationStartEvent ase = new AnimationStartEvent(player, this);
+		Bukkit.getPluginManager().callEvent(ase);
+		if (ase.isCancelled())
+			return false;
 		this.startTime = System.currentTimeMillis();
+		start();
 		return true;
 	}
+
+	public abstract void start();
 
 	public void setEndAction(ActionGroup group) {
 		this.action = group;

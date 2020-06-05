@@ -69,7 +69,7 @@ import xyz.msws.anticheat.checks.render.AutoSneak1;
 import xyz.msws.anticheat.checks.render.InvalidMovement1;
 import xyz.msws.anticheat.checks.render.NoSwing1;
 import xyz.msws.anticheat.checks.render.PlayerESP1;
-import xyz.msws.anticheat.checks.render.PlayerESP3;
+import xyz.msws.anticheat.checks.render.PlayerESP2;
 import xyz.msws.anticheat.checks.render.SkinBlinker1;
 import xyz.msws.anticheat.checks.render.Spinbot1;
 import xyz.msws.anticheat.checks.tick.Blink1;
@@ -189,7 +189,7 @@ public class Checks extends AbstractModule {
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer2(),
 					new AutoArmor1(), new KillAura3(), new KillAura4(), new HealthTags1(), new PlayerESP1(),
-					new PlayerESP3()));
+					new PlayerESP2()));
 		} else {
 			MSG.warn("ProtocolLib is not enabled, certain checks will not work.");
 		}

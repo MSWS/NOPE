@@ -110,8 +110,10 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.5.3":
+				return "The default config has slightly more explanation regarding animations.";
 			case "1.5.2":
-				return "Your config is slightly outdated, KillAura has been re-added.";
+				return "Your config is slightly outdated, KillAura and a PlayerESP has been re-added.";
 			case "1.5.1":
 			case "1.5":
 			case "1.5.0.1":
@@ -155,6 +157,14 @@ public class NOPE extends JavaPlugin {
 			mod.enable();
 	}
 
+	/**
+	 * Returns the appropriate module from the specified class
+	 * 
+	 * @param <T>
+	 * @param cast
+	 * @return
+	 */
+	@Nullable
 	public <T extends AbstractModule> T getModule(Class<T> cast) {
 		for (AbstractModule module : modules) {
 			if (cast.isAssignableFrom(module.getClass()))
@@ -163,29 +173,13 @@ public class NOPE extends JavaPlugin {
 		return null;
 	}
 
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public ScoreboardModule getScoreboardModule() {
-		return getModule(ScoreboardModule.class);
-	}
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public ActionManager getActionManager() {
-		return getModule(ActionManager.class);
-	}
-
 	private Collection<AbstractHook> loadCompatabilities() {
 		Set<AbstractHook> cs = new HashSet<>();
 		if (Bukkit.getPluginManager().isPluginEnabled("mcMMO"))
 			cs.add(new McMMOHook(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
 			cs.add(new CrazyEnchantsHook(this));
-		if (Bukkit.getPluginManager().isPluginEnabled("TrainCarts"))
+		if (Bukkit.getPluginManager().isPluginEnabled("Train_Carts"))
 			cs.add(new TraincartsHook(this));
 		return cs;
 	}
@@ -275,6 +269,9 @@ public class NOPE extends JavaPlugin {
 		metrics.addCustomChart(chart);
 	}
 
+	/**
+	 * Re-updates the {@link PluginInfo}
+	 */
 	private void runUpdateCheck() {
 		if (config.getBoolean("UpdateChecker.Enabled", true)) {
 			if (config.getBoolean("UpdateChecker.InGame", true))
@@ -300,10 +297,21 @@ public class NOPE extends JavaPlugin {
 		}
 	}
 
+	/**
+	 * Returns the plugin version that is available online.
+	 * 
+	 * @return
+	 */
+	@Nullable
 	public String getNewVersion() {
 		return newVersion;
 	}
 
+	/**
+	 * Returns the {@link PluginInfo} that was obtained when NOPE was last enabled.
+	 * 
+	 * @return
+	 */
 	public PluginInfo getPluginInfo() {
 		return pluginInfo;
 	}
@@ -362,21 +370,11 @@ public class NOPE extends JavaPlugin {
 	}
 
 	/**
-	 * @deprecated use {@link ConfigOption}
+	 * Returns a CPlayer, will never return null.
+	 * 
+	 * @param off
 	 * @return
 	 */
-	public boolean devMode() {
-		return config.getBoolean("DevMode");
-	}
-
-	/**
-	 * @deprecated use {@link ConfigOption}
-	 * @return
-	 */
-	public boolean debugMode() {
-		return config.getBoolean("DebugMode");
-	}
-
 	public CPlayer getCPlayer(OfflinePlayer off) {
 		if (pManager == null)
 			pManager = getModule(PlayerManager.class);
@@ -390,11 +388,33 @@ public class NOPE extends JavaPlugin {
 		return compatabilities;
 	}
 
+	/**
+	 * Registers and enables the specified hook
+	 * 
+	 * @param hook
+	 */
+	public void registerCompatability(AbstractHook hook) {
+		hook.enable();
+		compatabilities.add(hook);
+	}
+
+	/**
+	 * Returns a specific option specified for NOPE For now these are all options in
+	 * the config.
+	 * 
+	 * @param key
+	 * @return
+	 */
 	@Nullable
 	public Option getOption(String key) {
 		return options.get(key);
 	}
 
+	/**
+	 * Returns the global settings of NOPE.
+	 * 
+	 * @return
+	 */
 	public Map<String, Option> getOptionMappings() {
 		return options;
 	}

@@ -28,11 +28,10 @@ public class GWENAnimation extends AbstractAnimation {
 	private long maxTime = 7000;
 
 	@Override
-	public boolean start() {
-		super.start();
+	public void start() {
 		this.startTime = System.currentTimeMillis();
 		if (player == null || !player.isValid())
-			return false;
+			return;
 
 		for (int i = 0; i < guardians.length; i++) {
 			guardians[i] = (Guardian) player.getWorld().spawnEntity(player.getLocation(), EntityType.GUARDIAN);
@@ -96,7 +95,7 @@ public class GWENAnimation extends AbstractAnimation {
 				ticks++;
 			}
 		}.runTaskTimer(plugin, 0, 1);
-		return true;
+		return;
 	}
 
 	@Override

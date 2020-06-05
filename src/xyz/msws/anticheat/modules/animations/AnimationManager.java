@@ -32,7 +32,7 @@ public class AnimationManager extends AbstractModule {
 
 	public boolean startAnimation(Player player, AbstractAnimation animation) {
 		animations.put(player.getUniqueId(), animation);
-		return animation.start();
+		return animation.queue();
 	}
 
 	@Override

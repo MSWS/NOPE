@@ -1,16 +1,16 @@
 package xyz.msws.anticheat.checks.render;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.RayTraceResult;
 
 import com.comphenix.protocol.PacketType;
@@ -19,6 +19,8 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
 
 import xyz.msws.anticheat.NOPE;
 import xyz.msws.anticheat.modules.checks.Check;
@@ -28,11 +30,12 @@ import xyz.msws.anticheat.protocols.WrapperPlayServerRelEntityMove;
 import xyz.msws.anticheat.protocols.WrapperPlayServerRelEntityMoveLook;
 
 /**
- * @deprecated Causes some issues with player position syncing
+ * Hides entities that are too far away and that don't have line of sight
+ * 
  * @author imodm
  *
  */
-public class PlayerESP2 implements Check {
+public class PlayerESP2 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
@@ -40,7 +43,6 @@ public class PlayerESP2 implements Check {
 	}
 
 	private PacketAdapter blocker;
-	private Map<UUID, Map<Entity, Location>> lastKnown = new HashMap<>();
 
 	@Override
 	public void register(NOPE plugin) throws OperationNotSupportedException {
@@ -57,16 +59,11 @@ public class PlayerESP2 implements Check {
 				Entity ent = packet.getEntity(event);
 				if (ent == null)
 					return;
-				if (canSee(player.getEyeLocation(), ent.getLocation())
-						|| canSee(player.getEyeLocation(), ent.getLocation().add(0, 2, 0))) {
-					set(player.getUniqueId(), ent, ent.getLocation());
-					return;
-				}
-
-				event.setCancelled(true);
+				runCheck(player, ent);
 			}
 		};
 		manager.addPacketListener(blocker);
+
 		blocker = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.REL_ENTITY_MOVE_LOOK) {
 			@Override
 			public void onPacketReceiving(PacketEvent event) {
@@ -79,56 +76,68 @@ public class PlayerESP2 implements Check {
 				Entity ent = packet.getEntity(event);
 				if (ent == null)
 					return;
-				if (canSee(player.getEyeLocation(), ent.getLocation())
-						|| canSee(player.getEyeLocation(), ent.getLocation().add(0, 2, 0))) {
-					set(player.getUniqueId(), ent, ent.getLocation());
-					return;
-				}
-				event.setCancelled(true);
+				runCheck(player, ent);
 			}
 		};
-
-		blocker = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_METADATA) {
-			@Override
-			public void onPacketReceiving(PacketEvent event) {
-			}
-
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				Player player = event.getPlayer();
-				WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(event.getPacket());
-				Entity ent = packet.getEntity(event);
-				if (ent == null)
-					return;
-				if (canSee(player.getEyeLocation(), ent.getLocation())
-						|| canSee(player.getEyeLocation(), ent.getLocation().add(0, 2, 0))) {
-					return;
-				}
-				event.setCancelled(true);
-			}
-		};
-
 		manager.addPacketListener(blocker);
 	}
 
-	private void set(UUID key, Entity ent, Location value) {
-		Map<Entity, Location> map = lastKnown.getOrDefault(key, new HashMap<>());
-		map.put(ent, value);
-		lastKnown.put(key, map);
+	@EventHandler
+	public void onMove(PlayerMoveEvent event) {
+		if (event.getTo().getBlock().equals(event.getFrom().getBlock()))
+			return;
+		Player player = event.getPlayer();
+		for (Entity ent : player.getNearbyEntities(10, 10, 10)) {
+			if (player.equals(ent))
+				continue;
+			runCheck(player, ent);
+		}
+	}
+
+	private void runCheck(Player player, Entity ent) {
+		if (canSee(player.getEyeLocation(), ent.getLocation())) {
+			set(player, ent, true);
+			return;
+		}
+		if (ent instanceof LivingEntity) {
+			if (canSee(player.getEyeLocation(), ((LivingEntity) ent).getEyeLocation())) {
+				set(player, ent, true);
+				return;
+			}
+		}
+		set(player, ent, false);
+	}
+
+	private void set(Player key, Entity ent, boolean cansee) {
+		WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
+		meta.setEntityID(ent.getEntityId());
+
+		WrappedDataWatcher dataWatcher = new WrappedDataWatcher(meta.getMetadata());
+		WrappedDataWatcherObject object = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class));
+		byte v = (byte) (cansee ? 0x0 : 0x20);
+		dataWatcher.setObject(object, v);
+		meta.setMetadata(dataWatcher.getWatchableObjects());
+		meta.sendPacket(key);
 	}
 
 	private boolean canSee(Location source, Location target) {
+		if (target.distanceSquared(source) < 256)
+			return true;
 		RayTraceResult result = source.getWorld().rayTraceBlocks(source, target.toVector().subtract(source.toVector()),
 				100, FluidCollisionMode.NEVER, true);
 		if (result == null || result.getHitBlock() == null)
 			return false;
 
 		Block hit = result.getHitBlock();
-		if (!hit.getType().isOccluding())
-			return true;
 
-		return (result.getHitPosition().toLocation(source.getWorld()).distanceSquared(source) >= source
-				.distanceSquared(target));
+		double rayDist = result.getHitPosition().toLocation(source.getWorld()).distanceSquared(source);
+		double rawDist = source.distanceSquared(target);
+
+		if (hit.getType().toString().contains("GLASS") || !hit.getType().isSolid()) {
+			return true;
+		}
+
+		return (rayDist >= rawDist);
 	}
 
 	@Override
@@ -142,7 +151,7 @@ public class PlayerESP2 implements Check {
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#1";
+		return getCategory() + "#2";
 	}
 
 	@Override

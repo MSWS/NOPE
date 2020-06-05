@@ -26,13 +26,12 @@ public class NOPEAnimation extends AbstractAnimation {
 
 	private Evoker[] evokers = new Evoker[8];
 
-	public boolean start() {
+	public void start() {
 		if (player == null)
-			return false;
+			return;
 
 		player.setGameMode(GameMode.SURVIVAL);
 		Location origin = player.getLocation().clone();
-		this.startTime = System.currentTimeMillis();
 
 		double radius = 5;
 
@@ -101,7 +100,7 @@ public class NOPEAnimation extends AbstractAnimation {
 			}
 		}.runTaskTimer(plugin, 0, 1);
 
-		return true;
+		return;
 	}
 
 	@Override

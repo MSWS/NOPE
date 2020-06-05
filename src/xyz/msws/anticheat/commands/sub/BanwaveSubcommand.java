@@ -13,6 +13,11 @@ import xyz.msws.anticheat.modules.bans.Banwave;
 import xyz.msws.anticheat.modules.data.CPlayer;
 import xyz.msws.anticheat.utils.MSG;
 
+/**
+ * @deprecated
+ * @author imodm
+ *
+ */
 public class BanwaveSubcommand extends Subcommand {
 
 	public BanwaveSubcommand(NOPE plugin) {
@@ -41,7 +46,8 @@ public class BanwaveSubcommand extends Subcommand {
 			}
 			OfflinePlayer off = Bukkit.getOfflinePlayer(args[1]);
 			CPlayer cp = plugin.getCPlayer(off);
-			cp.setSaveData("isBanwaved", "Manual [" + sender.getName() + "]");
+//			cp.setSaveData("isBanwaved", "Manual [" + sender.getName() + "]");
+//			plugin.getModule(Banwave.class).addPlayer(off.getUniqueId(), new BanwaveInfo(off.getUniqueId(), "Manual", -1));
 			MSG.sendPluginMessage(null, "banwave:" + off.getName() + " Manual");
 			MSG.tell(sender, "Added " + off.getName() + " to the banwave.");
 			return CommandResult.SUCCESS;
