@@ -14,6 +14,13 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Compares if the player's direction is the same as the player's vector -
+ * entity's vector
+ * 
+ * @author imodm
+ *
+ */
 public class KillAura1 implements Check, Listener {
 
 	@Override

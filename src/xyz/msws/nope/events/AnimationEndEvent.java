@@ -6,6 +6,13 @@ import org.bukkit.event.HandlerList;
 
 import xyz.msws.nope.modules.animations.AbstractAnimation;
 
+/**
+ * Called when an animation ends, whether because the player left early or if it
+ * ended naturally.
+ * 
+ * @author imodm
+ *
+ */
 public class AnimationEndEvent extends Event {
 
 	private static final HandlerList HANDLER_LIST = new HandlerList();

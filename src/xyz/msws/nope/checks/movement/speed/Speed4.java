@@ -15,7 +15,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks average speeds
+ * Checks instantaneous speeds
  * 
  * @author imodm
  *

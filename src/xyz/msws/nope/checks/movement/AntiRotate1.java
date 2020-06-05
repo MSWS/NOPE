@@ -12,8 +12,8 @@ import xyz.msws.nope.modules.data.CPlayer;
 
 /**
  * 
- * Explanation: Slightly teleports the player if they aren't moving every so
- * ticks and sees if (after one tick) the player has in fact actually teleported
+ * Slightly teleports the player if they aren't moving every so ticks and sees
+ * if (after one tick) the player has in fact actually teleported
  * 
  * @author imodm
  * 

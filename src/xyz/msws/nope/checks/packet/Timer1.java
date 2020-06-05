@@ -2,15 +2,22 @@ package xyz.msws.nope.checks.packet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
@@ -19,73 +26,71 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks distance over certain amount of time
+ * Checks how frequent POSITION packets are sent from the client
  * 
  * @author imodm
  *
- * @deprecated Just really bad
  */
-public class Timer1 implements Check, Listener {
-
-	private NOPE plugin;
+public class Timer1 implements Check {
 
 	@Override
 	public CheckType getType() {
 		return CheckType.PACKET;
 	}
 
-	private Map<UUID, List<Long>> timings = new HashMap<>();
+	private NOPE plugin;
+
+	private Map<UUID, List<Long>> times = new HashMap<>();
 
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
-		Bukkit.getPluginManager().registerEvents(this, plugin);
-	}
 
-	private final int SAMPLE_SIZE = 500;
+		if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
+			throw new OperationNotSupportedException("ProtocolLib is not enabled");
+		this.plugin = plugin;
 
-	@EventHandler
-	public void onMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
-		if (player.isInsideVehicle())
-			return;
+		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+		PacketAdapter adapter = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.POSITION) {
+			@Override
+			public void onPacketReceiving(PacketEvent event) {
+				Player player = event.getPlayer();
+				List<Long> ts = times.getOrDefault(player.getUniqueId(), new ArrayList<>());
 
-		if (cp.hasMovementRelatedPotion())
-			return;
+				Iterator<Long> it = ts.iterator();
+				double avg = 0;
+				long last = System.currentTimeMillis();
+				while (it.hasNext()) {
+					long l = it.next();
+					if (System.currentTimeMillis() - l > 5000)
+						it.remove();
+					else {
+						avg += last - l;
+						last = l;
+					}
+				}
 
-		if (cp.timeSince(Stat.FLYING) < 1000)
-			return;
+				avg /= ts.size();
 
-		if (cp.timeSince(Stat.ON_ICE) < 1000)
-			return;
+				ts.add(0, System.currentTimeMillis());
+				times.put(player.getUniqueId(), ts);
 
-		List<Long> horizontalTimings = timings.getOrDefault(player.getUniqueId(), new ArrayList<>());
+				if (avg >= 50)
+					return;
+				final double finalAverage = avg;
+				CPlayer cp = Timer1.this.plugin.getCPlayer(player);
+				if (cp.timeSince(Stat.JOIN_TIME) < 1000)
+					return;
+				Bukkit.getScheduler().runTask(Timer1.this.plugin, () -> {
+					cp.flagHack(Timer1.this, (int) ((50 - finalAverage) * 10), "Avg: &e" + finalAverage);
+				});
+			}
 
-		if (cp.timeSince(Stat.TELEPORT) > 500)
-			horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
-
-		for (int i = SAMPLE_SIZE; i < horizontalTimings.size(); i++)
-			horizontalTimings.remove(i);
-
-		timings.put(player.getUniqueId(), horizontalTimings);
-
-		if (horizontalTimings.size() < SAMPLE_SIZE)
-			return;
-
-		double avg = 0;
-
-		for (double d : horizontalTimings)
-			avg += d;
-
-		avg /= horizontalTimings.size();
-
-		if (avg > 85)
-			return;
-
-		horizontalTimings.add(0, cp.timeSince(Stat.HORIZONTAL_BLOCKCHANGE));
-		timings.put(player.getUniqueId(), horizontalTimings);
-		cp.flagHack(this, (int) Math.round((85 - avg)) * 2 + 5, "Avg: &e" + avg + "&7 <= &a85");
+			@Override
+			public void onPacketSending(PacketEvent event) {
+			}
+		};
+		manager.addPacketListener(adapter);
 	}
 
 	@Override
@@ -100,6 +105,7 @@ public class Timer1 implements Check, Listener {
 
 	@Override
 	public boolean lagBack() {
-		return true;
+		return false;
 	}
+
 }

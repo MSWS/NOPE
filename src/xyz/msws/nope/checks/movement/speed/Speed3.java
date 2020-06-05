@@ -62,8 +62,6 @@ public class Speed3 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
 			return;
-		if (cp.usingElytra())
-			return;
 
 		if (player.hasPotionEffect(PotionEffectType.DOLPHINS_GRACE) && player.isSwimming())
 			return;

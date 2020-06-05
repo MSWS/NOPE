@@ -24,6 +24,12 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Listens to and manages the player's /nope stats GUI
+ * 
+ * @author imodm
+ *
+ */
 public class GUIListener implements Listener {
 	private NOPE plugin;
 	private Stats stats;

@@ -1,5 +1,11 @@
 package xyz.msws.nope.modules.checks;
 
+/**
+ * CheckType for tracking the types of checks.
+ * 
+ * @author imodm
+ *
+ */
 public enum CheckType {
 	COMBAT("Hacks related to combat"), MOVEMENT("Hacks that affect server movement"),
 	PLAYER("Hacks that affect only the player"), WORLD("Hacks that affect the world or blocks"),

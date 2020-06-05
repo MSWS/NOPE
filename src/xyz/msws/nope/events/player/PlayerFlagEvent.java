@@ -8,6 +8,12 @@ import org.bukkit.event.HandlerList;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Called when a player flags a check
+ * 
+ * @author imodm
+ *
+ */
 public class PlayerFlagEvent extends Event implements Cancellable {
 
 	private static final HandlerList HANDLER_LIST = new HandlerList();

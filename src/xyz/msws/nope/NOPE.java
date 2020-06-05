@@ -54,6 +54,15 @@ import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Metrics;
 import xyz.msws.nope.utils.Metrics.CustomChart;
 
+/**
+ * NOPE is a 1.15.2 Minecraft Anti-Cheat NOPE relies purely on Dependency
+ * Injection and Modularity, get modules with {@link NOPE#getModule(Class)}.
+ * 
+ * {@link https://github.com/MSWS/NOPE/wiki}
+ * 
+ * @author imodm
+ *
+ */
 public class NOPE extends JavaPlugin {
 	private FileConfiguration config, data, lang;
 	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
@@ -186,7 +195,8 @@ public class NOPE extends JavaPlugin {
 			cs.add(new McMMOHook(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
 			cs.add(new CrazyEnchantsHook(this));
-		if (Bukkit.getPluginManager().isPluginEnabled("Train_Carts"))
+		if (Bukkit.getPluginManager().isPluginEnabled("Train_Carts")
+				|| Bukkit.getPluginManager().isPluginEnabled("TrainCarts"))
 			cs.add(new TraincartsHook(this));
 		return cs;
 	}
@@ -385,7 +395,7 @@ public class NOPE extends JavaPlugin {
 	public CPlayer getCPlayer(OfflinePlayer off) {
 		if (pManager == null)
 			pManager = getModule(PlayerManager.class);
-		return pManager.getPlayer(off);
+		return pManager.getPlayer(off.getUniqueId());
 	}
 
 	/**

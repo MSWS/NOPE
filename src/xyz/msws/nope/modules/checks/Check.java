@@ -5,9 +5,9 @@ import javax.naming.OperationNotSupportedException;
 import xyz.msws.nope.NOPE;
 
 /**
- * This should be an abstract class to support automated event reigstration and
- * plugin encapsulation ProtocolCheck should be an additional abstract class
- * that also extends Check
+ * This should be an abstract class to support automated event registration and
+ * plugin encapsulation. ProtocolCheck should be an additional abstract class
+ * that also extends Check. Keyword being should.
  * 
  * @author imodm
  *
@@ -22,13 +22,14 @@ public interface Check {
 	public String getDebugName();
 
 	/**
-	 * @deprecated This is no longer used and instead should be replaced with a void
-	 *             cancel method I'm not sure how to implement this so it will
-	 *             remain like this for now.
+	 * @deprecated This is no longer used.
 	 * @return
 	 */
 	boolean lagBack();
 
+	/**
+	 * This should be used to unregister events or schedules.
+	 */
 	public default void disable() {
 	}
 }

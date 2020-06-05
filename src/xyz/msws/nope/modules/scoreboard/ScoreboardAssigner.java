@@ -12,6 +12,14 @@ import xyz.msws.nope.events.player.PlayerOptionChangeEvent;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Responsible for assigning scoreboards to players, listents to
+ * {@link OptionChangeEvent}, {@link PlayerOptionChangeEvent}, and
+ * {@link PlayerJoinEvent}
+ * 
+ * @author imodm
+ *
+ */
 public class ScoreboardAssigner extends AbstractModule implements Listener {
 
 	private ScoreboardModule sb;

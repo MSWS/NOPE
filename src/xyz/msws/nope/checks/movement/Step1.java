@@ -19,6 +19,12 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Compares vertical distances and checks if they're too high
+ * 
+ * @author imodm
+ *
+ */
 public class Step1 implements Check, Listener {
 
 	@Override
@@ -90,7 +96,7 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (avg < 1)
 					continue;
-				cp.flagHack(this, Math.min((int) ((avg * 15) + 5 * amo), 50), "Avg: &e" + avg + "\n&7Size: &e" + amo);
+				cp.flagHack(this, Math.min((int) ((avg * 10) + 5 * amo), 40), "Avg: &e" + avg + "\n&7Size: &e" + amo);
 			}
 			yVals.clear();
 		}, 0, 20);

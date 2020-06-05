@@ -26,7 +26,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
 /**
- * Checks if block broken if liquid
+ * Checks if player breaks block too quickly
  * 
  * @author imodm
  *

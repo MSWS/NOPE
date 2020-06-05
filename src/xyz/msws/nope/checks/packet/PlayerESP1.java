@@ -28,6 +28,14 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.npc.NPC;
 
+/**
+ * Literally the best playeresp check
+ * 
+ * Just spams all players with invisible players
+ * 
+ * @author imodm
+ *
+ */
 public class PlayerESP1 implements Check, Listener {
 
 	@Override

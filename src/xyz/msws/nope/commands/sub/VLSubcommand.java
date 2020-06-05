@@ -65,7 +65,7 @@ public class VLSubcommand extends Subcommand {
 	}
 
 	private String formatVls(OfflinePlayer player) {
-		CPlayer cp = plugin.getModule(PlayerManager.class).getPlayer(player);
+		CPlayer cp = plugin.getModule(PlayerManager.class).getPlayer(player.getUniqueId());
 		HashMap<String, Integer> vls = new HashMap<>();
 		ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)

@@ -20,7 +20,7 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * 
+ * Definitely could be improved
  * 
  * @author imodm
  *

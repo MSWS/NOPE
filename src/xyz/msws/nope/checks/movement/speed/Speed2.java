@@ -51,8 +51,6 @@ public class Speed2 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.ON_SLIMEBLOCK) < 1000)
 			return;
-		if (cp.timeSince(Stat.DISABLE_GLIDE) < 2000)
-			return;
 		if (cp.timeSince(Stat.REDSTONE) < 1000)
 			return;
 		if (cp.hasMovementRelatedPotion())
@@ -60,8 +58,6 @@ public class Speed2 implements Check, Listener {
 		if (player.getFallDistance() > 4)
 			return;
 		if (player.getLocation().getBlock().isLiquid())
-			return;
-		if (cp.usingElytra())
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

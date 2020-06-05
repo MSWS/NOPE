@@ -7,6 +7,12 @@ import javax.annotation.Nullable;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+/**
+ * Represents an option in the config
+ * 
+ * @author imodm
+ *
+ */
 public class ConfigOption implements Option {
 	private List<? extends Object> options;
 	private Object value;

@@ -16,6 +16,12 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Wurst-Specific based on tested timings
+ * 
+ * @author imodm
+ *
+ */
 public class AutoTool1 implements Check, Listener {
 
 	@Override

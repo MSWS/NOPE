@@ -116,7 +116,7 @@ public class Global extends AbstractModule implements Listener {
 		if (player.isInsideVehicle())
 			cp.setTempData(Stat.IN_VEHICLE, time);
 
-		if (player.isFlying() || cp.usingElytra())
+		if (player.isFlying() || player.isGliding())
 			cp.setTempData(Stat.FLYING, time);
 
 		if (player.isSprinting())

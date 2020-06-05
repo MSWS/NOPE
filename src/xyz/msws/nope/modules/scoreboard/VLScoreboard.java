@@ -17,6 +17,12 @@ import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * The general VL Scoreboard to show VLs
+ * 
+ * @author imodm
+ *
+ */
 public class VLScoreboard extends CScoreboard {
 
 	public VLScoreboard(NOPE plugin, Player player) {

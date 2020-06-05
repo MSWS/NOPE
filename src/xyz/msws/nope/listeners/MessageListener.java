@@ -12,6 +12,12 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Listens for messages from other NOPE plugins on the same bungee network.
+ * 
+ * @author imodm
+ *
+ */
 public class MessageListener implements PluginMessageListener {
 
 	private NOPE plugin;

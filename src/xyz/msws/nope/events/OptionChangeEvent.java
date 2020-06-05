@@ -1,10 +1,17 @@
 package xyz.msws.nope.events;
 
 import org.bukkit.event.Event;
+
 import org.bukkit.event.HandlerList;
 
 import xyz.msws.nope.modules.data.Option;
 
+/**
+ * Called when a Global NOPE Option is changed
+ * 
+ * @author imodm
+ *
+ */
 public class OptionChangeEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();

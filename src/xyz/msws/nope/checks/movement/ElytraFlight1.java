@@ -23,6 +23,12 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * This is suprisingly simple, checks velocity distances
+ * 
+ * @author imodm
+ *
+ */
 public class ElytraFlight1 implements Check, Listener {
 
 	@Override

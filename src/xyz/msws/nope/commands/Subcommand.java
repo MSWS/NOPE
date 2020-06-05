@@ -8,6 +8,14 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 
+/**
+ * TODO Represents a subcommand of a main command. It is expected each
+ * subcommand handles its logic internally. This can include having sub commands
+ * of sub commands.
+ * 
+ * @author imodm
+ *
+ */
 public abstract class Subcommand {
 
 	protected NOPE plugin;

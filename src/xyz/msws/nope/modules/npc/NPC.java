@@ -30,6 +30,13 @@ import xyz.msws.nope.protocols.WrapperPlayServerNamedEntitySpawn;
 import xyz.msws.nope.protocols.WrapperPlayServerPlayerInfo;
 import xyz.msws.nope.protocols.WrapperPlayServerRelEntityMoveLook;
 
+/**
+ * Easy to use object that handles the packets internally, NPCs should ideally
+ * only be sent to one player, otherwise their locations may be confusing.
+ * 
+ * @author imodm
+ *
+ */
 public class NPC {
 	private Location loc;
 	private int id;
@@ -42,6 +49,11 @@ public class NPC {
 	private boolean invisible;
 	private boolean sneaking;
 
+	/**
+	 * This <b>does not</b> send the spawn packet, it merely initializes the fields
+	 * 
+	 * @param loc
+	 */
 	public NPC(Location loc) {
 		this.loc = loc;
 		this.health = 20;
@@ -54,10 +66,20 @@ public class NPC {
 		this.sneaking = false;
 	}
 
+	/**
+	 * @return Server-side location of the NPC
+	 */
 	public Location getLocation() {
 		return loc;
 	}
 
+	/**
+	 * Set and broadcast the EntityEquipment packet accordingly
+	 * 
+	 * @param slot The ItemSlot to set
+	 * @param item The Item to set the slot to
+	 * @return
+	 */
 	public ItemStack setItem(ItemSlot slot, ItemStack item) {
 		ItemStack result = contents.put(slot, item);
 		WrapperPlayServerEntityEquipment equipment = new WrapperPlayServerEntityEquipment();
@@ -68,6 +90,14 @@ public class NPC {
 		return result;
 	}
 
+	/**
+	 * Sends and spawns PlayerInfo and NamedEntitySpawn. This is limited in that it
+	 * will try to spawn an NPC of a player already on the server.
+	 * 
+	 * The primary use of this is for KillAura.
+	 * 
+	 * @param player
+	 */
 	public void spawn(Player player) {
 		List<Player> online = new ArrayList<>(Bukkit.getOnlinePlayers());
 		online.remove(player);
@@ -97,6 +127,13 @@ public class NPC {
 		this.loc = l;
 	}
 
+	/**
+	 * Moves or teleports the NPC according to the guidelines.
+	 * 
+	 * {@link https://wiki.vg/Protocol}
+	 * 
+	 * @param loc
+	 */
 	public void moveOrTeleport(Location loc) {
 		if (loc.distanceSquared(this.loc) > 64) {
 			// Teleport
@@ -130,14 +167,30 @@ public class NPC {
 		this.loc = loc;
 	}
 
+	/**
+	 * @return The NPC's health
+	 */
 	public double getHealth() {
 		return health;
 	}
 
+	/**
+	 * This doesn't necessarily reflect whether or not the <b>location</b> is on the
+	 * ground, simply whether or not the NPC is marked as onGround
+	 * 
+	 * @return Whether or not the NPC is on the ground
+	 */
 	public boolean onGround() {
 		return onGround;
 	}
 
+	/**
+	 * Sets the flag for this entity to be on the ground. This doesn't send any
+	 * packets, when this entity moves again ({@link #moveOrTeleport(Location)})
+	 * this is used.
+	 * 
+	 * @param grounded
+	 */
 	public void setOnGround(boolean grounded) {
 		this.onGround = grounded;
 	}
@@ -159,6 +212,11 @@ public class NPC {
 		meta.broadcastPacket();
 	}
 
+	/**
+	 * Sets whether or not the NPC is visible.
+	 * 
+	 * @param visible
+	 */
 	public void setVisible(boolean visible) {
 		this.invisible = !visible;
 		WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
@@ -171,6 +229,11 @@ public class NPC {
 		meta.broadcastPacket();
 	}
 
+	/**
+	 * Sets whether or not the NPC is sneaking.
+	 * 
+	 * @param sneaking
+	 */
 	public void setSneaking(boolean sneaking) {
 		this.sneaking = sneaking;
 		WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
@@ -183,18 +246,32 @@ public class NPC {
 		meta.broadcastPacket();
 	}
 
+	/**
+	 * @return If the NPC is visible.
+	 */
 	public boolean getVisible() {
 		return !this.invisible;
 	}
 
+	/**
+	 * @return If the NPC is sneaking.
+	 */
 	public boolean isSneaking() {
 		return sneaking;
 	}
 
+	/**
+	 * @return The NPC's ping.
+	 */
 	public int getPing() {
 		return ping;
 	}
 
+	/**
+	 * Broadcasts and sets the NPC's ping
+	 * 
+	 * @param ping
+	 */
 	public void setPing(int ping) {
 		WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
 		PlayerInfoData data = new PlayerInfoData(profile, ping, gamemode,
@@ -205,10 +282,20 @@ public class NPC {
 		packet.broadcastPacket();
 	}
 
+	/**
+	 * This is ProtocolWrapper's version of GameMode
+	 * 
+	 * @return
+	 */
 	public NativeGameMode getGamemode() {
 		return gamemode;
 	}
 
+	/**
+	 * Simple conversion method from {@link NativeGameMode} to {@link GameMode}
+	 * 
+	 * @return
+	 */
 	public GameMode getBukkitGamemode() {
 		switch (gamemode) {
 			case ADVENTURE:
@@ -227,12 +314,18 @@ public class NPC {
 		return GameMode.SPECTATOR;
 	}
 
+	/**
+	 * Broadcasts an EntityDestroy packet
+	 */
 	public void remove() {
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 		destroy.setEntityIds(new int[] { id });
 		destroy.broadcastPacket();
 	}
 
+	/**
+	 * @return The entity ID
+	 */
 	public int getEntityID() {
 		return id;
 	}

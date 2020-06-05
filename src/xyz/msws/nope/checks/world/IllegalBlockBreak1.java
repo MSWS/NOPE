@@ -12,7 +12,7 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks if block broken if liquid
+ * Checks if block broken is liquid
  * 
  * @author imodm
  *

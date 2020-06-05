@@ -14,7 +14,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks the speed in a snapshot of time
+ * Checks the speed in a snapshot of time while in web
  * 
  * @author imodm
  *

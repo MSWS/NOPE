@@ -7,6 +7,12 @@ import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
 
+/**
+ * Wrapper for the lines/title of a scoreboard
+ * 
+ * @author imodm
+ *
+ */
 public abstract class CScoreboard {
 	protected List<String> lines = new ArrayList<String>();
 	protected Player player;

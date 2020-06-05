@@ -16,6 +16,12 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Compares block location distance to click location
+ * 
+ * @author imodm
+ *
+ */
 public class AutoBuild1 implements Check, Listener {
 
 	@Override

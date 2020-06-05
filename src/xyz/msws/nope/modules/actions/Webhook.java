@@ -20,6 +20,12 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Object for sending webhook messages
+ * 
+ * @author imodm
+ *
+ */
 public class Webhook {
 
 	private URL url;
@@ -98,6 +104,13 @@ public class Webhook {
 		}
 	}
 
+	/**
+	 * Asynchronously sends a POST request to the specified URL
+	 * 
+	 * @param content
+	 * @param cp
+	 * @param check
+	 */
 	public void sendMessage(String content, CPlayer cp, Check check) {
 		data.put("content", content);
 		if (!plugin.isEnabled())

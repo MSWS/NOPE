@@ -17,6 +17,12 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Checks if a player swaps their hotbar consistently.
+ * 
+ * @author imodm
+ *
+ */
 public class AutoSwitch1 implements Check, Listener {
 
 	private final int SIZE = 100;
@@ -47,7 +53,6 @@ public class AutoSwitch1 implements Check, Listener {
 		if (st.size() > SIZE)
 			st = st.subList(0, SIZE);
 
-//		cp.setTempData("SwapTimings", st);
 		swaps.put(player.getUniqueId(), st);
 
 		if (st.size() < SIZE)

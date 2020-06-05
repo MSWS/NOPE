@@ -20,7 +20,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Basically {@link NoFall} but when the player hits an entity
+ * Checks distances of where the player last touched the ground
  * 
  * @author imodm
  *

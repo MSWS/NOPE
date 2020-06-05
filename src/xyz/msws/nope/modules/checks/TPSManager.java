@@ -6,6 +6,12 @@ import org.bukkit.scheduler.BukkitTask;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 
+/**
+ * Responsible for managing the manual lag and getting the TPS of the server.
+ * 
+ * @author imodm
+ *
+ */
 public class TPSManager extends AbstractModule {
 
 	public TPSManager(NOPE plugin) {

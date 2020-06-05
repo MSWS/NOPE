@@ -19,7 +19,7 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks if the placed blockface is the same as the face interacted iwth
+ * Checks if the placed blockface is not the same as the face interacted iwth
  * 
  * @author imodm
  *

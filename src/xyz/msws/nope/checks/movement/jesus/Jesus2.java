@@ -13,6 +13,8 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
+ * Specifically checks if the client/server is saying the player is on ground
+ * while on water
  * 
  * @author imodm
  *
@@ -39,9 +41,6 @@ public class Jesus2 implements Check, Listener {
 
 		if (!player.isOnGround())
 			return;
-
-//		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
-//			return;
 
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {

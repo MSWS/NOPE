@@ -11,6 +11,12 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.checks.Check;
 
+/**
+ * Responsible for keeping track of and managing animations.
+ * 
+ * @author imodm
+ *
+ */
 public class AnimationManager extends AbstractModule {
 
 	public AnimationManager(NOPE plugin) {

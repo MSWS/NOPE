@@ -7,6 +7,8 @@ import org.bukkit.event.player.PlayerEvent;
 import xyz.msws.nope.modules.data.PlayerOption;
 
 /**
+ * Called when a player changes their own option
+ * 
  * @author imodm
  *
  */

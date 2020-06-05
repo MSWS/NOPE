@@ -5,6 +5,12 @@ import java.util.UUID;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 
+/**
+ * Used to register bans in ban plugins.
+ * 
+ * @author imodm
+ *
+ */
 public abstract class BanHook extends AbstractModule {
 	public BanHook(NOPE plugin) {
 		super(plugin);
@@ -12,14 +18,10 @@ public abstract class BanHook extends AbstractModule {
 
 	@Override
 	public void enable() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void disable() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void ban(UUID player) {

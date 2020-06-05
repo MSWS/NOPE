@@ -23,6 +23,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
+ * Checks if a player hasn't moved into water soon enough
  * 
  * @author imodm
  *

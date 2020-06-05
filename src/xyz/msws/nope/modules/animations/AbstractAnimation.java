@@ -11,6 +11,7 @@ import xyz.msws.nope.modules.actions.ActionGroup;
 import xyz.msws.nope.modules.checks.Check;
 
 /**
+ * Represents an animation for a specific player.
  * 
  * @author imodm
  *
@@ -30,6 +31,12 @@ public abstract class AbstractAnimation {
 		this.check = check;
 	}
 
+	/**
+	 * Prepare the animation and call {@link AnimationStartEvent} to check if its
+	 * cancelled.
+	 * 
+	 * @return
+	 */
 	public boolean queue() {
 		AnimationStartEvent ase = new AnimationStartEvent(player, this);
 		Bukkit.getPluginManager().callEvent(ase);
@@ -40,8 +47,16 @@ public abstract class AbstractAnimation {
 		return true;
 	}
 
+	/**
+	 * Start the animation
+	 */
 	public abstract void start();
 
+	/**
+	 * Set the end action, this action must be executed by the animation itself.
+	 * 
+	 * @param group
+	 */
 	public void setEndAction(ActionGroup group) {
 		this.action = group;
 	}
@@ -50,10 +65,24 @@ public abstract class AbstractAnimation {
 		return this.action;
 	}
 
+	/**
+	 * Stop the animation This should cancel any runnables and execute the
+	 * {@link AbstractAnimation#action}
+	 */
 	public abstract void stop();
 
+	/**
+	 * Check whether the animation is completed
+	 * 
+	 * @return
+	 */
 	public abstract boolean completed();
 
+	/**
+	 * Get the name of the animation
+	 * 
+	 * @return
+	 */
 	public abstract String getName();
 
 }

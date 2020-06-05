@@ -27,7 +27,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 /**
  * 
  * Compares a player's previous potion ticks and flags if they've dropped too
- * suddenly this WILL flag commands such as /heal
+ * suddenly
  * 
  * @author imodm
  * 

@@ -14,6 +14,12 @@ import com.google.common.io.ByteStreams;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.data.PlayerManager;
 
+/**
+ * Grabs the server name automatically from bungeecord.
+ * 
+ * @author imodm
+ *
+ */
 public class LoginAndQuit implements Listener {
 
 	private NOPE plugin;

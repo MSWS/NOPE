@@ -32,6 +32,12 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Listens to when the player starts/stops eating and compares distances as such
+ * 
+ * @author imodm
+ *
+ */
 public class NoSlowDown5 implements Check, Listener {
 
 	@Override

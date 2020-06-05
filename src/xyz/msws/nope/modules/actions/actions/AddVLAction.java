@@ -7,6 +7,11 @@ import xyz.msws.nope.modules.actions.AbstractAction;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Adds VL to the player
+ * @author imodm
+ *
+ */
 public class AddVLAction extends AbstractAction {
 
 	private int diff;

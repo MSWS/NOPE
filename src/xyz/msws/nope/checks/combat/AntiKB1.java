@@ -19,7 +19,7 @@ import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Basically {@link NoFall} but when the player hits an entity
+ * Checks 1 tick later if the player is in the same location
  * 
  * @author imodm
  *

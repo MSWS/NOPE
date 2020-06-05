@@ -6,6 +6,12 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
 
+/**
+ * Basic wrapper for keeping track of events in order
+ * 
+ * @author imodm
+ *
+ */
 public class Log {
 	private UUID uuid;
 	private String token;

@@ -65,7 +65,7 @@ import xyz.msws.nope.checks.packet.PlayerESP1;
 import xyz.msws.nope.checks.packet.PlayerESP2;
 import xyz.msws.nope.checks.packet.SkinBlinker1;
 import xyz.msws.nope.checks.packet.Spinbot1;
-import xyz.msws.nope.checks.packet.Timer2;
+import xyz.msws.nope.checks.packet.Timer1;
 import xyz.msws.nope.checks.player.AntiFire1;
 import xyz.msws.nope.checks.player.AutoSwitch1;
 import xyz.msws.nope.checks.player.AutoTool1;
@@ -84,6 +84,12 @@ import xyz.msws.nope.checks.world.Scaffold3;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Responsible for registering and keeping track of checks.
+ * 
+ * @author imodm
+ *
+ */
 public class Checks extends AbstractModule {
 	private List<Check> activeChecks;
 
@@ -187,7 +193,7 @@ public class Checks extends AbstractModule {
 				new KillAura1(), new KillAura2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
-			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer2(),
+			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer1(),
 					new AutoArmor1(), new KillAura3(), new KillAura4(), new HealthTags1(), new PlayerESP1(),
 					new PlayerESP2()));
 		} else {

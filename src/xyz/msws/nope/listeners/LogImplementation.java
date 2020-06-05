@@ -15,6 +15,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Provides context to logs
+ * 
+ * @author imodm
+ * TODO
+ *
+ */
 public class LogImplementation implements Listener {
 
 	private NOPE plugin;

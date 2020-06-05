@@ -16,7 +16,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks if a player moves completely horizontally without being on the ground
+ * Checks if a player moves vertically up
  * 
  * @author imodm
  *

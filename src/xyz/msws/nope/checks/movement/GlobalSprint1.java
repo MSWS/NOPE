@@ -23,6 +23,12 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Checks if a player is sprinting in the direction that they aren't looking in
+ * 
+ * @author imodm
+ *
+ */
 public class GlobalSprint1 implements Check, Listener {
 
 	private final int SIZE = 100;

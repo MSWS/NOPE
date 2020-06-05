@@ -7,6 +7,12 @@ import org.bukkit.event.HandlerList;
 
 import xyz.msws.nope.modules.animations.AbstractAnimation;
 
+/**
+ * Called when an animation starts.
+ * 
+ * @author imodm
+ *
+ */
 public class AnimationStartEvent extends Event implements Cancellable {
 
 	private static final HandlerList HANDLER_LIST = new HandlerList();

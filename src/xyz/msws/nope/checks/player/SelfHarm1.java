@@ -14,7 +14,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 
 /**
  * 
- * This hack is COMPLETELY useless, why would you ever use this
+ * This was removed from Wurst a while ago but it hasn't false flagged yet so
  * 
  * @author imodm
  * 
@@ -50,7 +50,7 @@ public class SelfHarm1 implements Check, Listener {
 		if (yDiff > 0)
 			return;
 
-		cp.flagHack(this, plugin.getConfig().getInt("VlForBanwave"), "YDiff: &e" + yDiff);
+		cp.flagHack(this, 200, "YDiff: &e" + yDiff);
 	}
 
 	@Override

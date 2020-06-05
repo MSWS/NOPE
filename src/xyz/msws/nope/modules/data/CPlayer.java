@@ -46,7 +46,6 @@ import xyz.msws.nope.utils.Utils;
  *
  */
 public class CPlayer {
-//	private OfflinePlayer player;
 	private UUID uuid;
 	private EnumMap<Stat, Long> tempData;
 	private File saveFile, dataFile;
@@ -81,30 +80,63 @@ public class CPlayer {
 		options.put("notifications", new PlayerOption(this, "notifications", true));
 	}
 
+	/**
+	 * Set the current open inventory (for internal plugin usage only)
+	 * 
+	 * @param inv
+	 */
 	public void setInventory(String inv) {
 		this.currentInventory = inv;
 	}
 
+	@Nullable
 	public String getInventory() {
 		return this.currentInventory;
 	}
 
+	/**
+	 * Returns the {@link Bukkit#getOfflinePlayer(UUID)} result of the
+	 * {@link CPlayer#uuid}.
+	 * 
+	 * @return
+	 */
 	public OfflinePlayer getPlayer() {
 		return Bukkit.getOfflinePlayer(uuid);
 	}
 
+	/**
+	 * Get the temporary entries of data.
+	 * 
+	 * @return
+	 */
 	public List<Stat> getTempEntries() {
 		return new ArrayList<>(tempData.keySet());
 	}
 
+	/**
+	 * Get the map entries of data.
+	 * 
+	 * @return
+	 */
 	public Map<Stat, Long> getTempData() {
 		return tempData;
 	}
 
+	/**
+	 * Get the data file of the player.
+	 * 
+	 * @return
+	 */
 	public YamlConfiguration getDataFile() {
 		return data;
 	}
 
+	/**
+	 * Check whether or not the player can bypass the specified check.
+	 * 
+	 * @param check
+	 * @return
+	 */
 	public boolean bypassCheck(Check check) {
 		if (!getPlayer().isOnline())
 			return false;
@@ -128,12 +160,6 @@ public class CPlayer {
 		setSaveData(id, obj);
 		if (save)
 			saveData();
-	}
-
-	public boolean usingElytra() {
-		if (!getPlayer().isOnline())
-			return false;
-		return getPlayer().getPlayer().isGliding();
 	}
 
 	public void saveData() {
@@ -228,6 +254,11 @@ public class CPlayer {
 		return options;
 	}
 
+	/**
+	 * Adds up and returns the total VL of all hacks
+	 * 
+	 * @return
+	 */
 	public int getTotalVL() {
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
@@ -240,6 +271,11 @@ public class CPlayer {
 		return amo;
 	}
 
+	/**
+	 * Returns the category that the player has the highest VL for
+	 * 
+	 * @return
+	 */
 	public String getHighestHack() {
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
@@ -264,23 +300,42 @@ public class CPlayer {
 		getDataFile().set("vls." + category, vl);
 	}
 
+	/**
+	 * Returns the list of categories the player has VLs for
+	 * 
+	 * @return
+	 */
 	public List<String> getHackVls() {
 		List<String> result = new ArrayList<>();
 
 		ConfigurationSection vlSection = getDataFile().getConfigurationSection("vls");
 		if (vlSection == null)
 			return result;
-		for (String hack : vlSection.getKeys(false)) {
+		for (String hack : vlSection.getKeys(false))
 			result.add(hack);
-		}
-
 		return result;
 	}
 
+	/**
+	 * Flags the player for the specified hack, if possible you s hould use
+	 * {@link CPlayer#flagHack(Check, int, String)} to provide more detail when
+	 * possible
+	 * 
+	 * @param check
+	 * @param vl
+	 */
 	public void flagHack(Check check, int vl) {
 		flagHack(check, vl, null);
 	}
 
+	/**
+	 * Flags the player for the specified hack and adds detail to how the player
+	 * flagged the hack
+	 * 
+	 * @param check
+	 * @param vl
+	 * @param debug
+	 */
 	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
@@ -336,12 +391,6 @@ public class CPlayer {
 		MSG.sendPluginMessage(null, "setvl:" + getPlayer().getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
 
-//		if (getPlayer().isOnline()) {
-//			Player p = Bukkit.getPlayer(getPlayer().getUniqueId());
-//			plugin.getModule(ActionManager.class).runActions(p, check.getCategory(), check);
-//		} else {
-//			plugin.getModule(ActionManager.class).runActions(player, check.getCategory(), check);
-//		}
 		plugin.getModule(ActionManager.class).runActions(getPlayer(), check.getCategory(), check);
 
 		plugin.getModule(Stats.class).addTrigger(check);
@@ -361,9 +410,8 @@ public class CPlayer {
 	 * @return
 	 */
 	public String saveLog(Check check) {
-		if (plugin.getConfig().getString("Log", "none").equalsIgnoreCase("none")) {
+		if (plugin.getConfig().getString("Log", "none").equalsIgnoreCase("none"))
 			return null;
-		}
 
 		List<String> lines = new ArrayList<>();
 		List<String> prefix = new ArrayList<>();
@@ -452,6 +500,12 @@ public class CPlayer {
 			this.setSaveData("vls." + h.getCategory(), 0);
 	}
 
+	/**
+	 * Returns whether or not the player is in a strange block that has awkward
+	 * collision
+	 * 
+	 * @return
+	 */
 	public boolean isInWeirdBlock() {
 		if (!getPlayer().isOnline())
 			return false;
@@ -477,30 +531,81 @@ public class CPlayer {
 		return false;
 	}
 
+	/**
+	 * Returns if the specified Material is within a 3x1x3 range of the player
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(Material mat) {
 		return isBlockNearby(mat, 0);
 	}
 
+	/**
+	 * Returns if any of the materials within a 3x1x3 range of the player contain
+	 * the specified string, eg: GLASS, BED, etc. would detect all forms of GLASS
+	 * and BED.
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(String mat) {
 		return isBlockNearby(mat, 0);
 	}
 
+	/**
+	 * Returns if the specified Material is within a rangex1xrange range of the
+	 * player
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(Material mat, int range) {
 		return isBlockNearby(mat, 1, 0);
 	}
 
+	/**
+	 * Returns if any of the materials within a rangex1xrange range of the player
+	 * contain the specified string, eg: GLASS, BED, etc. would detect all forms of
+	 * GLASS and BED.
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(String mat, int range) {
 		return isBlockNearby(mat, 1, 0);
 	}
 
+	/**
+	 * Returns if the specified Material is within a 3x1x3 range of the player,
+	 * offset by @param yOffset
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(Material mat, double yOffset) {
 		return isBlockNearby(mat, 1, yOffset);
 	}
 
+	/**
+	 * Returns if any of the materials within a 3x1x3 (offset by @param yOffset)
+	 * range of the player contain the specified string, eg: GLASS, BED, etc. would
+	 * detect all forms of GLASS and BED.
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(String mat, double yOffset) {
 		return isBlockNearby(mat, 1, yOffset);
 	}
 
+	/**
+	 * Returns if the specified Material is within a rangex1xrange range of the
+	 * player, offset by @param yOffset
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(Material mat, int range, double yOffset) {
 		if (!getPlayer().isOnline())
 			return false;
@@ -515,6 +620,14 @@ public class CPlayer {
 		return false;
 	}
 
+	/**
+	 * Returns if any of the materials within a rangex1xrange (offset by @param
+	 * yOffset) range of the player contain the specified string, eg: GLASS, BED,
+	 * etc. would detect all forms of GLASS and BED.
+	 * 
+	 * @param mat
+	 * @return
+	 */
 	public boolean isBlockNearby(String mat, int range, double yOffset) {
 		if (!getPlayer().isOnline())
 			return false;
@@ -537,12 +650,17 @@ public class CPlayer {
 		return System.currentTimeMillis() - getTempData(action, Number.class, 0L).longValue();
 	}
 
-	public boolean hasMovementRelatedPotion() {
+	/**
+	 * Check if the player has speed, jump slow, or levitation
+	 * 
+	 * @return
+	 */
+	private final PotionEffectType[] movement = new PotionEffectType[] { PotionEffectType.SPEED, PotionEffectType.JUMP,
+			PotionEffectType.SLOW, PotionEffectType.LEVITATION };
 
+	public boolean hasMovementRelatedPotion() {
 		if (!getPlayer().isOnline())
 			return false;
-		PotionEffectType[] movement = { PotionEffectType.SPEED, PotionEffectType.JUMP, PotionEffectType.SLOW,
-				PotionEffectType.LEVITATION };
 
 		Player online = getPlayer().getPlayer();
 
@@ -554,6 +672,11 @@ public class CPlayer {
 		return false;
 	}
 
+	/**
+	 * Check if the player is in ladder, vine, or scaffolding
+	 * 
+	 * @return
+	 */
 	public boolean isInClimbingBlock() {
 		if (!getPlayer().isOnline())
 			return false;
@@ -566,6 +689,12 @@ public class CPlayer {
 				|| block.getType() == Material.SCAFFOLDING;
 	}
 
+	/**
+	 * Checks any <b>surrounding</b> blocks to see if they are
+	 * {@link Material#isSolid()}.
+	 * 
+	 * @return
+	 */
 	public boolean isBlockAbove() {
 		if (!getPlayer().isOnline())
 			return false;
@@ -581,6 +710,12 @@ public class CPlayer {
 		return false;
 	}
 
+	/**
+	 * Returns the distance to the first {@link Material#isSolid()} block this does
+	 * not take into account edges.
+	 * 
+	 * @return
+	 */
 	public double distanceToGround() {
 		if (!getPlayer().isOnline())
 			return 0;

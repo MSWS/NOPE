@@ -16,6 +16,13 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Checks if the player only moves along X XOR Z axis while on an edge and not
+ * sneaking
+ * 
+ * @author imodm
+ *
+ */
 public class SafeWalk1 implements Check, Listener {
 
 	@Override

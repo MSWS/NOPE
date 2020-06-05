@@ -16,6 +16,12 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Utils.Age;
 
+/**
+ * Notifies players when they join if an update is available.
+ * 
+ * @author imodm
+ *
+ */
 public class UpdateCheckerListener implements Listener {
 
 	private NOPE plugin;

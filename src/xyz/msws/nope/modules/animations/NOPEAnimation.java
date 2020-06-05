@@ -15,6 +15,12 @@ import org.bukkit.util.Vector;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
 
+/**
+ * NOPE's custom Ban animation, may or may not change in the future.
+ * 
+ * @author imodm
+ *
+ */
 public class NOPEAnimation extends AbstractAnimation {
 
 	public NOPEAnimation(NOPE plugin, Player player, Check check) {

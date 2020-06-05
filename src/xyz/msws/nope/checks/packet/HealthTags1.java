@@ -24,8 +24,6 @@ import xyz.msws.nope.protocols.WrapperPlayServerEntityMetadata;
 /**
  * This check simply prevents any health-related data being sent
  * 
- * <s>For some reason this also affects the player being damaged</s>
- * 
  * @author imodm
  *
  */
@@ -49,9 +47,6 @@ public class HealthTags1 implements Check {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(event.getPacket());
-//				WrappedDataWatcher dataWatcher = new WrappedDataWatcher(packet.getMetadata());
-//				WrappedDataWatcherObject health = new WrappedDataWatcherObject(8,
-//						WrappedDataWatcher.Registry.get(Float.class));
 				Entity damaged = packet.getEntity(event.getPlayer().getWorld());
 
 				if (damaged == null)

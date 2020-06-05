@@ -13,6 +13,12 @@ import xyz.msws.nope.modules.animations.AnimationManager.AnimationType;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * Runs an animation and then the {@link ActionGroup} after it is done
+ * 
+ * @author imodm
+ *
+ */
 public class AnimationAction extends AbstractAction {
 
 	@SuppressWarnings("unused")

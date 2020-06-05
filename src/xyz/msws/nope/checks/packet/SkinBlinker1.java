@@ -26,6 +26,13 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.protocols.WrapperPlayClientSettings;
 
+/**
+ * Listens for SETTINGS packets and checks if they're too often and the player
+ * is moving
+ * 
+ * @author imodm
+ *
+ */
 public class SkinBlinker1 implements Check, Listener {
 
 	@Override
@@ -59,11 +66,8 @@ public class SkinBlinker1 implements Check, Listener {
 				int lastSkin = skinValue.getOrDefault(player.getUniqueId(), 0);
 				if (lastSkin == wrapped.getDisplayedSkinParts())
 					return;
-//				cp.setTempData("lastSkinValue", wrapped.getDisplayedSkinParts());
 				skinValue.put(player.getUniqueId(), wrapped.getDisplayedSkinParts());
-//				cp.setTempData("lastSettingsPacket", (double) System.currentTimeMillis());
 				skinPacket.put(player.getUniqueId(), System.currentTimeMillis());
-//				cp.setTempData("settingsPackets", cp.getTempInteger("settingsPackets") + 1);
 				packetAmo.put(player.getUniqueId(), packetAmo.getOrDefault(player.getUniqueId(), 0) + 1);
 			}
 
@@ -83,7 +87,6 @@ public class SkinBlinker1 implements Check, Listener {
 						return;
 
 					int packets = packetAmo.getOrDefault(player.getUniqueId(), 0);
-//					cp.setTempData("settingsPackets", 0);
 					packetAmo.put(player.getUniqueId(), 0);
 
 					if (packets <= 20)

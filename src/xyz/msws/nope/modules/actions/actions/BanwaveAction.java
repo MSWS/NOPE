@@ -12,8 +12,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
 /**
- * TODO A minor rework is required to support tokens and proper logging related
- * to Actions
+ * Queues the player for a banwave
  * 
  * @author imodm
  *

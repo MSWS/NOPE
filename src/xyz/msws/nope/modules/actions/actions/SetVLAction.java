@@ -7,6 +7,12 @@ import xyz.msws.nope.modules.actions.AbstractAction;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.data.CPlayer;
 
+/**
+ * Sets the player VL to the specified value
+ * 
+ * @author imodm
+ *
+ */
 public class SetVLAction extends AbstractAction {
 
 	private int diff;

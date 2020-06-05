@@ -14,6 +14,12 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.protocols.WrapperPlayServerExplosion;
 
+/**
+ * A copy of Mineplex's GWEN animation, just for fun.
+ * 
+ * @author imodm
+ *
+ */
 public class GWENAnimation extends AbstractAnimation {
 
 	public GWENAnimation(NOPE plugin, Player player, Check check) {

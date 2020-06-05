@@ -13,6 +13,12 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * The dev scoreboard for players
+ * 
+ * @author imodm
+ *
+ */
 public class DevScoreboard extends CScoreboard implements Listener {
 
 	private Player player;
