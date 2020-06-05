@@ -3,10 +3,8 @@ package xyz.msws.nope.checks.combat;
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.util.RayTraceResult;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -20,15 +18,16 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
+import xyz.msws.nope.modules.npc.NPCModule;
 import xyz.msws.nope.protocols.WrapperPlayClientUseEntity;
 
 /**
- * Checks to see if the entity that was hit is behind a wall/block
+ * Checks to see if the entity that was hit is invalid/an NPC
  * 
  * @author imodm
  *
  */
-public class KillAura4 implements Check {
+public class KillAura5 implements Check {
 
 	@Override
 	public CheckType getType() {
@@ -52,31 +51,20 @@ public class KillAura4 implements Check {
 				if (packet.getType() != EntityUseAction.ATTACK)
 					return;
 
-				Entity ent = packet.getTarget(player.getWorld());
-				CPlayer cp = KillAura4.this.plugin.getCPlayer(player);
+				Entity ent = packet.getTarget(event);
+				CPlayer cp = KillAura5.this.plugin.getCPlayer(player);
 
-				if (ent == null) {
-					return;
-				}
-
-				RayTraceResult result = player.rayTraceBlocks(20);
-
-				if (result == null || result.getHitBlock() == null)
+				if (ent != null)
 					return;
 
-				Location pos = result.getHitPosition().toLocation(player.getWorld());
-
-				double bLength = pos.distanceSquared(player.getLocation());
-				double eLength = player.getLocation().distanceSquared(ent.getLocation());
-
-				if (bLength > eLength)
+				NPCModule npc = KillAura5.this.plugin.getModule(NPCModule.class);
+				if (npc.isRegisteredNPC(packet.getTargetID()))
 					return;
 
 				Bukkit.getScheduler().runTask(plugin, () -> {
-
-					cp.flagHack(KillAura4.this, 30,
-							String.format("Ent Dist: &e%.2f&7\n&7Wall Dist: &a%.2f", eLength, bLength));
+					cp.flagHack(KillAura5.this, 30, "Hit invalid entity");
 				});
+				return;
 			}
 
 			@Override
@@ -94,7 +82,7 @@ public class KillAura4 implements Check {
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#4";
+		return getCategory() + "#5";
 	}
 
 	@Override

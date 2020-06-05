@@ -64,6 +64,17 @@ public class NPCModule extends AbstractModule implements Listener {
 	}
 
 	/**
+	 * This returns true ONLY if the NPC is an NPC <b>assigned</b>, players can be
+	 * sent NPCs without being assigned them (like with PlayerESP)
+	 * 
+	 * @param entityid
+	 * @return
+	 */
+	public boolean isRegisteredNPC(int entityid) {
+		return npcs.values().stream().anyMatch(n -> n.getEntityID() == entityid);
+	}
+
+	/**
 	 * Primary method for spawning a NPC for a player.
 	 * 
 	 * @param player
