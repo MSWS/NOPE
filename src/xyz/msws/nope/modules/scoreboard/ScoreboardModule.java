@@ -111,6 +111,7 @@ public class ScoreboardModule extends AbstractModule {
 
 		team.setPrefix(prefix);
 		team.setSuffix(suffix);
+//		team.setDisplayName(value == null || value.isEmpty() ? " " : MSG.color(value));
 		team.addEntry(vals[line] + "" + ChatColor.RESET);
 		obj.getScore(vals[line] + "" + ChatColor.RESET).setScore(line);
 	}

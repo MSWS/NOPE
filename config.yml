@@ -200,7 +200,7 @@ Commands:
  #logban Logs ingame that the player was banned both ingame and to a file
   logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was banned for &b%check%&7.|log:FILE:Banned %player% for %debug% %vl%|delay:5000|log:banExample:'
  #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging 
-  ikick: 'delay:60000|kick:Irregular Gameplay'
+  ikick: 'notdev|delay:60000|kick:Irregular Gameplay'
  #lagkick Kicks the player if their ping is too high
   lagkick: 'ping>150|kick:You seem to be very laggy, please try restarting your connection.'
  #tpskick Kicks the player if the server's TPS is too low

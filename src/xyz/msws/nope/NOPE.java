@@ -119,15 +119,6 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
-			case "1.5.3":
-				return "The default config has slightly more explanation regarding animations.";
-			case "1.5.2":
-				return "Your config is slightly outdated, KillAura and a PlayerESP has been re-added.";
-			case "1.5.1":
-			case "1.5":
-			case "1.5.0.1":
-			case "1.5.0.2":
-				return "Your language file has changed significantly, it is recommended you reset it.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}
@@ -149,8 +140,11 @@ public class NOPE extends JavaPlugin {
 		modules.add(new Stats(this));
 		modules.add(new Global(this));
 		modules.add(hookBans());
-		modules.add(new ScoreboardModule(this));
-		modules.add(new ScoreboardAssigner(this));
+		if (options.get("gscoreboard").asBoolean()) {
+			modules.add(new ScoreboardModule(this));
+			modules.add(new ScoreboardAssigner(this));
+		}
+
 		modules.add(new AnimationManager(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
 			modules.add(new NPCModule(this));
