@@ -230,7 +230,7 @@ Actions:
   Blink:
   - basiclog|vl>200|delay:2000|cancel|delay:15000|tpsdecrement|tps>15|vl>250|lagkick|vl>500|cancel|flog|cban
   NoSwing:
-  - basiclog|vl>500|ikick|vl>1000|cban
+  - basiclog|vl>500|ikick|delay:20000|lagkick|tpsdecrement|vl>1000|cban
   Speed:
   - basiclog|rndcancel|vl>100|cancel|vl>800|addbanwave|vl>1200|cban
   ElytraFlight:
@@ -239,8 +239,10 @@ Actions:
   - basiclog|vl>300|rndcancel|delay:10000|tpsdecrement|vl>500|lagkick|vl>600|ikick|vl>800|cban
   KillAura:
   - basiclog|vl>200|ikick|vl>500|delay:120000|kick:Irregular Gameplay|vl>600|cban
+  NoFall:
+  - basiclog|vl>400|ikick|vl>500|cban
   Default:
-  - basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban
+  - basiclog|vl>20|cancel|vl>200|lagkick|tps>15|vl>400|ikick|vl>600|addbanwave|vl>1000|cban
 Commands:
   flog: log:FILE:%player% failed %debug% (%vl%)|delay:5000|log:CONSOLE:%player% failed
     %debug%
