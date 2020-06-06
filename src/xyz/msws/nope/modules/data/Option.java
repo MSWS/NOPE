@@ -101,7 +101,7 @@ public interface Option {
 	 * 
 	 * @return
 	 */
-	public default double asInteger() {
+	public default int asInteger() {
 		return getValue(Number.class).intValue();
 	}
 
@@ -110,7 +110,7 @@ public interface Option {
 	 * 
 	 * @return
 	 */
-	public default double asLong() {
+	public default long asLong() {
 		return getValue(Number.class).longValue();
 	}
 
@@ -119,7 +119,7 @@ public interface Option {
 	 * 
 	 * @return
 	 */
-	public default double asFloat() {
+	public default float asFloat() {
 		return getValue(Number.class).floatValue();
 	}
 
@@ -128,7 +128,7 @@ public interface Option {
 	 * 
 	 * @return
 	 */
-	public default double asShort() {
+	public default short asShort() {
 		return getValue(Number.class).shortValue();
 	}
 
