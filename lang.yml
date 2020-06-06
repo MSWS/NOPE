@@ -1,7 +1,6 @@
 NoPermission: '&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions.'
 ToggleOption: '&4NOPE > &7Successfully set the &a%option% &7option to &e%value%&7.'
 PlayerToggleOption: '&4NOPE > &7Successfully set your &a%option% &7to &e%value%&7.'
-LogToggle: '&4NOPE > &7You set logs to &e%status%&7.'
 Format:
   Regular: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7)'
   Bungee: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7) &9[&b%server%&9]'
