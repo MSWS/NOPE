@@ -69,7 +69,7 @@ public class Speed4 implements Check, Listener {
 		if (dist <= maxDist)
 			return;
 
-		cp.flagHack(this, (int) ((dist - maxDist) * 100) + 10, "Dist: " + dist + " > " + maxDist);
+		cp.flagHack(this, (int) ((dist - maxDist) * 100) + 5, "Dist: " + dist + " > " + maxDist);
 	}
 
 	@Override

@@ -1,10 +1,4 @@
-package xyz.msws.nope.checks.movement;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+package xyz.msws.nope.checks.movement.speed;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -29,9 +23,7 @@ import xyz.msws.nope.modules.data.CPlayer;
  * @author imodm
  *
  */
-public class GlobalSprint1 implements Check, Listener {
-
-	private final int SIZE = 100;
+public class Speed5 implements Check, Listener {
 
 	private NOPE plugin;
 
@@ -45,8 +37,6 @@ public class GlobalSprint1 implements Check, Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-
-	private Map<UUID, List<Double>> distances = new HashMap<UUID, List<Double>>();
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
@@ -74,9 +64,6 @@ public class GlobalSprint1 implements Check, Listener {
 
 		Vector moveDiff = to.toVector().subtract(from.toVector());
 		Vector look = player.getLocation().getDirection();
-		Location flatTo = to.clone(), flatFrom = from.clone();
-		flatTo.setY(0);
-		flatFrom.setY(0);
 
 		moveDiff.setY(0);
 		look.setY(0);
@@ -84,36 +71,20 @@ public class GlobalSprint1 implements Check, Listener {
 		moveDiff.normalize();
 
 		double diff = moveDiff.distanceSquared(look);
-		double dist = flatTo.distanceSquared(flatFrom);
 
-		if (diff < .5)
-			return;
-
-		List<Double> ds = distances.getOrDefault(player.getUniqueId(), new ArrayList<Double>());
-		ds.add(0, dist);
-		ds.subList(0, Math.min(ds.size(), SIZE));
-		distances.put(player.getUniqueId(), ds);
-
-		double avg = 0;
-		for (double d : ds)
-			avg += d;
-
-		avg /= ds.size();
-
-		if (avg < .5)
-			return;
-
-		cp.flagHack(this, (int) ((avg - .5) * 20), "Avg: &e" + avg);
+		if ((diff + "").contains("0000000000")) {
+			cp.flagHack(this, 20);
+		}
 	}
 
 	@Override
 	public String getCategory() {
-		return "GlobalSprint";
+		return "Speed";
 	}
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#1";
+		return getCategory() + "#5";
 	}
 
 	@Override
