@@ -21,8 +21,6 @@ import xyz.msws.nope.utils.MSG;
  */
 public class MessageListener extends AbstractModule implements PluginMessageListener {
 
-	private NOPE plugin;
-
 	public MessageListener(NOPE plugin) {
 		super(plugin);
 	}

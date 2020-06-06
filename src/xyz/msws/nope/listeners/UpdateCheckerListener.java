@@ -25,8 +25,6 @@ import xyz.msws.nope.utils.Utils.Age;
  */
 public class UpdateCheckerListener extends AbstractModule implements Listener {
 
-	private NOPE plugin;
-
 	public UpdateCheckerListener(NOPE plugin) {
 		super(plugin);
 	}
