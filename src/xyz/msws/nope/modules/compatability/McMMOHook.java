@@ -14,7 +14,7 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.checks.Check;
 
-public class McMMOHook extends AbstractHook {
+public class McMMOHook extends AbstractCompatability {
 
 	public McMMOHook(NOPE plugin) {
 		super(plugin);

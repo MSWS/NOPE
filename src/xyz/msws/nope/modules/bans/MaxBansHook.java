@@ -7,7 +7,7 @@ import org.maxgamer.maxbans.MaxBans;
 
 import xyz.msws.nope.NOPE;
 
-public class MaxBansHook extends BanHook {
+public class MaxBansHook extends AbstractBanHook {
 	private MaxBans bans;
 	private org.maxgamer.maxbans.banmanager.BanManager manager;
 

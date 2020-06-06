@@ -16,10 +16,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.msws.nope.commands.NOPECommand;
-import xyz.msws.nope.listeners.GUIListener;
+import xyz.msws.nope.listeners.GUIManager;
 import xyz.msws.nope.listeners.LogImplementation;
 import xyz.msws.nope.listeners.LoginAndQuit;
 import xyz.msws.nope.listeners.MessageListener;
@@ -28,7 +29,7 @@ import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.actions.ActionManager;
 import xyz.msws.nope.modules.animations.AnimationManager;
 import xyz.msws.nope.modules.bans.AdvancedBanHook;
-import xyz.msws.nope.modules.bans.BanHook;
+import xyz.msws.nope.modules.bans.AbstractBanHook;
 import xyz.msws.nope.modules.bans.BanManagementHook;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.modules.bans.LiteBansHook;
@@ -38,7 +39,7 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.modules.checks.Global;
 import xyz.msws.nope.modules.checks.TPSManager;
-import xyz.msws.nope.modules.compatability.AbstractHook;
+import xyz.msws.nope.modules.compatability.AbstractCompatability;
 import xyz.msws.nope.modules.compatability.CrazyEnchantsHook;
 import xyz.msws.nope.modules.compatability.McMMOHook;
 import xyz.msws.nope.modules.compatability.TraincartsHook;
@@ -74,7 +75,7 @@ public class NOPE extends JavaPlugin {
 
 	private String newVersion = null;
 
-	private Collection<AbstractHook> compatabilities = new ArrayList<>();
+	private Collection<AbstractCompatability> compatabilities = new ArrayList<>();
 
 	private Map<String, Option> options;
 
@@ -83,14 +84,7 @@ public class NOPE extends JavaPlugin {
 	private PlayerManager pManager;
 
 	public void onEnable() {
-		if (!configYml.exists())
-			saveResource("config.yml", true);
-		if (!langYml.exists())
-			saveResource("lang.yml", true);
-		config = YamlConfiguration.loadConfiguration(configYml);
-		data = YamlConfiguration.loadConfiguration(dataYml);
-		lang = YamlConfiguration.loadConfiguration(langYml);
-
+		setupFiles();
 		MSG.plugin = this;
 
 		registerOptions();
@@ -99,20 +93,10 @@ public class NOPE extends JavaPlugin {
 
 		loadModules();
 
-		new NOPECommand(this);
-		new LogImplementation(this);
-		new LoginAndQuit(this);
-		new GUIListener(this);
-
 		uploadCustomCharts();
 		runUpdateCheck();
 
 		compatabilities = loadCompatabilities();
-		for (AbstractHook comp : compatabilities)
-			MSG.log("&7Registered compatability for " + MSG.FORMAT_INFO + comp.getName() + "&7.");
-
-		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new MessageListener(this));
 	}
 
 	private String checkConfigVersion() {
@@ -126,12 +110,24 @@ public class NOPE extends JavaPlugin {
 
 	public void reload() {
 		onDisable();
-		for (AbstractModule mod : modules) {
-			mod.enable();
-		}
+		onEnable();
 	}
 
+	private void setupFiles() {
+		if (!configYml.exists())
+			saveResource("config.yml", true);
+		if (!langYml.exists())
+			saveResource("lang.yml", true);
+		config = YamlConfiguration.loadConfiguration(configYml);
+		data = YamlConfiguration.loadConfiguration(dataYml);
+		lang = YamlConfiguration.loadConfiguration(langYml);
+	}
+
+	/**
+	 * Initialize all modules to resolve any dependency issues
+	 */
 	private void loadModules() {
+		modules = new HashSet<>();
 		modules.add(new ActionManager(this, configYml));
 		modules.add(new PlayerManager(this));
 		modules.add(new TPSManager(this));
@@ -140,6 +136,11 @@ public class NOPE extends JavaPlugin {
 		modules.add(new Stats(this));
 		modules.add(new Global(this));
 		modules.add(hookBans());
+		modules.add(new LogImplementation(this));
+		modules.add(new LoginAndQuit(this));
+		modules.add(new GUIManager(this));
+		modules.add(new MessageListener(this));
+		modules.add(new NOPECommand(this));
 		if (options.get("gscoreboard").asBoolean()) {
 			modules.add(new ScoreboardModule(this));
 			modules.add(new ScoreboardAssigner(this));
@@ -183,8 +184,8 @@ public class NOPE extends JavaPlugin {
 		return null;
 	}
 
-	private Collection<AbstractHook> loadCompatabilities() {
-		Set<AbstractHook> cs = new HashSet<>();
+	private Collection<AbstractCompatability> loadCompatabilities() {
+		Set<AbstractCompatability> cs = new HashSet<>();
 		if (Bukkit.getPluginManager().isPluginEnabled("mcMMO"))
 			cs.add(new McMMOHook(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("CrazyEnchantments"))
@@ -192,10 +193,14 @@ public class NOPE extends JavaPlugin {
 		if (Bukkit.getPluginManager().isPluginEnabled("Train_Carts")
 				|| Bukkit.getPluginManager().isPluginEnabled("TrainCarts"))
 			cs.add(new TraincartsHook(this));
+
+		for (AbstractCompatability comp : compatabilities)
+			MSG.log("&7Registered compatability for " + MSG.FORMAT_INFO + comp.getName() + "&7.");
+
 		return cs;
 	}
 
-	private BanHook hookBans() {
+	private AbstractBanHook hookBans() {
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
 			MSG.log("Successfully hooked into AdvancedBans.");
 			return new AdvancedBanHook(this);
@@ -327,19 +332,37 @@ public class NOPE extends JavaPlugin {
 		return pluginInfo;
 	}
 
+	/**
+	 * Gets the server's bungee name, if BungeeNameOverride is set it returns that
+	 * instead
+	 * 
+	 * @return
+	 */
 	public String getServerName() {
 		if (!config.getString("BungeeNameOverride", "").isEmpty())
 			return config.getString("BungeeNameOverride");
 		return serverName;
 	}
 
+	/**
+	 * Sets the server name from the bungee network, does not override the config
+	 * value
+	 * 
+	 * @param name
+	 */
 	public void setServerName(String name) {
 		this.serverName = name;
 	}
 
+	/**
+	 * Disables all modules, unregisters listeners, and cancels all tasks
+	 */
 	public void onDisable() {
 		for (AbstractModule mod : modules)
 			mod.disable();
+
+		HandlerList.unregisterAll(this);
+		Bukkit.getScheduler().cancelTasks(this);
 	}
 
 	public void saveData() {
@@ -395,7 +418,7 @@ public class NOPE extends JavaPlugin {
 	/**
 	 * @return the compatabilities
 	 */
-	public Collection<AbstractHook> getCompatabilities() {
+	public Collection<AbstractCompatability> getCompatabilities() {
 		return compatabilities;
 	}
 
@@ -404,7 +427,7 @@ public class NOPE extends JavaPlugin {
 	 * 
 	 * @param hook
 	 */
-	public void registerCompatability(AbstractHook hook) {
+	public void registerCompatability(AbstractCompatability hook) {
 		hook.enable();
 		compatabilities.add(hook);
 	}

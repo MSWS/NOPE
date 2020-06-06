@@ -10,7 +10,7 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.checks.Check;
 
-public class CrazyEnchantsHook extends AbstractHook {
+public class CrazyEnchantsHook extends AbstractCompatability {
 
 	private CrazyEnchantments ce;
 

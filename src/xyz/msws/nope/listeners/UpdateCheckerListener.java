@@ -13,6 +13,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Utils.Age;
 
@@ -22,14 +23,12 @@ import xyz.msws.nope.utils.Utils.Age;
  * @author imodm
  *
  */
-public class UpdateCheckerListener implements Listener {
+public class UpdateCheckerListener extends AbstractModule implements Listener {
 
 	private NOPE plugin;
 
 	public UpdateCheckerListener(NOPE plugin) {
-		this.plugin = plugin;
-
-		Bukkit.getPluginManager().registerEvents(this, this.plugin);
+		super(plugin);
 	}
 
 	@EventHandler
@@ -55,5 +54,14 @@ public class UpdateCheckerListener implements Listener {
 
 		player.spigot().sendMessage(message);
 
+	}
+
+	@Override
+	public void enable() {
+		Bukkit.getPluginManager().registerEvents(this, this.plugin);
+	}
+
+	@Override
+	public void disable() {
 	}
 }

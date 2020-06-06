@@ -26,35 +26,15 @@ import xyz.msws.nope.commands.sub.TimeSubcommand;
 import xyz.msws.nope.commands.sub.ToggleSubcommand;
 import xyz.msws.nope.commands.sub.VLSubcommand;
 import xyz.msws.nope.commands.sub.WarnSubcommand;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 
-public class NOPECommand implements CommandExecutor, TabCompleter {
-	@SuppressWarnings("unused")
-	private NOPE plugin;
+public class NOPECommand extends AbstractModule implements CommandExecutor, TabCompleter {
 
 	private Map<String, Subcommand> subs;
 
 	public NOPECommand(NOPE plugin) {
-		this.plugin = plugin;
-
-		subs = new HashMap<>();
-		subs.put("testlag", new TestlagSubcommand(plugin));
-		subs.put("clear", new ClearSubcommand(plugin));
-		subs.put("vl", new VLSubcommand(plugin));
-		subs.put("reload", new ReloadSubcommand(plugin));
-		subs.put("reset", new ResetSubcommand(plugin));
-		subs.put("time", new TimeSubcommand(plugin));
-		subs.put("banwave", new BanwaveSubcommand(plugin));
-		subs.put("removebanwave", new RemovebanwaveSubcommand(plugin));
-		subs.put("stats", new StatsSubcommand(plugin));
-		subs.put("enablechecks", new EnablechecksSubcommand(plugin));
-		subs.put("online", new OnlineSubcommand(plugin));
-		subs.put("testanimation", new TestAnimationSubcommand(plugin));
-		subs.put("warn", new WarnSubcommand(plugin));
-		subs.put("toggle", new ToggleSubcommand(plugin));
-		subs.put("checks", new ChecksSubcommand(plugin));
-
-		plugin.getCommand("nope").setExecutor(this);
+		super(plugin);
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -106,5 +86,33 @@ public class NOPECommand implements CommandExecutor, TabCompleter {
 		}
 
 		return result.isEmpty() ? null : result;
+	}
+
+	@Override
+	public void enable() {
+		subs = new HashMap<>();
+		subs.put("testlag", new TestlagSubcommand(plugin));
+		subs.put("clear", new ClearSubcommand(plugin));
+		subs.put("vl", new VLSubcommand(plugin));
+		subs.put("reload", new ReloadSubcommand(plugin));
+		subs.put("reset", new ResetSubcommand(plugin));
+		subs.put("time", new TimeSubcommand(plugin));
+		subs.put("banwave", new BanwaveSubcommand(plugin));
+		subs.put("removebanwave", new RemovebanwaveSubcommand(plugin));
+		subs.put("stats", new StatsSubcommand(plugin));
+		subs.put("enablechecks", new EnablechecksSubcommand(plugin));
+		subs.put("online", new OnlineSubcommand(plugin));
+		subs.put("testanimation", new TestAnimationSubcommand(plugin));
+		subs.put("warn", new WarnSubcommand(plugin));
+		subs.put("toggle", new ToggleSubcommand(plugin));
+		subs.put("checks", new ChecksSubcommand(plugin));
+
+		plugin.getCommand("nope").setExecutor(this);
+	}
+
+	@Override
+	public void disable() {
+		// TODO Auto-generated method stub
+
 	}
 }

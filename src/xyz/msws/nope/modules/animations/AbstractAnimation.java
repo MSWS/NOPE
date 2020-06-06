@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.events.AnimationStartEvent;
+import xyz.msws.nope.events.animation.AnimationStartEvent;
 import xyz.msws.nope.modules.actions.ActionGroup;
 import xyz.msws.nope.modules.checks.Check;
 

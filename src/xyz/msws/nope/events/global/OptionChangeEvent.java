@@ -1,4 +1,4 @@
-package xyz.msws.nope.events;
+package xyz.msws.nope.events.global;
 
 import org.bukkit.event.Event;
 

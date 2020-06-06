@@ -9,6 +9,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
 
@@ -18,12 +19,12 @@ import xyz.msws.nope.utils.MSG;
  * @author imodm
  *
  */
-public class MessageListener implements PluginMessageListener {
+public class MessageListener extends AbstractModule implements PluginMessageListener {
 
 	private NOPE plugin;
 
 	public MessageListener(NOPE plugin) {
-		this.plugin = plugin;
+		super(plugin);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -81,5 +82,15 @@ public class MessageListener implements PluginMessageListener {
 		} else {
 			MSG.announce(msg);
 		}
+	}
+
+	@Override
+	public void enable() {
+		Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+		Bukkit.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
+	}
+
+	@Override
+	public void disable() {
 	}
 }

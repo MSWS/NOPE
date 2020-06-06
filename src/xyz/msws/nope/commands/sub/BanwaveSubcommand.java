@@ -41,7 +41,6 @@ public class BanwaveSubcommand extends Subcommand {
 		if (args.length == 1) {
 			MSG.sendPluginMessage(null, "banwave");
 			plugin.getModule(Banwave.class).runBanwave(true).run();
-//			MSG.tell(sender, "&cSuccessfully initiated banwave.");
 			MSG.tell(sender, MSG.getString("BanwaveExecuted", "Executed the banwave"));
 			return CommandResult.SUCCESS;
 		}

@@ -6,7 +6,7 @@ import net.lapismc.lapisbans.api.LapisBansAPIStorage;
 import net.lapismc.lapisbans.api.punishments.core.PunishmentType;
 import xyz.msws.nope.NOPE;
 
-public class LapisHook extends BanHook {
+public class LapisHook extends AbstractBanHook {
 
 	public LapisHook(NOPE plugin) {
 		super(plugin);

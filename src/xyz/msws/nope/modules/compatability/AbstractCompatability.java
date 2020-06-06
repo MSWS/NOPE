@@ -12,9 +12,9 @@ import xyz.msws.nope.modules.AbstractModule;
  * @author imodm
  *
  */
-public abstract class AbstractHook extends AbstractModule implements Listener {
+public abstract class AbstractCompatability extends AbstractModule implements Listener {
 
-	public AbstractHook(NOPE plugin) {
+	public AbstractCompatability(NOPE plugin) {
 		super(plugin);
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

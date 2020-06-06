@@ -12,6 +12,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.data.PlayerManager;
 
 /**
@@ -20,13 +21,10 @@ import xyz.msws.nope.modules.data.PlayerManager;
  * @author imodm
  *
  */
-public class LoginAndQuit implements Listener {
-
-	private NOPE plugin;
+public class LoginAndQuit extends AbstractModule implements Listener {
 
 	public LoginAndQuit(NOPE plugin) {
-		this.plugin = plugin;
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		super(plugin);
 	}
 
 	@EventHandler
@@ -43,5 +41,15 @@ public class LoginAndQuit implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent event) {
 		plugin.getModule(PlayerManager.class).removePlayer(event.getPlayer().getUniqueId());
+	}
+
+	@Override
+	public void enable() {
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+	}
+
+	@Override
+	public void disable() {
+
 	}
 }

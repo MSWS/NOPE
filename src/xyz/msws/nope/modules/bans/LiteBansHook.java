@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 
 import xyz.msws.nope.NOPE;
 
-public class LiteBansHook extends BanHook {
+public class LiteBansHook extends AbstractBanHook {
 
 	// LiteBans has a questionable [b]api[/b]
 

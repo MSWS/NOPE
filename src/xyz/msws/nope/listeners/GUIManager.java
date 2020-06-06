@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.Stats;
@@ -30,14 +31,11 @@ import xyz.msws.nope.utils.MSG;
  * @author imodm
  *
  */
-public class GUIListener implements Listener {
-	private NOPE plugin;
+public class GUIManager extends AbstractModule implements Listener {
 	private Stats stats;
 
-	public GUIListener(NOPE plugin) {
-		this.plugin = plugin;
-		this.stats = plugin.getModule(Stats.class);
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+	public GUIManager(NOPE plugin) {
+		super(plugin);
 	}
 
 	private Map<UUID, String> openCheckType = new HashMap<>();
@@ -165,5 +163,15 @@ public class GUIListener implements Listener {
 		}
 
 		cp.setInventory(null);
+	}
+
+	@Override
+	public void enable() {
+		this.stats = plugin.getModule(Stats.class);
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+	}
+
+	@Override
+	public void disable() {
 	}
 }

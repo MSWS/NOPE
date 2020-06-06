@@ -13,22 +13,19 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
  * Provides context to logs
  * 
- * @author imodm
- * TODO
+ * @author imodm TODO
  *
  */
-public class LogImplementation implements Listener {
-
-	private NOPE plugin;
+public class LogImplementation extends AbstractModule implements Listener {
 
 	public LogImplementation(NOPE plugin) {
-		this.plugin = plugin;
-		Bukkit.getPluginManager().registerEvents(this, this.plugin);
+		super(plugin);
 	}
 
 	@EventHandler
@@ -86,6 +83,15 @@ public class LogImplementation implements Listener {
 		cp.addLogMessage("");
 		cp.addLogMessage("Quit server time:" + System.currentTimeMillis());
 		cp.addLogMessage("");
+	}
+
+	@Override
+	public void enable() {
+		Bukkit.getPluginManager().registerEvents(this, this.plugin);
+	}
+
+	@Override
+	public void disable() {
 	}
 
 }

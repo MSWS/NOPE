@@ -10,7 +10,7 @@ import me.confuser.banmanager.data.PlayerBanData;
 import me.confuser.banmanager.data.PlayerData;
 import xyz.msws.nope.NOPE;
 
-public class BanManagementHook extends BanHook {
+public class BanManagementHook extends AbstractBanHook {
 
 	public BanManagementHook(NOPE plugin) {
 		super(plugin);

@@ -9,7 +9,7 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.checks.Check;
 
-public class TraincartsHook extends AbstractHook {
+public class TraincartsHook extends AbstractCompatability {
 
 	public TraincartsHook(NOPE plugin) {
 		super(plugin);

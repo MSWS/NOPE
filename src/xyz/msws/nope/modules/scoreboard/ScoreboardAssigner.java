@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.events.OptionChangeEvent;
+import xyz.msws.nope.events.global.OptionChangeEvent;
 import xyz.msws.nope.events.player.PlayerOptionChangeEvent;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.data.CPlayer;
