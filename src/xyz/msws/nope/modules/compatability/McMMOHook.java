@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
+import com.gmail.nossr50.api.AbilityAPI;
 import com.gmail.nossr50.datatypes.skills.SuperAbilityType;
 import com.gmail.nossr50.events.skills.abilities.McMMOPlayerAbilityActivateEvent;
 
@@ -27,6 +28,9 @@ public class McMMOHook extends AbstractCompatability {
 		Check check = event.getCheck();
 		Player player = event.getPlayer();
 		if (!check.getCategory().equals("FastBreak"))
+			return;
+
+		if (AbilityAPI.treeFellerEnabled(player))
 			return;
 
 		if (System.currentTimeMillis() - lastTreeFeller.getOrDefault(player.getUniqueId(), 0L) > 1000)

@@ -9,6 +9,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 
 /**
  * Adds VL to the player
+ * 
  * @author imodm
  *
  */

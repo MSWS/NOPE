@@ -1,7 +1,6 @@
 package xyz.msws.nope.modules.npc;
 
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.UUID;
 

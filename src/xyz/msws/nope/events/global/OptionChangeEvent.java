@@ -1,7 +1,6 @@
 package xyz.msws.nope.events.global;
 
 import org.bukkit.event.Event;
-
 import org.bukkit.event.HandlerList;
 
 import xyz.msws.nope.modules.data.Option;
