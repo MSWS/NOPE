@@ -31,8 +31,6 @@ public class LoginAndQuit extends AbstractModule implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF("GetServer");
 		player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
