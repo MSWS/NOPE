@@ -26,6 +26,8 @@ A basic guide on NOPE's API is [here](https://github.com/MSWS/NOPE/wiki/API), an
 ## Permissions / Commands
 The list of permissions and commands are listed [here](https://github.com/MSWS/NOPE/wiki/Permissions).
 
+## Trello
+NOPE has a Trello board where you can view known bugs, features, and changelogs. You can view the trello board [here](https://nope.msws.xyz/trello).
 
 ## Test Server
 A public NOPE Test Server is available at **MSWS.xyz**. Note that this server may not be up-to-date.
