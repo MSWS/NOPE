@@ -18,7 +18,7 @@ A YouTube video showcasing NOPE can be found [here](https://www.youtube.com/watc
 Additionally, a video explaining the configuration of NOPE is [here](https://www.youtube.com/watch?v=XVuXKsJEAkQ).
 
 ## Support
-Please report any false flags, bugs, or suggestions here. General questions can be asked by joining [my Discord](nope.msws.xyz/discord).
+Please report any false flags, bugs, or suggestions here. General questions can be asked by joining [my Discord](https://nope.msws.xyz/discord).
 
 ## API
 A basic guide on NOPE's API is [here](https://github.com/MSWS/NOPE/wiki/API), and the javadoc can be found [here](http://docs.msws.xyz).
