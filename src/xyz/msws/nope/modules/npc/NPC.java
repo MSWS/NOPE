@@ -62,6 +62,8 @@ public class NPC {
 		this.gamemode = NativeGameMode.SURVIVAL;
 		this.contents = new EnumMap<>(ItemSlot.class);
 		this.id = ThreadLocalRandom.current().nextInt(65536);
+		
+		
 		this.invisible = false;
 		this.sneaking = false;
 	}
