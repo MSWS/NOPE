@@ -1,5 +1,6 @@
 package xyz.msws.nope.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -16,11 +17,11 @@ import xyz.msws.nope.NOPE;
  * @author imodm
  *
  */
-public abstract class Subcommand {
+public abstract class AbstractSubcommand {
 
 	protected NOPE plugin;
 
-	public Subcommand(NOPE plugin) {
+	public AbstractSubcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
@@ -30,6 +31,12 @@ public abstract class Subcommand {
 	public abstract String getName();
 
 	public abstract String getUsage();
+
+	public abstract String getDescription();
+
+	public List<String> aliases() {
+		return new ArrayList<>();
+	}
 
 	public String getPermission() {
 		return null;

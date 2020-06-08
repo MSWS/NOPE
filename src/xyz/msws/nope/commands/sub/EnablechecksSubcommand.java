@@ -6,12 +6,12 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.utils.MSG;
 
-public class EnablechecksSubcommand extends Subcommand {
+public class EnablechecksSubcommand extends AbstractSubcommand {
 
 	public EnablechecksSubcommand(NOPE plugin) {
 		super(plugin);
@@ -49,6 +49,15 @@ public class EnablechecksSubcommand extends Subcommand {
 	@Override
 	public String getUsage() {
 		return "";
+	}
+
+	@Override
+	public String getPermission() {
+		return "nope.command."+getName();
+	}
+	@Override
+	public String getDescription() {
+		return "Enable all checks";
 	}
 
 }

@@ -55,6 +55,8 @@ public class ClonedMovement1 implements Check, Listener {
 			return;
 		if (cp.isInClimbingBlock())
 			return;
+		if (cp.isBlockAbove())
+			return;
 		if (cp.isBlockNearby(Material.COBWEB))
 			return;
 		if (cp.timeSince(Stat.BLOCK_PLACE) < 500)

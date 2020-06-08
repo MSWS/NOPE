@@ -9,19 +9,4 @@ Format:
 AllChecksEnabled: '&aSuccessfully enabled all checks.'
 BanwaveExecuted: '&7Successfully executed the banwave'
 BanwaveAdded: '&7Successfully added &e%player% &7to the banwave.'
-
-Help:
-  default:
-  - perm:nope.command.clear &c/nope clear [Player/All] [Hack/All] &7- Clears VLs of players
-  - perm:nope.command.vl &c/nope vl <Player> &7- Tells you VLs
-  - perm:nope.command.toggle &c/nope toggle [Setting] &7- Toggle lagbacks, devmode, etc.
-  - perm:nope.command.reset &c/nope reset &7- Reset configs
-  - perm:nope.command.banwave &c/nope banwave &7- Manually initiates a banwave
-  - perm:nope.command.banwave.addplayer &c/nope banwave [Player] &7Adds a player to the banwave
-  - perm:nope.command.time &c/nope time &7- Shows time to next banwave
-  - perm:nope.command.warn &c/nope warn [Player] h:[Hack] v:[VL]
-  - perm:nope.command.checks &c/nope checks &7- Lists all checks
-  - perm:nope.command.removebanwave &c/nope removebanwave [Player] &7- Removes a player from the banwave
-  - perm:nope.command.stats &c/nope stats &7- View NOPE statistics and manage checks
-  - perm:nope.command.online &c/nope online &7- View NOPE online NOPE plugin statistics
-  - perm:nope.command.enablechecks &c/nope enablechecks &7- Enable all checks
+Querying: '&4NOPE > &7Querying ban details...'

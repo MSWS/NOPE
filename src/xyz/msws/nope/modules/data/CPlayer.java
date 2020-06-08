@@ -516,6 +516,9 @@ public class CPlayer {
 				"TRAP_DOOR", "TRAPDOOR", "WATER_LILLY", "SNOW", "CACTUS", "WEB", "HOPPER", "SWEET_BERRY_BUSH",
 				"SCAFFOLDING" };
 
+		if (timeSince(Stat.COBWEB) < 100)
+			return true;
+
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				for (int y = -1; y <= 1; y++) {
@@ -525,7 +528,6 @@ public class CPlayer {
 							return true;
 					}
 				}
-
 			}
 		}
 		return false;

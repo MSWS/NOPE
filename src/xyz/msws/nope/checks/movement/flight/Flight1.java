@@ -2,7 +2,6 @@ package xyz.msws.nope.checks.movement.flight;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,9 +59,9 @@ public class Flight1 implements Check, Listener {
 		if (to.getY() != from.getY())
 			return;
 
-		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1, 2))
+		if (cp.timeSince(Stat.COBWEB) < 500)
 			return;
-
+		
 		if (cp.timeSince(Stat.TELEPORT) < 500)
 			return;
 

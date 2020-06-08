@@ -62,7 +62,7 @@ public class Timer1 implements Check {
 				long last = System.currentTimeMillis();
 				while (it.hasNext()) {
 					long l = it.next();
-					if (System.currentTimeMillis() - l > 5000)
+					if (System.currentTimeMillis() - l > 10000)
 						it.remove();
 					else {
 						avg += last - l;
@@ -82,7 +82,7 @@ public class Timer1 implements Check {
 				if (cp.timeSince(Stat.JOIN_TIME) < 1000)
 					return;
 				Bukkit.getScheduler().runTask(Timer1.this.plugin, () -> {
-					cp.flagHack(Timer1.this, (int) ((50 - finalAverage) * 10), "Avg: &e" + finalAverage);
+					cp.flagHack(Timer1.this, (int) ((50 - finalAverage) * 5), "Avg: &e" + finalAverage);
 				});
 			}
 

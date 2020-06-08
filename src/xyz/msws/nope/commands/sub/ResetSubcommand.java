@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.utils.MSG;
 
-public class ResetSubcommand extends Subcommand {
+public class ResetSubcommand extends AbstractSubcommand {
 
 	public ResetSubcommand(NOPE plugin) {
 		super(plugin);
@@ -37,6 +37,7 @@ public class ResetSubcommand extends Subcommand {
 		plugin.saveResource("lang.yml", true);
 		plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
 		plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
+		plugin.reload();
 		MSG.tell(sender, "Succesfully reset.");
 		return CommandResult.SUCCESS;
 	}
@@ -46,4 +47,13 @@ public class ResetSubcommand extends Subcommand {
 		return "";
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Reset all NOPE files";
+	}
 }

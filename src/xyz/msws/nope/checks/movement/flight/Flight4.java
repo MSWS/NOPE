@@ -49,6 +49,9 @@ public class Flight4 implements Check, Listener {
 		if (cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
+		if (cp.timeSince(Stat.COBWEB) < 500)
+			return;
+
 		if (player.isInsideVehicle())
 			return;
 
