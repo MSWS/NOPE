@@ -10,6 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -61,9 +63,21 @@ public class NPC {
 		this.ping = 0;
 		this.gamemode = NativeGameMode.SURVIVAL;
 		this.contents = new EnumMap<>(ItemSlot.class);
-		this.id = ThreadLocalRandom.current().nextInt(65536);
-		
-		
+		boolean exists = false;
+
+		do {
+			this.id = ThreadLocalRandom.current().nextInt(65536);
+			for (World w : Bukkit.getWorlds()) {
+				for (Entity ent : w.getEntities()) {
+					if (ent.getEntityId() == this.id)
+						exists = true;
+					break;
+				}
+				if (exists)
+					break;
+			}
+		} while (exists);
+
 		this.invisible = false;
 		this.sneaking = false;
 	}

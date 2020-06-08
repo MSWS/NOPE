@@ -1,8 +1,13 @@
 package xyz.msws.nope.checks.packet;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.naming.OperationNotSupportedException;
 
 import org.bukkit.FluidCollisionMode;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -11,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.RayTraceResult;
 
 import com.comphenix.protocol.PacketType;
@@ -43,6 +49,7 @@ public class PlayerESP2 implements Check, Listener {
 	}
 
 	private PacketAdapter blocker;
+	private Map<UUID, Map<Integer, Boolean>> visible = new HashMap<>();
 
 	@Override
 	public void register(NOPE plugin) throws OperationNotSupportedException {
@@ -109,6 +116,19 @@ public class PlayerESP2 implements Check, Listener {
 	}
 
 	private void set(Player key, Entity ent, boolean cansee) {
+		if (visible.getOrDefault(key.getUniqueId(), new HashMap<>()).getOrDefault(ent.getEntityId(), true) == cansee)
+			return;
+		if (ent instanceof LivingEntity) {
+			if (((LivingEntity) ent).hasPotionEffect(PotionEffectType.INVISIBILITY))
+				return;
+			if (ent instanceof Player)
+				if (((Player) ent).getGameMode() == GameMode.SPECTATOR)
+					return;
+		}
+		Map<Integer, Boolean> vals = visible.getOrDefault(key.getUniqueId(), new HashMap<>());
+		vals.put(ent.getEntityId(), cansee);
+		visible.put(key.getUniqueId(), vals);
+
 		WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 		meta.setEntityID(ent.getEntityId());
 
