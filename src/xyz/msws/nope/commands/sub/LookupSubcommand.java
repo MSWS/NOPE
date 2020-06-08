@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
@@ -28,17 +30,31 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.events.actions.ActionExecuteEvent;
+import xyz.msws.nope.modules.actions.actions.BanAction;
 import xyz.msws.nope.utils.MSG;
 
 public class LookupSubcommand extends AbstractSubcommand {
+	private List<String> tokens = new ArrayList<>();
+
+	private File logs;
 
 	public LookupSubcommand(NOPE plugin) {
 		super(plugin);
+
+		logs = new File(plugin.getDataFolder(), "logs");
+		if (logs == null)
+			return;
+		for (String f : logs.list()) {
+			tokens.add(f.substring(0, f.length() - 4));
+		}
 	}
 
 	@Override
 	public List<String[]> tabCompletions(CommandSender sender) {
-		return null;
+		List<String[]> result = new ArrayList<>();
+		result.add(tokens.toArray(new String[0]));
+		return result;
 	}
 
 	@Override
@@ -157,14 +173,10 @@ public class LookupSubcommand extends AbstractSubcommand {
 			break;
 		}
 
-		MSG.log(String.join(",", log));
-		MSG.log(String.format("%s, %s, %s, %s", player, uuid, hack, vl));
-
 		List<String> vlLines = log.subList(log.indexOf(player + "'s flags:") + 1, log.size());
 		for (String line : vlLines) {
 			if (line.isEmpty())
 				break;
-			MSG.log(line);
 			vls.put(line.split(":")[0], Integer.parseInt(line.split(":")[1].trim()));
 		}
 
@@ -183,6 +195,18 @@ public class LookupSubcommand extends AbstractSubcommand {
 		}
 
 		return result;
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onAction(ActionExecuteEvent event) {
+		if (!event.getAction().getClass().equals(BanAction.class))
+			return;
+		if (logs == null)
+			return;
+		tokens.clear();
+		for (String f : logs.list()) {
+			tokens.add(f.substring(0, f.length() - 4));
+		}
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 					continue;
 				if (completions.size() < args.length - 1)
 					continue;
-				if (!aliases.contains(sub.getName()))
+				if (!aliases.contains(args[0].toLowerCase()))
 					continue;
 				String[] res = completions.get(args.length - 2);
 				for (String r : res)
