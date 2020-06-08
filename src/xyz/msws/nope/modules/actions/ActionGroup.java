@@ -6,8 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import xyz.msws.nope.events.actions.ActionExecuteEvent;
+import xyz.msws.nope.events.actions.ActionGroupExecuteEvent;
 import xyz.msws.nope.modules.actions.actions.DelayAction;
 import xyz.msws.nope.modules.checks.Check;
 
@@ -34,6 +37,11 @@ public class ActionGroup implements List<AbstractAction> {
 	}
 
 	public void activate(OfflinePlayer player, Check check) {
+		ActionGroupExecuteEvent event = new ActionGroupExecuteEvent(this, player, check);
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
+
 		for (int i = 0; i < this.size(); i++) {
 			AbstractAction act = this.get(i);
 			if (act instanceof AbstractConditionalAction) {
@@ -47,6 +55,11 @@ public class ActionGroup implements List<AbstractAction> {
 					break;
 				}
 			}
+
+			ActionExecuteEvent e = new ActionExecuteEvent(act, player, check);
+			Bukkit.getPluginManager().callEvent(e);
+			if (e.isCancelled())
+				continue;
 			act.execute(player, check);
 		}
 	}
