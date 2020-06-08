@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
 
-public class TestlagSubcommand extends Subcommand {
+public class TestlagSubcommand extends AbstractSubcommand {
 
 	public TestlagSubcommand(NOPE plugin) {
 		super(plugin);
@@ -51,4 +51,13 @@ public class TestlagSubcommand extends Subcommand {
 		return "<delay>";
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Test server-sided lag";
+	}
 }

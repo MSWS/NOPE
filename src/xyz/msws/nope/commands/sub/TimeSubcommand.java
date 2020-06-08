@@ -6,11 +6,11 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
 
-public class TimeSubcommand extends Subcommand {
+public class TimeSubcommand extends AbstractSubcommand {
 
 	public TimeSubcommand(NOPE plugin) {
 		super(plugin);
@@ -41,4 +41,13 @@ public class TimeSubcommand extends Subcommand {
 		return "";
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+	
+	@Override
+	public String getDescription() {
+		return "View time until next banwave";
+	}
 }

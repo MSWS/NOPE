@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
-public class WarnSubcommand extends Subcommand {
+public class WarnSubcommand extends AbstractSubcommand {
 
 	public WarnSubcommand(NOPE plugin) {
 		super(plugin);
@@ -102,4 +102,13 @@ public class WarnSubcommand extends Subcommand {
 		return "[player] h:[hack] v:[vl]";
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+
+	@Override
+	public String getDescription() {
+		return "Manually flag a player";
+	}
 }

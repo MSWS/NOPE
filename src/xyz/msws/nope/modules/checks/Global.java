@@ -107,6 +107,10 @@ public class Global extends AbstractModule implements Listener {
 		if (cp.isBlockNearby(Material.LILY_PAD))
 			cp.setTempData(Stat.LILY_PAD, time);
 
+		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1.0)
+				|| cp.isBlockNearby(Material.COBWEB, 2.0))
+			cp.setTempData(Stat.COBWEB, System.currentTimeMillis());
+
 		if (climbing)
 			cp.setTempData(Stat.CLIMBING, time);
 
@@ -371,7 +375,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player was near a lily pad
 		 */
-		LILY_PAD;
+		LILY_PAD,
+		/**
+		 * Last time the player was in cobweb
+		 */
+		COBWEB;
 	}
 
 	@Override

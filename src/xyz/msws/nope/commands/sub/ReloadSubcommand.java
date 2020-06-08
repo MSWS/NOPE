@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.utils.MSG;
 
-public class ReloadSubcommand extends Subcommand {
+public class ReloadSubcommand extends AbstractSubcommand {
 
 	public ReloadSubcommand(NOPE plugin) {
 		super(plugin);
@@ -43,6 +43,16 @@ public class ReloadSubcommand extends Subcommand {
 	@Override
 	public String getUsage() {
 		return "";
+	}
+
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+
+	@Override
+	public String getDescription() {
+		return "Reload NOPE configuration and plugin";
 	}
 
 }

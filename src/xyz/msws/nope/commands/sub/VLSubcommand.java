@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.PlayerManager;
 import xyz.msws.nope.utils.MSG;
 
-public class VLSubcommand extends Subcommand {
+public class VLSubcommand extends AbstractSubcommand {
 
 	public VLSubcommand(NOPE plugin) {
 		super(plugin);
@@ -92,6 +92,16 @@ public class VLSubcommand extends Subcommand {
 	@Override
 	public String getUsage() {
 		return "<target>";
+	}
+
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+	
+	@Override
+	public String getDescription() {
+		return "View VLs of a player";
 	}
 
 }

@@ -48,7 +48,10 @@ public class Spider1 implements Check, Listener {
 			return;
 		if (to.getY() < from.getY())
 			return;
-		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.SCAFFOLDING))
+		if (cp.isBlockNearby(Material.SCAFFOLDING))
+			return;
+
+		if (cp.timeSince(Stat.COBWEB) < 500)
 			return;
 
 		if (cp.hasMovementRelatedPotion())

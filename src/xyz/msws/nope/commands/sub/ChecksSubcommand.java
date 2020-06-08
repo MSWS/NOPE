@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.utils.MSG;
 
-public class ChecksSubcommand extends Subcommand {
+public class ChecksSubcommand extends AbstractSubcommand {
 
 	private Checks checks;
 
@@ -69,6 +69,16 @@ public class ChecksSubcommand extends Subcommand {
 
 		MSG.tell(sender, "&c&lTotal Checks: &4" + checks.getAllChecks().size());
 		return CommandResult.SUCCESS;
+	}
+
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+
+	@Override
+	public String getDescription() {
+		return "List all NOPE checks";
 	}
 
 }

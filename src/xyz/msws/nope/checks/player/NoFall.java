@@ -11,12 +11,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
+import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 public class NoFall implements Check, Listener {
@@ -42,6 +45,18 @@ public class NoFall implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		Location loc = player.getLocation();
 		Vector vel = player.getVelocity();
+
+		if (cp.timeSince(Stat.COBWEB) < 100) {
+			highest.remove(player.getUniqueId());
+			return;
+		}
+
+		if (player.getLocation().getBlock().isLiquid())
+			return;
+
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
+			return;
+
 		if (vel.getY() > 0) {
 			if (highest.getOrDefault(player.getUniqueId(), 0d) < loc.getY())
 				highest.put(player.getUniqueId(), loc.getY());
@@ -62,7 +77,17 @@ public class NoFall implements Check, Listener {
 					String.format("Expected: &e%.3f&7\nReceived: &a%.3f", dist, player.getFallDistance()));
 			return;
 		}
+	}
 
+	@EventHandler
+	public void onTeleport(PlayerTeleportEvent event) {
+		Player player = event.getPlayer();
+		highest.put(player.getUniqueId(), player.getLocation().getY());
+	}
+
+	@EventHandler
+	public void onSwap(PlayerChangedWorldEvent event) {
+		highest.remove(event.getPlayer().getUniqueId());
 	}
 
 	@Override

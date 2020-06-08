@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
 
-public class RemovebanwaveSubcommand extends Subcommand {
+public class RemovebanwaveSubcommand extends AbstractSubcommand {
 
 	public RemovebanwaveSubcommand(NOPE plugin) {
 		super(plugin);
@@ -56,4 +56,13 @@ public class RemovebanwaveSubcommand extends Subcommand {
 		return "[player]";
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+
+	@Override
+	public String getDescription() {
+		return "Remove a player from the banwave";
+	}
 }

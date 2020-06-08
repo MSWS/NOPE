@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
-import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.commands.AbstractSubcommand;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
 
@@ -17,7 +17,7 @@ import xyz.msws.nope.utils.MSG;
  * @author imodm
  *
  */
-public class BanwaveSubcommand extends Subcommand {
+public class BanwaveSubcommand extends AbstractSubcommand {
 
 	public BanwaveSubcommand(NOPE plugin) {
 		super(plugin);
@@ -76,6 +76,16 @@ public class BanwaveSubcommand extends Subcommand {
 	@Override
 	public String getUsage() {
 		return "[player] [duration] [reason]";
+	}
+
+	@Override
+	public String getPermission() {
+		return "nope.command." + getName();
+	}
+
+	@Override
+	public String getDescription() {
+		return "Manage the banwave";
 	}
 
 }
