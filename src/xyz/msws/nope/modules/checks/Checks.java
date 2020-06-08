@@ -72,7 +72,8 @@ import xyz.msws.nope.checks.player.AutoSwitch1;
 import xyz.msws.nope.checks.player.AutoTool1;
 import xyz.msws.nope.checks.player.FastEat1;
 import xyz.msws.nope.checks.player.GhostHand2;
-import xyz.msws.nope.checks.player.NoFall;
+import xyz.msws.nope.checks.player.NoFall1;
+import xyz.msws.nope.checks.player.NoFall2;
 import xyz.msws.nope.checks.player.SafeWalk1;
 import xyz.msws.nope.checks.player.SelfHarm1;
 import xyz.msws.nope.checks.player.Zoot1;
@@ -192,7 +193,7 @@ public class Checks extends AbstractModule {
 				new SelfHarm1(), new AntiKB1(), new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(),
 				new FastBreak1(), new Spider1(), new Glide1(), new BHop1(), new GhostHand2(), new Speed5(),
 				new AutoBuild1(), new Speed4(), new Jesus1(), new Jesus2(), new Step1(), new ElytraFlight1(),
-				new KillAura1(), new KillAura2(), new NoFall()));
+				new KillAura1(), new KillAura2(), new NoFall1(), new NoFall2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer1(),

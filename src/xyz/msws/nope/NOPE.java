@@ -160,7 +160,7 @@ public class NOPE extends JavaPlugin {
 		options.put("updatechecker", new ConfigOption(config, "UpdateChecker.Enabled", true, false));
 		options.put("bungeename", new ConfigOption(config, "BungeeNameOverride", (Object[]) null));
 		options.put("dev", new ConfigOption(config, "DevMode", true, false));
-		options.put("debug", new ConfigOption(config, "Debug", Arrays.asList(false, true)));
+		options.put("debug", new ConfigOption(config, "DebugMode", Arrays.asList(false, true)));
 	}
 
 	private void enableModules() {

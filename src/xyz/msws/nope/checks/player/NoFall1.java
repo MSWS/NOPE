@@ -22,7 +22,7 @@ import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
-public class NoFall implements Check, Listener {
+public class NoFall1 implements Check, Listener {
 
 	@Override
 	public CheckType getType() {
@@ -46,7 +46,7 @@ public class NoFall implements Check, Listener {
 		Location loc = player.getLocation();
 		Vector vel = player.getVelocity();
 
-		if (cp.timeSince(Stat.COBWEB) < 100) {
+		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding()) {
 			highest.remove(player.getUniqueId());
 			return;
 		}
@@ -60,7 +60,7 @@ public class NoFall implements Check, Listener {
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (vel.getY() > 0) {
+		if (vel.getY() >= 0 || player.isFlying()) {
 			if (highest.getOrDefault(player.getUniqueId(), 0d) < loc.getY())
 				highest.put(player.getUniqueId(), loc.getY());
 			return;
@@ -69,6 +69,7 @@ public class NoFall implements Check, Listener {
 		if (player.isOnGround()) {
 			if (!highest.containsKey(player.getUniqueId()))
 				return;
+
 			double dist = highest.get(player.getUniqueId()) - loc.getY();
 			double diff = (highest.get(player.getUniqueId()) - loc.getY()) - player.getFallDistance();
 			highest.put(player.getUniqueId(), loc.getY());
@@ -76,7 +77,7 @@ public class NoFall implements Check, Listener {
 			if (diff < .3)
 				return;
 
-			cp.flagHack(this, (int) Math.abs(diff * 20) + 5,
+			cp.flagHack(this, Math.min((int) Math.abs(diff * 10) + 5, 30),
 					String.format("Expected: &e%.3f&7\nReceived: &a%.3f", dist, player.getFallDistance()));
 			return;
 		}
