@@ -54,7 +54,7 @@ public class ScoreboardAssigner extends AbstractModule implements Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (!cp.getOption("scoreboard").asBoolean() || !plugin.getOption("gscoreboard").asBoolean()) {
-			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+			sb.removeScoreboard(player);
 			return;
 		}
 

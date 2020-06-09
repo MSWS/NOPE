@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 
 import xyz.msws.nope.NOPE;
@@ -46,7 +47,7 @@ public class NoFall1 implements Check, Listener {
 		Location loc = player.getLocation();
 		Vector vel = player.getVelocity();
 
-		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding()) {
+		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding() || player.isFlying()) {
 			highest.remove(player.getUniqueId());
 			return;
 		}
@@ -60,7 +61,7 @@ public class NoFall1 implements Check, Listener {
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (vel.getY() >= 0 || player.isFlying()) {
+		if (vel.getY() >= 0) {
 			if (highest.getOrDefault(player.getUniqueId(), 0d) < loc.getY())
 				highest.put(player.getUniqueId(), loc.getY());
 			return;
@@ -92,6 +93,13 @@ public class NoFall1 implements Check, Listener {
 	@EventHandler
 	public void onSwap(PlayerChangedWorldEvent event) {
 		highest.remove(event.getPlayer().getUniqueId());
+	}
+
+	@EventHandler
+	public void onToggle(PlayerToggleFlightEvent event) {
+		if (!event.isFlying())
+			return;
+		highest.put(event.getPlayer().getUniqueId(), event.getPlayer().getLocation().getY());
 	}
 
 	@Override
