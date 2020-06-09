@@ -41,7 +41,7 @@ public class Flight3 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
+		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || player.isRiptiding())
 			return;
 
 		if (cp.hasMovementRelatedPotion())
@@ -50,7 +50,7 @@ public class Flight3 implements Check, Listener {
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.BLOCK_PLACE) < 1000)

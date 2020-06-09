@@ -52,7 +52,7 @@ public class Speed3 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
 			return;

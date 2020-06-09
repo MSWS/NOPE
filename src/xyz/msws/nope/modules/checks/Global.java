@@ -21,6 +21,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerRiptideEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
@@ -38,6 +39,13 @@ public class Global extends AbstractModule implements Listener {
 			CPlayer cp = plugin.getCPlayer(player);
 			cp.setTempData(Stat.JOIN_TIME, System.currentTimeMillis());
 		}
+	}
+
+	@EventHandler
+	public void onRiptid(PlayerRiptideEvent event) {
+		Player player = event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(player);
+		cp.setTempData(Stat.RIPTIDE, System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -125,6 +133,9 @@ public class Global extends AbstractModule implements Listener {
 
 		if (player.isSprinting())
 			cp.setTempData(Stat.SPRINTING, time);
+
+		if (player.isRiptiding())
+			cp.setTempData(Stat.RIPTIDE, time);
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
 			cp.setTempData(Stat.HORIZONTAL_BLOCKCHANGE, time);
@@ -379,7 +390,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player was in cobweb
 		 */
-		COBWEB;
+		COBWEB,
+		/**
+		 * Last time the player activated riptide
+		 */
+		RIPTIDE;
 	}
 
 	@Override

@@ -126,6 +126,8 @@ public class ScoreboardModule extends AbstractModule {
 
 	public void removeScoreboard(Player p) {
 		assigned.remove(p.getUniqueId());
+		if (sman == null)
+			return;
 		p.setScoreboard(sman.getMainScoreboard());
 	}
 

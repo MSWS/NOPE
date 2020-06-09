@@ -43,6 +43,9 @@ public class Speed4 implements Check, Listener {
 		if (player.isFlying() || player.isGliding())
 			return;
 
+		if (cp.timeSince(Stat.RIPTIDE) < 2000)
+			return;
+
 		if (cp.hasMovementRelatedPotion())
 			return;
 

@@ -46,8 +46,10 @@ public class Spider1 implements Check, Listener {
 
 		if (player.isOnGround() || player.isFlying())
 			return;
+
 		if (to.getY() < from.getY())
 			return;
+
 		if (cp.isBlockNearby(Material.SCAFFOLDING))
 			return;
 
@@ -57,11 +59,12 @@ public class Spider1 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
+
 		if (cp.isInClimbingBlock())
 			return;
 

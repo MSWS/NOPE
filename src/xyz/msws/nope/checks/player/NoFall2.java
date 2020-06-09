@@ -36,12 +36,18 @@ public class NoFall2 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		Vector vel = player.getVelocity();
 
+		if (player.isRiptiding())
+			return;
+
+		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
+			return;
+
 		double yDiff = event.getTo().getY() - event.getFrom().getY();
 
 		if (yDiff <= 0 || vel.getY() >= -0.0784000015258789)
 			return;
 
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500 || cp.timeSince(Stat.FLYING) < 500)
 			return;
 
 		cp.flagHack(this, 5, String.format("&c%s &7vs &e%s", vel.getY(), yDiff));
