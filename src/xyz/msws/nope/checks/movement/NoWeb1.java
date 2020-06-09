@@ -51,6 +51,9 @@ public class NoWeb1 implements Check, Listener {
 		if (player.getLocation().getBlock().getType() != Material.COBWEB)
 			return;
 
+		if (cp.isBlockNearby("SLAB"))
+			return;
+
 		double diff = event.getTo().distanceSquared(event.getFrom());
 
 		if (diff < .012)

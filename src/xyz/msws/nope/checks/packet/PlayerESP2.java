@@ -10,6 +10,7 @@ import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -102,11 +103,23 @@ public class PlayerESP2 implements Check, Listener {
 	}
 
 	private void runCheck(Player player, Entity ent) {
+		if (ent instanceof ArmorStand) {
+			if (!((ArmorStand) ent).isVisible()) {
+				set(player, ent, false);
+				return;
+			}
+		}
 		if (canSee(player.getEyeLocation(), ent.getLocation())) {
 			set(player, ent, true);
 			return;
 		}
 		if (ent instanceof LivingEntity) {
+			if (((LivingEntity) ent).hasPotionEffect(PotionEffectType.INVISIBILITY))
+				return;
+			if (ent instanceof Player)
+				if (((Player) ent).getGameMode() == GameMode.SPECTATOR)
+					return;
+
 			if (canSee(player.getEyeLocation(), ((LivingEntity) ent).getEyeLocation())) {
 				set(player, ent, true);
 				return;
@@ -118,13 +131,7 @@ public class PlayerESP2 implements Check, Listener {
 	private void set(Player key, Entity ent, boolean cansee) {
 		if (visible.getOrDefault(key.getUniqueId(), new HashMap<>()).getOrDefault(ent.getEntityId(), true) == cansee)
 			return;
-		if (ent instanceof LivingEntity) {
-			if (((LivingEntity) ent).hasPotionEffect(PotionEffectType.INVISIBILITY))
-				return;
-			if (ent instanceof Player)
-				if (((Player) ent).getGameMode() == GameMode.SPECTATOR)
-					return;
-		}
+
 		Map<Integer, Boolean> vals = visible.getOrDefault(key.getUniqueId(), new HashMap<>());
 		vals.put(ent.getEntityId(), cansee);
 		visible.put(key.getUniqueId(), vals);

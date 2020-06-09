@@ -25,7 +25,7 @@ import xyz.msws.nope.utils.MSG;
  */
 public class ScoreboardModule extends AbstractModule {
 
-	private ScoreboardManager scoreboardManager;
+	private ScoreboardManager sman;
 
 	private Map<UUID, CScoreboard> assigned = new HashMap<>();
 
@@ -37,7 +37,7 @@ public class ScoreboardModule extends AbstractModule {
 
 	@Override
 	public void enable() {
-		this.scoreboardManager = Bukkit.getScoreboardManager();
+		this.sman = Bukkit.getScoreboardManager();
 
 		assigned = new HashMap<UUID, CScoreboard>();
 
@@ -82,13 +82,19 @@ public class ScoreboardModule extends AbstractModule {
 	private void setLine(Player player, int line, String value) {
 		Scoreboard board = player.getScoreboard();
 		Objective obj;
-		if (board == null || board.getObjective("nope") == null) {
-			board = scoreboardManager.getNewScoreboard();
+		if (board == null) {
+			board = player.getScoreboard() == null ? sman.getMainScoreboard() : player.getScoreboard();
+			MSG.tell(player, player.getScoreboard() + "");
 			player.setScoreboard(board);
+		}
 
+		obj = board.getObjective("nope");
+
+		if (obj == null) {
 			obj = board.registerNewObjective("nope", "dummy", "nope");
 			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		}
+
 		ChatColor[] vals = ChatColor.values();
 
 		if (value == null) {
@@ -96,8 +102,6 @@ public class ScoreboardModule extends AbstractModule {
 				board.resetScores(vals[line] + "" + ChatColor.RESET);
 			return;
 		}
-
-		obj = board.getObjective("nope");
 
 		Validate.isTrue(value.length() <= 124, "Value cannot exceed length of 124", value);
 
@@ -122,6 +126,7 @@ public class ScoreboardModule extends AbstractModule {
 
 	public void removeScoreboard(Player p) {
 		assigned.remove(p.getUniqueId());
+		p.setScoreboard(sman.getMainScoreboard());
 	}
 
 }
