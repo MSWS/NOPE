@@ -24,4 +24,10 @@ public class NativeBanHook extends AbstractBanHook {
 			p.getPlayer().kickPlayer(reason);
 	}
 
+	@Override
+	public int bans(UUID player) {
+		return (int) Bukkit.getBanList(Type.NAME).getBanEntries().parallelStream()
+				.filter(b -> b.getTarget().equals(player.toString())).count();
+	}
+
 }

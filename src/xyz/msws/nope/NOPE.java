@@ -51,6 +51,7 @@ import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.modules.npc.NPCModule;
 import xyz.msws.nope.modules.scoreboard.ScoreboardAssigner;
 import xyz.msws.nope.modules.scoreboard.ScoreboardModule;
+import xyz.msws.nope.modules.trust.TrustFactor;
 import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Metrics;
 import xyz.msws.nope.utils.Metrics.CustomChart;
@@ -103,6 +104,8 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.6":
+				return "Your config is up-to-date.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}
@@ -145,6 +148,7 @@ public class NOPE extends JavaPlugin {
 			modules.add(new ScoreboardModule(this));
 			modules.add(new ScoreboardAssigner(this));
 		}
+		modules.add(new TrustFactor(this));
 
 		modules.add(new AnimationManager(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))

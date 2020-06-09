@@ -13,6 +13,7 @@ import org.bukkit.util.Vector;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.data.CPlayer;
+import xyz.msws.nope.modules.trust.TrustFactor;
 import xyz.msws.nope.utils.MSG;
 
 /**
@@ -62,13 +63,14 @@ public class DevScoreboard extends CScoreboard implements Listener {
 				to.getZ() - from.getZ()));
 		lines.add(String.format("&9Fall: &e%.3f &9DST: &a%.3f &3(&7%s&3)", player.getFallDistance(), dst,
 				MSG.camelCase(bottom.getType().toString())));
-//		lines.add(String.format("&9DST: &b%.3f &b(&a%s&b)", dst,
-//				MSG.camelCase(player.getLocation().clone().subtract(0, dst, 0).getBlock().getType().toString())));
 		lines.add("");
 		lines.add(String.format("&9In: &e%s &7(S: %s&7, L: %s&7)", MSG.camelCase(to.getBlock().getType().toString()),
 				MSG.TorF(to.getBlock().getType().isSolid()), MSG.TorF(to.getBlock().isLiquid())));
 
 		lines.add(String.format("&9OnGround&7: %s", MSG.TorF(player.isOnGround())));
+		lines.add(String.format("&9Trust: &e%.2f",
+				plugin.getModule(TrustFactor.class).recalculate(player.getUniqueId())));
+
 		lines.add("");
 
 		Collections.reverse(lines);

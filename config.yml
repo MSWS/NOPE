@@ -13,7 +13,7 @@
 #                                                                                    
 #             ----------------------------------------------------------             
 
-ConfigVersion: 1.6
+ConfigVersion: 1.6.0.1
 
 #                           -------------------------------                          
 #                                Global Configuration                                
@@ -183,6 +183,8 @@ Actions:
   - 'basiclog|vl>200|ikick|vl>500|delay:120000|kick:Irregular Gameplay|vl>600|cban'
   NoFall:
   - 'basiclog|vl>300|ikick|vl>800|cban'
+  SafeWalk:
+  - 'basiclog'
   Default:
   - 'basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   # You can specify multiple actiongroups for one category

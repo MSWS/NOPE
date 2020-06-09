@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 
+import me.leoko.advancedban.manager.PunishmentManager;
 import me.leoko.advancedban.utils.Punishment;
 import me.leoko.advancedban.utils.PunishmentType;
 import xyz.msws.nope.NOPE;
@@ -21,6 +22,11 @@ public class AdvancedBanHook extends AbstractBanHook {
 		String name = Bukkit.getOfflinePlayer(player).getName();
 		PunishmentType type = (time == -1) ? PunishmentType.BAN : PunishmentType.TEMP_BAN;
 		Punishment.create(name, player.toString(), reason, "NOPE", type, System.currentTimeMillis() + time, null, true);
+	}
+
+	@Override
+	public int bans(UUID player) {
+		return PunishmentManager.get().getPunishments(player.toString(), PunishmentType.BAN, false).size();
 	}
 
 }

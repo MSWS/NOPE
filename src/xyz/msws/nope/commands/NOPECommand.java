@@ -18,6 +18,7 @@ import xyz.msws.nope.commands.sub.TestAnimationSubcommand;
 import xyz.msws.nope.commands.sub.TestlagSubcommand;
 import xyz.msws.nope.commands.sub.TimeSubcommand;
 import xyz.msws.nope.commands.sub.ToggleSubcommand;
+import xyz.msws.nope.commands.sub.TrustSubcommand;
 import xyz.msws.nope.commands.sub.VLSubcommand;
 import xyz.msws.nope.commands.sub.WarnSubcommand;
 import xyz.msws.nope.utils.MSG;
@@ -68,6 +69,7 @@ public class NOPECommand extends AbstractCommand {
 		subcommands.add(new ToggleSubcommand(plugin));
 		subcommands.add(new ChecksSubcommand(plugin));
 		subcommands.add(new LookupSubcommand(plugin));
+		subcommands.add(new TrustSubcommand(plugin));
 	}
 
 	@Override

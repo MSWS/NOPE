@@ -26,4 +26,9 @@ public class MaxBansHook extends AbstractBanHook {
 		}
 		manager.tempban(Bukkit.getOfflinePlayer(player).getName(), reason, "NOPE", System.currentTimeMillis() + time);
 	}
+
+	@Override
+	public int bans(UUID player) {
+		return MaxBans.instance.getBanManager().getHistory(player.toString()).length;
+	}
 }
