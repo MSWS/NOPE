@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.animations.AnimationManager;
 import xyz.msws.nope.modules.animations.AnimationManager.AnimationType;
 import xyz.msws.nope.modules.checks.Check;
@@ -110,7 +110,7 @@ public class TestAnimationSubcommand extends AbstractSubcommand {
 	public String getPermission() {
 		return "nope.command." + getName();
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Test an animation";

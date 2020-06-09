@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.PluginInfo;
 import xyz.msws.nope.PluginInfo.Stats;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.utils.MSG;
 
 public class OnlineSubcommand extends AbstractSubcommand {
@@ -54,6 +54,7 @@ public class OnlineSubcommand extends AbstractSubcommand {
 	public String getPermission() {
 		return "nope.command." + getName();
 	}
+
 	@Override
 	public String getDescription() {
 		return "Get online information of NOPE";
