@@ -178,6 +178,8 @@ Actions:
   - 'basiclog|vl>300|rndcancel|delay:10000|tpsdecrement|vl>500|lagkick|vl>600|ikick|vl>800|cban'
   KillAura:
   - 'basiclog|vl>200|ikick|vl>500|delay:120000|kick:Irregular Gameplay|vl>600|cban'
+  NoFall:
+  - 'basiclog|vl>300|ikick|vl>800|cban'
   Default:
   - 'basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   # You can specify multiple actiongroups for one category
@@ -190,12 +192,12 @@ Commands:
  #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
   flog: 'log:FILE:%player% failed %debug% (%vl%)|delay:5000|log:CONSOLE:%player% failed %debug%'
  #the below actions log ingame an appropriate warning message to staff
-  alog: 'vl>100|vl<300|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &a%check%&7 check. (VL: &e%vl%&7)'
-  elog: 'vl>300|vl<500|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &e%check%&7 check. (VL: &e%vl%&7)'
-  clog: 'vl>500|vl<700|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &c%check%&7 check. (VL: &e%vl%&7)'
-  4log: 'vl>700|delay:500|flog|delay:10000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &4%check%&7 check. (VL: &e%vl%&7)'
+  alog: 'vl>100|vl<300|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &a%check%&7 check. (VL: &e%vl%&7)'
+  elog: 'vl>300|vl<500|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &e%check%&7 check. (VL: &e%vl%&7)'
+  clog: 'vl>500|vl<700|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &c%check%&7 check. (VL: &e%vl%&7)'
+  4log: 'vl>700|delay:500|flog|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &4%check%&7 check. (VL: &e%vl%&7)'
  #weblog Logs the action to the specified webhook (in this case flagExample) 
-  weblog: "notdev|vl>400|delay:60000|log:flagExample:"
+  weblog: "notdev|vl>400|delay:120000|log:flagExample:"
  #basiclog combines all above log commands into 1 for simple usage
   basiclog: 'alog|elog|clog|flog|4log|weblog'
  #logban Logs ingame that the player was banned both ingame and to a file
@@ -205,8 +207,8 @@ Commands:
  #lagkick Kicks the player if their ping is too high
   lagkick: 'ping>150|kick:You seem to be very laggy, please try restarting your connection.'
  #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<16|kick:The server is extremely laggy, please try waiting a bit before relogging.'
-  tpsdecrement: 'tps<16|addvl:-50'
+  tpskick: 'tps<=16|kick:The server is extremely laggy, please try waiting a bit before relogging.'
+  tpsdecrement: 'tps<=16|addvl:-50'
  #rndcancel Has an 80% chance of teleporting the player back
   rndcancel: 'rnd:.80|cancel'
   canimate: "logban|ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"

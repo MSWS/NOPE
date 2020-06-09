@@ -42,7 +42,7 @@ public class Flight1 implements Check, Listener {
 
 		if (player.isOnGround())
 			return;
-		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle())
+		if (player.isFlying() || cp.isInClimbingBlock() || player.isInsideVehicle() || player.isRiptiding())
 			return;
 		if (cp.timeSince(Stat.FLYING) < 500)
 			return;
@@ -61,7 +61,7 @@ public class Flight1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.COBWEB) < 500)
 			return;
-		
+
 		if (cp.timeSince(Stat.TELEPORT) < 500)
 			return;
 
