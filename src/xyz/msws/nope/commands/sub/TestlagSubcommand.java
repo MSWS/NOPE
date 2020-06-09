@@ -7,8 +7,8 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
 
@@ -55,7 +55,7 @@ public class TestlagSubcommand extends AbstractSubcommand {
 	public String getPermission() {
 		return "nope.command." + getName();
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Test server-sided lag";

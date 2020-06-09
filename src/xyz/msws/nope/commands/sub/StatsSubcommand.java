@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.utils.MSG;
@@ -56,7 +56,7 @@ public class StatsSubcommand extends AbstractSubcommand {
 	public String getPermission() {
 		return "nope.command." + getName();
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "View check statistics and toggle in a GUI";

@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.utils.MSG;
 
 public class ReloadSubcommand extends AbstractSubcommand {

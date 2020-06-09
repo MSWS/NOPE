@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.events.global.OptionChangeEvent;
 import xyz.msws.nope.events.player.PlayerOptionChangeEvent;
 import xyz.msws.nope.modules.data.CPlayer;
