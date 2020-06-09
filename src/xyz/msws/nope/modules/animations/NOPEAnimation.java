@@ -2,12 +2,20 @@ package xyz.msws.nope.modules.animations;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Evoker;
+import org.bukkit.entity.EvokerFangs;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Spellcaster.Spell;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -21,10 +29,12 @@ import xyz.msws.nope.modules.checks.Check;
  * @author imodm
  *
  */
-public class NOPEAnimation extends AbstractAnimation {
+public class NOPEAnimation extends AbstractAnimation implements Listener {
 
 	public NOPEAnimation(NOPE plugin, Player player, Check check) {
 		super(plugin, player, check);
+
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	private BukkitTask task;
@@ -93,7 +103,8 @@ public class NOPEAnimation extends AbstractAnimation {
 						l.subtract(e.getLocation().toVector().subtract(player.getLocation().toVector())
 								.multiply(perc - .1));
 
-						player.getWorld().spawnEntity(l, EntityType.EVOKER_FANGS);
+						EvokerFangs fangs = (EvokerFangs) player.getWorld().spawnEntity(l, EntityType.EVOKER_FANGS);
+						fangs.setMetadata("isAnimation", new FixedMetadataValue(plugin, true));
 					}
 					player.setHealth(20);
 					player.setNoDamageTicks(0);
@@ -109,8 +120,22 @@ public class NOPEAnimation extends AbstractAnimation {
 		return;
 	}
 
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent event) {
+		if (event.getEntity().hasMetadata("isAnimation"))
+			event.setCancelled(true);
+		if (event.getDamager().hasMetadata("isAnimation"))
+			event.setCancelled(true);
+	}
+
 	@Override
 	public void stop() {
+		for (World w : Bukkit.getWorlds()) {
+			for (Entity ent : w.getEntities()) {
+				if (ent.hasMetadata("isAnimation"))
+					ent.remove();
+			}
+		}
 		if (evokers != null)
 			for (Evoker e : evokers)
 				if (e != null && e.isValid())
@@ -119,6 +144,7 @@ public class NOPEAnimation extends AbstractAnimation {
 			task.cancel();
 		if (action != null)
 			action.activate(player, check);
+
 	}
 
 	@Override
