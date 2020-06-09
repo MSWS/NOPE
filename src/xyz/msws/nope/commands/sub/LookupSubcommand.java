@@ -45,7 +45,7 @@ public class LookupSubcommand extends AbstractSubcommand implements Listener {
 		super(plugin);
 
 		logs = new File(plugin.getDataFolder(), "logs");
-		if (logs == null)
+		if (logs == null || !logs.exists())
 			return;
 		for (String f : logs.list()) {
 			tokens.add(f.substring(0, f.length() - 4));
@@ -203,13 +203,14 @@ public class LookupSubcommand extends AbstractSubcommand implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onAction(ActionExecuteEvent event) {
+		if (!event.getAction().getClass().equals(BanAction.class))
+			return;
+		if (logs == null || !logs.exists())
+			return;
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				if (!event.getAction().getClass().equals(BanAction.class))
-					return;
-				if (logs == null)
-					return;
+
 				tokens.clear();
 				for (String f : logs.list()) {
 					tokens.add(f.substring(0, f.length() - 4));
