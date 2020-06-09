@@ -1,23 +1,28 @@
-# ----------------------------------------------------------
-#
-#               NOPE Anti-Cheat Configuration
-#
-#   This is the configuration for NOPE. I recommend keeping
-#    the default values unless you know what you're doing.
-#
-#          There is a YouTube tutorial available at
-#         https://www.youtube.com/watch?v=XVuXKsJEAkQ
-#
-# ----------------------------------------------------------
+#             ----------------------------------------------------------             
+#                                                                                    
+#                            NOPE Anti-Cheat Configuration                           
+#                                                                                    
+#               This is the configuration for NOPE. I recommend keeping              
+#                the default values unless you know what you're doing.               
+#                                                                                    
+#                      There is a YouTube tutorial available at                      
+#                     https://www.youtube.com/watch?v=XVuXKsJEAkQ                    
+#                                                                                    
+#                        There is a GitHub wiki tutorial also                        
+#                       available at https://NOPE.MSWS.xyz/wiki                      
+#                                                                                    
+#             ----------------------------------------------------------             
 
 ConfigVersion: 1.6
 
-#               -------------------------------
-#                     Global Configuration
-#               -------------------------------
+#                           -------------------------------                          
+#                                Global Configuration                                
+#                           -------------------------------                          
+
+
 
 Global: true # If disabled, NOPE will be disabled
-Scoreboard: true
+Scoreboard: true # The scoreboard uses the vanilla scoreboard and shouldn't mess with other plugins
 
 Log: file # NONE, file, or hastebin
 
@@ -28,11 +33,12 @@ UpdateChecker:
 BungeeNameOverride: '' # If not empty this will override the server name
 # This is useful for replacing %server% if the server is not bungeecord
 
-#
-#               -------------------------------
-#                     Banwave Configuration
-#               -------------------------------
-#
+
+#                           -------------------------------                          
+#                                Banwave Configuration                               
+#                           -------------------------------                          
+
+
 
 BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 
@@ -40,19 +46,17 @@ BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 DevMode: false
 DebugMode: false
 
-
-#               -------------------------------
-#                    Webhook  Configuration
-#   Webhooks allow a server to send POST requests to a webhook.
-#         If you do not know about this then I recommend
-#        Googling or asking someone for help regarding this.
-#       For Discord specific configuration you can look at
-#   https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html
-# and https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1
-# for help. All arguments are supported that are defined in the first link.
-#
-#       Placeholders listed below in Actions are supported
-#               -------------------------------
+#                           -------------------------------                          
+#                                Webhook Configuration                               
+#             Webhooks allow a server to send POST requests to a webhook.            
+#                   If you do not know about this then I recommend                   
+#                 Googling or asking someone for help regarding this.                
+#                 For Discord specific configuration you can look at                 
+#        https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html       
+#and https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1
+#      for help. All arguments are supported that are defined in the first link.     
+#                 Placeholders listed below in Actions are supported                 
+#                           -------------------------------                          
 
 Webhooks:
   banExample:
@@ -114,53 +118,52 @@ Webhooks:
         text: "MSWS.XYZ"
        #icon_url: ''
 
-#               -------------------------------
-#                  Action Configuration
+#                           -------------------------------                          
+#                                Action Configuration                                
+#              Please note that bans are not necesssarily instantaneous.             
+#                    Please add a delay to prevent duplicate bans.                   
 #
-#    Please note that bans are not necesssarily instantaneous.
-#           Please add a delay to prevent duplicate bans.
 #
-# animation:[TYPE]:Action - TYPEs are NOPE or GWEN, the Action should be a custom command
-# kick:Reason         Kick the player for the specified reason
-# ban:Time:Reason     Ban the player for the specified time/reason
-# banwave:Time:Reason Add the player to the banwave
-# cancel              Teleport the player back
-# pmsg:[Message]      Send a message to the player
-# msg:[all/Permission]:[Message] Can also specify all
-# cmd:[Command]       Run a command as the player
-# ccmd:[Command]      Run a command from console
-# log:type:message    Logs the message either to FILE, INGAME, or CONSOLE (perm: nope.message.normal)
-# log:WEBHOOK:message Logs the message to the specified webhook
-# setvl:VL            Sets the player's VL for the category hack
-# addvl:VL            Adds/Modifies the player's VL for the category hack
-# NOTE: PLEASE use a delay for discord webhooks otherwise you might get autoblocked
+# animation:[TYPE]:Action         | TYPEs are NOPE or GWEN, the Action should be a custom command                  
+# kick:Reason                     | Kick the player for the specified reason                                       
+# ban:Time:Reason                 | Ban the player for the specified time/reason                                   
+# banwave:Time:Reason             | Add the player to the banwave                                                  
+# cancel                          | Teleport the player back                                                       
+# pmsg:[Message]                  | Send a message to the player                                                   
+# msg:[all/Permission]:[Message]  | Can also specify all                                                           
+# cmd:[Command]                   | Run a command as the player                                                    
+# ccmd:[Command]                  | Run a command from console                                                     
+# log:type:message                | Logs the message either to FILE, INGAME, or CONSOLE (perm: nope.message.normal)
+# log:WEBHOOK:message             | Logs the message to the specified webhook                                      
+# setvl:VL                        | Sets the player's VL for the category hack                                     
+# addvl:VL                        | Adds/Modifies the player's VL for the category hack                            
 #
 # Conditions: (<, <=, =, !=, >=, >)
 # If a condition is not fullfilled, none of the following actions will be run
 # The ones with > you can replace with the appropriate operator
 #
-# vl>[Amo]           If the VL matches the threshold
-# tps>[Amo]          If the server's TPS matches the threshold
-# ping>[Amo]         If the player's ping matches (NOT RECOMMENDED) players can spoof their ping
-# delay:[Delay]      Wait X milliseconds before executing the NEXT action (eg: kick a player if the last call of this was > 60 seconds ago)
-# notdev             Will not run the next actions if the in dev mode
-# isdev              Will run the next actions if in dev mode
-# rnd:.40            Will run the actions 40% of the time
+# vl>[Amo]       | If the VL matches the threshold                                                                                       
+# tps>[Amo]      | If the server's TPS matches the threshold                                                                             
+# ping>[Amo]     | If the player's ping matches (NOT RECOMMENDED) players can spoof their ping                                           
+# delay:[Delay]  | Wait X milliseconds before executing the NEXT action (eg: kick a player if the last call of this was > 60 seconds ago)
+# notdev         | Will not run the next actions if the in dev mode                                                                      
+# isdev          | Will run the next actions if in dev mode                                                                              
+# rnd:.40        | Will run the actions 40% of the time                                                                                  
 # 
-# Placeholders:
-
-# %player%  - The name of the player that was banned
-# %uuid%    - The UUID of the player (-'s included)
-# %nuuid%   - The UUID of the player (-'s not included)
-# %check%    - What hack the player was banned for
-# %debug%   - The debug ID of the check
-# %vl%      - The VL of the hack that the player was at when they were banned
-# %world%   - What world the player was in when they were banned, this may be null if they were offline
-# %token%   - The ban token (only for ban)
-# %server%  - The server name, useful for webhooks
+#                                    Placeholders                                    
+# %player%  | The name of the player that was banned                                                   
+# %uuid%    | The UUID of the player (-'s included)                                                    
+# %nuuid%   | The UUID of the player (-'s not included)                                                
+# %check%   | What hack the player was banned for                                                      
+# %debug%   | The debug ID of the check                                                                
+# %vl%      | The VL of the hack that the player was at when they were banned                          
+# %world%   | What world the player was in when they were banned, this may be null if they were offline
+# %token%   | The ban token (only for ban)                                                             
+# %server%  | The server name, useful for webhooks                                                     
 #
 # PAPI is also supported
 #               -------------------------------
+
 Actions:
   FastBreak:
   - 'basiclog|cancel|vl>100|tpsdecrement|delay:40000|tpskick|vl>400|delay:20000|lagkick|flog|log:FILE:Kicked %player% for %check%|tps>15|vl>600|cban'
@@ -217,12 +220,12 @@ Commands:
   cban: "notdev|delay:5000|animation:NOPE:canimate"
   addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
-#               -------------------------------
-#                     Check Configuration
-#       Here you can configure which checks are/aren't enabled
-#         You can also toggle these ingame with /nope stats
-#   make sure to restart your server after modifying these settings
-#               -------------------------------
+#                           -------------------------------                          
+#                                 Check Configuration                                
+#               Here you can configure which checks are/aren't enabled               
+#                  You can also toggle these ingame with /nope stats                 
+#           make sure to restart your server after modifying these settings          
+#                           -------------------------------                          
 
 Actions:
   FastBreak:
