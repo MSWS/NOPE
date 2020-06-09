@@ -36,7 +36,7 @@ public class NoFall2 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		Vector vel = player.getVelocity();
 
-		if (player.isRiptiding())
+		if (player.isRiptiding() || !player.isOnGround())
 			return;
 
 		if (cp.timeSince(Stat.IN_LIQUID) < 1000)

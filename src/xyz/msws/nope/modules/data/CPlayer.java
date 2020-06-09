@@ -653,12 +653,12 @@ public class CPlayer {
 	}
 
 	/**
-	 * Check if the player has speed, jump slow, or levitation
+	 * Check if the player has speed, jump, or levitation
 	 * 
 	 * @return
 	 */
 	private final PotionEffectType[] movement = new PotionEffectType[] { PotionEffectType.SPEED, PotionEffectType.JUMP,
-			PotionEffectType.SLOW, PotionEffectType.LEVITATION };
+			PotionEffectType.LEVITATION };
 
 	public boolean hasMovementRelatedPotion() {
 		if (!getPlayer().isOnline())

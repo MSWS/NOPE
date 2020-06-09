@@ -51,7 +51,7 @@ public class NoFall1 implements Check, Listener {
 			return;
 		}
 
-		if (cp.timeSince(Stat.RIPTIDE) < 2000) {
+		if (cp.timeSince(Stat.RIPTIDE) < 2000 || cp.timeSince(Stat.IN_LIQUID) < 1000) {
 			highest.remove(player.getUniqueId());
 			return;
 		}
@@ -60,9 +60,6 @@ public class NoFall1 implements Check, Listener {
 			return;
 
 		if (player.getLocation().getBlock().isLiquid())
-			return;
-
-		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
 		if (vel.getY() >= 0) {

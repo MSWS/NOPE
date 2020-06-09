@@ -16,10 +16,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
@@ -34,7 +36,7 @@ import xyz.msws.nope.events.actions.ActionExecuteEvent;
 import xyz.msws.nope.modules.actions.actions.BanAction;
 import xyz.msws.nope.utils.MSG;
 
-public class LookupSubcommand extends AbstractSubcommand {
+public class LookupSubcommand extends AbstractSubcommand implements Listener {
 	private List<String> tokens = new ArrayList<>();
 
 	private File logs;
@@ -48,6 +50,8 @@ public class LookupSubcommand extends AbstractSubcommand {
 		for (String f : logs.list()) {
 			tokens.add(f.substring(0, f.length() - 4));
 		}
+
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
@@ -199,14 +203,19 @@ public class LookupSubcommand extends AbstractSubcommand {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onAction(ActionExecuteEvent event) {
-		if (!event.getAction().getClass().equals(BanAction.class))
-			return;
-		if (logs == null)
-			return;
-		tokens.clear();
-		for (String f : logs.list()) {
-			tokens.add(f.substring(0, f.length() - 4));
-		}
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if (!event.getAction().getClass().equals(BanAction.class))
+					return;
+				if (logs == null)
+					return;
+				tokens.clear();
+				for (String f : logs.list()) {
+					tokens.add(f.substring(0, f.length() - 4));
+				}
+			}
+		}.runTaskLaterAsynchronously(plugin, 20);
 	}
 
 	@Override
