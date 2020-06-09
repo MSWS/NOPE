@@ -57,7 +57,6 @@ public class CPlayer {
 	private Map<String, PlayerOption> options;
 
 	public CPlayer(UUID player, NOPE plugin) {
-
 		this.plugin = plugin;
 		this.uuid = player;
 		this.log = new Log(player);
@@ -78,6 +77,10 @@ public class CPlayer {
 		options = new HashMap<>();
 		options.put("scoreboard", new PlayerOption(this, "scoreboard", true));
 		options.put("notifications", new PlayerOption(this, "notifications", true));
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 
 	/**

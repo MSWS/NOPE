@@ -19,4 +19,10 @@ public class LapisHook extends AbstractBanHook {
 				System.currentTimeMillis(), System.currentTimeMillis() + time);
 	}
 
+	@Override
+	public int bans(UUID player) {
+		return (int) LapisBansAPIStorage.getAPI().getAllPunishments(player).parallelStream()
+				.filter(p -> p.getType() == PunishmentType.Ban || p.getType() == PunishmentType.IPBan).count();
+	}
+
 }
