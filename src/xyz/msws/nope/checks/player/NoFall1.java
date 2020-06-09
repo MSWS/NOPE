@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 
@@ -47,7 +46,12 @@ public class NoFall1 implements Check, Listener {
 		Location loc = player.getLocation();
 		Vector vel = player.getVelocity();
 
-		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding() || player.isFlying()) {
+		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding() || player.isFlying() || player.isRiptiding()) {
+			highest.remove(player.getUniqueId());
+			return;
+		}
+
+		if (cp.timeSince(Stat.RIPTIDE) < 2000) {
 			highest.remove(player.getUniqueId());
 			return;
 		}
@@ -82,12 +86,6 @@ public class NoFall1 implements Check, Listener {
 					String.format("Expected: &e%.3f&7\nReceived: &a%.3f", dist, player.getFallDistance()));
 			return;
 		}
-	}
-
-	@EventHandler
-	public void onTeleport(PlayerTeleportEvent event) {
-		Player player = event.getPlayer();
-		highest.put(player.getUniqueId(), player.getLocation().getY());
 	}
 
 	@EventHandler

@@ -44,7 +44,7 @@ public class Flight2 implements Check, Listener {
 		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 500)
+		if (cp.timeSince(Stat.FLYING) < 500 || cp.timeSince(Stat.RIPTIDE) < 1000)
 			return;
 
 		Location to = event.getTo(), from = event.getFrom();

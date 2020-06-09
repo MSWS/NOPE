@@ -61,7 +61,7 @@ public class Glide1 implements Check, Listener {
 		if (player.isSwimming())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.ON_GROUND) < 500 || cp.timeSince(Stat.FLIGHT_GROUNDED) < 500)

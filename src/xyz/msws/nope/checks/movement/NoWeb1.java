@@ -42,7 +42,7 @@ public class NoWeb1 implements Check, Listener {
 		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince(Stat.FLYING) < 500)
+		if (cp.timeSince(Stat.FLYING) < 500 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)

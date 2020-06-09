@@ -62,6 +62,8 @@ public class Step1 implements Check, Listener {
 					continue;
 				if (cp.timeSince(Stat.REDSTONE) < 500)
 					continue;
+				if (player.isRiptiding())
+					continue;
 				double diff = loc.getY() - lastY.getOrDefault(player.getUniqueId(), loc.getY());
 				lastY.put(player.getUniqueId(), loc.getY());
 
@@ -81,6 +83,8 @@ public class Step1 implements Check, Listener {
 				if (cp.timeSince(Stat.RESPAWN) < 2000)
 					continue;
 				if (cp.timeSince(Stat.TELEPORT) < 2000)
+					continue;
+				if (cp.timeSince(Stat.RIPTIDE) < 1000)
 					continue;
 				double avg = 0;
 				int amo = 0;
