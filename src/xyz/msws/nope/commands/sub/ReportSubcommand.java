@@ -94,4 +94,9 @@ public class ReportSubcommand extends Subcommand {
 		return CommandResult.SUCCESS;
 	}
 
+	@Override
+	public String getPermission() {
+		return "nope.command.report";
+	}
+
 }

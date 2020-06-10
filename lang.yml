@@ -11,3 +11,4 @@ Report:
   Success: '&4Report #%id% > &7You successfully reported &e%player% &7for &a%reason%&7.'
   Recent: '&4Report > &cYou have already reported &e%player% &7recently.'
   TooMany: '&4Report > &cYou have created too many reports recently.'
+  Notification: '&4Report #%id% > &e%player% &7has reported %a%target% &7for &b%reason%&7.'
