@@ -8,6 +8,7 @@ import xyz.msws.nope.commands.sub.BanwaveSubcommand;
 import xyz.msws.nope.commands.sub.ChecksSubcommand;
 import xyz.msws.nope.commands.sub.ClearSubcommand;
 import xyz.msws.nope.commands.sub.EnablechecksSubcommand;
+import xyz.msws.nope.commands.sub.HelpSubcommand;
 import xyz.msws.nope.commands.sub.LookupSubcommand;
 import xyz.msws.nope.commands.sub.OnlineSubcommand;
 import xyz.msws.nope.commands.sub.ReloadSubcommand;
@@ -22,33 +23,22 @@ import xyz.msws.nope.commands.sub.ToggleSubcommand;
 import xyz.msws.nope.commands.sub.TrustSubcommand;
 import xyz.msws.nope.commands.sub.VLSubcommand;
 import xyz.msws.nope.commands.sub.WarnSubcommand;
-import xyz.msws.nope.utils.MSG;
-import xyz.msws.nope.utils.Utils.Age;
 
 public class NOPECommand extends AbstractCommand {
 
+	private HelpSubcommand help;
+
 	public NOPECommand(NOPE plugin) {
 		super(plugin);
+		help = new HelpSubcommand(plugin, this, 8);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		return super.onCommand(sender, command, label, args);
-	}
-
-	@Override
-	public void sendHelp(CommandSender sender) {
-		for (Subcommand cmd : cmds) {
-			if (cmd.getPermission() == null || sender.hasPermission(cmd.getPermission()))
-				MSG.tell(sender, "&c/nope " + cmd.getName() + " &e" + cmd.getUsage() + "&8- &7" + cmd.getDescription());
-		}
-		String bottom = "&l&4[&c&lNOPE&4&l] &e" + plugin.getDescription().getVersion() + " &7created by &bMSWS";
-		if (plugin.getPluginInfo() != null)
-			bottom += " &7(Online Version is "
-					+ (plugin.getPluginInfo().outdated() == Age.OUTDATED_VERSION ? "&a"
-							: (plugin.getPluginInfo().outdated() == Age.DEVELOPER_VERSION ? "&c" : "&b"))
-					+ plugin.getPluginInfo().getVersion() + "&7)";
-		MSG.tell(sender, bottom);
+		if (super.onCommand(sender, command, label, args))
+			return true;
+		help.execute(sender, args);
+		return true;
 	}
 
 	@Override
@@ -72,11 +62,11 @@ public class NOPECommand extends AbstractCommand {
 		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new TrustSubcommand(plugin));
 		cmds.add(new ReportSubcommand(plugin));
+		cmds.add(help);
 	}
 
 	@Override
 	public String getName() {
 		return "nope";
 	}
-
 }

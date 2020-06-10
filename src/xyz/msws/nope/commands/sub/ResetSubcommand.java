@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.utils.MSG;
 
 public class ResetSubcommand extends Subcommand {
@@ -20,12 +20,14 @@ public class ResetSubcommand extends Subcommand {
 
 	@Override
 	public List<String[]> tabCompletions(CommandSender sender) {
-		return new ArrayList<>();
+		List<String[]> result = new ArrayList<>();
+		result.add(new String[] { "config", "lang", "all" });
+		return result;
 	}
 
 	@Override
 	public String getName() {
-		return "reload";
+		return "reset";
 	}
 
 	@Override
@@ -33,18 +35,35 @@ public class ResetSubcommand extends Subcommand {
 		if (!sender.hasPermission("nope.command.reset")) {
 			return CommandResult.NO_PERMISSION;
 		}
-		plugin.saveResource("config.yml", true);
-		plugin.saveResource("lang.yml", true);
-		plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
-		plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
+
+		if (args.length < 2)
+			return CommandResult.MISSING_ARGUMENT;
+
+		switch (args[1].toLowerCase()) {
+			case "config":
+				plugin.saveResource("config.yml", true);
+				plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
+				break;
+			case "lang":
+				plugin.saveResource("lang.yml", true);
+				plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
+				break;
+			case "all":
+				plugin.saveResource("config.yml", true);
+				plugin.saveResource("lang.yml", true);
+				plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
+				plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
+				break;
+		}
+
 		plugin.reload();
-		MSG.tell(sender, "Succesfully reset.");
+		MSG.tell(sender, "Successfully reset &e" + args[1] + "&7 files.");
 		return CommandResult.SUCCESS;
 	}
 
 	@Override
 	public String getUsage() {
-		return "";
+		return "[config/lang/all]";
 	}
 
 	@Override
