@@ -1,5 +1,7 @@
 package xyz.msws.nope.commands.sub;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -7,8 +9,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
@@ -22,7 +24,11 @@ public class WarnSubcommand extends Subcommand {
 
 	@Override
 	public List<String[]> tabCompletions(CommandSender sender) {
-		return null;
+		List<String[]> result = new ArrayList<>();
+		result.add(null);
+		result.add(new String[] { "h:" });
+		result.add(new String[] { "v:" });
+		return result;
 	}
 
 	@Override
@@ -30,17 +36,21 @@ public class WarnSubcommand extends Subcommand {
 		return "warn";
 	}
 
+	@Override
+	public List<String> getAliases() {
+		return new ArrayList<>(Arrays.asList("flag"));
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
 
-		if (!sender.hasPermission("nope.command.warn")) {
+		if (!sender.hasPermission("nope.command.warn"))
 			return CommandResult.NO_PERMISSION;
-		}
-		if (args.length < 4) {
-			MSG.sendHelp(sender, 0, "default");
+
+		if (args.length < 4)
 			return CommandResult.MISSING_ARGUMENT;
-		}
+
 		OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
 		CPlayer cp = plugin.getCPlayer(t);
 
@@ -93,7 +103,8 @@ public class WarnSubcommand extends Subcommand {
 
 		}, Integer.parseInt(stringVl));
 
-		MSG.tell(sender, "Warned " + t.getName() + " for " + hackName + " (vl: " + stringVl + ")");
+		MSG.tell(sender, MSG.getString("Warned", "&4NOPE > &7Warned &a%player% &7for &c%check%&7.")
+				.replace("%player%", t.getName()).replace("%check%", hackName).replace("%vl%", stringVl));
 		return CommandResult.SUCCESS;
 	}
 
