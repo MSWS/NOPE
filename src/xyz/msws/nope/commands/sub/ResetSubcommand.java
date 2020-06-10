@@ -57,7 +57,7 @@ public class ResetSubcommand extends Subcommand {
 		}
 
 		plugin.reload();
-		MSG.tell(sender, "Successfully reset &e" + args[1] + "&7 files.");
+		MSG.tell(sender, "&7Successfully reset &e" + args[1] + "&7 files.");
 		return CommandResult.SUCCESS;
 	}
 

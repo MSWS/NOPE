@@ -73,10 +73,8 @@ public class HelpSubcommand extends Subcommand {
 				lines.add(String.format(" &c/%s %s &e%s &8- &7%s", main.getName(), cmd.getName(), cmd.getUsage(),
 						cmd.getDescription()));
 		}
-		MSG.tell(sender,
-				"&7Listing Help for &4/" + main.getName() + " "
-						+ String.format("(&7Page &e%d &7of &a%d &7(&8/%s help &e[page]&7)", page + 1,
-								(int) Math.ceil(lines.size() / size) + 1, main.getName()));
+		MSG.tell(sender, String.format("&7Listing Help for &4/%s &7(Page &e%d &7of &a%d &7(&8/%s help &e[page]&7)",
+				main.getName(), page + 1, (int) Math.ceil(lines.size() / size) + 1, main.getName()));
 		MSG.tell(sender, " ");
 
 		for (int i = page * size; i < Math.min(lines.size(), (page + 1) * size); i++) {
