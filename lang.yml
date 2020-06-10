@@ -7,7 +7,7 @@ AllChecksEnabled: '&aSuccessfully enabled all checks.'
 BanwaveExecuted: '&7Successfully executed the banwave'
 BanwaveAdded: '&7Successfully added &e%player% &7to the banwave.'
 Querying: '&4NOPE > &7Querying ban details...'
-Warned: '&4NOPE > &7Warned &a%player% &7for &c%check%&7.'
+Warned: '&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7).'
 Report:
   Success: '&4Report #%id% > &7You successfully reported &e%player% &7for &a%reason%&7.'
   Recent: '&4Report > &cYou have already reported &e%player% &7recently.'

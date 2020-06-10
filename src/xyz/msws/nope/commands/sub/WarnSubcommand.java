@@ -76,6 +76,12 @@ public class WarnSubcommand extends Subcommand {
 
 		final String hackNameFinal = hackName;
 
+		try {
+			Integer.parseInt(stringVl);
+		} catch (NumberFormatException e) {
+			return CommandResult.INVALID_ARGUMENT;
+		}
+
 		cp.flagHack(new Check() {
 			@Override
 			public boolean lagBack() {
@@ -103,7 +109,7 @@ public class WarnSubcommand extends Subcommand {
 
 		}, Integer.parseInt(stringVl));
 
-		MSG.tell(sender, MSG.getString("Warned", "&4NOPE > &7Warned &a%player% &7for &c%check%&7.")
+		MSG.tell(sender, MSG.getString("Warned", "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7).")
 				.replace("%player%", t.getName()).replace("%check%", hackName).replace("%vl%", stringVl));
 		return CommandResult.SUCCESS;
 	}
