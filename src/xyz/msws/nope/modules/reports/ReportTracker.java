@@ -7,10 +7,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.events.player.PlayerReportEvent;
 import xyz.msws.nope.modules.AbstractModule;
+import xyz.msws.nope.modules.data.CPlayer;
+import xyz.msws.nope.utils.MSG;
 
 /**
  * Tracks reports
@@ -31,6 +34,21 @@ public class ReportTracker extends AbstractModule {
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled())
 			return;
+		String msg = MSG.getString("Report.Notification",
+				"&4Report #%id% > &e%player% &7has reported %a%target% &7for &b%reason%&7.");
+		msg = msg.replace("%player%", Bukkit.getOfflinePlayer(report.getReporter()).getName());
+		msg = msg.replace("%target%", Bukkit.getOfflinePlayer(report.getTarget()).getName());
+		msg = msg.replace("%reasoon%", report.getReason());
+		msg = msg.replace("%id%", report.getId());
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (!p.hasPermission("nope.message.report"))
+				continue;
+			CPlayer cp = plugin.getCPlayer(p);
+			if (!cp.getOption("reports").asBoolean())
+				continue;
+			MSG.tell(p, msg);
+		}
 
 		reports.put(report.getId(), report);
 	}

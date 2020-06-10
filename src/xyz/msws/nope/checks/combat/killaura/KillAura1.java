@@ -44,6 +44,9 @@ public class KillAura1 implements Check, Listener {
 
 		CPlayer cp = plugin.getCPlayer(player);
 
+		if (player.getLocation().distanceSquared(event.getEntity().getLocation()) < 2)
+			return;
+
 		Vector real = event.getEntity().getLocation().toVector().subtract(player.getEyeLocation().toVector());
 		Vector pvec = player.getEyeLocation().getDirection();
 

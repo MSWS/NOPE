@@ -77,6 +77,7 @@ public class CPlayer {
 		options = new HashMap<>();
 		options.put("scoreboard", new PlayerOption(this, "scoreboard", true));
 		options.put("notifications", new PlayerOption(this, "notifications", true));
+		options.put("reports", new PlayerOption(this, "reports", true));
 	}
 
 	public UUID getUUID() {
