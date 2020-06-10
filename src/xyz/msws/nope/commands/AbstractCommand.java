@@ -46,7 +46,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 			return false;
 		String cmd = args[0];
 		for (Subcommand c : cmds) {
-			if (c.getName().equalsIgnoreCase(cmd) || c.aliases().contains(cmd.toLowerCase())) {
+			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
 				CommandResult result = c.execute(sender, args);
 				if (result == CommandResult.SUCCESS)
 					return true;
@@ -69,7 +69,8 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 		List<String> result = new ArrayList<>();
 
 		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.aliases();
+			List<String> aliases = sub.getAliases();
+			MSG.log(aliases + " " + sub.getName());
 			aliases.add(sub.getName());
 			List<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {

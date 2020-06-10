@@ -34,7 +34,7 @@ public abstract class Subcommand {
 
 	public abstract String getDescription();
 
-	public List<String> aliases() {
+	public List<String> getAliases() {
 		return new ArrayList<>();
 	}
 
