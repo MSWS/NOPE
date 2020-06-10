@@ -35,7 +35,7 @@ public class ReportTracker extends AbstractModule {
 		if (event.isCancelled())
 			return;
 		String msg = MSG.getString("Report.Notification",
-				"&4Report #%id% > &e%player% &7has reported %a%target% &7for &b%reason%&7.");
+				"&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7.");
 		msg = msg.replace("%player%", Bukkit.getOfflinePlayer(report.getReporter()).getName());
 		msg = msg.replace("%target%", Bukkit.getOfflinePlayer(report.getTarget()).getName());
 		msg = msg.replace("%reasoon%", report.getReason());

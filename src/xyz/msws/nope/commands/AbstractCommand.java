@@ -36,32 +36,33 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 		cmd.setTabCompleter(null);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length >= 1) {
-			String cmd = args[0];
-			for (Subcommand c : cmds) {
-				if (c.getName().equalsIgnoreCase(cmd) || c.aliases().contains(cmd.toLowerCase())) {
-					CommandResult result = c.execute(sender, args);
-					if (result == CommandResult.SUCCESS)
-						return true;
-					if (result == CommandResult.NO_PERMISSION) {
-						MSG.tell(sender, MSG.getString("NoPermission",
-								"&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions."));
-						return true;
-					}
-					MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-					MSG.tell(sender, "&7/ " + label + " " + c.getName() + " " + c.getUsage());
-					MSG.tell(sender, result.getMessage());
-					return true;
-				}
-			}
-		}
-		sendHelp(sender);
-		return true;
+	public List<Subcommand> getSubCommands() {
+		return cmds;
 	}
 
-	public abstract void sendHelp(CommandSender sender);
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (args.length < 1)
+			return false;
+		String cmd = args[0];
+		for (Subcommand c : cmds) {
+			if (c.getName().equalsIgnoreCase(cmd) || c.aliases().contains(cmd.toLowerCase())) {
+				CommandResult result = c.execute(sender, args);
+				if (result == CommandResult.SUCCESS)
+					return true;
+				if (result == CommandResult.NO_PERMISSION) {
+					MSG.tell(sender,
+							MSG.getString("NoPermission", "&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions."));
+					return true;
+				}
+				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
+				MSG.tell(sender, "&7/ " + label + " " + c.getName() + " " + c.getUsage());
+				MSG.tell(sender, result.getMessage());
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -79,6 +80,8 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 				if (!aliases.contains(args[0].toLowerCase()))
 					continue;
 				String[] res = completions.get(args.length - 2);
+				if (res == null)
+					continue;
 				for (String r : res)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(r);
