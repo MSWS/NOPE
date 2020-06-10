@@ -67,17 +67,17 @@ public class HelpSubcommand extends Subcommand {
 		List<String> lines = new ArrayList<>();
 		for (int i = 0; i < 2; i++)
 			MSG.tell(sender, " ");
-		lines.add("&7Listing Help for &4/" + main.getName() + " "
-				+ String.format("(&7Page &e%d &7of &a%d &7(&8/%s help &e[page]&7)", page + 1,
-						(int) Math.ceil(lines.size() / size) + 1, main.getName()));
 
 		for (Subcommand cmd : main.getSubCommands()) {
 			if (cmd.getPermission() == null || sender.hasPermission(cmd.getPermission()))
 				lines.add(String.format(" &c/%s %s &e%s &8- &7%s", main.getName(), cmd.getName(), cmd.getUsage(),
 						cmd.getDescription()));
 		}
-
-		lines.add(" ");
+		MSG.tell(sender,
+				"&7Listing Help for &4/" + main.getName() + " "
+						+ String.format("(&7Page &e%d &7of &a%d &7(&8/%s help &e[page]&7)", page + 1,
+								(int) Math.ceil(lines.size() / size) + 1, main.getName()));
+		MSG.tell(sender, " ");
 
 		for (int i = page * size; i < Math.min(lines.size(), (page + 1) * size); i++) {
 			MSG.tell(sender, lines.get(i));
