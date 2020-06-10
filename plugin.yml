@@ -17,7 +17,7 @@ softdepend:
 - TrainCarts
 - Train_Carts
 commands:
-  nope:
+  NOPE:
     usage: /<command>
     aliases:
     - ac

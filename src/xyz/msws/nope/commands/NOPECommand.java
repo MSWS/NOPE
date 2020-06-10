@@ -35,6 +35,7 @@ public class NOPECommand extends AbstractCommand {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		label = label.toUpperCase();
 		if (super.onCommand(sender, command, label, args))
 			return true;
 		help.execute(sender, args);
@@ -44,24 +45,24 @@ public class NOPECommand extends AbstractCommand {
 	@Override
 	public void enable() {
 		super.enable();
-		cmds.add(new TestlagSubcommand(plugin));
-		cmds.add(new ClearSubcommand(plugin));
 		cmds.add(new VLSubcommand(plugin));
-		cmds.add(new ReloadSubcommand(plugin));
-		cmds.add(new ResetSubcommand(plugin));
+		cmds.add(new ClearSubcommand(plugin));
+		cmds.add(new ReportSubcommand(plugin));
+		cmds.add(new LookupSubcommand(plugin));
+		cmds.add(new ToggleSubcommand(plugin));
+		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new TimeSubcommand(plugin));
 		cmds.add(new BanwaveSubcommand(plugin));
+		cmds.add(new ReloadSubcommand(plugin));
+		cmds.add(new ResetSubcommand(plugin));
+		cmds.add(new TestlagSubcommand(plugin));
 		cmds.add(new RemovebanwaveSubcommand(plugin));
-		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new EnablechecksSubcommand(plugin));
 		cmds.add(new OnlineSubcommand(plugin));
 		cmds.add(new TestAnimationSubcommand(plugin));
 		cmds.add(new WarnSubcommand(plugin));
-		cmds.add(new ToggleSubcommand(plugin));
 		cmds.add(new ChecksSubcommand(plugin));
-		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new TrustSubcommand(plugin));
-		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(help);
 	}
 

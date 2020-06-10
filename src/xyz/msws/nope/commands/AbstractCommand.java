@@ -56,7 +56,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 					return true;
 				}
 				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/ " + label + " " + c.getName() + " " + c.getUsage());
+				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
 				MSG.tell(sender, result.getMessage());
 				return true;
 			}
