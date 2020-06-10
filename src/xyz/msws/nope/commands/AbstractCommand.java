@@ -70,7 +70,6 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 
 		for (Subcommand sub : cmds) {
 			List<String> aliases = sub.getAliases();
-			MSG.log(aliases + " " + sub.getName());
 			aliases.add(sub.getName());
 			List<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {
