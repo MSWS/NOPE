@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.animations.AnimationManager;
 import xyz.msws.nope.modules.animations.AnimationManager.AnimationType;
@@ -19,7 +19,7 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.utils.MSG;
 
-public class TestAnimationSubcommand extends AbstractSubcommand {
+public class TestAnimationSubcommand extends Subcommand {
 
 	public TestAnimationSubcommand(NOPE plugin) {
 		super(plugin);

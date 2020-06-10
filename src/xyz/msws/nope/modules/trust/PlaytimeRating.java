@@ -21,7 +21,7 @@ public class PlaytimeRating implements TrustRating {
 
 	@Override
 	public float getWeight() {
-		return .1f;
+		return .2f;
 	}
 
 }

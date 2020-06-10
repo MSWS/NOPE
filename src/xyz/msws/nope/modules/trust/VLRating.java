@@ -40,7 +40,7 @@ public class VLRating implements TrustRating, Listener {
 		Iterator<Long> it = t.iterator();
 		while (it.hasNext()) {
 			long v = it.next();
-			if (System.currentTimeMillis() - v > TimeUnit.MINUTES.toMillis(10))
+			if (System.currentTimeMillis() - v > TimeUnit.MINUTES.toMillis(5))
 				it.remove();
 		}
 
@@ -49,7 +49,7 @@ public class VLRating implements TrustRating, Listener {
 
 	@Override
 	public float getWeight() {
-		return .5f;
+		return .3f;
 	}
 
 }

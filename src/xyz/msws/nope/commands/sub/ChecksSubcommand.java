@@ -7,14 +7,14 @@ import java.util.Map;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.utils.MSG;
 
-public class ChecksSubcommand extends AbstractSubcommand {
+public class ChecksSubcommand extends Subcommand {
 
 	private Checks checks;
 

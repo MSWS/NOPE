@@ -20,7 +20,7 @@ public class HistoryRating implements TrustRating {
 
 	@Override
 	public float getWeight() {
-		return .2f;
+		return .1f;
 	}
 
 }

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.utils.MSG;
@@ -17,7 +17,7 @@ import xyz.msws.nope.utils.MSG;
  * @author imodm
  *
  */
-public class BanwaveSubcommand extends AbstractSubcommand {
+public class BanwaveSubcommand extends Subcommand {
 
 	public BanwaveSubcommand(NOPE plugin) {
 		super(plugin);

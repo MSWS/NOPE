@@ -1,4 +1,4 @@
-package xyz.msws.nope.checks.combat;
+package xyz.msws.nope.checks.combat.killaura;
 
 import javax.naming.OperationNotSupportedException;
 

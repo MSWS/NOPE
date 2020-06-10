@@ -15,7 +15,7 @@ import xyz.msws.nope.utils.MSG;
 
 public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
 
-	protected List<AbstractSubcommand> subcommands = new ArrayList<>();
+	protected List<Subcommand> cmds = new ArrayList<>();
 
 	public AbstractCommand(NOPE plugin) {
 		super(plugin);
@@ -40,7 +40,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length >= 1) {
 			String cmd = args[0];
-			for (AbstractSubcommand c : subcommands) {
+			for (Subcommand c : cmds) {
 				if (c.getName().equalsIgnoreCase(cmd) || c.aliases().contains(cmd.toLowerCase())) {
 					CommandResult result = c.execute(sender, args);
 					if (result == CommandResult.SUCCESS)
@@ -67,7 +67,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		List<String> result = new ArrayList<>();
 
-		for (AbstractSubcommand sub : subcommands) {
+		for (Subcommand sub : cmds) {
 			List<String> aliases = sub.aliases();
 			aliases.add(sub.getName());
 			List<String[]> completions = sub.tabCompletions(sender);

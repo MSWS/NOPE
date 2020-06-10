@@ -17,11 +17,11 @@ import xyz.msws.nope.NOPE;
  * @author imodm
  *
  */
-public abstract class AbstractSubcommand {
+public abstract class Subcommand {
 
 	protected NOPE plugin;
 
-	public AbstractSubcommand(NOPE plugin) {
+	public Subcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
