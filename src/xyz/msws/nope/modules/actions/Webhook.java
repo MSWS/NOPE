@@ -38,6 +38,8 @@ public class Webhook {
 			return;
 		}
 		this.plugin = plugin;
+		if (config.getString("URL").equals("https://discordapp.com/api/webhooks/"))
+			return;
 
 		data.put("username", config.getString("username", "NOPE"));
 		data.put("avatar_url", config.getString("avatar_url", "https://i.imgur.com/U33fgPg.png"));
@@ -112,6 +114,8 @@ public class Webhook {
 	 * @param check
 	 */
 	public void sendMessage(String content, CPlayer cp, Check check) {
+		if (url.toString().equals("https://discordapp.com/api/webhooks/"))
+			return;
 		data.put("content", content);
 		if (!plugin.isEnabled())
 			return;

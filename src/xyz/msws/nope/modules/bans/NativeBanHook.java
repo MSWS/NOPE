@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import xyz.msws.nope.NOPE;
+import xyz.msws.nope.utils.MSG;
 
 public class NativeBanHook extends AbstractBanHook {
 
@@ -18,10 +19,10 @@ public class NativeBanHook extends AbstractBanHook {
 	@Override
 	public void ban(UUID player, String reason, long time) {
 		OfflinePlayer p = Bukkit.getOfflinePlayer(player);
-		Bukkit.getBanList(Type.NAME).addBan(p.getName(), reason == null ? "Hacking" : reason,
+		Bukkit.getBanList(Type.NAME).addBan(p.getName(), MSG.color(reason == null ? "Hacking" : reason),
 				time == -1 ? null : new Date(System.currentTimeMillis() + time), "NOPE");
 		if (p.isOnline())
-			p.getPlayer().kickPlayer(reason);
+			p.getPlayer().kickPlayer(MSG.color(reason));
 	}
 
 	@Override
