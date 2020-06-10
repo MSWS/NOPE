@@ -38,7 +38,7 @@ public class ReportTracker extends AbstractModule {
 				"&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7.");
 		msg = msg.replace("%player%", Bukkit.getOfflinePlayer(report.getReporter()).getName());
 		msg = msg.replace("%target%", Bukkit.getOfflinePlayer(report.getTarget()).getName());
-		msg = msg.replace("%reasoon%", report.getReason());
+		msg = msg.replace("%reason%", report.getReason());
 		msg = msg.replace("%id%", report.getId());
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
