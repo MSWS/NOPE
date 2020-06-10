@@ -7,12 +7,12 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
 
-public class TestlagSubcommand extends AbstractSubcommand {
+public class TestlagSubcommand extends Subcommand {
 
 	public TestlagSubcommand(NOPE plugin) {
 		super(plugin);

@@ -12,6 +12,7 @@ import xyz.msws.nope.commands.sub.LookupSubcommand;
 import xyz.msws.nope.commands.sub.OnlineSubcommand;
 import xyz.msws.nope.commands.sub.ReloadSubcommand;
 import xyz.msws.nope.commands.sub.RemovebanwaveSubcommand;
+import xyz.msws.nope.commands.sub.ReportSubcommand;
 import xyz.msws.nope.commands.sub.ResetSubcommand;
 import xyz.msws.nope.commands.sub.StatsSubcommand;
 import xyz.msws.nope.commands.sub.TestAnimationSubcommand;
@@ -37,7 +38,7 @@ public class NOPECommand extends AbstractCommand {
 
 	@Override
 	public void sendHelp(CommandSender sender) {
-		for (AbstractSubcommand cmd : subcommands) {
+		for (Subcommand cmd : cmds) {
 			if (cmd.getPermission() == null || sender.hasPermission(cmd.getPermission()))
 				MSG.tell(sender, "&c/nope " + cmd.getName() + " &e" + cmd.getUsage() + "&8- &7" + cmd.getDescription());
 		}
@@ -53,23 +54,24 @@ public class NOPECommand extends AbstractCommand {
 	@Override
 	public void enable() {
 		super.enable();
-		subcommands.add(new TestlagSubcommand(plugin));
-		subcommands.add(new ClearSubcommand(plugin));
-		subcommands.add(new VLSubcommand(plugin));
-		subcommands.add(new ReloadSubcommand(plugin));
-		subcommands.add(new ResetSubcommand(plugin));
-		subcommands.add(new TimeSubcommand(plugin));
-		subcommands.add(new BanwaveSubcommand(plugin));
-		subcommands.add(new RemovebanwaveSubcommand(plugin));
-		subcommands.add(new StatsSubcommand(plugin));
-		subcommands.add(new EnablechecksSubcommand(plugin));
-		subcommands.add(new OnlineSubcommand(plugin));
-		subcommands.add(new TestAnimationSubcommand(plugin));
-		subcommands.add(new WarnSubcommand(plugin));
-		subcommands.add(new ToggleSubcommand(plugin));
-		subcommands.add(new ChecksSubcommand(plugin));
-		subcommands.add(new LookupSubcommand(plugin));
-		subcommands.add(new TrustSubcommand(plugin));
+		cmds.add(new TestlagSubcommand(plugin));
+		cmds.add(new ClearSubcommand(plugin));
+		cmds.add(new VLSubcommand(plugin));
+		cmds.add(new ReloadSubcommand(plugin));
+		cmds.add(new ResetSubcommand(plugin));
+		cmds.add(new TimeSubcommand(plugin));
+		cmds.add(new BanwaveSubcommand(plugin));
+		cmds.add(new RemovebanwaveSubcommand(plugin));
+		cmds.add(new StatsSubcommand(plugin));
+		cmds.add(new EnablechecksSubcommand(plugin));
+		cmds.add(new OnlineSubcommand(plugin));
+		cmds.add(new TestAnimationSubcommand(plugin));
+		cmds.add(new WarnSubcommand(plugin));
+		cmds.add(new ToggleSubcommand(plugin));
+		cmds.add(new ChecksSubcommand(plugin));
+		cmds.add(new LookupSubcommand(plugin));
+		cmds.add(new TrustSubcommand(plugin));
+		cmds.add(new ReportSubcommand(plugin));
 	}
 
 	@Override

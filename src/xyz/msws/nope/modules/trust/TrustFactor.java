@@ -10,6 +10,15 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 
+/**
+ * The TrustFactor is an abstract representation of how <i>trustworth</i> a
+ * player is. For now this is simply a little interesting feature that is
+ * relatively unreliable. The inspiration behidn this is of course from Valve's
+ * Trust Factor system.
+ * 
+ * @author imodm
+ *
+ */
 public class TrustFactor extends AbstractModule {
 
 	private Map<UUID, Double> ratings = new HashMap<>();
@@ -26,14 +35,30 @@ public class TrustFactor extends AbstractModule {
 		factors.add(new VLRating(plugin));
 		factors.add(new InteractionRating(plugin));
 		factors.add(new HistoryRating(plugin));
+		factors.add(new ReportRating(plugin));
 	}
 
+	/**
+	 * Registers a new {@link TrustRating} for the TrustFactor to take into account.
+	 * 
+	 * @param rating
+	 */
+	public void addTrustRating(TrustRating rating) {
+		factors.add(rating);
+	}
+
+	/**
+	 * Returns a cached result of the player's report.
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public double getRating(UUID player) {
 		return ratings.getOrDefault(player, recalculate(player));
 	}
 
 	/**
-	 * Recalculates the weighted trust factor of a player
+	 * Recalculates the weighted trust factor of a player.
 	 * 
 	 * @param player
 	 * @return
@@ -57,8 +82,6 @@ public class TrustFactor extends AbstractModule {
 		StringBuilder builder = new StringBuilder();
 		for (TrustRating rating : factors) {
 			double trust = rating.getTrust(player);
-			if (trust < 0 || trust > 1)
-				MSG.warn(rating.getClass().getName() + " returned " + trust);
 			builder.append(rating.getClass().getName()).append(": ").append(trust).append(" (")
 					.append(trust * rating.getWeight()).append(")\n");
 		}

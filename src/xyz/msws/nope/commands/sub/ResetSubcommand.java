@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.utils.MSG;
 
-public class ResetSubcommand extends AbstractSubcommand {
+public class ResetSubcommand extends Subcommand {
 
 	public ResetSubcommand(NOPE plugin) {
 		super(plugin);

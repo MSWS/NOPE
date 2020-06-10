@@ -69,8 +69,10 @@ public class PlayerESP1 implements Check, Listener {
 					ThreadLocalRandom rnd = ThreadLocalRandom.current();
 					for (int i = 0; i < entry.getValue().size(); i++) {
 						NPC n = entry.getValue().get(i);
-						Location l = player.getLocation();
+						Location l = player.getLocation().clone();
 						l = l.add(rnd.nextDouble(-100, 100), rnd.nextDouble(-10, 20), rnd.nextDouble(-100, 100));
+						if (l.distanceSquared(player.getLocation()) <= 2)
+							continue;
 
 						if (!l.getWorld().equals(n.getLocation().getWorld())) {
 							n.remove();

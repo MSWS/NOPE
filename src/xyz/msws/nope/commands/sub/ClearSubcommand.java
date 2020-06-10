@@ -11,7 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.Checks;
@@ -19,7 +19,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.PlayerManager;
 import xyz.msws.nope.utils.MSG;
 
-public class ClearSubcommand extends AbstractSubcommand {
+public class ClearSubcommand extends Subcommand {
 
 	public ClearSubcommand(NOPE plugin) {
 		super(plugin);

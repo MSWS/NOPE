@@ -30,13 +30,13 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 import net.md_5.bungee.api.chat.HoverEvent;
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.AbstractSubcommand;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.events.actions.ActionExecuteEvent;
 import xyz.msws.nope.modules.actions.actions.BanAction;
 import xyz.msws.nope.utils.MSG;
 
-public class LookupSubcommand extends AbstractSubcommand implements Listener {
+public class LookupSubcommand extends Subcommand implements Listener {
 	private List<String> tokens = new ArrayList<>();
 
 	private File logs;
