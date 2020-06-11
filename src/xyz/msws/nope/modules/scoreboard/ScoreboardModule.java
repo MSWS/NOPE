@@ -84,7 +84,6 @@ public class ScoreboardModule extends AbstractModule {
 		Objective obj;
 		if (board == null) {
 			board = player.getScoreboard() == null ? sman.getMainScoreboard() : player.getScoreboard();
-			MSG.tell(player, player.getScoreboard() + "");
 			player.setScoreboard(board);
 		}
 
@@ -115,19 +114,38 @@ public class ScoreboardModule extends AbstractModule {
 
 		team.setPrefix(prefix);
 		team.setSuffix(suffix);
-//		team.setDisplayName(value == null || value.isEmpty() ? " " : MSG.color(value));
 		team.addEntry(vals[line] + "" + ChatColor.RESET);
 		obj.getScore(vals[line] + "" + ChatColor.RESET).setScore(line);
 	}
 
 	public void setScoreboard(Player p, CScoreboard board) {
 		assigned.put(p.getUniqueId(), board);
+
+		Scoreboard b = p.getScoreboard();
+		Objective obj;
+		if (board == null) {
+			b = p.getScoreboard() == null ? sman.getMainScoreboard() : p.getScoreboard();
+			p.setScoreboard(b);
+		}
+
+		obj = b.getObjective("nope");
+
+		if (obj == null) {
+			obj = b.registerNewObjective("nope", "dummy", "nope");
+		}
+
+		if (obj.getDisplaySlot() != DisplaySlot.SIDEBAR)
+			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
 
 	public void removeScoreboard(Player p) {
 		assigned.remove(p.getUniqueId());
-		if (sman == null)
+
+		Scoreboard board = p.getScoreboard();
+		if (board == null || board.getObjective("nope") == null)
 			return;
+		board.clearSlot(DisplaySlot.SIDEBAR);
+
 		p.setScoreboard(sman.getMainScoreboard());
 	}
 
