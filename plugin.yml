@@ -1,7 +1,7 @@
 name: NOPE
 main: xyz.msws.nope.NOPE
 version: 1.6.1
-description: 1.15.2 Minecraft Anticheat
+description: 1.15.2 Minecraft Anticheat featuring Banwaves and More.
 api-version: 1.15
 author: MSWS
 softdepend:
@@ -22,9 +22,11 @@ commands:
     aliases:
     - ac
     - anticheat
+    - nopeac
+    - nopeanticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: Gives access to all of NOPE's features and bypasses all NOPE checks
   nope.bypass.movement:
     description: Allows the player to bypass all movement checks
   nope.bypass.flight:
