@@ -1,18 +1,18 @@
 Command:
   NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
   Banwave:
-    Executed: "Executed the banwave"
+    Executed: "&eExecuted the banwave"
     Added: "&7Successfully added &e%player% &7to the banwave."
   Clear:
-    UnknownHack: "Unknown hack"
-  EnableChecks: "All checks successfully enabled."
+    UnknownHack: "&cUnknown hack"
+  EnableChecks: "&aAll checks successfully enabled."
   Lookup:
-    Querying: "Grabbing ban details..."
-  Reload: "Successfully reloaded."
+    Querying: "&7Grabbing ban details..."
+  Reload: "&aSuccessfully reloaded."
   Report:
-    RecentlyReported: "You reported %player% already."
-    TooMany: "You've reported too many players recently."
-    Success: "&4Report %id% > &7Reported %player% for %reason%"
+    RecentlyReported: "&cYou reported &e%player% &calready."
+    TooMany: "&cYou've reported too many players recently."
+    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
   Toggle:
     PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
     GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
@@ -25,13 +25,13 @@ Command:
     Success: "&7You removed &e%player% &7from the banwave."
     NotBanwaved: "&e%player% &7is not in the banwave."
   TestAnimation:
-    Unknown: "Unknown animation."
+    Unknown: "&cUnknown animation."
   TestLag:
-    Set: "Successfully set the delay to &e%delay%&7."
-    Get: "The lag is currently set to &a%delay%&7."
-  Time: "The next banwave will happen in &e%time%&7."
+    Set: "&7Successfully set the delay to &e%delay%&7."
+    Get: "&7The lag is currently set to &a%delay%&7."
+  Time: "&7The next banwave will happen in &e%time%&7."
   Trust: "&e%player% &7has a trust factor of &a%trust%&7."
   VL:
-    NoVLs: "There are no violation levels right now."
+    NoVLs: "&cThere are no violation levels right now."
 Report:
   Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."

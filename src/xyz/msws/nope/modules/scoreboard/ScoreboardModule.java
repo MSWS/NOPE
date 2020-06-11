@@ -145,8 +145,6 @@ public class ScoreboardModule extends AbstractModule {
 		if (board == null || board.getObjective("nope") == null)
 			return;
 		board.clearSlot(DisplaySlot.SIDEBAR);
-
-		p.setScoreboard(sman.getMainScoreboard());
 	}
 
 }
