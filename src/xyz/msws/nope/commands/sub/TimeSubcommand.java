@@ -28,11 +28,12 @@ public class TimeSubcommand extends Subcommand {
 
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission("nope.command.time")) {
+		if (!sender.hasPermission("nope.command.time"))
 			return CommandResult.NO_PERMISSION;
-		}
-		MSG.tell(sender, "&4&l[&c&lNOPE&4&l] &7Next banwave: &e"
-				+ MSG.getTime(plugin.getModule(Banwave.class).timeToNextBanwave()));
+
+		String time = MSG.getTime(plugin.getModule(Banwave.class).timeToNextBanwave());
+		MSG.tell(sender,
+				MSG.getString("Command.Time", "The next banwave will happen in &e%time%&7.").replace("%time%", time));
 		return CommandResult.SUCCESS;
 	}
 

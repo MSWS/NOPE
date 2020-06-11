@@ -41,7 +41,7 @@ public class BanwaveSubcommand extends Subcommand {
 		if (args.length == 1) {
 			MSG.sendPluginMessage(null, "banwave");
 			plugin.getModule(Banwave.class).runBanwave(true).run();
-			MSG.tell(sender, MSG.getString("BanwaveExecuted", "Executed the banwave"));
+			MSG.tell(sender, MSG.getString("Command.Banwave.Executed", "Executed the banwave"));
 			return CommandResult.SUCCESS;
 		}
 
@@ -67,7 +67,7 @@ public class BanwaveSubcommand extends Subcommand {
 		plugin.getModule(Banwave.class).addPlayer(target.getUniqueId(),
 				plugin.getModule(Banwave.class).new BanwaveInfo(target.getUniqueId(), reason, duration));
 		MSG.sendPluginMessage(null, "banwave:" + target.getName() + " Manual");
-		MSG.tell(sender, MSG.getString("BanwaveAdded", "&7Successfully added &e%player% &7to the banwave.")
+		MSG.tell(sender, MSG.getString("Command.Banwave.Added", "&7Successfully added &e%player% &7to the banwave.")
 				.replace("%player%", target.getName()));
 		return CommandResult.SUCCESS;
 

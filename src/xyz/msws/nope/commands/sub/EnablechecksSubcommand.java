@@ -42,7 +42,7 @@ public class EnablechecksSubcommand extends Subcommand {
 					+ check.getDebugName() + ".Enabled", true);
 		}
 		plugin.saveConfig();
-		MSG.tell(sender, MSG.getString("AllChecksEnabled", "&aSuccessfully enabled all checks."));
+		MSG.tell(sender, MSG.getString("Command.EnableChecks", "All checks successfully enabled."));
 		return CommandResult.SUCCESS;
 	}
 

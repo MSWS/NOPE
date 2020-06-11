@@ -26,7 +26,8 @@ public class TestlagSubcommand extends Subcommand {
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
 		if (args.length == 1) {
-			MSG.tell(sender, "The current lag is set to " + plugin.getModule(TPSManager.class).getDelay() + "ms.");
+			MSG.tell(sender, MSG.getString("Command.TestLag.Get", "the delay is &e%delay%&7.").replace("%delay%",
+					plugin.getModule(TPSManager.class).getDelay() + ""));
 			return CommandResult.SUCCESS;
 		}
 		if (!sender.hasPermission("nope.command.lag"))
@@ -37,7 +38,9 @@ public class TestlagSubcommand extends Subcommand {
 
 		long delay = Long.parseLong(args[1]);
 		plugin.getModule(TPSManager.class).setDelay(delay);
-		MSG.tell(sender, "Successfully set the delay to " + delay);
+//		MSG.tell(sender, "Successfully set the delay to " + delay);
+		MSG.tell(sender, MSG.getString("Command.TestLag.Set", "Successfully set the delay to &e%delay%&7.")
+				.replace("%delay%", delay + ""));
 		return CommandResult.SUCCESS;
 	}
 

@@ -50,7 +50,7 @@ public class ToggleSubcommand extends Subcommand {
 				Bukkit.getPluginManager().callEvent(poce);
 
 				MSG.tell(sender,
-						MSG.getString("PlayerToggleOption", "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7.")
+						MSG.getString("Command.Toggle.PlayerOption", "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7.")
 								.replace("%option%", id).replace("%value%", value.toString()));
 				return CommandResult.SUCCESS;
 			}
@@ -72,7 +72,7 @@ public class ToggleSubcommand extends Subcommand {
 		Bukkit.getPluginManager().callEvent(event);
 
 		MSG.tell(sender,
-				MSG.getString("ToggleOption", "&4NOPE > &7Successfully set the &a%option% &7option to &e%value%&7.")
+				MSG.getString("Command.Toggle.GlobalOption", "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7.")
 						.replace("%option%", id).replace("%value%", value.toString()));
 		plugin.saveConfig();
 		return CommandResult.SUCCESS;

@@ -36,7 +36,7 @@ public class ReloadSubcommand extends Subcommand {
 		plugin.setConfig(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml")));
 		plugin.setLang(YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml")));
 		plugin.reload();
-		MSG.tell(sender, MSG.getString("Reloaded", "Successfully reloaded."));
+		MSG.tell(sender, MSG.getString("Command.Reload", "Successfully reloaded."));
 		return CommandResult.SUCCESS;
 	}
 

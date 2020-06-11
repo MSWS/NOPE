@@ -84,16 +84,14 @@ public class TestAnimationSubcommand extends Subcommand {
 			animTarget = (Player) sender;
 		}
 
-		if (animTarget == null) {
-			MSG.tell(sender, MSG.ERROR + "Unknown player.");
+		if (animTarget == null)
 			return CommandResult.INVALID_ARGUMENT;
-		}
 
 		AnimationType type;
 		try {
 			type = AnimationType.valueOf(args[1].toUpperCase());
 		} catch (IllegalFormatException e) {
-			MSG.tell(sender, MSG.ERROR + "Unknown animation.");
+			MSG.tell(sender, MSG.getString("Command.TestAnimation.Unknown", "Unknown Animation."));
 			return CommandResult.INVALID_ARGUMENT;
 		}
 
