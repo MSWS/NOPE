@@ -65,8 +65,10 @@ public class TrustSubcommand extends Subcommand {
 
 		MSG.tell(sender, trust.format(target.getUniqueId()));
 
-		MSG.tell(sender, MSG.PLAYER + target.getName() + "&7 has a trust factor of " + MSG.NUMBER
-				+ trust.recalculate(target.getUniqueId()));
+		MSG.tell(sender,
+				MSG.getString("Command.Trust", "&e%player% &7has a trust factor of &a%trust%&7.")
+						.replace("%player%", target.getName())
+						.replace("%trust%", trust.recalculate(target.getUniqueId()) + ""));
 
 		return CommandResult.SUCCESS;
 	}

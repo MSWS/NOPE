@@ -1,15 +1,37 @@
-NoPermission: '&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions.'
-ToggleOption: '&4NOPE > &7Successfully set the &a%option% &7option to &e%value%&7.'
-PlayerToggleOption: '&4NOPE > &7Successfully set your &a%option% &7to &e%value%&7.'
-Format:
-  Bungee: '&4&l[&c&lNOPE&4&l] &e%player%&7 failed a%n% %vlCol%%hack% &7check. (VL: &e&o%vl%&7) &9[&b%server%&9]'
-AllChecksEnabled: '&aSuccessfully enabled all checks.'
-BanwaveExecuted: '&7Successfully executed the banwave'
-BanwaveAdded: '&7Successfully added &e%player% &7to the banwave.'
-Querying: '&4NOPE > &7Querying ban details...'
-Warned: '&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7).'
+Command:
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  Banwave:
+    Executed: "Executed the banwave"
+    Added: "&7Successfully added &e%player% &7to the banwave."
+  Clear:
+    UnknownHack: "Unknown hack"
+  EnableChecks: "All checks successfully enabled."
+  Lookup:
+    Querying: "Grabbing ban details..."
+  Reload: "Successfully reloaded."
+  Report:
+    RecentlyReported: "You reported %player% already."
+    TooMany: "You've reported too many players recently."
+    Success: "&4Report %id% > &7Reported %player% for %reason%"
+  Toggle:
+    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
+    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
+  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cAn invalid argument was provided."
+  MissingArgument: "&cYou are missing an argument."
+  PlayerOnly: "&cYou must specify a player to run this command as console."
+  SpecifyPlayer: "&cYou must specify a player as an argument."
+  Removebanwave:
+    Success: "&7You removed &e%player% &7from the banwave."
+    NotBanwaved: "&e%player% &7is not in the banwave."
+  TestAnimation:
+    Unknown: "Unknown animation."
+  TestLag:
+    Set: "Successfully set the delay to &e%delay%&7."
+    Get: "The lag is currently set to &a%delay%&7."
+  Time: "The next banwave will happen in &e%time%&7."
+  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+  VL:
+    NoVLs: "There are no violation levels right now."
 Report:
-  Success: '&4Report #%id% > &7You successfully reported &e%player% &7for &a%reason%&7.'
-  Recent: '&4Report > &cYou have already reported &e%player% &7recently.'
-  TooMany: '&4Report > &cYou have created too many reports recently.'
-  Notification: '&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7.'
+  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."

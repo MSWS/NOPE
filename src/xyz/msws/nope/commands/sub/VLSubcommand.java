@@ -47,7 +47,7 @@ public class VLSubcommand extends Subcommand {
 				MSG.tell(sender, "&5[&d" + cp.getTotalVL() + "&5] &e" + p.getName() + "&7: " + formatVls(p));
 			}
 			if (!shown)
-				MSG.tell(sender, "&5[&dVLS&5] &cThere are no VLs.");
+				MSG.tell(sender, MSG.getString("Command.VL.NoVLs", "There are no violation levels right now."));
 			return CommandResult.SUCCESS;
 		}
 

@@ -86,7 +86,7 @@ public class ClearSubcommand extends Subcommand {
 						}
 					}
 					if (!found) {
-						MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
+						MSG.tell(sender, MSG.getString("Command.Clear.UnknownHack", "Unknown hack"));
 						return CommandResult.INVALID_ARGUMENT;
 					}
 				}
@@ -111,7 +111,7 @@ public class ClearSubcommand extends Subcommand {
 					}
 				}
 				if (!found) {
-					MSG.tell(sender, "&7Unable to find specified hack: &e" + args[2] + "&7.");
+					MSG.tell(sender, MSG.getString("Command.Clear.UnknownHack", "Unknown hack"));
 					return CommandResult.INVALID_ARGUMENT;
 				}
 			}

@@ -2,6 +2,7 @@ package xyz.msws.nope.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,15 +58,15 @@ public class MSG {
 	public static NOPE plugin;
 
 	public static void log(String message) {
-		tell(Bukkit.getConsoleSender(), MSG.DEFAULT + "[INFO] " + message);
+		plugin.getLogger().log(Level.INFO, MSG.color(message));
 	}
 
 	public static void warn(String message) {
-		tell(Bukkit.getConsoleSender(), MSG.ERROR + "[WARN] " + message);
+		plugin.getLogger().log(Level.WARNING, MSG.color(message));
 	}
 
 	public static void error(String message) {
-		tell(Bukkit.getConsoleSender(), MSG.FAIL + "[ERROR] " + message);
+		plugin.getLogger().log(Level.SEVERE, MSG.color(message));
 	}
 
 	public static void printStackTrace() {

@@ -34,20 +34,21 @@ public class RemovebanwaveSubcommand extends Subcommand {
 		if (!sender.hasPermission("nope.command.removebanwave")) {
 			return CommandResult.NO_PERMISSION;
 		}
-		if (args.length < 2) {
+		if (args.length < 2)
 			return CommandResult.PLAYER_REQUIRED;
-		}
+
 		OfflinePlayer off = Bukkit.getOfflinePlayer(args[1]);
 
 		Banwave bw = plugin.getModule(Banwave.class);
 		if (!bw.isInBanwave(off.getUniqueId())) {
-			MSG.tell(sender, off.getName() + " is not banwaved.");
+			MSG.tell(sender, MSG.getString("Command.RemoveBanwave.NotBanwaved", "%player% isn't in the banwave")
+					.replace("%player%", off.getName()));
 			return CommandResult.ERROR;
 		}
 		MSG.sendPluginMessage(null, "removebanwave:" + off.getName());
-//		cp.removeSaveData("isBanwaved");
 		bw.removePlayer(off.getUniqueId());
-		MSG.tell(sender, "Removed " + off.getName() + " from the banwave.");
+		MSG.tell(sender, MSG.getString("Command.RemoveBanwave.Success", "Removed %player% from the banwave")
+				.replace("%player%", off.getName()));
 		return CommandResult.SUCCESS;
 	}
 

@@ -47,12 +47,19 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 		String cmd = args[0];
 		for (Subcommand c : cmds) {
 			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
+				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
+					MSG.tell(sender,
+							MSG.getString("Command.NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission()));
+					return true;
+				}
 				CommandResult result = c.execute(sender, args);
 				if (result == CommandResult.SUCCESS)
 					return true;
 				if (result == CommandResult.NO_PERMISSION) {
 					MSG.tell(sender,
-							MSG.getString("NoPermission", "&4&l[&c&lNOPE&4&l] &cYou have insufficient permissions."));
+							MSG.getString("Command.NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission()));
 					return true;
 				}
 				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());

@@ -1,5 +1,7 @@
 package xyz.msws.nope.commands;
 
+import xyz.msws.nope.utils.MSG;
+
 /**
  * Represents the result of a command.
  * 
@@ -41,15 +43,15 @@ public enum CommandResult {
 	public String getMessage() {
 		switch (this) {
 			case INVALID_ARGUMENT:
-				return "&cAn invalid argument was provided.";
+				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
 			case MISSING_ARGUMENT:
-				return "&cYou are missing a parameter.";
+				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
 			case NO_PERMISSION:
-				return "&cYou do not have the sufficient permissions required to run that command.";
+				return MSG.getString("Command.NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
 			case PLAYER_ONLY:
-				return "&cYou must be a player to run this command.";
+				return MSG.getString("Command.PlayerOnly", "&cYou must specify a player to run this command as console.");
 			case PLAYER_REQUIRED:
-				return "&cYou must specify a player.";
+				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
 			case SUCCESS:
 				return "";
 			default:

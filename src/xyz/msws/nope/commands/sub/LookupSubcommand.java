@@ -77,7 +77,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 			return CommandResult.MISSING_ARGUMENT;
 
 		String key = args[1];
-		MSG.tell(sender, MSG.getString("Querying", "Grabbing ban details..."));
+		MSG.tell(sender, MSG.getString("Command.Lookup.Querying", "Grabbing ban details..."));
 
 		new BukkitRunnable() {
 			@Override

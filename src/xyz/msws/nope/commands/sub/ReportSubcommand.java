@@ -73,7 +73,7 @@ public class ReportSubcommand extends Subcommand {
 		List<Report> old = tracker.getReports(reporter.getUniqueId(), target.getUniqueId());
 		if (!old.isEmpty()) {
 			if (old.get(old.size() - 1).getAge() < TimeUnit.MINUTES.toMillis(10)) {
-				MSG.tell(sender, MSG.getString("Report.Recent", "You reported %player% already.").replace("%player%",
+				MSG.tell(sender, MSG.getString("Command.Report.RecentlyReported", "You reported %player% already.").replace("%player%",
 						target.getName()));
 				return CommandResult.SUCCESS;
 			}
@@ -81,7 +81,7 @@ public class ReportSubcommand extends Subcommand {
 
 		old = tracker.getReports(reporter.getUniqueId());
 		if (old.stream().filter(o -> o.getAge() < TimeUnit.MINUTES.toMillis(3)).count() >= 3) {
-			MSG.tell(sender, MSG.getString("Report.TooMany", "You've reported too many players recently.")
+			MSG.tell(sender, MSG.getString("Command.eport.TooMany", "You've reported too many players recently.")
 					.replace("%player%", target.getName()));
 			return CommandResult.SUCCESS;
 		}
@@ -89,7 +89,7 @@ public class ReportSubcommand extends Subcommand {
 		Report report = new Report(((Player) sender).getUniqueId(), target.getUniqueId(), reason);
 
 		tracker.addReport(report);
-		MSG.tell(sender, MSG.getString("Report.Success", "(%id%) Reported %player% for %reason%")
+		MSG.tell(sender, MSG.getString("Command.Report.Success", "(%id%) Reported %player% for %reason%")
 				.replace("%player%", target.getName()).replace("%reason%", reason).replace("%id%", report.getId()));
 		return CommandResult.SUCCESS;
 	}
