@@ -54,7 +54,7 @@ public class PluginInfo {
 					outdated = Utils.outdated(plugin.getDescription().getVersion(), version);
 					result.accept(PluginInfo.this);
 				} catch (IOException exception) {
-					MSG.log("Cannot look for updates: " + exception.getMessage());
+					MSG.log("[NOPE] Cannot look for updates: " + exception.getMessage());
 				}
 			}
 		}.runTaskAsynchronously(plugin);
