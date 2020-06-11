@@ -9,7 +9,7 @@ import me.leoko.advancedban.utils.Punishment;
 import me.leoko.advancedban.utils.PunishmentType;
 import xyz.msws.nope.NOPE;
 
-public class AdvancedBanHook extends AbstractBanHook {
+public class AdvancedBanHook extends BanHook {
 
 	public AdvancedBanHook(NOPE plugin) {
 		super(plugin);

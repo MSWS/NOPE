@@ -5,7 +5,7 @@ import org.bukkit.OfflinePlayer;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.actions.AbstractAction;
-import xyz.msws.nope.modules.bans.AbstractBanHook;
+import xyz.msws.nope.modules.bans.BanHook;
 import xyz.msws.nope.modules.bans.Banwave;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.data.CPlayer;
@@ -46,7 +46,7 @@ public class BanAction extends AbstractAction {
 			plugin.getModule(Banwave.class).removePlayer(player.getUniqueId());
 
 			Bukkit.getScheduler().runTask(plugin, () -> {
-				plugin.getModule(AbstractBanHook.class).ban(player.getUniqueId(), res, time);
+				plugin.getModule(BanHook.class).ban(player.getUniqueId(), res, time);
 				running = false;
 			});
 		});

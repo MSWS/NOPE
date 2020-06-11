@@ -28,7 +28,7 @@ import xyz.msws.nope.listeners.UpdateCheckerListener;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.actions.ActionManager;
 import xyz.msws.nope.modules.animations.AnimationManager;
-import xyz.msws.nope.modules.bans.AbstractBanHook;
+import xyz.msws.nope.modules.bans.BanHook;
 import xyz.msws.nope.modules.bans.AdvancedBanHook;
 import xyz.msws.nope.modules.bans.BanManagementHook;
 import xyz.msws.nope.modules.bans.Banwave;
@@ -207,7 +207,7 @@ public class NOPE extends JavaPlugin {
 		return cs;
 	}
 
-	private AbstractBanHook hookBans() {
+	private BanHook hookBans() {
 		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
 			MSG.log("Successfully hooked into AdvancedBans.");
 			return new AdvancedBanHook(this);

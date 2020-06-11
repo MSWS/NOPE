@@ -70,7 +70,7 @@ public class DevScoreboard extends CScoreboard implements Listener {
 		lines.add(String.format("&9OnGround&7: %s", MSG.TorF(player.isOnGround())));
 		lines.add(String.format("&9Trust: &e%.2f",
 				plugin.getModule(TrustFactor.class).recalculate(player.getUniqueId())));
-
+		lines.add("&b------------------------------");
 		lines.add("");
 
 		Collections.reverse(lines);

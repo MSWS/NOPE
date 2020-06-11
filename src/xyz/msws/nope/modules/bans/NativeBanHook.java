@@ -10,7 +10,7 @@ import org.bukkit.OfflinePlayer;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.utils.MSG;
 
-public class NativeBanHook extends AbstractBanHook {
+public class NativeBanHook extends BanHook {
 
 	public NativeBanHook(NOPE plugin) {
 		super(plugin);

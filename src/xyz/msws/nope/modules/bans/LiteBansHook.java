@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 import litebans.api.Database;
 import xyz.msws.nope.NOPE;
 
-public class LiteBansHook extends AbstractBanHook {
+public class LiteBansHook extends BanHook {
 
 	// LiteBans has a questionable [b]api[/b]
 

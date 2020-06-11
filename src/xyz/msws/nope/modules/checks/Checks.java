@@ -75,7 +75,6 @@ import xyz.msws.nope.checks.player.GhostHand2;
 import xyz.msws.nope.checks.player.NoFall1;
 import xyz.msws.nope.checks.player.NoFall2;
 import xyz.msws.nope.checks.player.SafeWalk1;
-import xyz.msws.nope.checks.player.SelfHarm1;
 import xyz.msws.nope.checks.player.Zoot1;
 import xyz.msws.nope.checks.world.AutoBuild1;
 import xyz.msws.nope.checks.world.FastBreak1;
@@ -189,11 +188,11 @@ public class Checks extends AbstractModule {
 				new InvalidMovement1(), new Spinbot1(), new IllegalBlockBreak1(), new IllegalBlockPlace1(),
 				new NoWeb1(), new AutoWalk1(), new AutoClicker1(), new HighCPS1(), new HighCPS2(), new HighCPS3(),
 				new AntiAFK1(), new AutoSneak1(), new InventoryMove1(), new AntiRotate1(), new NoSlowDown1(),
-				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(),
-				new SelfHarm1(), new AntiKB1(), new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(),
-				new FastBreak1(), new Spider1(), new Glide1(), new BHop1(), new GhostHand2(), new Speed5(),
-				new AutoBuild1(), new Speed4(), new Jesus1(), new Jesus2(), new Step1(), new ElytraFlight1(),
-				new KillAura1(), new KillAura2(), new NoFall1(), new NoFall2()));
+				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(), new AntiKB1(),
+				new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
+				new Glide1(), new BHop1(), new GhostHand2(), new Speed5(), new AutoBuild1(), new Speed4(), new Jesus1(),
+				new Jesus2(), new Step1(), new ElytraFlight1(), new KillAura1(), new KillAura2(), new NoFall1(),
+				new NoFall2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
 			checkList.addAll(Sets.newHashSet(new NoSlowDown5(), new SkinBlinker1(), new NoSwing1(), new Timer1(),
