@@ -3,7 +3,7 @@ package xyz.msws.nope.modules.trust;
 import java.util.UUID;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.bans.AbstractBanHook;
+import xyz.msws.nope.modules.bans.BanHook;
 
 public class HistoryRating implements TrustRating {
 
@@ -15,12 +15,12 @@ public class HistoryRating implements TrustRating {
 
 	@Override
 	public double getTrust(UUID uuid) {
-		return 1 - Math.min(plugin.getModule(AbstractBanHook.class).bans(uuid) / 5, 1);
+		return 1 - Math.min(plugin.getModule(BanHook.class).bans(uuid) / 5, 1);
 	}
 
 	@Override
 	public float getWeight() {
-		return .1f;
+		return .2f;
 	}
 
 }

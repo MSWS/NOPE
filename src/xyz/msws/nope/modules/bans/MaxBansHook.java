@@ -7,7 +7,7 @@ import org.maxgamer.maxbans.MaxBans;
 
 import xyz.msws.nope.NOPE;
 
-public class MaxBansHook extends AbstractBanHook {
+public class MaxBansHook extends BanHook {
 	private MaxBans bans;
 	private org.maxgamer.maxbans.banmanager.BanManager manager;
 
@@ -29,6 +29,7 @@ public class MaxBansHook extends AbstractBanHook {
 
 	@Override
 	public int bans(UUID player) {
-		return MaxBans.instance.getBanManager().getHistory(player.toString()).length;
+		return MaxBans.instance.getBanManager()
+				.getHistory(Bukkit.getOfflinePlayer(player).getName().toLowerCase()).length;
 	}
 }

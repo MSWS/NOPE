@@ -11,8 +11,8 @@ import xyz.msws.nope.modules.AbstractModule;
  * @author imodm
  *
  */
-public abstract class AbstractBanHook extends AbstractModule {
-	public AbstractBanHook(NOPE plugin) {
+public abstract class BanHook extends AbstractModule {
+	public BanHook(NOPE plugin) {
 		super(plugin);
 	}
 

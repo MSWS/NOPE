@@ -49,7 +49,7 @@ public class AutoBuild1 implements Check, Listener {
 			return;
 		if (block.getType().toString().contains("BED"))
 			return;
-		if (block.getType() == Material.TALL_GRASS)
+		if (block.getType() == Material.TALL_GRASS || block.getType() == Material.SCAFFOLDING)
 			return;
 		double dist = block.getLocation().distanceSquared(actual.getLocation());
 		if (dist <= 2)

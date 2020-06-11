@@ -47,7 +47,9 @@ public class HealthTags1 implements Check {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(event.getPacket());
-				Entity damaged = packet.getEntity(event.getPlayer().getWorld());
+				if (packet.getEntityID() < 0)
+					return;
+				Entity damaged = packet.getEntity(event);
 
 				if (damaged == null)
 					return;
