@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.util.Vector;
 
 import xyz.msws.nope.NOPE;
@@ -41,7 +42,9 @@ public class KillAura1 implements Check, Listener {
 		if (!(event.getDamager() instanceof Player))
 			return;
 		Player player = (Player) event.getDamager();
-
+		if (event.getCause() == DamageCause.ENTITY_SWEEP_ATTACK)
+			return;
+		
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (player.getLocation().distanceSquared(event.getEntity().getLocation()) < 2)
