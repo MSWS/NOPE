@@ -39,6 +39,7 @@ import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.modules.checks.Global;
 import xyz.msws.nope.modules.checks.TPSManager;
+import xyz.msws.nope.modules.checks.VLDecrementer;
 import xyz.msws.nope.modules.compatability.AbstractCompatability;
 import xyz.msws.nope.modules.compatability.CrazyEnchantsHook;
 import xyz.msws.nope.modules.compatability.McMMOHook;
@@ -152,6 +153,7 @@ public class NOPE extends JavaPlugin {
 		}
 		modules.add(new TrustFactor(this));
 		modules.add(new ReportTracker(this));
+		modules.add(new VLDecrementer(this));
 
 		modules.add(new AnimationManager(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
