@@ -31,3 +31,15 @@ NOPE has a Trello board where you can view known bugs, features, and changelogs.
 
 ## Test Server
 A public NOPE Test Server is available at **MSWS.xyz**. Note that this server may not be up-to-date.
+
+## Code Status
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=alert_status)](https://sonarcloud.io/dashboard?id=MSWS_NOPE) 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=security_rating)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=ncloc)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=code_smells)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=MSWS_NOPE&metric=bugs)](https://sonarcloud.io/dashboard?id=MSWS_NOPE)
