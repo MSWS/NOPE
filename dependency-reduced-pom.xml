@@ -72,6 +72,10 @@
       <id>placeholderapi</id>
       <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
     </repository>
+    <repository>
+      <id>spicord-repo</id>
+      <url>https://repo.mcdb.eu/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -176,6 +180,12 @@
       <groupId>me.clip</groupId>
       <artifactId>placeholderapi</artifactId>
       <version>2.10.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>eu.mcdb</groupId>
+      <artifactId>spicord-common</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

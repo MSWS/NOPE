@@ -114,7 +114,7 @@ public class Webhook {
 	 * @param check
 	 */
 	public void sendMessage(String content, CPlayer cp, Check check) {
-		if (url.toString().equals("https://discordapp.com/api/webhooks/"))
+		if (url == null || url.toString().equals("https://discordapp.com/api/webhooks/"))
 			return;
 		data.put("content", content);
 		if (!plugin.isEnabled())

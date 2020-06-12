@@ -59,7 +59,7 @@ public class NoFall1 implements Check, Listener {
 		if (cp.timeSince(Stat.CLIMBING) < 500)
 			return;
 
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
 			return;
 
 		if (player.getLocation().getBlock().isLiquid())

@@ -69,7 +69,7 @@ public class Flight1 implements Check, Listener {
 			return;
 		if (cp.timeSince(Stat.BLOCK_PLACE) < 1500)
 			return;
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)
 			return;
 
 		if (player.getVelocity().getY() > 0)
