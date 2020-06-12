@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
@@ -56,6 +57,9 @@ public class KillAura2 implements Check, Listener {
 		if (!(event.getDamager() instanceof Player))
 			return;
 		Player player = (Player) event.getDamager();
+
+		if (event.getCause() == DamageCause.ENTITY_SWEEP_ATTACK)
+			return;
 
 		float cd = 0;
 
