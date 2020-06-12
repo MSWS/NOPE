@@ -34,7 +34,6 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.actions.ActionManager;
 import xyz.msws.nope.modules.checks.Check;
-import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Utils;
@@ -500,8 +499,7 @@ public class CPlayer {
 	}
 
 	public void clearVls() {
-		for (Check h : plugin.getModule(Checks.class).getAllChecks())
-			this.setSaveData("vls." + h.getCategory(), 0);
+		data.set("vls", null);
 	}
 
 	/**

@@ -81,7 +81,7 @@ public class VLDecrementer extends AbstractModule {
 
 					long lastFlag = cp.timeSince(Stat.FLAGGED);
 
-					int diff = -1;
+					int diff = 1;
 
 					for (Entry<Long, Integer> entry : values.entrySet()) {
 						if (lastFlag < entry.getKey())
