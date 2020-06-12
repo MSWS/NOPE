@@ -181,6 +181,14 @@ public class FastBreak1 implements Check, Listener {
 					case LOOM:
 					case NOTE_BLOCK:
 					case SMITHING_TABLE:
+					case BROWN_MUSHROOM_BLOCK:
+					case RED_MUSHROOM_BLOCK:
+					case COCOA:
+					case JACK_O_LANTERN:
+					case PUMPKIN:
+					case VINE:
+					case MELON:
+					case BEE_NEST:
 						return true;
 					default:
 						return false;
