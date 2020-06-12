@@ -174,7 +174,7 @@ Webhooks:
 # %server%  | The server name, useful for webhooks                                                     
 #
 # PAPI is also supported
-#               -------------------------------
+#                           -------------------------------                          
 
 Actions:
   FastBreak:
@@ -182,7 +182,7 @@ Actions:
   FastClimb:
   - 'basiclog|vl>50|delay:500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
   Blink:
-  - 'basiclog|vl>200|delay:2000|cancel|delay:15000|tpsdecrement|tps>15|vl>250|lagkick|vl>500|cancel|flog|cban'
+  - 'basiclog|vl>200|delay:2000|cancel|delay:15000|tpsdecrement|tps>15|vl>250|lagkick|vl>500|cancel|vl>800|cban'
   NoSwing:
   - 'basiclog|vl>500|ikick|vl>1000|cban'
   Speed:
@@ -196,7 +196,7 @@ Actions:
   NoFall:
   - 'basiclog|vl>300|ikick|vl>800|cban'
   SafeWalk:
-  - 'basiclog'
+  - 'basiclog|vl>500|ikick'
   Default:
   - 'basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   # You can specify multiple actiongroups for one category
