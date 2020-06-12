@@ -33,7 +33,19 @@ UpdateChecker:
 BungeeNameOverride: '' # If not empty this will override the server name
 # This is useful for replacing %server% if the server is not bungeecord
 
-
+# VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
+# The key is the time in milliseconds since the player last flagged for a hack. For example
+# if a player hasn't flagged for 20000 milliseconds, their VL will be decreased by 2 every second
+VLDecrement:
+  Enabled: true
+  Rate: 40 # Ticks
+  Periods:
+    1000: 0
+    10000: 1
+    20000: 2
+    60000: 5
+    120000: 10
+    -1: 20
 #                           -------------------------------                          
 #                                Banwave Configuration                               
 #                           -------------------------------                          

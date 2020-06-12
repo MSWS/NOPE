@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -399,47 +398,7 @@ public class Global extends AbstractModule implements Listener {
 
 	@Override
 	public void enable() {
-
 		Bukkit.getPluginManager().registerEvents(this, plugin);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				CPlayer cp = plugin.getCPlayer(p);
-				ConfigurationSection vlSection = cp.getDataFile().getConfigurationSection("vls");
-				if (vlSection == null)
-					continue;
-
-				double lastFlag = cp.timeSince(Stat.FLAGGED);
-
-				int diff = 1;
-				if (cp.hasTempData(Stat.FLAGGED)) {
-					if (lastFlag > 1.8e+6) {
-						diff = 10;
-					} else if (lastFlag > 600000) {
-						diff = 5;
-					} else if (lastFlag > 300000) {
-						diff = 4;
-					} else if (lastFlag > 50000) {
-						diff = 3;
-					} else if (lastFlag > 10000) {
-						diff = 2;
-					}
-				} else {
-					diff = 10;
-				}
-
-				for (String hack : vlSection.getKeys(false)) {
-					if (cp.getSaveData("vls." + hack, Integer.class) == 0)
-						continue;
-					cp.setSaveData("vls." + hack, cp.getSaveData("vls." + hack, Integer.class) - diff);
-					if (cp.getSaveData("vls." + hack, Integer.class) < 0)
-						cp.setSaveData("vls." + hack, 0);
-					MSG.sendPluginMessage(null,
-							"setvl:" + p.getName() + " " + hack + " " + cp.getSaveData("vls." + hack, Integer.class));
-				}
-			}
-		}, 0, 40);
 	}
 
 	@Override
