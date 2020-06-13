@@ -1,6 +1,6 @@
 ---
-name: False Flag
-about: Report a false flag
+name: False Positive
+about: Report a false positive
 title: ''
 labels: False Flag
 assignees: ''
@@ -21,10 +21,12 @@ _You can find this out by typing /nope toggle dev to enable dev mode, it should 
 **Is there any debug information? (Please include average info if available)**
 _You can see if there's any by hovering over the [DEV] message_
 
-**What is causing this false flag?**
-_What exactly are you doing that causes a false flag?_
+**What is causing this false positive?**
+_What exactly are you doing that causes a false positive?_
 
-**Is this false flag reproducible on the test server?**
+**Is this false positive reproducible on the test server?**
 _MSWS.xyz is the IP_
+
+**Please list all your server plugins**
 
 **Is there anything else to add?**
