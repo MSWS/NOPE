@@ -19,6 +19,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.rollbar.notifier.Rollbar;
+import com.rollbar.notifier.config.ConfigBuilder;
+
 import xyz.msws.nope.commands.NOPECommand;
 import xyz.msws.nope.listeners.GUIManager;
 import xyz.msws.nope.listeners.LogImplementation;
@@ -86,11 +89,15 @@ public class NOPE extends JavaPlugin {
 
 	private PlayerManager pManager;
 
+	private Rollbar bar;
+
 	public void onEnable() {
 		setupFiles();
 		MSG.plugin = this;
 
 		registerOptions();
+
+		bar = Rollbar.init(ConfigBuilder.withAccessToken("a368671098c64abaa33206480af7cf8a").build());
 
 		MSG.log(checkConfigVersion());
 
@@ -100,6 +107,10 @@ public class NOPE extends JavaPlugin {
 		runUpdateCheck();
 
 		compatabilities = loadCompatabilities();
+	}
+
+	public Rollbar getRollbar() {
+		return bar;
 	}
 
 	private String checkConfigVersion() {
@@ -174,7 +185,12 @@ public class NOPE extends JavaPlugin {
 
 	private void enableModules() {
 		for (AbstractModule mod : modules)
-			mod.enable();
+			try {
+				mod.enable();
+			} catch (Exception e) {
+				e.printStackTrace();
+				MSG.logRollbar("Could not enabled " + mod.getClass() + ": " + e.getMessage());
+			}
 	}
 
 	/**
@@ -372,6 +388,11 @@ public class NOPE extends JavaPlugin {
 
 		HandlerList.unregisterAll(this);
 		Bukkit.getScheduler().cancelTasks(this);
+		try {
+			bar.close(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void saveData() {

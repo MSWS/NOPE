@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
@@ -67,6 +68,19 @@ public class MSG {
 
 	public static void error(String message) {
 		plugin.getLogger().log(Level.SEVERE, MSG.color(message));
+	}
+
+	public static void logRollbar(String message) {
+		StringBuilder result = new StringBuilder(message).append("\n");
+		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+		for (int i = 2; i < elements.length; i++)
+			result.append(elements[i].toString()).append("\n");
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				plugin.getRollbar().log(result.toString());
+			}
+		}.runTaskAsynchronously(plugin);
 	}
 
 	public static void printStackTrace() {
