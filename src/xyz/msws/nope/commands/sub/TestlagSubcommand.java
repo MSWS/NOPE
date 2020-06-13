@@ -33,6 +33,9 @@ public class TestlagSubcommand extends Subcommand {
 		if (!sender.hasPermission("nope.command.lag"))
 			return CommandResult.NO_PERMISSION;
 
+		if (args[1].equals("roll"))
+			throw new IllegalArgumentException();
+
 		if (!StringUtils.isNumeric(args[1]))
 			return CommandResult.INVALID_ARGUMENT;
 
