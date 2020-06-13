@@ -54,12 +54,6 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 									.replace("%perm%", c.getPermission()));
 					return true;
 				}
-				try {
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					MSG.logRollbar(c.getName() + " threw the error: " + e.getMessage());
-				}
 				CommandResult result = c.execute(sender, args);
 				if (result == CommandResult.SUCCESS)
 					return true;

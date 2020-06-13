@@ -189,7 +189,6 @@ public class NOPE extends JavaPlugin {
 				mod.enable();
 			} catch (Exception e) {
 				e.printStackTrace();
-				MSG.logRollbar("Could not enabled " + mod.getClass() + ": " + e.getMessage());
 			}
 	}
 
