@@ -54,7 +54,7 @@ public class Speed3 implements Check, Listener {
 
 		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
-		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000)
+		if (cp.timeSince(Stat.ICE_TRAPDOOR) < 1000 || cp.timeSince(Stat.ON_ICE) < 2000)
 			return;
 		if (cp.hasMovementRelatedPotion())
 			return;
