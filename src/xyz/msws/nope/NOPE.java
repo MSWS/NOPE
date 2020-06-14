@@ -49,6 +49,7 @@ import xyz.msws.nope.modules.data.ConfigOption;
 import xyz.msws.nope.modules.data.Option;
 import xyz.msws.nope.modules.data.PlayerManager;
 import xyz.msws.nope.modules.data.Stats;
+import xyz.msws.nope.modules.extensions.ExtensionModule;
 import xyz.msws.nope.modules.npc.NPCModule;
 import xyz.msws.nope.modules.reports.ReportTracker;
 import xyz.msws.nope.modules.scoreboard.ScoreboardAssigner;
@@ -154,6 +155,7 @@ public class NOPE extends JavaPlugin {
 		modules.add(new TrustFactor(this));
 		modules.add(new ReportTracker(this));
 		modules.add(new VLDecrementer(this));
+		modules.add(new ExtensionModule(this));
 
 		modules.add(new AnimationManager(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
