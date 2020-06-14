@@ -2,7 +2,7 @@
 name: False Negative
 about: Report a false negative
 title: ''
-labels: ''
+labels: 'False Negative'
 assignees: ''
 
 ---
