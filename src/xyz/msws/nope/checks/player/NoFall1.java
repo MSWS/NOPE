@@ -38,6 +38,7 @@ public class NoFall1 implements Check, Listener {
 	}
 
 	private Map<UUID, Double> highest = new HashMap<>();
+	private Map<UUID, Long> change = new HashMap<>();
 
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
@@ -45,6 +46,9 @@ public class NoFall1 implements Check, Listener {
 		CPlayer cp = plugin.getCPlayer(player);
 		Location loc = player.getLocation();
 		Vector vel = player.getVelocity();
+		if (player.getFallDistance() != 0)
+			return;
+		change.put(player.getUniqueId(), System.currentTimeMillis());
 
 		if (cp.timeSince(Stat.COBWEB) < 100 || player.isGliding() || player.isFlying() || player.isRiptiding()) {
 			highest.remove(player.getUniqueId());
@@ -80,6 +84,9 @@ public class NoFall1 implements Check, Listener {
 			highest.put(player.getUniqueId(), loc.getY());
 
 			if (diff < .3)
+				return;
+
+			if (System.currentTimeMillis() - change.get(player.getUniqueId()) < 1000)
 				return;
 
 			cp.flagHack(this, Math.min((int) Math.abs(diff * 10) + 5, 30),
