@@ -13,7 +13,7 @@
 #                                                                                    
 #             ----------------------------------------------------------             
 
-ConfigVersion: 1.6.1
+ConfigVersion: 1.6.2
 
 #                           -------------------------------                          
 #                                Global Configuration                                
@@ -69,6 +69,7 @@ DebugMode: false
 #      for help. All arguments are supported that are defined in the first link.     
 #                 Placeholders listed below in Actions are supported                 
 #                           -------------------------------                          
+
 
 Webhooks:
   banExample:
@@ -237,12 +238,12 @@ Commands:
   cban: "notdev|delay:5000|animation:NOPE:canimate"
   addbanwave: "notdev|banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
 
-#                           -------------------------------                          
-#                                 Check Configuration                                
-#               Here you can configure which checks are/aren't enabled               
-#                  You can also toggle these ingame with /nope stats                 
-#           make sure to restart your server after modifying these settings          
-#                           -------------------------------                          
+#                           -------------------------------                           
+#                                 Check Configuration                                 
+#               Here you can configure which checks are/aren't enabled                
+#                  You can also toggle these ingame with /nope stats                  
+#           make sure to restart your server after modifying these settings           
+#                           -------------------------------           
 
 Checks:
   Packet:
