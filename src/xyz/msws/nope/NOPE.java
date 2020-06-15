@@ -107,6 +107,8 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.6.1":
+				return "Nothing new has been changed in the config.";
 			case "1.6.0.1":
 			case "1.6":
 				return "Your lang file, you should reset your language file for message to work.";
