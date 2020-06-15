@@ -189,7 +189,7 @@ public class NPC {
 			dataWatcher.setObject(object, entry.getValue());
 		}
 		meta.setMetadata(dataWatcher.getWatchableObjects());
-		meta.broadcastPacket();
+//		meta.broadcastPacket();
 	}
 
 	/**
