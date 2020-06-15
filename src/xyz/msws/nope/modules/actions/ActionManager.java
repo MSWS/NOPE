@@ -156,7 +156,7 @@ public class ActionManager extends AbstractModule {
 	 * @param player
 	 * @param category
 	 * @param check
-	 * @return 
+	 * @return
 	 */
 	public void runActions(OfflinePlayer player, Check check) {
 		String cat = actions.containsKey(check.getDebugName()) ? check.getDebugName()

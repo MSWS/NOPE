@@ -120,18 +120,16 @@ public class ScoreboardModule extends AbstractModule {
 
 	public void setScoreboard(Player p, CScoreboard board) {
 		assigned.put(p.getUniqueId(), board);
-
-		Scoreboard b = p.getScoreboard();
+		if (sman == null)
+			return;
+		Scoreboard b = sman.getNewScoreboard();
 		Objective obj;
-		if (board == null) {
-			b = p.getScoreboard() == null ? sman.getMainScoreboard() : p.getScoreboard();
-			p.setScoreboard(b);
-		}
+		p.setScoreboard(b);
 
-		obj = b.getObjective("nope");
+		obj = b.getObjective(DisplaySlot.SIDEBAR);
 
 		if (obj == null) {
-			obj = b.registerNewObjective("nope", "dummy", "nope");
+			obj = b.registerNewObjective(p.getName(), "dummy", "nope");
 		}
 
 		if (obj.getDisplaySlot() != DisplaySlot.SIDEBAR)

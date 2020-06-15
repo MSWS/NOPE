@@ -3,7 +3,10 @@ package xyz.msws.nope.modules.npc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,6 +26,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import xyz.msws.nope.protocols.WrapperPlayServerEntityDestroy;
 import xyz.msws.nope.protocols.WrapperPlayServerEntityEquipment;
@@ -106,6 +110,8 @@ public class NPC {
 		return result;
 	}
 
+	private static Object STANDING = null;
+
 	/**
 	 * Sends and spawns PlayerInfo and NamedEntitySpawn. This is limited in that it
 	 * will try to spawn an NPC of a player already on the server.
@@ -134,13 +140,56 @@ public class NPC {
 		info.sendPacket(player);
 
 		Location l = player.getLocation().add(0, 5, 0);
+		this.loc = l;
 
 		WrapperPlayServerNamedEntitySpawn packet = new WrapperPlayServerNamedEntitySpawn();
 		packet.setEntityID(id);
 		packet.setPlayerUUID(uuid);
 		packet.setPosition(l.toVector());
 		packet.sendPacket(player);
-		this.loc = l;
+
+		WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
+		meta.setEntityID(id);
+		List<WrappedWatchableObject> metadata = meta.getMetadata();
+
+		WrappedDataWatcher dataWatcher = new WrappedDataWatcher(metadata);
+
+		Map<Integer, Object> values = new HashMap<>();
+
+		values.put(0, (byte) 0);
+
+		if (STANDING == null) {
+			try {
+				Class<?> pose = Class.forName("net.minecraft.server.v1_15_R1.EntityPose");
+				STANDING = pose.getEnumConstants()[0];
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+
+		values.put(6, STANDING);
+		values.put(4, false);
+		values.put(15, 10);
+		values.put(14, 0.0f);
+		values.put(12, 0);
+		values.put(8, (float) health);
+		values.put(9, 0);
+		values.put(11, 0);
+		values.put(10, false);
+		values.put(1, 300);
+		values.put(3, false);
+		values.put(7, 0);
+		values.put(5, false);
+		values.put(16, (byte) 1);
+		values.put(17, (byte) 1);
+
+		for (Entry<Integer, Object> entry : values.entrySet()) {
+			WrappedDataWatcherObject object = new WrappedDataWatcherObject(entry.getKey(),
+					WrappedDataWatcher.Registry.get(entry.getValue().getClass()));
+			dataWatcher.setObject(object, entry.getValue());
+		}
+		meta.setMetadata(dataWatcher.getWatchableObjects());
+		meta.broadcastPacket();
 	}
 
 	/**

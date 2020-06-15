@@ -1,5 +1,7 @@
 package xyz.msws.nope.utils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -403,5 +405,55 @@ public class MSG {
 		if (player == null)
 			return;
 		player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+	}
+
+	public static void sendMethods(Class<?> cl) {
+		MSG.log("Declared methods for " + cl.getName());
+		StringBuilder builder = new StringBuilder();
+
+		for (Method m : cl.getDeclaredMethods()) {
+			builder.append(m.getReturnType().getName()).append(" ");
+			builder.append(m.getName()).append(" (");
+			for (Class<?> c : m.getParameterTypes()) {
+				builder.append(c.getName()).append(" ");
+			}
+
+			builder.append(") ");
+		}
+		MSG.log("All methods for " + cl.getName());
+		builder = new StringBuilder();
+
+		for (Method m : cl.getMethods()) {
+			builder.append(m.getReturnType().getName()).append(" ");
+			builder.append(m.getName()).append(" (");
+			for (Class<?> c : m.getParameterTypes()) {
+				builder.append(c.getName()).append(" ");
+			}
+
+			builder.append(") ");
+		}
+
+		MSG.log(builder.toString());
+	}
+
+	public static void sendFields(Class<?> cl) {
+		MSG.log("Declared methods for " + cl.getName());
+		StringBuilder builder = new StringBuilder();
+
+		for (Field f : cl.getDeclaredFields()) {
+			builder.append(f.getType().getName()).append(" ");
+			builder.append(f.getName());
+			builder.append(", ");
+		}
+		MSG.log("All fields for " + cl.getName());
+		builder = new StringBuilder();
+
+		for (Field f : cl.getFields()) {
+			builder.append(f.getType().getName()).append(" ");
+			builder.append(f.getName());
+			builder.append(", ");
+		}
+
+		MSG.log(builder.toString());
 	}
 }
