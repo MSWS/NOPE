@@ -47,9 +47,11 @@ public enum CommandResult {
 			case MISSING_ARGUMENT:
 				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
 			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission", "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
+				return MSG.getString("Command.NoPermission",
+						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
 			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly", "&cYou must specify a player to run this command as console.");
+				return MSG.getString("Command.PlayerOnly",
+						"&cYou must specify a player to run this command as console.");
 			case PLAYER_REQUIRED:
 				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
 			case SUCCESS:

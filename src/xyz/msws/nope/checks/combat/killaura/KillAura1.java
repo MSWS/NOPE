@@ -44,7 +44,7 @@ public class KillAura1 implements Check, Listener {
 		Player player = (Player) event.getDamager();
 		if (event.getCause() == DamageCause.ENTITY_SWEEP_ATTACK)
 			return;
-		
+
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (player.getLocation().distanceSquared(event.getEntity().getLocation()) < 2)

@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.PluginInfo;
 import xyz.msws.nope.PluginInfo.Stats;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.utils.MSG;
 
 public class OnlineSubcommand extends Subcommand {

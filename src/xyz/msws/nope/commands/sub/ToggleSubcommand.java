@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.events.global.OptionChangeEvent;
 import xyz.msws.nope.events.player.PlayerOptionChangeEvent;
 import xyz.msws.nope.modules.data.CPlayer;
@@ -50,8 +50,9 @@ public class ToggleSubcommand extends Subcommand {
 				Bukkit.getPluginManager().callEvent(poce);
 
 				MSG.tell(sender,
-						MSG.getString("Command.Toggle.PlayerOption", "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7.")
-								.replace("%option%", id).replace("%value%", value.toString()));
+						MSG.getString("Command.Toggle.PlayerOption",
+								"&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7.").replace("%option%", id)
+								.replace("%value%", value.toString()));
 				return CommandResult.SUCCESS;
 			}
 		}
@@ -72,8 +73,9 @@ public class ToggleSubcommand extends Subcommand {
 		Bukkit.getPluginManager().callEvent(event);
 
 		MSG.tell(sender,
-				MSG.getString("Command.Toggle.GlobalOption", "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7.")
-						.replace("%option%", id).replace("%value%", value.toString()));
+				MSG.getString("Command.Toggle.GlobalOption",
+						"&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7.").replace("%option%", id)
+						.replace("%value%", value.toString()));
 		plugin.saveConfig();
 		return CommandResult.SUCCESS;
 	}

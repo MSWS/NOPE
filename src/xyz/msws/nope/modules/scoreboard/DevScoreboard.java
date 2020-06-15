@@ -47,6 +47,7 @@ public class DevScoreboard extends CScoreboard implements Listener {
 		Player player = event.getPlayer();
 		if (!player.equals(this.player))
 			return;
+
 		CPlayer cp = plugin.getCPlayer(player);
 
 		Location from = event.getFrom(), to = event.getTo();

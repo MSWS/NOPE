@@ -7,8 +7,8 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
 

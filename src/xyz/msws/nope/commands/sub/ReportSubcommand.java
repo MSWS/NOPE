@@ -13,8 +13,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.commands.CommandResult;
+import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.modules.checks.Checks;
 import xyz.msws.nope.modules.reports.Report;
 import xyz.msws.nope.modules.reports.ReportTracker;
@@ -73,8 +73,8 @@ public class ReportSubcommand extends Subcommand {
 		List<Report> old = tracker.getReports(reporter.getUniqueId(), target.getUniqueId());
 		if (!old.isEmpty()) {
 			if (old.get(old.size() - 1).getAge() < TimeUnit.MINUTES.toMillis(10)) {
-				MSG.tell(sender, MSG.getString("Command.Report.RecentlyReported", "You reported %player% already.").replace("%player%",
-						target.getName()));
+				MSG.tell(sender, MSG.getString("Command.Report.RecentlyReported", "You reported %player% already.")
+						.replace("%player%", target.getName()));
 				return CommandResult.SUCCESS;
 			}
 		}

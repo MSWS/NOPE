@@ -68,12 +68,17 @@ public class KillAura2 implements Check, Listener {
 				getHandle = player.getClass().getMethod("getHandle");
 				getHandle.setAccessible(true);
 				Object entityPlayer = getHandle.invoke(player);
-
-				cMethod = entityPlayer.getClass().getMethod("getCooldownPeriod");
-				cMethod.setAccessible(true);
+				try {
+					// Paper Method
+					cMethod = entityPlayer.getClass().getMethod("getCooldownPeriod");
+					cMethod.setAccessible(true);
+				} catch (Exception e) {
+					// Spigot Method TODO
+					return;
+				}
 			}
-			Object entityPlayer = getHandle.invoke(player);
 
+			Object entityPlayer = getHandle.invoke(player);
 			Object cooldown = cMethod.invoke(entityPlayer);
 			cd = (float) cooldown;
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException

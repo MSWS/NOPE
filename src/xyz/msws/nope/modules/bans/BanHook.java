@@ -33,7 +33,7 @@ public abstract class BanHook extends AbstractModule {
 	}
 
 	public abstract void ban(UUID player, String reason, long time);
-	
+
 	public abstract int bans(UUID player);
-	
+
 }
