@@ -24,6 +24,7 @@ xyz.msws.nope.modules.bans
 xyz.msws.nope.modules.checks
 xyz.msws.nope.modules.compatability
 xyz.msws.nope.modules.data
+xyz.msws.nope.modules.extensions
 xyz.msws.nope.modules.npc
 xyz.msws.nope.modules.reports
 xyz.msws.nope.modules.scoreboard
