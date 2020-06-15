@@ -156,17 +156,17 @@ public class ActionManager extends AbstractModule {
 	 * @param player
 	 * @param category
 	 * @param check
-	 * @return
+	 * @return 
 	 */
-	public boolean runActions(OfflinePlayer player, String category, Check check) {
-		if (!actions.containsKey(category)) {
-			for (ActionGroup group : actions.get("Default"))
-				group.activate(player, check);
-			return false;
-		}
-		for (ActionGroup group : actions.get(category))
+	public void runActions(OfflinePlayer player, Check check) {
+		String cat = actions.containsKey(check.getDebugName()) ? check.getDebugName()
+				: actions.containsKey(check.getCategory()) ? check.getCategory() : "Default";
+		if (!actions.containsKey(cat))
+			MSG.warn("No ActionGroup defined for " + cat);
+
+		for (ActionGroup group : actions.get(cat))
 			group.activate(player, check);
-		return true;
+		return;
 	}
 
 	public ActionFactory getActionFactory() {
