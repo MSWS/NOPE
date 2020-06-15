@@ -394,7 +394,7 @@ public class CPlayer {
 		MSG.sendPluginMessage(null, "setvl:" + getPlayer().getName() + " " + check.getCategory() + " " + nVl);
 		setSaveData("vls." + check.getCategory(), nVl);
 
-		plugin.getModule(ActionManager.class).runActions(getPlayer(), check.getCategory(), check);
+		plugin.getModule(ActionManager.class).runActions(getPlayer(), check);
 
 		plugin.getModule(Stats.class).addTrigger(check);
 		plugin.getModule(Stats.class).addVl(check, vl);

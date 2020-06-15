@@ -203,6 +203,9 @@ Actions:
  #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
  # This would only kick players and decrement their VL by 200
  #- 'basiclog|vl>100|cancel|vl>600|ikick|addvl:-200'
+ # You can also specify a specific debug name and that these actions will be run instead
+ #Flight#3:
+  #- 'basiclog|delay:60000|say %player% flagged a %debug% check!'
 
 # Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
