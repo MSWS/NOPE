@@ -170,7 +170,7 @@ public class KillAura3 implements Check, Listener {
 
 		npc.setItem(ItemSlot.MAINHAND, player.getInventory().getItemInMainHand());
 		npc.setItem(ItemSlot.CHEST, player.getInventory().getChestplate());
-		npc.setOnGround(true);
+		npc.setOnGround(false);
 
 		if (removes.containsKey(player.getUniqueId())) {
 			removes.get(player.getUniqueId()).cancel();
