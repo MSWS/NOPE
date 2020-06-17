@@ -64,6 +64,8 @@ public class PlayerESP2 implements Check, Listener {
 			public void onPacketSending(PacketEvent event) {
 				Player player = event.getPlayer();
 				WrapperPlayServerRelEntityMove packet = new WrapperPlayServerRelEntityMove(event.getPacket());
+				if (packet.getEntityID() < 0)
+					return;
 				Entity ent = packet.getEntity(event);
 				if (ent == null)
 					return;

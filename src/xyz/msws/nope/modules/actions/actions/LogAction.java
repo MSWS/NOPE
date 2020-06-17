@@ -56,6 +56,8 @@ public class LogAction extends AbstractAction {
 						continue;
 					MSG.tell(p, msg);
 				}
+				MSG.sendPluginMessage(Bukkit.getOnlinePlayers().parallelStream().findFirst().orElse(null),
+						"perm:nope.message.normal " + msg);
 				break;
 			case WEBHOOK:
 				if (hook == null)
