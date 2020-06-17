@@ -167,12 +167,12 @@ public class NOPE extends JavaPlugin {
 
 	private void registerOptions() {
 		options = new HashMap<>();
-		options.put("global", new ConfigOption(config, "Global", Arrays.asList(true, false)));
+		options.put("global", new ConfigOption(config, "Global", true, false));
 		options.put("gscoreboard", new ConfigOption(config, "Scoreboard", true, false));
-		options.put("log", new ConfigOption(config, "Log", "NONE", "file", "hastebin"));
+		options.put("log", new ConfigOption(config, "Log", "file", "NONE", "hastebin"));
 		options.put("updatechecker", new ConfigOption(config, "UpdateChecker.Enabled", true, false));
 		options.put("bungeename", new ConfigOption(config, "BungeeNameOverride", (Object[]) null));
-		options.put("dev", new ConfigOption(config, "DevMode", true, false));
+		options.put("dev", new ConfigOption(config, "DevMode", false, true));
 		options.put("debug", new ConfigOption(config, "DebugMode", Arrays.asList(false, true)));
 	}
 
