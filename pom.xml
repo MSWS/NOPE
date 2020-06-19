@@ -156,6 +156,7 @@
 			<groupId>me.badbones69</groupId>
 			<artifactId>crazyenchantments-plugin</artifactId>
 			<version>1.8-Dev-Build-v8</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.nossr50</groupId>
