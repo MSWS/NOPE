@@ -58,6 +58,9 @@ public class SafeWalk1 implements Check, Listener {
 			return;
 		}
 
+		if (player.isInsideVehicle())
+			return;
+
 		if (player.getLocation().clone().add(0, -1, 0).getBlock().getType().isSolid())
 			return;
 

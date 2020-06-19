@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -110,6 +111,9 @@ public class Global extends AbstractModule implements Listener {
 				}
 			}
 		}
+
+		if (player.getNearbyEntities(2, 2, 2).stream().anyMatch(e -> e.getType() == EntityType.SHULKER))
+			cp.setTempData(Stat.SHULKER, time);
 
 		if (cp.isBlockNearby(Material.LILY_PAD))
 			cp.setTempData(Stat.LILY_PAD, time);
@@ -393,7 +397,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player activated riptide
 		 */
-		RIPTIDE;
+		RIPTIDE,
+		/**
+		 * Last time the player was on top of a shulker
+		 */
+		SHULKER;
 	}
 
 	@Override

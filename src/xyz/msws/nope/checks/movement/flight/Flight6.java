@@ -53,8 +53,9 @@ public class Flight6 implements Check, Listener {
 			vehicleGround.put(player.getUniqueId(), System.currentTimeMillis());
 			return;
 		}
-		if (player.getLocation().getBlock().isLiquid())
+		if (player.getVehicle().getLocation().getBlock().isLiquid())
 			return;
+
 		double yDiff = event.getTo().getY() - event.getFrom().getY();
 
 		if (yDiff < 0) {
@@ -63,7 +64,7 @@ public class Flight6 implements Check, Listener {
 				return;
 			if (yDiff < -.1)
 				return;
-			cp.flagHack(this, 10);
+			cp.flagHack(this, 10, "YDiff: &e" + yDiff);
 			return;
 		}
 
@@ -73,7 +74,7 @@ public class Flight6 implements Check, Listener {
 		if (cp.distanceToGround() < 5)
 			return;
 
-		cp.flagHack(this, 20);
+		cp.flagHack(this, 10);
 	}
 
 	@Override
