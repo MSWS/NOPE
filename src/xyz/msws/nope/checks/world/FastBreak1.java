@@ -54,7 +54,7 @@ public class FastBreak1 implements Check, Listener {
 			if (mat.toString().contains(res))
 				return true;
 		}
-		return false;
+		return mat == Material.SPAWNER;
 	}
 
 	@EventHandler

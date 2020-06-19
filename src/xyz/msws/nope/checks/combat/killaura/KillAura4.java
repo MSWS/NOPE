@@ -5,6 +5,7 @@ import javax.naming.OperationNotSupportedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 
@@ -55,9 +56,8 @@ public class KillAura4 implements Check {
 				Entity ent = packet.getTarget(player.getWorld());
 				CPlayer cp = KillAura4.this.plugin.getCPlayer(player);
 
-				if (ent == null) {
+				if (ent == null)
 					return;
-				}
 
 				RayTraceResult result = player.rayTraceBlocks(20);
 
@@ -72,9 +72,11 @@ public class KillAura4 implements Check {
 				if (bLength > eLength)
 					return;
 
-				Bukkit.getScheduler().runTask(plugin, () -> {
+				if (ent.getType() == EntityType.SHULKER && ent.getLocation().add(0, 1, 0).distanceSquared(pos) < 2)
+					return;
 
-					cp.flagHack(KillAura4.this, 30,
+				Bukkit.getScheduler().runTask(plugin, () -> {
+					cp.flagHack(KillAura4.this, 10,
 							String.format("Ent Dist: &e%.2f&7\n&7Wall Dist: &a%.2f", eLength, bLength));
 				});
 			}

@@ -81,6 +81,10 @@
 			<id>spicord-repo</id>
 			<url>https://repo.mcdb.eu/</url>
 		</repository>
+		<repository>
+			<id>nexus</id>
+			<url>https://nexus.badbones69.com/repository/maven-releases/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -149,11 +153,9 @@
 			<systemPath>C:\Users\imodm\Documents\API\MaxBans.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>me.badbones69.crazyenchantments</groupId>
-			<artifactId>CrazyEnchantments</artifactId>
-			<version>1.8</version>
-			<scope>system</scope>
-			<systemPath>C:\Users\imodm\Documents\API\CrazyEnchantments.v1.8-Dev-Build-v8.jar</systemPath>
+			<groupId>me.badbones69</groupId>
+			<artifactId>crazyenchantments-plugin</artifactId>
+			<version>1.8-Dev-Build-v8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.nossr50</groupId>

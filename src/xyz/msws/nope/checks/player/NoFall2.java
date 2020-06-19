@@ -42,6 +42,9 @@ public class NoFall2 implements Check, Listener {
 		if (cp.timeSince(Stat.IN_LIQUID) < 1000)
 			return;
 
+		if (cp.timeSince(Stat.SHULKER) < 500)
+			return;
+
 		double yDiff = event.getTo().getY() - event.getFrom().getY();
 
 		if (yDiff <= 0 || vel.getY() >= -0.0784000015258789)

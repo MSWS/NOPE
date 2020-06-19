@@ -62,6 +62,9 @@ public class Spider1 implements Check, Listener {
 		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)
 			return;
 
+		if (cp.timeSince(Stat.SHULKER) < 1000)
+			return;
+
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
 			return;
 

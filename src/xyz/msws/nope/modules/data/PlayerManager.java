@@ -1,10 +1,10 @@
 package xyz.msws.nope.modules.data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
@@ -51,8 +51,8 @@ public class PlayerManager extends AbstractModule {
 	 * 
 	 * @return
 	 */
-	public List<UUID> getLoadedPlayers() {
-		return new ArrayList<UUID>(players.keySet());
+	public Set<UUID> getLoadedPlayers() {
+		return new HashSet<UUID>(players.keySet());
 	}
 
 	/**
