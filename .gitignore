@@ -9,6 +9,7 @@
 # Log file
 *.log
 
+.m2/
 # BlueJ files
 *.ctxt
 
