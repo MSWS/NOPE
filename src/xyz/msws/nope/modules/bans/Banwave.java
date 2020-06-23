@@ -12,6 +12,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
+import xyz.msws.nope.modules.actions.actions.BanAction;
+import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.utils.MSG;
 
 /**
@@ -32,18 +34,18 @@ public class Banwave extends AbstractModule {
 
 	private Map<UUID, BanwaveInfo> toBan = new HashMap<>();
 
-	public BukkitRunnable runBanwave(boolean forced) {
+	public BukkitRunnable runBanwave() {
 		return new BukkitRunnable() {
 			@Override
 			public void run() {
 				for (Entry<UUID, BanwaveInfo> entry : toBan.entrySet()) {
 					OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-					plugin.getModule(BanHook.class).ban(player.getUniqueId(), entry.getValue().getReason(),
-							entry.getValue().getDuration());
+					BanAction action = new BanAction(plugin, entry.getValue().getDuration(),
+							entry.getValue().getReason());
+					action.execute(player, entry.getValue().getCheck());
 				}
 				toBan.clear();
-				if (!forced)
-					lastBanwave = System.currentTimeMillis();
+				lastBanwave = System.currentTimeMillis();
 			}
 		};
 	}
@@ -76,13 +78,15 @@ public class Banwave extends AbstractModule {
 	 */
 	public class BanwaveInfo {
 		private UUID uuid;
-		private String reason;
+		private Check check;
 		private long duration;
+		private String reason;
 
-		public BanwaveInfo(UUID uuid, String reason, long duration) {
+		public BanwaveInfo(UUID uuid, Check check, long duration, String reason) {
 			this.uuid = uuid;
-			this.reason = reason;
+			this.check = check;
 			this.duration = duration;
+			this.reason = reason;
 		}
 
 		public UUID getUuid() {
@@ -93,12 +97,12 @@ public class Banwave extends AbstractModule {
 			this.uuid = uuid;
 		}
 
-		public String getReason() {
-			return reason;
+		public Check getCheck() {
+			return check;
 		}
 
-		public void setReason(String reason) {
-			this.reason = reason;
+		public void setCheck(Check check) {
+			this.check = check;
 		}
 
 		public long getDuration() {
@@ -108,6 +112,10 @@ public class Banwave extends AbstractModule {
 		public void setDuration(long duration) {
 			this.duration = duration;
 		}
+
+		public String getReason() {
+			return reason;
+		}
 	}
 
 	@Override
@@ -116,14 +124,14 @@ public class Banwave extends AbstractModule {
 			MSG.log("Banwaves are disabled, reset your config if this is not intended.");
 			return;
 		}
-		bw = runBanwave(false).runTaskTimer(this.plugin, 0, plugin.getConfig().getInt("BanwaveRate"));
+		bw = runBanwave().runTaskTimer(this.plugin, 0, plugin.getConfig().getInt("BanwaveRate"));
 	}
 
 	@Override
 	public void disable() {
 		if (bw != null && !bw.isCancelled())
 			bw.cancel();
-		runBanwave(true);
+		runBanwave();
 		toBan.clear();
 	}
 }

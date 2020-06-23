@@ -131,6 +131,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>me.badbones69</groupId>
+      <artifactId>crazyenchantments-plugin</artifactId>
+      <version>1.8-Dev-Build-v8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>eu.mcdb</groupId>
       <artifactId>spicord-common</artifactId>
       <version>3.0.0-SNAPSHOT</version>
