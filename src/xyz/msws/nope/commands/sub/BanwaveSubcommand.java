@@ -2,6 +2,8 @@ package xyz.msws.nope.commands.sub;
 
 import java.util.List;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,6 +12,8 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
 import xyz.msws.nope.modules.bans.Banwave;
+import xyz.msws.nope.modules.checks.Check;
+import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.utils.MSG;
 
 /**
@@ -40,7 +44,7 @@ public class BanwaveSubcommand extends Subcommand {
 		}
 		if (args.length == 1) {
 			MSG.sendPluginMessage(null, "banwave");
-			plugin.getModule(Banwave.class).runBanwave(true).run();
+			plugin.getModule(Banwave.class).runBanwave().run();
 			MSG.tell(sender, MSG.getString("Command.Banwave.Executed", "Executed the banwave"));
 			return CommandResult.SUCCESS;
 		}
@@ -64,9 +68,37 @@ public class BanwaveSubcommand extends Subcommand {
 			return CommandResult.INVALID_ARGUMENT;
 		}
 
+		Check decoy = new Check() {
+
+			@Override
+			public void register(NOPE plugin) throws OperationNotSupportedException {
+			}
+
+			@Override
+			public boolean lagBack() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public CheckType getType() {
+				return CheckType.MISC;
+			}
+
+			@Override
+			public String getDebugName() {
+				return "ManuallyIssued#2";
+			}
+
+			@Override
+			public String getCategory() {
+				return "Manual";
+			}
+		};
+
 		plugin.getModule(Banwave.class).addPlayer(target.getUniqueId(),
-				plugin.getModule(Banwave.class).new BanwaveInfo(target.getUniqueId(), reason, duration));
-		MSG.sendPluginMessage(null, "banwave:" + target.getName() + " Manual");
+				plugin.getModule(Banwave.class).new BanwaveInfo(target.getUniqueId(), decoy, duration, reason));
+		MSG.sendPluginMessage(null, "banwave:" + target.getName() + " " + duration + " " + reason);
 		MSG.tell(sender, MSG.getString("Command.Banwave.Added", "&7Successfully added &e%player% &7to the banwave.")
 				.replace("%player%", target.getName()));
 		return CommandResult.SUCCESS;

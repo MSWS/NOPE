@@ -34,7 +34,7 @@ public class BanwaveAction extends AbstractAction {
 			return;
 		CPlayer cp = plugin.getCPlayer(player);
 
-		BanwaveInfo info = plugin.getModule(Banwave.class).new BanwaveInfo(player.getUniqueId(), reason, time);
+		BanwaveInfo info = plugin.getModule(Banwave.class).new BanwaveInfo(player.getUniqueId(), check, time, reason);
 		plugin.getModule(Banwave.class).addPlayer(player.getUniqueId(), info);
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			String r = MSG.replaceCheckPlaceholder(reason, cp, check);

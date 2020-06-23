@@ -95,7 +95,7 @@ public class WarnSubcommand extends Subcommand {
 
 			@Override
 			public String getDebugName() {
-				return "ManuallyIssued";
+				return "ManuallyIssued#1";
 			}
 
 			@Override
