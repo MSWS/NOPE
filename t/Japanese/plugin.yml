@@ -9,14 +9,14 @@ softdepend:
   - ProtocolLib
   - MaxBans
   - AdvancedBan
-  - LapisBans
+  - ラピスバン
   - LiteBans
   - BanManagement
   - PlaceholderAPI
   - mcMMO
   - CrazyEnchantments
   - TrainCarts
-  - Train_Carts
+  - トレインカート(_C)
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: すべての NOPE 機能にアクセスし、すべての NOPE チェックをバイパスします
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: プレイヤーがすべての移動チェックを回避できるようにします
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: プレイヤーがすべてのフライトチェックをバイパスできるようにする
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'すべてのフライト#4チェックをバイパスすることをプレイヤーに許可する'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: プレイヤーが自分のスコアボードを切り替えられるようにします
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: プレイヤーがサーバーのスコアボードを切り替えられるようにします
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: プレイヤーがテストラグコマンドにアクセスできるようにします
