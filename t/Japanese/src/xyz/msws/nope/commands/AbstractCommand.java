@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+パッケージ xyz.msws.nope.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleeter {
 
 	protected List<Subcommand> cmds = new ArrayList<>();
 
@@ -37,7 +37,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 	}
 
 	public List<Subcommand> getSubCommands() {
-		return cmds;
+		CMDを返します;
 	}
 
 	@Override
@@ -48,23 +48,23 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 		for (Subcommand c : cmds) {
 			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
 				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
-					MSG.tell(sender,
+					MSG.tell(送信者)
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
+									"&4&l[&c&lNOPE&4&l] &cあなたは &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission());
 					return true;
 				}
-				CommandResult result = c.execute(sender, args);
+				CommandResult = c.execute(sender, args);
 				if (result == CommandResult.SUCCESS)
 					return true;
 				if (result == CommandResult.NO_PERMISSION) {
-					MSG.tell(sender,
+					MSG.tell(送信者)
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
+									"&4&l[&c&lNOPE&4&l] &cあなたは &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission());
 					return true;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
+				MSG.tell(sender, "&4" + label + " > &c" + c.getName() の適切な使用法
 				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
 				MSG.tell(sender, result.getMessage());
 				return true;
@@ -83,18 +83,18 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 			List<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {
 				if (completions == null || completions.isEmpty())
-					continue;
+					続ける;
 				if (completions.size() < args.length - 1)
-					continue;
+					続ける;
 				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
+					続ける;
 				String[] res = completions.get(args.length - 2);
 				if (res == null)
-					continue;
+					続ける;
 				for (String r : res)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(r);
-				continue;
+				続ける;
 			}
 			for (String alias : aliases) {
 				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
