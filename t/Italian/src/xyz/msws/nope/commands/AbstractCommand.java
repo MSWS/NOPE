@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+pacchetto xyz.msws.nope.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 	@Override
 	public void enable() {
 		PluginCommand cmd = plugin.getCommand(getName());
-		cmd.setExecutor(this);
-		cmd.setTabCompleter(this);
+		cmd.setExecutor(questo);
+		cmd.setTabCompleter(questo);
 	}
 
 	public void disable() {
@@ -37,64 +37,64 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 	}
 
 	public List<Subcommand> getSubCommands() {
-		return cmds;
+		cmd di ritorno;
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 1)
-			return false;
-		String cmd = args[0];
+			restituire falso;
+		Stringa cmd = args[0];
 		for (Subcommand c : cmds) {
-			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
+			if (c.getName().equalsIgnoreCase(cmd) <unk> <unk> c.getAliases().contains(cmd.toLowerCase())) {
 				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									"&4&l[&c&lNOPE&4&l] &cTi manca &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
 					return true;
 				}
-				CommandResult result = c.execute(sender, args);
+				Risultato del comandoRisultato = c.execute(sender, args);
 				if (result == CommandResult.SUCCESS)
 					return true;
 				if (result == CommandResult.NO_PERMISSION) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									"&4&l[&c&lNOPE&4&l] &cTi manca &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
 					return true;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
+				MSG.tell(sender, "&4" + label + " > &cUso corretto per " + c.getName());
+				MSG.tell(sender, "&7/" + label + " " + c.getName() + " + " + c.getUsage());
 				MSG.tell(sender, result.getMessage());
 				return true;
 			}
 		}
-		return false;
+		restituire falso;
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+		Elenco<String> risultato = nuovo ArrayList<>();
 
 		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
+			Elenco<String> alias = sub.getAliases();
 			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+			Elenco<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {
-				if (completions == null || completions.isEmpty())
-					continue;
+				if (completions == null <unk> <unk> completions.isEmpty())
+					continuare;
 				if (completions.size() < args.length - 1)
-					continue;
+					continuare;
 				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
-				String[] res = completions.get(args.length - 2);
+					continuare;
+				Stringa[] res = completions.get(args.length - 2);
 				if (res == null)
-					continue;
-				for (String r : res)
+					continuare;
+				for (Stringa r : res)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(r);
-				continue;
+				continuare;
 			}
 			for (String alias : aliases) {
 				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
@@ -102,7 +102,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		return result.isEmpty() ? null : risultato;
 	}
 
 }
