@@ -66,8 +66,8 @@ public class NOPECommand расширяет AbstractCommand {
 		cmds.add(help);
 	}
 
-	@Override
-	public String getName() {
+	@Переопределение
+	публичная строка getName() {
 		return "nope";
 	}
 }
