@@ -1,7 +1,7 @@
-package xyz.msws.nope.commands;
+paquet xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+Importer java.util.ArrayList;
+Importer java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,100 +9,100 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.utils.MSG;
+Importer xyz.msws.nope.NOPE ;
+Importer xyz.msws.nope.modules.AbstractModule ;
+Importer xyz.msws.nope.utils.MSG;
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+public abstract class AbstractCommand extends AbstractModule implémente CommandExecutor, TabCompleter {
 
-	protected List<Subcommand> cmds = new ArrayList<>();
+	liste protégée<Subcommand> cmds = nouvelle liste de tableaux<>();
 
-	public AbstractCommand(NOPE plugin) {
+	AbstractCommand(plugin NOPE) public {
 		super(plugin);
 	}
 
 	public abstract String getName();
 
-	@Override
+	@Remplacer
 	public void enable() {
-		PluginCommand cmd = plugin.getCommand(getName());
-		cmd.setExecutor(this);
-		cmd.setTabCompleter(this);
+		cmd PluginCommand = plugin.getCommand(getName());
+		cmd.setExecutor(ceci);
+		cmd.setTabCompleter(ceci);
 	}
 
 	public void disable() {
-		PluginCommand cmd = plugin.getCommand(getName());
+		cmd PluginCommand = plugin.getCommand(getName());
 		cmd.setExecutor(null);
 		cmd.setTabCompleter(null);
 	}
 
-	public List<Subcommand> getSubCommands() {
-		return cmds;
+	liste publique<Subcommand> getSubCommands() {
+		retourner des cmds;
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@Remplacer
+	public boolean onCommand(CommandSender sender, Commande de commande, Label de chaîne, String[] args) {
 		if (args.length < 1)
-			return false;
-		String cmd = args[0];
-		for (Subcommand c : cmds) {
+			retourner faux;
+		Chaîne cmd = args[0];
+		pour (Sous-commande c : cmds) {
 			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
 				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									"&4&l[&c&lNOPE&4&l] &cIl vous manque &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
-					return true;
+					retourner vrai;
 				}
 				CommandResult result = c.execute(sender, args);
-				if (result == CommandResult.SUCCESS)
-					return true;
-				if (result == CommandResult.NO_PERMISSION) {
+				if (résultat == CommandResult.SUCCESS)
+					retourner vrai;
+				if (résultat == CommandResult.NO_PERMISSION) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									"&4&l[&c&lNOPE&4&l] &cIl vous manque &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
-					return true;
+					retourner vrai;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
+				MSG.tell(sender, "&4" + label + " > &cUtilisation appropriée pour " + c.getName());
 				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
 				MSG.tell(sender, result.getMessage());
-				return true;
+				retourner vrai;
 			}
 		}
-		return false;
+		retourner faux;
 	}
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+	@Remplacer
+	liste publique<String> onTabComplete(CommandSender sender, Commande de commande, Label de chaîne, String[] args) {
+		Liste<String> résultat = nouvelle liste de tableaux<>();
 
-		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
+		pour (sous-commande sub : cmds) {
+			Liste<String> alias = sub.getAliases();
 			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+			Liste<String[]> completions = sub.tabCompletions(sender);
 			if (args.length > 1) {
 				if (completions == null || completions.isEmpty())
-					continue;
+					continuez;
 				if (completions.size() < args.length - 1)
-					continue;
+					continuez;
 				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
+					continuez;
 				String[] res = completions.get(args.length - 2);
 				if (res == null)
-					continue;
-				for (String r : res)
+					continuez;
+				pour (String r : s)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 						result.add(r);
-				continue;
+				continuez;
 			}
-			for (String alias : aliases) {
+			pour (String alias : aliases) {
 				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
 					result.add(alias);
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		retourner result.isEmpty() ? null : résultat ;
 	}
 
 }
