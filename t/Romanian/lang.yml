@@ -1,38 +1,38 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  NoPermission: "&4&xiz[&c&lNOPE&4&} &cNu ai &o permisiune%perm%."
   Banwave:
-    Executed: "&eExecuted the banwave"
-    Added: "&7Successfully added &e%player% &7to the banwave."
+    Executed: "&eExecuta banwave"
+    Added: "&7Ai adaugat cu succes &%player% &7 la banwav."
   Clear:
-    UnknownHack: "&cUnknown hack"
-  EnableChecks: "&aAll checks successfully enabled."
+    UnknownHack: "&cHack necunoscut"
+  EnableChecks: "&aToate verificarile au fost activate."
   Lookup:
-    Querying: "&7Grabbing ban details..."
-  Reload: "&aSuccessfully reloaded."
+    Querying: "&7Obtinerea detaliilor banilor..."
+  Reload: "&Reincarcare reusita."
   Report:
-    RecentlyReported: "&cYou reported &e%player% &calready."
-    TooMany: "&cYou've reported too many players recently."
-    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
+    RecentlyReported: "&cAi raportat &%player% &caldy."
+    TooMany: "&cAi raportat prea multi jucatori recent."
+    Success: "&4Raporturi #%id% > &7Ai raportat &%target% &7pentru &b%reason%&7."
   Toggle:
-    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
-    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
-  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
-  InvalidArgument: "&cAn invalid argument was provided."
-  MissingArgument: "&cYou are missing an argument."
-  PlayerOnly: "&cYou must specify a player to run this command as console."
-  SpecifyPlayer: "&cYou must specify a player as an argument."
+    PlayerOption: "&4NOPE > &7Cu succes &un%option%&7 pentru a &e%value%&7."
+    GlobalOption: "&4NOPE > &7Cu succes &o optiune%option%&7 pentru &e%value%&7."
+  Warn: "&4NOPE > &7A Avertizat &%player% &7pentru &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cUn argument invalid a fost furnizat."
+  MissingArgument: "&cNu ai un argument."
+  PlayerOnly: "&cTrebuie sa specifici un jucator pentru a rula comanda ca consola."
+  SpecifyPlayer: "&cTrebuie sa specifici un jucator ca un argument."
   Removebanwave:
-    Success: "&7You removed &e%player% &7from the banwave."
-    NotBanwaved: "&e%player% &7is not in the banwave."
+    Success: "&7Ai scos &%player% &7 din zona banundului."
+    NotBanwaved: "&e%player% &7 nu se află în zona banundului."
   TestAnimation:
-    Unknown: "&cUnknown animation."
+    Unknown: "&cAnimatie necunoscuta."
   TestLag:
-    Set: "&7Successfully set the delay to &e%delay%&7."
-    Get: "&7The lag is currently set to &a%delay%&7."
-  Time: "&7The next banwave will happen in &e%time%&7."
-  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+    Set: "&7Intarzierea a fost setata cu succes la &%delay%&7."
+    Get: "&7Distanta este setata la &un%delay%&7."
+  Time: "&7Urmatorul val de banuri se va intampla in &e%time%&7."
+  Trust: "&e%player% &7are un factor de încredere de%trust%&7."
   VL:
-    NoVLs: "&cThere are no violation levels right now."
+    NoVLs: "&cNu exista nivele de violare momentan."
 Report:
-  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."
+  Notification: "&4Raportul #%id% > &e%player% &7a raportat &a%target% &7pentru &b%reason%&7."
