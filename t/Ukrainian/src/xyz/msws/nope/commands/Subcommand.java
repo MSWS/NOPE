@@ -1,46 +1,46 @@
-package xyz.msws.nope.commands;
+пакет xyz.msw.nope.command;
 
-import java.util.ArrayList;
-import java.util.List;
+імпорт jav.util.ArrayList;
+імпорт java.util.List;
 
-import javax.annotation.Nullable;
+імпортувати javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+імпортувати xyz.msws.nope;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Представляє собою підкоманду головної команди. Очікується, що кожна субкоманда
+ * Всередину справляється зі своєю логікою. Це може включати в себе субкоманди
+ * команди.
  * 
- * @author imodm
+ * @автор імодм
  *
  */
-public abstract class Subcommand {
+абстрактний клас {
 
-	protected NOPE plugin;
+	плагін NOPE захищено;
 
-	public Subcommand(NOPE plugin) {
-		this.plugin = plugin;
+	публічна Subcommand(NOPE плагін) {
+		this.plugin = плагін;
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@Подальша
+	публічний абстрактний список<String[]> tabtions(CommandSender відправника);
 
-	public abstract String getName();
+	публічний абстрактний рядок getName();
 
-	public abstract String getUsage();
+	публічний абстрактний рядок getUsage();
 
-	public abstract String getDescription();
+	публічний абстрактний рядок getDescription();
 
-	public List<String> getAliases() {
-		return new ArrayList<>();
+	публічний список<String> getAlias() {
+		повернути новий ArrayList<>();
 	}
 
-	public String getPermission() {
-		return null;
+	публічний рядок getPermission() {
+		повернути нуль;
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	публічний абстрактний виконуваний файл CommandSender відправник, String[] args);
 }
