@@ -1,5 +1,5 @@
 ---
-name: NOPE
+name: INGEN
 main: xyz.msws.nope.NOPE
 version: 1.6.4
 description: 1.15.2 Minecraft Anticheat
@@ -9,14 +9,14 @@ softdepend:
   - ProtocolLib
   - MaxBans
   - AdvancedBan
-  - LapisBans
+  - Bannlysningar
   - LiteBans
-  - BanManagement
+  - Banförvaltning
   - PlaceholderAPI
   - mcMMO
   - CrazyEnchantments
-  - TrainCarts
-  - Train_Carts
+  - Varukorgar
+  - Varukorgar
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: Ger tillgång till alla NOPEs funktioner och kringgår alla NOPE kontroller
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: Tillåter spelaren att kringgå alla förflyttningskontroller
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: Tillåter spelaren att kringgå alla flygkontroller
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'Tillåter spelaren att kringgå alla flyg#4 kontroller'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: Tillåter spelaren att växla sin egen resultattavla
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: Tillåter spelaren att växla serverns resultattavla
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: Ger spelaren tillgång till testlag-kommandot
