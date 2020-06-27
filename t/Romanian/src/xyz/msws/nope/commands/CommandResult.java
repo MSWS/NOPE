@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+pachetul xyz.msws.nope.commands;
 
 import xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * Reprezintă rezultatul unei comenzi.
  * 
- * @author imodm
+ * @autor imodm
  *
  */
 public enum CommandResult {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * Comanda a fost finalizată cu succes. Un mesaj de succes personalizat ar trebui să fie
+	 * trimis.
 	 */
-	SUCCESS,
+	SUCHESTIUNI,
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * Expeditorul nu are permisiunile corecte pentru comandă.
 	 */
-	NO_PERMISSION,
+	Nespecificat,
 	/**
-	 * An argument is missing.
+	 * Lipsește un argument.
 	 */
-	MISSING_ARGUMENT,
+	MISING_ARGUMENT,
 	/**
-	 * An invalid argument is given.
+	 * Un argument nevalid este prezentat.
 	 */
 	INVALID_ARGUMENT,
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * Doar un jucător poate folosi comanda și expeditorul nu este unul.
 	 */
-	PLAYER_ONLY,
+	Unelt,
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * Executorul nu a dat un jucător, la fel ca
+	 * {@link CommandResult#MISSING_ARGUMENT} dar mai specific
 	 */
-	PLAYER_REQUIRED,
+	Specifică,
 	/**
-	 * An unknown error occured
+	 * A apărut o eroare necunoscută
 	 */
-	ERROR;
+	EROARE;
 
 	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
+		comutaţi (this) {
+			caz INVALID_ARGUMENT:
+				return MSG.getString("Command.InvalidArgument", "&cA fost furnizat un argument nevalid.");
+			MISIUNE Caz:
+				return MSG.getString("Command.MissingArgument", "&cNu aveți un argument.");
+			cazul NU_PERMISIUNE:
 				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
+						"&4&xiz[&c&lNOPE&4&&] &cNu ai &o%perm% &cpermission.");
+			CAZUL JUCĂTORULULU:
 				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+						"&cTrebuie sa specifici un jucator pentru a rula aceasta comanda ca consola.");
+			cazul JUCĂTORUL_CERER:
+				return MSG.getString("Command.SpecifyPlayer", "&cTrebuie să specificați un jucător ca argument.");
+			SUCCESUL DE cazuri:
+				returnează "";
+			implicit:
+				pauză;
 		}
-		return "&4An error occured whilst executing the command.";
+		returnează "&4A apărut o eroare în timpul executării comenzii.";
 	}
 }
