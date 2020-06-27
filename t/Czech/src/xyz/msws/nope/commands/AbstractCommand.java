@@ -1,7 +1,7 @@
-package xyz.msws.nope.commands;
+balíček xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+importovat java.util.ArrayList;
+importovat java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,21 +9,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.utils.MSG;
+importovat xyz.msws.nope.NOPE;
+importovat xyz.msws.nope.modules.AbstractModule;
+importovat xyz.msws.nope.utils.MSG;
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+public abstract class AbstractCommand rozšiřuje AbstractModule imimplementuje CommandExecutor, TabCompleter {
 
-	protected List<Subcommand> cmds = new ArrayList<>();
+	chráněný seznam<Subcommand> cmds = nový ArrayList<>();
 
 	public AbstractCommand(NOPE plugin) {
 		super(plugin);
 	}
 
-	public abstract String getName();
+	veřejný abstract String getName();
 
-	@Override
+	@override
 	public void enable() {
 		PluginCommand cmd = plugin.getCommand(getName());
 		cmd.setExecutor(this);
@@ -36,65 +36,65 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 		cmd.setTabCompleter(null);
 	}
 
-	public List<Subcommand> getSubCommands() {
-		return cmds;
+	veřejný seznam<Subcommand> getSubCommands() {
+		zpáteční cm;
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@override
+	veřejné boolean onCommand(CommandSender sender, velitelský příkaz, String label, String[] args) {
 		if (args.length < 1)
-			return false;
+			zpáteční nepravda;
 		String cmd = args[0];
-		for (Subcommand c : cmds) {
+		pro (Subcommand c : cmds) {
 			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
 				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
-					MSG.tell(sender,
+					MSG.tell(y)
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									„&4&l[&c&lNOPE&4&l] &cChybí vám &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
-					return true;
+					zpáteční pravda;
 				}
-				CommandResult result = c.execute(sender, args);
+				výsledek velení = cc) execute(cí), náklady;
 				if (result == CommandResult.SUCCESS)
-					return true;
+					zpáteční pravda;
 				if (result == CommandResult.NO_PERMISSION) {
-					MSG.tell(sender,
+					MSG.tell(y)
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
+									„&4&l[&c&lNOPE&4&l] &cChybí vám &a%perm% &cpermission.")
 									.replace("%perm%", c.getPermission()));
-					return true;
+					zpáteční pravda;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
-				MSG.tell(sender, result.getMessage());
-				return true;
+				MSG.tell(odesílatel, "&4" + štítek + " > &cProper využití pro " + c.getName());
+				MSG.tell(odesílatel, "&7/" + štítek + " " " + c.getName() + " " + c.getUsage());
+				MSG.tell(ender, result.getMessage());
+				zpáteční pravda;
 			}
 		}
-		return false;
+		zpáteční nepravda;
 	}
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+	@override
+	veřejný seznam<String> onTabComplete(CommandSender sender, příkaz příkazu, String label, String[] args) {
+		Seznam<String> výsledek = nový ArrayList<>();
 
-		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
+		pro (Subcommand sub : cmds) {
+			Seznam<String> aliasy = sub.getAliases();
 			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+			Seznam<String[]> dokončení = sub.tabCompletions(ender);
 			if (args.length > 1) {
-				if (completions == null || completions.isEmpty())
-					continue;
-				if (completions.size() < args.length - 1)
-					continue;
+				if (dokončeno == null || completions.isEmpty())
+					pokračovat;
+				pokud (completions.size() < args.length - 1)
+					pokračovat;
 				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
+					pokračovat;
 				String[] res = completions.get(args.length - 2);
-				if (res == null)
-					continue;
-				for (String r : res)
+				Pokud (res == null)
+					pokračovat;
+				pro (String r : res)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-						result.add(r);
-				continue;
+						výsled.add(r);
+				pokračovat;
 			}
 			for (String alias : aliases) {
 				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
@@ -102,7 +102,7 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		vrátit výsledek.isEmpty() ? null : výsledek,
 	}
 
 }
