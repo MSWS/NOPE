@@ -83,95 +83,95 @@ public class GUIManager estende AbstractModule implementa Listener {
 				cp.setInventory("hackType");
 				openCheckType.put(player.getUniqueId(),
 						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				break;
-			case "hackType":
+				quebrar;
+			caso "hackType":
 				String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set(
 							"Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
-									+ ".Enabled",
+									+ ".Habilitado",
 							!plugin.getConfig()
-									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
-											+ hack + ".Enabled"));
+									.getBoolean("Verificações." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
+											➲ ├├├├├├├├+ hack + ".Enabled"));
 					ignore.add(player.getUniqueId());
-					player.openInventory(
-							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+					jogador.openInventory(
+							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId())));
 					cp.setInventory("hackType");
-					break;
+					quebrar;
 				}
 				ignore.add(player.getUniqueId());
 				player.openInventory(stats.getInventory(hack));
-				cp.setInventory("hackCategory");
+				cp.setInventory("categoria hackCategory");
 				openHackCategory.put(player.getUniqueId(), hack);
-				break;
-			case "hackCategory":
+				quebrar;
+			caso "hackCategory":
 				String hackCategory = openHackCategory.get(player.getUniqueId());
 				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId()));
 				String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
+				plugin.getConfig().set("Verificações" + hackType + "." + hackCategory + "." + debugName + ".Enabled",
 						!plugin.getConfig()
-								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
+								.getBoolean("Verificações." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
 				ignore.add(player.getUniqueId());
-				player.openInventory(stats.getInventory(hackCategory));
-				cp.setInventory("hackCategory");
-				break;
+				jogador.openInventory(stats.getInventory(hackCategory));
+				cp.setInventory("categoria hackCategory");
+				quebrar;
 		}
 	}
 
 	@EventHandler
-	public void onClose(InventoryCloseEvent event) {
+	public void onClose(Evento de encerramento) {
 		if (!(event.getPlayer() instanceof Player))
-			return;
-		Player player = (Player) event.getPlayer();
+			retornar;
+		Jogador = (Jogador).getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (cp.getInventory() == null)
-			return;
+			retornar;
 
 		String inv = cp.getInventory();
 
 		if (ignore.contains(player.getUniqueId())) {
 			ignore.remove(player.getUniqueId());
-			return;
+			retornar;
 		}
 
 		plugin.saveConfig();
 
 		switch (inv) {
-			case "hackType":
+			caso "hackType":
 				ignore.add(player.getUniqueId());
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						player.openInventory(stats.getInventory());
+				novo BukkitRunnable() {
+					Ignorar
+					pública void run() {
+						jogador.openInventory(stats.getInventory());
 						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			case "hackCategory":
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						player.openInventory(
-								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+				retornar;
+			caso "hackCategory":
+				novo BukkitRunnable() {
+					Ignorar
+					pública void run() {
+						jogador.openInventory(
+								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId())));
 						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			default:
-				break;
+				retornar;
+			padrão:
+				quebrar;
 		}
 
 		cp.setInventory(null);
 	}
 
-	@Override
-	public void enable() {
+	Ignorar
+	void void habilitado() {
 		this.stats = plugin.getModule(Stats.class);
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(este, plugin);
 	}
 
-	@Override
+	Ignorar
 	public void disable() {
 	}
 }
