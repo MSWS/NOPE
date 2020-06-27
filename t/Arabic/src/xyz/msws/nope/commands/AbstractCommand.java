@@ -1,7 +1,7 @@
-package xyz.msws.nope.commands;
+حزمة xyz.msws.nope.command;
 
-import java.util.ArrayList;
-import java.util.List;
+استيراد java.util.ArrayList؛
+استيراد java.util.List؛
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,100 +9,100 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.utils.MSG;
+استيراد xyz.msws.nope.NOPE؛
+استيراد xyz.msws.nope.modules.AbstractModule؛
+استيراد xyz.msws.nope.utils.MSG؛
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+يوسع صف تجريدي عام AbstractCommand نطاق تطبيق APstractModule لأجهزة القائد التنفيذي، TabCompleter {
 
-	protected List<Subcommand> cmds = new ArrayList<>();
+	القائمة المحمية<Subcommand> cmds = قائمة مصفوفة جديدة<>();
 
-	public AbstractCommand(NOPE plugin) {
-		super(plugin);
+	الملخص العام (NOPE plugin) {
+		فائق (إضافة)؛
 	}
 
-	public abstract String getName();
+	ملخص عام getName();
 
-	@Override
-	public void enable() {
-		PluginCommand cmd = plugin.getCommand(getName());
-		cmd.setExecutor(this);
-		cmd.setTabCompleter(this);
+	@تجاوز
+	الفراغ العام تمكين () {
+		pluginCommand cmd = plugin.getcommand(getName())؛
+		cmd.setExecutor(هذا)؛
+		cmd.setTabCompleter(هذا)؛
 	}
 
-	public void disable() {
-		PluginCommand cmd = plugin.getCommand(getName());
+	تعطيل الفراغ العام() {
+		pluginCommand cmd = plugin.getcommand(getName())؛
 		cmd.setExecutor(null);
-		cmd.setTabCompleter(null);
+		cmd.setTabCompleter(null)؛
 	}
 
-	public List<Subcommand> getSubCommands() {
-		return cmds;
+	القائمة العامة<Subcommand> getSubcommands() {
+		إرجاع سمد;
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@تجاوز
+	علبة عامة على القائد (قائد المرسل، أمر الأوامر ، تسمية String ، String[] args) {
 		if (args.length < 1)
-			return false;
-		String cmd = args[0];
-		for (Subcommand c : cmds) {
-			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
-				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
-					MSG.tell(sender,
-							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+			إرجاع خاطئ؛
+		السلسلة cmd = الأبراج[0]؛
+		ل (Subcommand c : cmds) {
+			إذا (c.getName().equalsIgnoreCase(cmd) <unk> <unk> c.getAliases().contains(cmd.toLowerCase())) {
+				إذا (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
+					MSG.tell(المرسل)،
+							MSG.getString("command.Nopermission",
+									"&4&l[&c&lNOPE&4&l] &cأنت تفتقر إلى &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission())؛
+					إرجاع صحيح؛
 				}
-				CommandResult result = c.execute(sender, args);
-				if (result == CommandResult.SUCCESS)
-					return true;
-				if (result == CommandResult.NO_PERMISSION) {
-					MSG.tell(sender,
-							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+				نتيجة القيادة = c.execute(sender, arg);
+				إذا (نتيجة == commandult.SUCCESS)
+					إرجاع صحيح؛
+				إذا (result == commandult.NO_PERMISSION) {
+					MSG.tell(المرسل)،
+							MSG.getString("command.Nopermission",
+									"&4&l[&c&lNOPE&4&l] &cأنت تفتقر إلى &a%perm% &cpermission.")
+									.replace("%perm%", c.getPermission())؛
+					إرجاع صحيح؛
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
-				MSG.tell(sender, result.getMessage());
-				return true;
+				MSG.tell(المرسل، "&4" + التسمية + " > &cProper الاستخدام ل " + c.getName())؛
+				MSG.tell(sender, "&7/" + label + " + c.getName() + " + c.getUsage())؛
+				MSG.tell(sender, result.getMessage())؛
+				إرجاع صحيح؛
 			}
 		}
-		return false;
+		إرجاع خاطئ؛
 	}
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+	@تجاوز
+	القائمة العامة<String> onTabComplete(القائد المرسل وأمر الأوامر وعلامة String وString[] args) {
+		قائمة<String> نتيجة = قائمة جديدة <>();
 
-		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
-			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+		ل (Subcommand subb : cmds) {
+			قائمة<String> أسماء مستعارة = sub.getAliases();
+			أسماء مستعارة.add(sub.getName())؛
+			قائمة<String[]> تكملة = sub.tabCompletions(sender)؛
 			if (args.length > 1) {
-				if (completions == null || completions.isEmpty())
-					continue;
-				if (completions.size() < args.length - 1)
-					continue;
-				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
-				String[] res = completions.get(args.length - 2);
-				if (res == null)
-					continue;
-				for (String r : res)
-					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-						result.add(r);
-				continue;
+				إذا (المكملات == null <unk> completions.isEmpty())
+					مواصلة؛
+				إذا (completions.size() < args.length - 1)
+					مواصلة؛
+				إذا (!aliases.contains(args[0].toLowerCase()))
+					مواصلة؛
+				String[] res = completions.get(args.length - 2)؛
+				إذا (res == null)
+					مواصلة؛
+				لـ (String r : res)
+					إذا (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+						result.add(r)؛
+				مواصلة؛
 			}
-			for (String alias : aliases) {
-				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-					result.add(alias);
+			لـ (الاسم المستعار: أسماء مستعارة) {
+				إذا (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+					result.add(مستعار)؛
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		إرجاع result.isEmpty() ? لاغ: النتيجة؛
 	}
 
 }
