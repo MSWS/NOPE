@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+pachetul xyz.msws.nope.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+public abstract class AbstractCommand extinde AbstractModule implementări CommandExecutor, TabCompleter {
 
-	protected List<Subcommand> cmds = new ArrayList<>();
+	Lista<Subcommand> cmds protejate = new ArrayList<>();
 
 	public AbstractCommand(NOPE plugin) {
 		super(plugin);
@@ -23,86 +23,86 @@ public abstract class AbstractCommand extends AbstractModule implements CommandE
 
 	public abstract String getName();
 
-	@Override
-	public void enable() {
+	@Suprascriere
+	evitați public enable() {
 		PluginCommand cmd = plugin.getCommand(getName());
-		cmd.setExecutor(this);
-		cmd.setTabCompleter(this);
+		cmd.setExecutor(asta);
+		cmd.setTabCompleter(acest);
 	}
 
-	public void disable() {
+	anulați dezactivarea publică() {
 		PluginCommand cmd = plugin.getCommand(getName());
 		cmd.setExecutor(null);
-		cmd.setTabCompleter(null);
+		cmd.setTabComplet(null);
 	}
 
-	public List<Subcommand> getSubCommands() {
-		return cmds;
+	Listă publică<Subcommand> getSubCommands() {
+		cmd-uri returnate;
 	}
 
-	@Override
+	@Suprascriere
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 1)
-			return false;
-		String cmd = args[0];
-		for (Subcommand c : cmds) {
-			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
-				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
-					MSG.tell(sender,
+			returnare falsă;
+		Șir cmd = încarcă[0];
+		pentru (Subcomandă c : cmds) {
+			dacă (c.getName().equalsIgnoreCase(cmd) <unk> c.getAliases().contains(cmd.toLowerCase())) {
+				dacă (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
+					MSG.tell(expeditor),
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+									"&4&l[&c&lNOPE&4&&&cNu ai &o permisiune%perm%.")
+									.replace("%perm%", c.getPermission());
+					returnarea este reală;
 				}
-				CommandResult result = c.execute(sender, args);
-				if (result == CommandResult.SUCCESS)
-					return true;
-				if (result == CommandResult.NO_PERMISSION) {
-					MSG.tell(sender,
+				Rezultat de comandă= c.execute(expeditor, argeri);
+				dacă (rezultat == CommandResult.SUCCESS)
+					returnarea este reală;
+				dacă (rezultat == CommandResult.NO_PERMISSION) {
+					MSG.tell(expeditor),
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+									"&4&l[&c&lNOPE&4&&&cNu ai &o permisiune%perm%.")
+									.replace("%perm%", c.getPermission());
+					returnarea este reală;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
+				MSG.tell(expeditor, "&4" + eticheta + " > &cProper use pentru " + c.getName());
+				MSG.tell(expeditor, "&7/" + label + " " + c.getName() + " " + c.getUsage());
 				MSG.tell(sender, result.getMessage());
-				return true;
+				returnarea este reală;
 			}
 		}
-		return false;
+		returnare falsă;
 	}
 
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+	@Suprascriere
+	Listă publică<String> onTabComplete(CommandSender expeditor, Comandă, Eticheta String, String[] args) {
+		Listă<String> rezultat = noul ArrayList<>();
 
-		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
+		pentru (Subcomandă sub : cmds) {
+			Lista<String> aliasuri = sub.getAliases();
 			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+			Listă<String[]> completări = sub.tabetions(expeditor);
 			if (args.length > 1) {
-				if (completions == null || completions.isEmpty())
-					continue;
-				if (completions.size() < args.length - 1)
-					continue;
+				dacă (completări == null <unk> completions.isEmpty())
+					continuare;
+				dacă (completares.size() < args.length - 1)
+					continuare;
 				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
-				String[] res = completions.get(args.length - 2);
-				if (res == null)
-					continue;
-				for (String r : res)
+					continuare;
+				String[] res = completares.get(args.length - 2);
+				dacă (res == null)
+					continuare;
+				pentru (şir : res)
 					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-						result.add(r);
-				continue;
+						rezultat.add(r);
+				continuare;
 			}
-			for (String alias : aliases) {
+			pentru (String alias : aliass) {
 				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-					result.add(alias);
+					rezultat.add(alias);
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		return result.isEmpty() ? nul : rezultat;
 	}
 
 }
