@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+pachetul xyz.msws.nope.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,30 +22,30 @@ import xyz.msws.nope.commands.sub.TimeSubcommand;
 import xyz.msws.nope.commands.sub.ToggleSubcommand;
 import xyz.msws.nope.commands.sub.TrustSubcommand;
 import xyz.msws.nope.commands.sub.VLSubcommand;
-import xyz.msws.nope.commands.sub.WarnSubcommand;
+import xyz.msws.nope.commands.sub.AvertizareSubcommand;
 
-public class NOPECommand extends AbstractCommand {
+clasa publică NOPECommand extinde AbstractCommand {
 
-	private HelpSubcommand help;
+	Ajutor subcomandă privat;
 
 	public NOPECommand(NOPE plugin) {
 		super(plugin);
-		help = new HelpSubcommand(plugin, this, 8);
+		ajutor = new HelpSubcommand(plugin, this 8);
 	}
 
-	@Override
+	@Suprascriere
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		label = label.toUpperCase();
-		if (super.onCommand(sender, command, label, args))
-			return true;
-		help.execute(sender, args);
-		return true;
+		etichetă = label.toUpperCase();
+		dacă (super.onCommand(expeditor, comandă, etichetă, args))
+			returnarea este reală;
+		asistență(expeditor, argeri);
+		returnarea este reală;
 	}
 
-	@Override
-	public void enable() {
-		super.enable();
-		cmds.add(new VLSubcommand(plugin));
+	@Suprascriere
+	evitați public enable() {
+		super.activitate();
+		cmds.add(New VLSubcommand(plugin));
 		cmds.add(new ClearSubcommand(plugin));
 		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(new LookupSubcommand(plugin));
@@ -60,14 +60,14 @@ public class NOPECommand extends AbstractCommand {
 		cmds.add(new EnablechecksSubcommand(plugin));
 		cmds.add(new OnlineSubcommand(plugin));
 		cmds.add(new TestAnimationSubcommand(plugin));
-		cmds.add(new WarnSubcommand(plugin));
+		cmds.add[new WarnSubcommand(plugin)];
 		cmds.add(new ChecksSubcommand(plugin));
 		cmds.add(new TrustSubcommand(plugin));
 		cmds.add(help);
 	}
 
-	@Override
+	@Suprascriere
 	public String getName() {
-		return "nope";
+		returnează "nope";
 	}
 }
