@@ -1,4 +1,4 @@
-package xyz.msws.nope.listeners;
+pacchetto xyz.msws.nope.listeners;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventario.InventoryClickEvent;
+import org.bukkit.event.inventario.InventarioCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -26,13 +26,13 @@ import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.utils.MSG;
 
 /**
- * Listens to and manages the player's /nope stats GUI
+ * Ascolta e gestisce l'interfaccia delle statistiche /nope del giocatore
  * 
  * @author imodm
  *
  */
 public class GUIManager extends AbstractModule implements Listener {
-	private Stats stats;
+	statistiche statistiche private;
 
 	public GUIManager(NOPE plugin) {
 		super(plugin);
@@ -41,125 +41,125 @@ public class GUIManager extends AbstractModule implements Listener {
 	private Map<UUID, String> openCheckType = new HashMap<>();
 	private Map<UUID, String> openHackCategory = new HashMap<>();
 
-	private HashSet<UUID> ignore = new HashSet<>();
+	privato HashSet<UUID> ignora = nuovo HashSet<>();
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player))
-			return;
+			restituisce;
 		Player player = (Player) event.getWhoClicked();
 		ItemStack item = event.getCurrentItem();
-		if (item == null || item.getType() == Material.AIR)
-			return;
+		if (item == null <unk> <unk> item.getType() == Material.AIR)
+			restituisce;
 
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (cp.getInventory() == null)
-			return;
+			restituisce;
 
 		event.setCancelled(true);
 
-		if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName())
-			return;
+		if (!item.hasItemMeta() <unk> <unk> !item.getItemMeta().hasDisplayName())
+			restituisce;
 
 		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
 		switch (cp.getInventory()) {
-			case "stats":
-				CheckType type;
+			caso "stats":
+				Tipo di controllo;
 				try {
 					type = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
 				} catch (Exception e) {
-					break;
+					rompere;
 				}
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
 							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
-					player.openInventory(stats.getInventory());
+					giocatore.openInventory(stats.getInventory());
 					cp.setInventory("stats");
-					break;
+					rompere;
 				}
-				player.openInventory(stats.getInventory(type));
+				giocatore.openInventory(stats.getInventory(type));
 				cp.setInventory("hackType");
 				openCheckType.put(player.getUniqueId(),
 						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				break;
-			case "hackType":
+				rompere;
+			caso "hackType":
 				String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set(
 							"Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
-									+ ".Enabled",
+									+ ".Abilitato",
 							!plugin.getConfig()
 									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
-											+ hack + ".Enabled"));
+
 					ignore.add(player.getUniqueId());
-					player.openInventory(
+					giocatore.openInventory(
 							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
 					cp.setInventory("hackType");
-					break;
+					rompere;
 				}
 				ignore.add(player.getUniqueId());
-				player.openInventory(stats.getInventory(hack));
+				giocatore.openInventory(stats.getInventory(hack));
 				cp.setInventory("hackCategory");
 				openHackCategory.put(player.getUniqueId(), hack);
-				break;
-			case "hackCategory":
-				String hackCategory = openHackCategory.get(player.getUniqueId());
+				rompere;
+			caso "hackCategory":
+				String hackCategoria = openHackCategory.get(player.getUniqueId());
 				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId()));
 				String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
+				plugin.getConfig().set("Checks." + hackType + "." + hackCategoria + "." + debugName + ".Abilitato",
 						!plugin.getConfig()
-								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
+								.getBoolean("Checks." + hackType + "." + hackCategoria + "." + debugName + ".Abilitato"));
 				ignore.add(player.getUniqueId());
-				player.openInventory(stats.getInventory(hackCategory));
+				giocatore.openInventory(stats.getInventory(hackCategory));
 				cp.setInventory("hackCategory");
-				break;
+				rompere;
 		}
 	}
 
 	@EventHandler
 	public void onClose(InventoryCloseEvent event) {
 		if (!(event.getPlayer() instanceof Player))
-			return;
+			restituisce;
 		Player player = (Player) event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (cp.getInventory() == null)
-			return;
+			restituisce;
 
-		String inv = cp.getInventory();
+		Stringa inv = cp.getInventory();
 
 		if (ignore.contains(player.getUniqueId())) {
 			ignore.remove(player.getUniqueId());
-			return;
+			restituisce;
 		}
 
 		plugin.saveConfig();
 
 		switch (inv) {
-			case "hackType":
+			caso "hackType":
 				ignore.add(player.getUniqueId());
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						player.openInventory(stats.getInventory());
+						giocatore.openInventory(stats.getInventory());
 						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			case "hackCategory":
+				restituisce;
+			caso "hackCategory":
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						player.openInventory(
+						giocatore.openInventory(
 								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
 						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			default:
-				break;
+				restituisce;
+			predefinito:
+				rompere;
 		}
 
 		cp.setInventory(null);
@@ -168,7 +168,7 @@ public class GUIManager extends AbstractModule implements Listener {
 	@Override
 	public void enable() {
 		this.stats = plugin.getModule(Stats.class);
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(this plugin);
 	}
 
 	@Override
