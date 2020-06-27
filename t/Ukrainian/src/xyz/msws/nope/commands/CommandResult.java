@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+пакет xyz.msw.nope.command;
 
-import xyz.msws.nope.utils.MSG;
+імпортувати xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * Представляє собою результат команди.
  * 
- * @author imodm
+ * @автор імодм
  *
  */
-public enum CommandResult {
+публічний перезапис {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * Команду успішно завершено. Має бути задане повідомлення про успіх
+	 * надіслано.
 	 */
-	SUCCESS,
+	УСПІШНО
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * Відправник не має потрібних дозволів для команди.
 	 */
-	NO_PERMISSION,
+	Ще одна історія,
 	/**
-	 * An argument is missing.
+	 * Не вистачає аргументу.
 	 */
-	MISSING_ARGUMENT,
+	Аргумент тощо
 	/**
-	 * An invalid argument is given.
+	 * Указано неприпустимий аргумент.
 	 */
-	INVALID_ARGUMENT,
+	Доставка з торгівлею,
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * Тільки гравець може використовувати команду і відправник не є.
 	 */
-	PLAYER_ONLY,
+	Доступний тільки для гравців,
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * Екстрактор не дав гравцю, такий самий як
+	 * {@link CommandResult#MISSING_ARGUMENT} але більш конкретні
 	 */
-	PLAYER_REQUIRED,
+	Переважна репутація,
 	/**
-	 * An unknown error occured
+	 * Сталася невідома помилка
 	 */
-	ERROR;
+	ПОМИЛКА;
 
-	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+	публічний String getMessage() {
+		перемикач (це) {
+			риса ІНШИЙ_ВЕРСІЯ:
+				повернення MSG.getString("Command.InvalidArgument", "&cA було надано неприпустимий аргумент.");
+			власною функцією:
+				повернути MSG.getString("Command.MissingArgument", "&cYou не вистачає аргумента.");
+			не_ЗМІЩЕННЯ кейсів:
+				повернути MSG.getString("Command.NoPermission",
+						"&4&l[&c&lNOPE&4&l] &cУ вас не вистачає &a%perm% &cpermission.");
+			справа з ГРАВЦЯ:
+				повернути MSG.getString("Command.PlayerOnly",
+						"&cВи повинні вказати гравцю як консоль.");
+			кейс і є повторною роботою:
+				повернути MSG.getString("Command.SpecifyPlayer", "&cYou повинні вказати гравця в якості аргументу.");
+			УСПІШНО кейс:
+				повернення "";
+			за замовчуванням:
+				перерва;
 		}
-		return "&4An error occured whilst executing the command.";
+		return "&4An сталася помилка при виконанні команди.";
 	}
 }
