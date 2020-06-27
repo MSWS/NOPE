@@ -185,6 +185,10 @@
 	    <artifactId>MaxBans</artifactId>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
-	
+	<dependency>
+	    <groupId>com.github.steviebeenz</groupId>
+	    <artifactId>NOPE</artifactId>
+	    <version>master-SNAPSHOT</version>
+	</dependency>
 	</dependencies>
 </project>
