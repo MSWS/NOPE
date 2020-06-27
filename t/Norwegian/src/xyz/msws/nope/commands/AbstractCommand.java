@@ -1,7 +1,7 @@
-package xyz.msws.nope.commands;
+pakke xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+Importer java.util.ArrayList;
+Importer java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,100 +9,100 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.utils.MSG;
+importer xyz.msws.nope.NOPE;
+Importer xyz.msws.nope.modules.AbstractModule;
+Importer xyz.msws.nope.utils.MSG;
 
-public abstract class AbstractCommand extends AbstractModule implements CommandExecutor, TabCompleter {
+offentlig abstract class AbstractCommand utvider AbstractModule implementerer CommandExecutor, TabCompleter {
 
-	protected List<Subcommand> cmds = new ArrayList<>();
+	beskyttet liste<Subcommand> cmds = ny liste <>();
 
 	public AbstractCommand(NOPE plugin) {
 		super(plugin);
 	}
 
-	public abstract String getName();
+	public abstract string getName();
 
-	@Override
-	public void enable() {
+	@Overstyring
+	offentlig aktivering() {
 		PluginCommand cmd = plugin.getCommand(getName());
-		cmd.setExecutor(this);
-		cmd.setTabCompleter(this);
+		cmd.setExecutor(dette);
+		cmd.setTabCompleter(dette);
 	}
 
 	public void disable() {
 		PluginCommand cmd = plugin.getCommand(getName());
 		cmd.setExecutor(null);
-		cmd.setTabCompleter(null);
+		cmd.setTabKompletter(null);
 	}
 
-	public List<Subcommand> getSubCommands() {
-		return cmds;
+	offentlig liste<Subcommand> getSubCommands() {
+		returcmds;
 	}
 
-	@Override
+	@Overstyring
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 1)
-			return false;
-		String cmd = args[0];
-		for (Subcommand c : cmds) {
-			if (c.getName().equalsIgnoreCase(cmd) || c.getAliases().contains(cmd.toLowerCase())) {
-				if (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
+			returfeil;
+		Streng cmd = mål[0];
+		for (Subcommandc : cmds) {
+			hvis (c.getName().equalsIgnoreCase(cmd) butic.getAliases().contains(cmd.toLowerCase())) {
+				hvis (c.getPermission() != null && !sender.hasPermission(c.getPermission())) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+									"&4&l[&c&lNOPE&4&l] &cDu mangler &en%perm% &cpermission.")
+									.replace("%perm%", c.getPermission());
+					retursann;
 				}
-				CommandResult result = c.execute(sender, args);
-				if (result == CommandResult.SUCCESS)
-					return true;
-				if (result == CommandResult.NO_PERMISSION) {
+				Kommandoresultat = c.execute(sender, argers);
+				hvis (resultat == CommandResult.SUCCESS)
+					retursann;
+				hvis (resultat == Kommandoresultat.NO_PERMISSION) {
 					MSG.tell(sender,
 							MSG.getString("Command.NoPermission",
-									"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.")
-									.replace("%perm%", c.getPermission()));
-					return true;
+									"&4&l[&c&lNOPE&4&l] &cDu mangler &en%perm% &cpermission.")
+									.replace("%perm%", c.getPermission());
+					retursann;
 				}
-				MSG.tell(sender, "&4" + label + " > &cProper usage for " + c.getName());
-				MSG.tell(sender, "&7/" + label + " " + c.getName() + " " + c.getUsage());
-				MSG.tell(sender, result.getMessage());
-				return true;
+				MSG.tell(sender, "&4" + etikett + " > &cProper bruk for " + c.getName());
+				MSG.tell(sender, "&7/" + etikett + " " " + c.getName() + " " + c.getUsage());
+				MSG.tell(sender, resultat.getMessage());
+				retursann;
 			}
 		}
-		return false;
+		returfeil;
 	}
 
-	@Override
+	@Overstyring
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		List<String> result = new ArrayList<>();
+		Liste<String> resultat = ny liste<>();
 
 		for (Subcommand sub : cmds) {
-			List<String> aliases = sub.getAliases();
+			Liste<String> aliaser = under.getAliaser();
 			aliases.add(sub.getName());
-			List<String[]> completions = sub.tabCompletions(sender);
+			Liste<String[]> Ferdigheter = sub.tabkompletions(avsender);
 			if (args.length > 1) {
-				if (completions == null || completions.isEmpty())
-					continue;
-				if (completions.size() < args.length - 1)
-					continue;
-				if (!aliases.contains(args[0].toLowerCase()))
-					continue;
-				String[] res = completions.get(args.length - 2);
-				if (res == null)
-					continue;
-				for (String r : res)
-					if (r.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-						result.add(r);
-				continue;
+				hvis (fullføring== null finish fullført.isfylt())
+					fortsett;
+				hvis (fullføress.size() < args.length - 1)
+					fortsett;
+				hvis !aliases.container(varer[0].toLowerCase()))
+					fortsett;
+				String[] res = ferdigheter.get(args.lengde - 2);
+				hvis (res == null)
+					fortsett;
+				for (String r: res)
+					hvis (r.toLowerCase).startsWith(args[args.length - 1].toLowerCase()))
+						resultat.add(r);
+				fortsett;
 			}
-			for (String alias : aliases) {
-				if (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
-					result.add(alias);
+			for (Tring alias : aliaser) {
+				hvis (alias.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+					resultat.add(alias);
 			}
 		}
 
-		return result.isEmpty() ? null : result;
+		returnere resultat.is(6 m?? null : resultat;
 	}
 
 }
