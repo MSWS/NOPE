@@ -13,7 +13,7 @@
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
-				<filtering>true</filtering>
+				<filtering>истина</filtering>
 				<directory>${basedir}</directory>
 				<includes>
 					<include>plugin.yml</include>
@@ -24,7 +24,7 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>плагин maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
@@ -33,7 +33,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
+				<artifactId>плагин maven-shade-</artifactId>
 				<version>3.2.4</version>
 				<configuration>
 					<source>1.8</source>
@@ -41,9 +41,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>пакет</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>тень</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -57,7 +57,7 @@
 		</repository>
 		<repository>
 			<id>mojang</id>
-			<name>Mojang's Repository</name>
+			<name>Репозиторий Mojang</name>
 			<url>https://libraries.minecraft.net/</url>
 		</repository>
 		<repository>
@@ -65,19 +65,19 @@
 			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
 		</repository>
 		<repository>
-			<id>confuser-repo</id>
-			<url>http://ci.frostcast.net/plugin/repository/everything</url>
+			<id>запутанный репозиторий</id>
+			<url>http://ci.frostcast.net/plugin/repository/все</url>
 		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
-			<id>placeholderapi</id>
+			<id>плейсхолдерапи</id>
 			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
 		<repository>
-			<id>spicord-repo</id>
+			<id>spicord-репо</id>
 			<url>https://repo.mcdb.eu/</url>
 		</repository>
 		<repository>
@@ -85,7 +85,7 @@
 			<url>https://nexus.badbones69.com/repository/maven-releases/</url>
 		</repository>
 		<repository>
-    		<id>dmulloy2-repo</id>
+    		<id>dmulloy2-репо</id>
     		<url>https://repo.dmulloy2.net/nexus/repository/public/</url>
   		</repository>
    <repository>
@@ -99,69 +99,69 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.15.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.1.50.Final</version>
-			<scope>provided</scope>
+			<artifactId>сетки-все</artifactId>
+			<version>4.1.50.Окончательный</version>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mojang</groupId>
 			<artifactId>authlib</artifactId>
 			<version>1.5.21</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.dmulloy2</groupId>
 	    <artifactId>ProtocolLib</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>мастер-SNAPSHOT</version>
 	</dependency>
 		<dependency>
 			<groupId>me.confuser</groupId>
-			<artifactId>BanManager</artifactId>
+			<artifactId>Менеджер</artifactId>
 			<version>5.10.0</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gitlab.ruany</groupId>
 			<artifactId>LiteBansAPI</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.lapismc</groupId>
 			<artifactId>LapisBansAPI</artifactId>
 			<version>2.0.3</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
+			<groupId>м.клип</groupId>
+			<artifactId>плейсхолдерапи</artifactId>
 			<version>2.10.6</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.DevLeoko</groupId>
-	    <artifactId>Advancedban</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <artifactId>Продвинутый бан</artifactId>
+	    <version>мастер-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.mcMMO-Dev</groupId>
 	    <artifactId>mcMMO</artifactId>
-	    <version>master</version>
+	    <version>мастер</version>
 	</dependency>
 
 		<dependency>
 			<groupId>me.badbones69</groupId>
-			<artifactId>crazyenchantments-plugin</artifactId>
+			<artifactId>сумасшедшие чары</artifactId>
 			<version>1.8-Dev-Build-v8</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -169,19 +169,19 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.mcdb</groupId>
-			<artifactId>spicord-common</artifactId>
+			<artifactId>обычный спец</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>предоставлено</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans-plus</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>мастер-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
-	    <artifactId>MaxBans</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <artifactId>Макс. баны</artifactId>
+	    <version>мастер-SNAPSHOT</version>
 	</dependency>
 	</dependencies>
 </project>
