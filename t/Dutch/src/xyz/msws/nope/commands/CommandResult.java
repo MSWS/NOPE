@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+pakket xyz.msws.nope.commands;
 
-import xyz.msws.nope.utils.MSG;
+importeer xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * Vertegenwoordigt het resultaat van een commando.
  * 
- * @author imodm
+ * @auteur imodm
  *
  */
-public enum CommandResult {
+publieke opdrachtresultaat {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * De opdracht is succesvol voltooid. Een aangepast succesbericht moet zijn
+	 * verzonden.
 	 */
-	SUCCESS,
+	SUCCES,
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * De afzender heeft niet de juiste permissies voor de opdracht.
 	 */
-	NO_PERMISSION,
+	NO_PERMISSIES
 	/**
-	 * An argument is missing.
+	 * Er ontbreekt een argument.
 	 */
-	MISSING_ARGUMENT,
+	OPPONENT_MATCH_DESCRIPTION
 	/**
-	 * An invalid argument is given.
+	 * Een ongeldig argument is opgegeven.
 	 */
-	INVALID_ARGUMENT,
+	DAILY_SPIN_DESCRIPTION
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * Alleen een speler kan de opdracht gebruiken en de afzender is er niet.
 	 */
-	PLAYER_ONLY,
+	PLAYLIST_DEACTIVATE_BTN
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * De executeur gaf geen speler, hetzelfde als
+	 * {@link CommandResult#MISSING_ARGUMENT} maar meer specifiek
 	 */
-	PLAYER_REQUIRED,
+	LOCAL_NOTIF_SETTINGS_POPUP_TITLE
 	/**
-	 * An unknown error occured
+	 * Er is een onbekende fout opgetreden
 	 */
-	ERROR;
+	FOUT;
 
-	public String getMessage() {
-		switch (this) {
+	openbare tekenreeks getMessage() {
+		switch (deze) {
 			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
+				return MSG.getString("Command.InvalidArgument", "&cEen ongeldig argument is opgegeven.");
 			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
+				return MSG.getString("Command.MissingArgument", "&cJe mist een argument.");
+			case NO_PERMISSIE:
+				retourneer MSG.getString("Command.NoPermission",
+						"&4&l[&c&lNOPE&4&l] &cU mist de &a%perm% &cpermission.");
+			case PLAYER_ONLINE
+				retourneer MSG.getString("Command.PlayerOnly",
+						"&cYou moet een speler opgeven om deze opdracht uit te voeren als console.");
 			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+				return MSG.getString("Command.SpecifyPlayer", "&cJe moet een speler opgeven als argument.");
+			case SUCCES:
+				retourneer "";
+			standaard:
+				pak;
 		}
-		return "&4An error occured whilst executing the command.";
+		geef "&4Er is een fout opgetreden tijdens het uitvoeren van de opdracht.";
 	}
 }
