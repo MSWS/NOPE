@@ -1,49 +1,49 @@
-package xyz.msws.nope.commands;
+pakket xyz.msws.nope.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.sub.BanwaveSubcommand;
-import xyz.msws.nope.commands.sub.ChecksSubcommand;
-import xyz.msws.nope.commands.sub.ClearSubcommand;
-import xyz.msws.nope.commands.sub.EnablechecksSubcommand;
-import xyz.msws.nope.commands.sub.HelpSubcommand;
-import xyz.msws.nope.commands.sub.LookupSubcommand;
-import xyz.msws.nope.commands.sub.OnlineSubcommand;
-import xyz.msws.nope.commands.sub.ReloadSubcommand;
-import xyz.msws.nope.commands.sub.RemovebanwaveSubcommand;
-import xyz.msws.nope.commands.sub.ReportSubcommand;
-import xyz.msws.nope.commands.sub.ResetSubcommand;
-import xyz.msws.nope.commands.sub.StatsSubcommand;
-import xyz.msws.nope.commands.sub.TestAnimationSubcommand;
-import xyz.msws.nope.commands.sub.TestlagSubcommand;
-import xyz.msws.nope.commands.sub.TimeSubcommand;
-import xyz.msws.nope.commands.sub.ToggleSubcommand;
-import xyz.msws.nope.commands.sub.TrustSubcommand;
-import xyz.msws.nope.commands.sub.VLSubcommand;
-import xyz.msws.nope.commands.sub.WarnSubcommand;
+importeer xyz.msws.nope.NEPE;
+importeer xyz.msws.nope.commands.sub.BanwaveSubcommand;
+importeer xyz.msws.nope.commands.sub.ChecksSubcommand;
+importeer xyz.msws.nope.commands.sub.ClearSubcommand;
+importeer xyz.msws.nope.commands.sub.EnablechecksSubcommand;
+importeer xyz.msws.nope.commands.sub.HelpSubcommand;
+importeer xyz.msws.nope.commands.sub.LookupSubcommand;
+importeer xyz.msws.nope.commands.sub.OnlineSubcommand;
+importeer xyz.msws.nope.commands.sub.ReloadSubcommand;
+importeer xyz.msws.nope.commands.sub.RemovebanwaveSubcommand;
+importeer xyz.msws.nope.commands.sub.ReportSubcommand;
+importeer xyz.msws.nope.commands.sub.ResetSubcommand;
+importeer xyz.msws.nope.commands.sub.StatsSubcommand;
+importeer xyz.msws.nope.commands.sub.TestAnimationSubcommand;
+importeer xyz.msws.nope.commands.sub.TestlagSubcommand;
+importeer xyz.msws.nope.commands.sub.TimeSubcommand;
+importeer xyz.msws.nope.commands.sub.ToggleSubcommand;
+importeer xyz.msws.nope.commands.sub.TrustSubcommand;
+importeer xyz.msws.nope.commands.sub.VLSubcommand;
+importeer xyz.msws.nope.commands.sub.WarnSubcommand;
 
-public class NOPECommand extends AbstractCommand {
+publieke klasse NOPECommand breidt AbstractCommand { uit
 
-	private HelpSubcommand help;
+	Privé HelpSubcommand hulp;
 
-	public NOPECommand(NOPE plugin) {
+	publieke NOPECommand(NOPE plugin) {
 		super(plugin);
-		help = new HelpSubcommand(plugin, this, 8);
+		help = nieuwe HelpSubcommand(plugin, dit, 8);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@Overschrijven
+	publieke boolean onCommand(CommandSender afzender, Opdracht commando, String label, String[] args) {
 		label = label.toUpperCase();
-		if (super.onCommand(sender, command, label, args))
-			return true;
-		help.execute(sender, args);
-		return true;
+		if (super.onCommand(afzender, commando, label, args))
+			keer waar;
+		help.execute(afzender, args);
+		keer waar;
 	}
 
-	@Override
-	public void enable() {
+	@Overschrijven
+	publieke ongeldig enable() {
 		super.enable();
 		cmds.add(new VLSubcommand(plugin));
 		cmds.add(new ClearSubcommand(plugin));
@@ -66,8 +66,8 @@ public class NOPECommand extends AbstractCommand {
 		cmds.add(help);
 	}
 
-	@Override
-	public String getName() {
+	@Overschrijven
+	publieke tekenreeks getName() {
 		return "nope";
 	}
 }
