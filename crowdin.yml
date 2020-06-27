@@ -5,3 +5,11 @@ files:
     translation: /t/%language%/%original_path%/%original_file_name%
   - source: /*.xml
     translation: /t/%language%/%original_path%/%original_file_name%
+  - source: /pom.xml
+    translation: /t/%language%/%original_path%/%original_file_name%
+  - source: /lang.yml
+    translation: /t/%language%/%original_path%/%original_file_name%
+  - source: /config.yml
+    translation: /t/%language%/%original_path%/%original_file_name%
+  - source: /plugin.yml
+    translation: /t/%language%/%original_path%/%original_file_name%
