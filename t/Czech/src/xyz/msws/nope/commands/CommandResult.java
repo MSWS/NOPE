@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+balíček xyz.msws.nope.commands;
 
-import xyz.msws.nope.utils.MSG;
+importovat xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * Představuje výsledek příkazu.
  * 
- * @author imodm
+ * @autor imodm
  *
  */
 public enum CommandResult {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * Příkaz byl úspěšně dokončen. Vlastní zpráva o úspěchu by měla být
+	 * odesláno.
 	 */
-	SUCCESS,
+	ÚKOLY
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * Odesílatel nemá správná oprávnění pro příkaz.
 	 */
-	NO_PERMISSION,
+	Nedošlo k navrácení,
 	/**
-	 * An argument is missing.
+	 * Chybí argument.
 	 */
-	MISSING_ARGUMENT,
+	Provedení ARGUMENTu,
 	/**
-	 * An invalid argument is given.
+	 * Uveden je neplatný argument.
 	 */
-	INVALID_ARGUMENT,
+	Neplatný ARGUMENT,
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * Pouze hráč může použít příkaz a odesílatel není jeden.
 	 */
-	PLAYER_ONLY,
+	@1 hry,
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * Spouštěč neposkytl hráči totéž jako
+	 * {@link CommandResult#MISSING_ARGUMENT} ale konkrétnější
 	 */
-	PLAYER_REQUIRED,
+	Jsou vyžadovány
 	/**
-	 * An unknown error occured
+	 * Došlo k neznámé chybě
 	 */
-	ERROR;
+	CHYBA;
 
 	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+		přepínač (this) {
+			INVALID_ARGUMENT:
+				vrácení MSG.getString("Command.InvalidArgument", "&cAn neplatný argument byl poskytnut.");
+			Případ MISSING_ARGUMENT:
+				vrátit MSG.getString("Command.MissingArgument", "&cChybí vám argument.");
+			NE_PERMISSION:
+				vrátit MSG.getString("Command.NoPermission",
+						„&4&l[&c&lNOPE&4&l] &cChybí vám &a%perm% &cpermission.";
+			případ PLAYER_ONLY:
+				vrátit MSG.getString("Command.PlayerOnly",
+						"&cMusíte zadat hráče pro spuštění tohoto příkazu jako konzole.");
+			VYŽADUJE případ PLAYER:
+				vrátit MSG.getString("Command.SpecifyPlayer", "&cYou musí zadat hráče jako argument.");
+			POSUZOVÁNÍ případu:
+				návrat "";
+			výchozí:
+				přerušení;
 		}
-		return "&4An error occured whilst executing the command.";
+		vracet "&4An error při provádění příkazu.";
 	}
 }
