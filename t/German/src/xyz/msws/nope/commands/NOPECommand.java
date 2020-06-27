@@ -1,9 +1,9 @@
-package xyz.msws.nope.commands;
+Paket xyz.msws.nope.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+importieren xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.sub.BanwaveSubcommand;
 import xyz.msws.nope.commands.sub.ChecksSubcommand;
 import xyz.msws.nope.commands.sub.ClearSubcommand;
@@ -24,50 +24,50 @@ import xyz.msws.nope.commands.sub.TrustSubcommand;
 import xyz.msws.nope.commands.sub.VLSubcommand;
 import xyz.msws.nope.commands.sub.WarnSubcommand;
 
-public class NOPECommand extends AbstractCommand {
+public class NOPECommand erweitert AbstractCommand {
 
-	private HelpSubcommand help;
+	private HelpSubcommand Hilfe;
 
-	public NOPECommand(NOPE plugin) {
+	öffentliches NOPECommand(NOPE-Plugin) {
 		super(plugin);
-		help = new HelpSubcommand(plugin, this, 8);
+		help = neues HelpSubcommand(plugin, this, 8);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@Überschreiben
+	public boolean onCommand(CommandSender sender, Befehlsbefehl, String[] args) {
 		label = label.toUpperCase();
-		if (super.onCommand(sender, command, label, args))
-			return true;
-		help.execute(sender, args);
-		return true;
+		if (super.onCommand(sender, Befehl, Beschriftung, args))
+			kehre wahr zurück;
+		help.execute(Absender, Args);
+		kehre wahr zurück;
 	}
 
-	@Override
+	@Überschreiben
 	public void enable() {
 		super.enable();
-		cmds.add(new VLSubcommand(plugin));
+		cmds.add(neues VLSubcommand(plugin));
 		cmds.add(new ClearSubcommand(plugin));
 		cmds.add(new ReportSubcommand(plugin));
-		cmds.add(new LookupSubcommand(plugin));
-		cmds.add(new ToggleSubcommand(plugin));
+		cmds.add(neues LookupSubcommand(plugin));
+		cmds.add(neues ToggleSubcommand(plugin));
 		cmds.add(new StatsSubcommand(plugin));
-		cmds.add(new TimeSubcommand(plugin));
-		cmds.add(new BanwaveSubcommand(plugin));
-		cmds.add(new ReloadSubcommand(plugin));
+		cmds.add(neues TimeSubcommand(plugin));
+		cmds.add(neues BanwaveSubcommand(plugin));
+		cmds.add(neues ReloadSubcommand(plugin));
 		cmds.add(new ResetSubcommand(plugin));
 		cmds.add(new TestlagSubcommand(plugin));
-		cmds.add(new RemovebanwaveSubcommand(plugin));
+		cmds.add(neues RemovebanwaveSubcommand(plugin));
 		cmds.add(new EnablechecksSubcommand(plugin));
 		cmds.add(new OnlineSubcommand(plugin));
-		cmds.add(new TestAnimationSubcommand(plugin));
+		cmds.add(neues TestAnimationSubcommand(plugin));
 		cmds.add(new WarnSubcommand(plugin));
 		cmds.add(new ChecksSubcommand(plugin));
-		cmds.add(new TrustSubcommand(plugin));
+		cmds.add(neues TrustSubcommand(plugin));
 		cmds.add(help);
 	}
 
-	@Override
-	public String getName() {
+	@Überschreiben
+	öffentliche String getName() {
 		return "nope";
 	}
 }
