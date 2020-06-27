@@ -1,38 +1,38 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cأنت تفتقر إلى &a%perm% &cperإذن"
   Banwave:
-    Executed: "&eExecuted the banwave"
-    Added: "&7Successfully added &e%player% &7to the banwave."
+    Executed: "&eتنفيذ الموجة"
+    Added: "&7 تمت إضافة &e%player% &7 بنجاح إلى الموجة."
   Clear:
-    UnknownHack: "&cUnknown hack"
-  EnableChecks: "&aAll checks successfully enabled."
+    UnknownHack: "&cاختراق مجهول"
+  EnableChecks: "&aجميع الفحوص مفعّلة بنجاح."
   Lookup:
-    Querying: "&7Grabbing ban details..."
-  Reload: "&aSuccessfully reloaded."
+    Querying: "&7أخذ تفاصيل الحظر..."
+  Reload: "&aإعادة التحميل بنجاح."
   Report:
-    RecentlyReported: "&cYou reported &e%player% &calready."
-    TooMany: "&cYou've reported too many players recently."
-    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
+    RecentlyReported: "&cلقد أبلغت &e%player% &calready."
+    TooMany: "&cلقد أبلغت عن عدد كبير من اللاعبين مؤخراً."
+    Success: "&4تقرير #%id% > &7لقد أبلغت &a%target% &7ل &b%reason%&7."
   Toggle:
-    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
-    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
-  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
-  InvalidArgument: "&cAn invalid argument was provided."
-  MissingArgument: "&cYou are missing an argument."
-  PlayerOnly: "&cYou must specify a player to run this command as console."
-  SpecifyPlayer: "&cYou must specify a player as an argument."
+    PlayerOption: "&4NOPE > &7بنجاح &a%option%&7 إلى &e%value%&7."
+    GlobalOption: "&4NOPE > &7بنجاح خيار &a%option%&7 ل &e%value%&7."
+  Warn: "&4NOPE > &7حذرت &a%player% &7 لـ &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cتم تقديم حجة غير صالحة."
+  MissingArgument: "&cأنت تفتقد حاجة."
+  PlayerOnly: "&cيجب عليك تحديد مشغل لتشغيل هذا الأمر كوحدة تحكم."
+  SpecifyPlayer: "&cيجب عليك تحديد مشغل كحاجة."
   Removebanwave:
-    Success: "&7You removed &e%player% &7from the banwave."
-    NotBanwaved: "&e%player% &7is not in the banwave."
+    Success: "&7 قمت بإزالة &e%player% &7من الموجة."
+    NotBanwaved: "&e%player% &7 ليس في الموجة."
   TestAnimation:
-    Unknown: "&cUnknown animation."
+    Unknown: "&cالرسوم المتحركة غير معروفة."
   TestLag:
-    Set: "&7Successfully set the delay to &e%delay%&7."
-    Get: "&7The lag is currently set to &a%delay%&7."
-  Time: "&7The next banwave will happen in &e%time%&7."
-  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+    Set: "&7 تعيين التأخير بنجاح إلى &e%delay%&7."
+    Get: "&7 يتم تعيين الفارق حاليًا إلى &a%delay%&7."
+  Time: "&7 ستحدث الموجة القادمة في &e%time%&7."
+  Trust: "&e%player% &7 لديه عامل ثقة من &a%trust%&7."
   VL:
-    NoVLs: "&cThere are no violation levels right now."
+    NoVLs: "&cلا توجد مستويات انتهاك الآن."
 Report:
-  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."
+  Notification: "&4تقرير #%id% > &e%player% &7قد أبلغ &a%target% &7لـ &b%reason%&7."
