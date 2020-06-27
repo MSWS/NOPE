@@ -8,15 +8,15 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Acest program este distribuit în speranța că va fi util,
+ * dar fără nicio GARANȚIE; fără nici măcar garanția implicită de
+ * MERCHANTABILITATEA sau dotările în scopuri speciale.  Vezi
+ * GNU General Public License pentru mai multe detalii.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Ar fi trebuit să primiți o copie a licenței GNU General Public License
+ * împreună cu acest program.  Dacă nu, vezi <http://www.gnu.org/licenses/>.
  */
-package xyz.msws.nope.protocols;
+xyz.msws.nope.protocols;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -25,163 +25,163 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
-public class WrapperPlayServerRelEntityMove extends AbstractPacket {
-	public static final PacketType TYPE = PacketType.Play.Server.REL_ENTITY_MOVE;
+Clasa publică WrapperPlayServerRelEntityMove extinde AbstractPacket {
+	Public static final PacketType TYPE = PacketType.Play.Server.REL_ENTITY_MOVE;
 
 	public WrapperPlayServerRelEntityMove() {
-		super(new PacketContainer(TYPE), TYPE);
+		super(ambalaj nou(nou) Container (TYPE), TYPE);
 		handle.getModifier().writeDefaults();
 	}
 
 	public WrapperPlayServerRelEntityMove(PacketContainer packet) {
-		super(packet, TYPE);
+		super(pachet, TIPE);
 	}
 
 	/**
-	 * Retrieve Entity ID.
+	 * Recuperează ID-ul Entității.
 	 * <p>
-	 * Notes: entity's ID
+	 * Note: ID-ul entității
 	 * 
-	 * @return The current Entity ID
+	 * @return ID-ul entității curente
 	 */
-	public int getEntityID() {
+	public getEntityID() {
 		return handle.getIntegers().read(0);
 	}
 
 	/**
-	 * Set Entity ID.
+	 * Setează ID-ul de entitate.
 	 * 
-	 * @param value - new value.
+	 * Valoare @param - valoare nouă.
 	 */
 	public void setEntityID(int value) {
-		handle.getIntegers().write(0, value);
+		handle.getIntegers().write(0, valoare);
 	}
 
 	/**
-	 * Retrieve the entity of the painting that will be spawned.
+	 * Recuperează entitatea picturii care va fi generată.
 	 * 
-	 * @param world - the current world of the entity.
-	 * @return The spawned entity.
+	 * Lumea @param - lumea curentă a entității.
+	 * @return Entitatea creată.
 	 */
 	public Entity getEntity(World world) {
 		return handle.getEntityModifier(world).read(0);
 	}
 
 	/**
-	 * Retrieve the entity of the painting that will be spawned.
+	 * Recuperează entitatea picturii care va fi generată.
 	 * 
-	 * @param event - the packet event.
-	 * @return The spawned entity.
+	 * Evenimentul @param - evenimentul pachetului.
+	 * @return Entitatea creată.
 	 */
 	public Entity getEntity(PacketEvent event) {
 		return getEntity(event.getPlayer().getWorld());
 	}
 
 	/**
-	 * Retrieve DX.
+	 * Recuperează DX.
 	 *
-	 * @return The current DX
+	 * @return DX curent
 	 */
-	public double getDx() {
-		return handle.getShorts().read(0) / 4096D;
+	public dublu getDx() {
+		handle.getShorts().read(0) / 4096D;
 	}
 
 	/**
-	 * Set DX.
+	 * Setează DX.
 	 *
-	 * @param value - new value.
+	 * Valoare @param - valoare nouă.
 	 */
-	public void setDx(double value) {
-		handle.getShorts().write(0, (short) (value * 4096));
+	evitați public setDx(valoare dublă) {
+		handle.getShorts().write(0, (scurt) (valoare * 4096));
 	}
 
 	/**
-	 * Retrieve DY.
+	 * Recuperează DY.
 	 *
-	 * @return The current DY
+	 * @return DY curent
 	 */
-	public double getDy() {
-		return handle.getShorts().read(1) / 4096D;
+	public dublu getDy() {
+		handle.getShorts().read(1) / 4096D;
 	}
 
 	/**
-	 * Set DY.
+	 * Setează ZY.
 	 *
-	 * @param value - new value.
+	 * Valoare @param - valoare nouă.
 	 */
-	public void setDy(double value) {
-		handle.getShorts().write(1, (short) (value * 4096));
+	anulați public setDy(valoare dublă) {
+		handle.getShorts().write(1, (scurt) (valoare * 4096));
 	}
 
 	/**
-	 * Retrieve DZ.
+	 * Recuperează DZ.
 	 *
-	 * @return The current DZ
+	 * @return DZ curent
 	 */
-	public double getDz() {
-		return handle.getShorts().read(2) / 4096D;
+	public dublu getDz() {
+		handle.getShorts().read(2) / 4096D;
 	}
 
 	/**
-	 * Set DZ.
+	 * Setează ZA.
 	 *
-	 * @param value - new value.
+	 * Valoare @param - valoare nouă.
 	 */
-	public void setDz(double value) {
-		handle.getShorts().write(2, (short) (value * 4096));
+	evitați public setDz(valoare dublă) {
+		handle.getShorts().write(2, (scurt) (valoare * 4096));
 	}
 
 	/**
-	 * Retrieve the yaw of the current entity.
+	 * Recuperează catapulta entității curente.
 	 *
-	 * @return The current Yaw
+	 * @return Yaw curent
 	 */
 	public float getYaw() {
 		return (handle.getBytes().read(0) * 360.F) / 256.0F;
 	}
 
 	/**
-	 * Set the yaw of the current entity.
+	 * Setaţi yaw entităţii curente. (Automatic Translation)
 	 *
-	 * @param value - new yaw.
+	 * Valoare @param - yawul nou.
 	 */
-	public void setYaw(float value) {
-		handle.getBytes().write(0, (byte) (value * 256.0F / 360.0F));
+	evitați public setYaw(float valoare) {
+		handle.getBytes().write(0, (byte) (valoare * 256.0F / 360.0F));
 	}
 
 	/**
-	 * Retrieve the pitch of the current entity.
+	 * Recuperează avansul entității curente.
 	 *
-	 * @return The current pitch
+	 * @return Muntea curentă
 	 */
-	public float getPitch() {
+	float public getPitch() {
 		return (handle.getBytes().read(1) * 360.F) / 256.0F;
 	}
 
 	/**
-	 * Set the pitch of the current entity.
+	 * Setaţi avansul entităţii curente. (Automatic Translation)
 	 *
-	 * @param value - new pitch.
+	 * Valoare @param - pas nou.
 	 */
-	public void setPitch(float value) {
-		handle.getBytes().write(1, (byte) (value * 256.0F / 360.0F));
+	Evitați public setPitch(float valoare) {
+		handle.getBytes().write(1, (byte) (valoare * 256,0F / 360,0F));
 	}
 
 	/**
-	 * Retrieve On Ground.
+	 * Recuperează pe teren.
 	 *
-	 * @return The current On Ground
+	 * @return curentul pe teren
 	 */
-	public boolean getOnGround() {
-		return handle.getBooleans().read(0);
+	boolean public getOnGround() {
+		handle.getBooleans().read(0);
 	}
 
 	/**
-	 * Set On Ground.
+	 * Setează pe teren.
 	 *
-	 * @param value - new value.
+	 * Valoare @param - valoare nouă.
 	 */
-	public void setOnGround(boolean value) {
-		handle.getBooleans().write(0, value);
+	evitați public setOnGround(valoare booleană) {
+		handle.getBooleans().write(0, valoare);
 	}
 }
