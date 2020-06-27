@@ -1,46 +1,46 @@
-package xyz.msws.nope.commands;
+حزمة xyz.msws.nope.command;
 
-import java.util.ArrayList;
-import java.util.List;
+استيراد java.util.ArrayList؛
+استيراد java.util.List؛
 
-import javax.annotation.Nullable;
+استيراد javax.annotation.Nullable؛
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+استيراد xyz.msws.nope.NOPE؛
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * يمثل قيادة فرعية لقيادة رئيسية. من المتوقع كل أمر فرعي
+ * يتعامل مع منطقه داخليا. يمكن أن يشمل ذلك وجود أوامر فرعية
+ * الأوامر.
  * 
- * @author imodm
+ * المؤلف Modm
  *
  */
-public abstract class Subcommand {
+الأمر الفرعي الخاص بالفصل المجرد العام {
 
-	protected NOPE plugin;
+	البرنامج المساعد NOPE المحمي؛
 
-	public Subcommand(NOPE plugin) {
-		this.plugin = plugin;
+	الوكيل الفرعي العام (NOPE plugin) {
+		هذه.plugin = الإضافة؛
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@غير قابل
+	قائمة عامة مجردة<String[]> tabCompletions(قائد المرسل)؛
 
-	public abstract String getName();
+	ملخص عام getName();
 
-	public abstract String getUsage();
+	الملخص العام String getUsage();
 
-	public abstract String getDescription();
+	خلاصة السلسلة العامة getDescription();
 
-	public List<String> getAliases() {
-		return new ArrayList<>();
+	قائمة عامة<String> getAliases() {
+		إرجاع قائمة مصفوفة جديدة<>();
 	}
 
-	public String getPermission() {
-		return null;
+	سلسلة عامة getPermission() {
+		إرجاع بطل؛
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	تنفيذ نتائج القيادة المجردة العامة (القائد المرسل ، String[] args)؛
 }
