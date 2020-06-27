@@ -1,22 +1,22 @@
 ---
-name: NOPE
-main: xyz.msws.nope.NOPE
+name: NU
+main: xyz.msws.nope.nPE
 version: 1.6.4
 description: 1.15.2 Minecraft Anticheat
 api-version: 1.15
-author: MSWS
+author: MWOON
 softdepend:
   - ProtocolLib
   - MaxBans
   - AdvancedBan
   - LapisBans
   - LiteBans
-  - BanManagement
+  - Banenbeheer
   - PlaceholderAPI
   - mcMMO
-  - CrazyEnchantments
-  - TrainCarts
-  - Train_Carts
+  - CrazyBetoveringen
+  - Trainkaarten
+  - Train_Winkelwagens
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: Geeft toegang tot alle NOPEs-functies en passaties alle NOPE-controles
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: Hiermee kan de speler alle bewegingscontroles omzeilen
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: Hiermee kan de speler alle vluchtcontroles omzeilen
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'Hiermee kan de speler alle controles omzeilen #4'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: Laat de speler zijn eigen scorebord in- of uitschakelen
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: Staat de speler toe om het scorebord van de server om te schakelen
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: Staat de speler toegang toe tot de testlag opdracht
