@@ -1,32 +1,32 @@
-package xyz.msws.nope.commands;
+paquete xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+importar java.util.ArrayList;
+importar java.util.List;
 
-import javax.annotation.Nullable;
+importar javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+importar xyz.msws.nope.NOPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Representa un subcomando de un comando principal. Se espera cada subcomando
+ * maneja su lógica internamente. Esto puede incluir tener subcomandos de subcomandos
+ * comandos.
  * 
- * @author imodm
+ * imodm @author
  *
  */
 public abstract class Subcommand {
 
-	protected NOPE plugin;
+	protegido plugin NOPE;
 
 	public Subcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
 	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	Lista abstracta pública<String[]> tabletas (remitente del commandSender);
 
 	public abstract String getName();
 
@@ -35,11 +35,11 @@ public abstract class Subcommand {
 	public abstract String getDescription();
 
 	public List<String> getAliases() {
-		return new ArrayList<>();
+		devolver nueva ArrayList<>();
 	}
 
 	public String getPermission() {
-		return null;
+		devolver nulo;
 	}
 
 	public abstract CommandResult execute(CommandSender sender, String[] args);
