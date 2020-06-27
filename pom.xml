@@ -184,5 +184,10 @@
 	    <artifactId>MaxBans</artifactId>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
+	<dependency>
+	    <groupId>com.github.ViaVersion</groupId>
+	    <artifactId>ViaVersion</artifactId>
+	    <version>master-SNAPSHOT</version>
+	</dependency>
 	</dependencies>
 </project>
