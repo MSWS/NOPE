@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>NOPE</groupId>
-	<artifactId>NOPE</artifactId>
+	<groupId>NOPER</groupId>
+	<artifactId>NOPER</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
-		<finalName>NOPE</finalName>
+		<finalName>NOPER</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
-				<filtering>true</filtering>
+				<filtering>verdad</filtering>
 				<directory>${basedir}</directory>
 				<includes>
 					<include>plugin.yml</include>
@@ -24,7 +24,7 @@
 		</resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>compilador-maven-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
@@ -33,7 +33,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
+				<artifactId>plugin-maven-shade-</artifactId>
 				<version>3.2.4</version>
 				<configuration>
 					<source>1.8</source>
@@ -41,9 +41,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>paquete</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>sombra</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -52,16 +52,16 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
+			<id>repo-espigote</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
 			<id>mojang</id>
-			<name>Mojang's Repository</name>
+			<name>Repositorio de Mojang</name>
 			<url>https://libraries.minecraft.net/</url>
 		</repository>
 		<repository>
-			<id>shadowvolt-repo</id>
+			<id>repo shadowvolt-</id>
 			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
 		</repository>
 		<repository>
@@ -73,11 +73,11 @@
 			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
-			<id>placeholderapi</id>
+			<id>marcador de posición</id>
 			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
 		<repository>
-			<id>spicord-repo</id>
+			<id>repo-ord-especiado</id>
 			<url>https://repo.mcdb.eu/</url>
 		</repository>
 		<repository>
@@ -99,69 +99,69 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.15.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 		<dependency>
-			<groupId>io.netty</groupId>
+			<groupId>i.netty</groupId>
 			<artifactId>netty-all</artifactId>
 			<version>4.1.50.Final</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mojang</groupId>
 			<artifactId>authlib</artifactId>
 			<version>1.5.21</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.dmulloy2</groupId>
 	    <artifactId>ProtocolLib</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>maestro-SNAPSHOT</version>
 	</dependency>
 		<dependency>
-			<groupId>me.confuser</groupId>
+			<groupId>mi.confuser</groupId>
 			<artifactId>BanManager</artifactId>
 			<version>5.10.0</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gitlab.ruany</groupId>
 			<artifactId>LiteBansAPI</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.lapismc</groupId>
-			<artifactId>LapisBansAPI</artifactId>
+			<artifactId>API de LapisBans</artifactId>
 			<version>2.0.3</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
+			<artifactId>marcador de posición</artifactId>
 			<version>2.10.6</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.DevLeoko</groupId>
-	    <artifactId>Advancedban</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <artifactId>Bloqueo avanzado</artifactId>
+	    <version>maestro-SNAPSHOT</version>
 	</dependency>
 	<dependency>
-	    <groupId>com.github.mcMMO-Dev</groupId>
+	    <groupId>com.github.mcMO-Dev</groupId>
 	    <artifactId>mcMMO</artifactId>
-	    <version>master</version>
+	    <version>maestro</version>
 	</dependency>
 
 		<dependency>
 			<groupId>me.badbones69</groupId>
-			<artifactId>crazyenchantments-plugin</artifactId>
+			<artifactId>plugin de crazyenchantments-</artifactId>
 			<version>1.8-Dev-Build-v8</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -169,19 +169,19 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.mcdb</groupId>
-			<artifactId>spicord-common</artifactId>
+			<artifactId>espicordo-común</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>proporcionado</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans-plus</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>maestro-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>maestro-SNAPSHOT</version>
 	</dependency>
 	</dependencies>
 </project>
