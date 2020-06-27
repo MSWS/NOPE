@@ -1,38 +1,38 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cBrakuje &%perm% uprawnień."
   Banwave:
-    Executed: "&eExecuted the banwave"
-    Added: "&7Successfully added &e%player% &7to the banwave."
+    Executed: "&eWykonano banwave"
+    Added: "&7Pomyślnie dodano &e%player% &7do banwave."
   Clear:
-    UnknownHack: "&cUnknown hack"
-  EnableChecks: "&aAll checks successfully enabled."
+    UnknownHack: "&cNieznany hack"
+  EnableChecks: "&aWszystkie kontrole zostały pomyślnie włączone."
   Lookup:
-    Querying: "&7Grabbing ban details..."
-  Reload: "&aSuccessfully reloaded."
+    Querying: "&7Szczegóły bana"
+  Reload: "&aPrzeładowano pomyślnie."
   Report:
-    RecentlyReported: "&cYou reported &e%player% &calready."
-    TooMany: "&cYou've reported too many players recently."
-    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
+    RecentlyReported: "&cZgłosiłeś&e%player% &wręcz."
+    TooMany: "&cNiedawno zgłosiłeś zbyt wielu graczy."
+    Success: "&4Raport #%id% > &7Zgłosiłeś &a%target% &7dla &b%reason%&7."
   Toggle:
-    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
-    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
-  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
-  InvalidArgument: "&cAn invalid argument was provided."
-  MissingArgument: "&cYou are missing an argument."
-  PlayerOnly: "&cYou must specify a player to run this command as console."
-  SpecifyPlayer: "&cYou must specify a player as an argument."
+    PlayerOption: "&4NOPE > &7Pomyślnie twoje &&a%option%&7 do &e%value%&7."
+    GlobalOption: "&4NOPE > &7Pomyślnie opcja &a%option%&7 do &e%value%&7."
+  Warn: "&4NOPE > &7Ostrzeżono &a%player% &7dla &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cPodano nieprawidłowy argument."
+  MissingArgument: "&cBrakuje argumentu."
+  PlayerOnly: "&cMusisz określić gracza aby uruchomić tę komendę jako konsolę."
+  SpecifyPlayer: "&cMusisz określić gracza jako argument."
   Removebanwave:
-    Success: "&7You removed &e%player% &7from the banwave."
-    NotBanwaved: "&e%player% &7is not in the banwave."
+    Success: "&7Usunąłeś &e%player% &7z banwave."
+    NotBanwaved: "&e%player% &7nie jest w banerze."
   TestAnimation:
-    Unknown: "&cUnknown animation."
+    Unknown: "&cAnimacja nieznana."
   TestLag:
-    Set: "&7Successfully set the delay to &e%delay%&7."
-    Get: "&7The lag is currently set to &a%delay%&7."
-  Time: "&7The next banwave will happen in &e%time%&7."
-  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+    Set: "&7Pomyślnie ustawiono opóźnienie na &e%delay%&7."
+    Get: "&7Opóźnienie jest obecnie ustawione na &a%delay%&7."
+  Time: "&7Następny banwave nastąpi za &e%time%&7."
+  Trust: "&e%player% &7ma współczynnik zaufania &a%trust%&7."
   VL:
-    NoVLs: "&cThere are no violation levels right now."
+    NoVLs: "&cW tej chwili nie ma poziomów naruszeń."
 Report:
-  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."
+  Notification: "&4Raport #%id% > &e%player% &7zgłosił &a%target% &7dla &b%reason%&7."
