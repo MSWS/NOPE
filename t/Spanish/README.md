@@ -1,32 +1,32 @@
-# NOPE Anti-Cheat
-A pretty cool Minecraft anti-cheat.
+# NOPE contra la trampilla
+Un antitrampa de Minecraft muy genial.
 
-### Disclaimer
-NOPE supports 1.15.X **only**. By default NOPE will not load on 1.14- servers. While altering the plugin yml may fix this issue, it is likely that NOPE will have many issues on outdated versions.
+### Descargo de responsabilidad
+NOPE soporta 1.15.X **solo**. Por defecto NOPE no se cargará en servidores 1.14. Mientras que modificar el plugin yml puede arreglar este problema, es probable que NOPE tenga muchos problemas en versiones desactualizadas.
 
-## Features
-* Extensive Movement Checks
-* Complex and thorough configuration abilities
-* Third-Party Plugin Support for mcMMO and AdvancedEnchants
-* Custom Ban Animation
-* Complete customization of checks
-* Consistent updates and developer support
-* Popular Ban Plugin Support
+## Características
+* Comprobaciones de Movimiento Extensivas
+* Habilidades de configuración complejas y completas
+* Soporte de plugins de terceros para mcMO y AdvancedEnchants
+* Animación de ban personalizada
+* Personalización completa de los cheques
+* Actualizaciones constantes y soporte para desarrolladores
+* Soporte popular de Ban Plugin
 
 ## YouTube
-A YouTube video showcasing NOPE can be found [here](https://www.youtube.com/watch?v=QNumBz-Phwg). Additionally, a video explaining the configuration of NOPE is [here](https://www.youtube.com/watch?v=XVuXKsJEAkQ).
+Se puede encontrar un NOPE de video en YouTube [aquí](https://www.youtube.com/watch?v=QNumBz-Phwg). Además, un vídeo que explica la configuración de NOPE es [aquí](https://www.youtube.com/watch?v=XVuXKsJEAkQ).
 
-## Support
-Please report any false flags, bugs, or suggestions here. General questions can be asked by joining [my Discord](https://nope.msws.xyz/discord).
+## Soporte
+Por favor, informe de cualquier falsa bandera, error o sugerencia aquí. Las preguntas generales se pueden hacer uniendo a [mi Discord](https://nope.msws.xyz/discord).
 
 ## API
-A basic guide on NOPE's API is [here](https://github.com/MSWS/NOPE/wiki/API), and the javadoc can be found [here](http://docs.msws.xyz).
+Una guía básica sobre la API de NOPE es [aquí](https://github.com/MSWS/NOPE/wiki/API), y el javadoc se puede encontrar [aquí](http://docs.msws.xyz).
 
-## Permissions / Commands
-The list of permissions and commands are listed [here](https://github.com/MSWS/NOPE/wiki/Permissions).
+## Permisos / Comandos
+La lista de permisos y comandos están listados [aquí](https://github.com/MSWS/NOPE/wiki/Permissions).
 
 ## Trello
-NOPE has a Trello board where you can view known bugs, features, and changelogs. You can view the trello board [here](https://nope.msws.xyz/trello).
+NOPE tiene un tablero Trello donde puedes ver fallos conocidos, características y registros de cambios. Puede ver el trello [aquí](https://nope.msws.xyz/trello).
 
-## Test Server
-A public NOPE Test Server is available at **MSWS.xyz**. Note that this server may not be up-to-date.
+## Probar servidor
+Un servidor público de prueba de NOPE está disponible en **MSWS.xyz**. Tenga en cuenta que este servidor puede no estar actualizado.
