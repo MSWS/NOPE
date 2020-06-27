@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+pachetul xyz.msws.nope.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,37 +10,37 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.nope.NOPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Reprezintă o subcomandă a unei comenzi principale. Se așteaptă ca fiecare subcomandă să fie
+ * se ocupă intern de logica sa. Acest lucru poate include să aibă sub-comenzi
+ * comenzi.
  * 
- * @author imodm
+ * @autor imodm
  *
  */
 public abstract class Subcommand {
 
-	protected NOPE plugin;
+	plugin-ul protejat NOPE;
 
 	public Subcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@Nulable
+	public abstract List<String[]> tabuCompletions(CommandSender sender);
 
 	public abstract String getName();
 
-	public abstract String getUsage();
+	Șir public abstract getUsage();
 
 	public abstract String getDescription();
 
-	public List<String> getAliases() {
-		return new ArrayList<>();
+	Listă publică<String> getAliases() {
+		returnează noul ArrayList<>();
 	}
 
 	public String getPermission() {
-		return null;
+		returnarea null;
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	public abstract CommandResult execute(CommandSender sender, String[] argini);
 }
