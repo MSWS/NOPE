@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>NOPE</groupId>
-  <artifactId>NOPE</artifactId>
+  <groupId>NOP</groupId>
+  <artifactId>NOP</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
         <targetPath>.</targetPath>
-        <filtering>true</filtering>
+        <filtering>pravda</filtering>
         <directory>${basedir}</directory>
         <includes>
           <include>plugin.yml</include>
@@ -18,10 +18,10 @@
         </includes>
       </resource>
     </resources>
-    <finalName>NOPE</finalName>
+    <finalName>NOP</finalName>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-kompilátor-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
           <source>1.8</source>
@@ -33,9 +33,9 @@
         <version>3.2.4</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <phase>balík</phase>
             <goals>
-              <goal>shade</goal>
+              <goal>odstín</goal>
             </goals>
           </execution>
         </executions>
@@ -53,16 +53,16 @@
     </repository>
     <repository>
       <id>mojang</id>
-      <name>Mojang's Repository</name>
+      <name>Mojangův repositář</name>
       <url>https://libraries.minecraft.net/</url>
     </repository>
     <repository>
       <id>shadowvolt-repo</id>
-      <url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
+      <url>http://ci.shadowvolt.com/plugin/repository/všechno/</url>
     </repository>
     <repository>
       <id>confuser-repo</id>
-      <url>http://ci.frostcast.net/plugin/repository/everything</url>
+      <url>http://ci.frostcast.net/plugin/repository/vše</url>
     </repository>
     <repository>
       <id>jitpack.io</id>
@@ -73,7 +73,7 @@
       <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
     </repository>
     <repository>
-      <id>spicord-repo</id>
+      <id>kořen-repozitář</id>
       <url>https://repo.mcdb.eu/</url>
     </repository>
     <repository>
@@ -85,7 +85,7 @@
       <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
     </repository>
     <repository>
-      <id>CodeMC</id>
+      <id>Kód MC</id>
       <url>https://repo.codemc.org/repository/maven-public</url>
     </repository>
   </repositories>
@@ -94,61 +94,61 @@
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.15.2-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
-      <version>4.1.50.Final</version>
-      <scope>provided</scope>
+      <version>4.1.50.Závěrečná</version>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>com.mojang</groupId>
       <artifactId>authlib</artifactId>
       <version>1.5.21</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>com.comphenix.protocol</groupId>
       <artifactId>ProtocolLib</artifactId>
       <version>4.5.0</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>me.confuser</groupId>
       <artifactId>BanManager</artifactId>
       <version>5.10.0</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>com.gitlab.ruany</groupId>
       <artifactId>LiteBansAPI</artifactId>
       <version>0.3.3</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>net.lapismc</groupId>
       <artifactId>LapisBansAPI</artifactId>
       <version>2.0.3</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>me.clip</groupId>
       <artifactId>placeholderapi</artifactId>
       <version>2.10.6</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>me.badbones69</groupId>
       <artifactId>crazyenchantments-plugin</artifactId>
       <version>1.8-Dev-Build-v8</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
     <dependency>
       <groupId>eu.mcdb</groupId>
-      <artifactId>spicord-common</artifactId>
+      <artifactId>kořen obecný</artifactId>
       <version>3.0.0-SNAPSHOT</version>
-      <scope>provided</scope>
+      <scope>poskytnuté</scope>
     </dependency>
   </dependencies>
   <properties>
