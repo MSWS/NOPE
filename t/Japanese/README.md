@@ -1,32 +1,32 @@
-# NOPE Anti-Cheat
-A pretty cool Minecraft anti-cheat.
+# NOPE アンチチート
+かなりクールなMinecraftのアンチチート。
 
-### Disclaimer
-NOPE supports 1.15.X **only**. By default NOPE will not load on 1.14- servers. While altering the plugin yml may fix this issue, it is likely that NOPE will have many issues on outdated versions.
+### 免責事項
+NOPEは1.15をサポートしています。X **のみ**. デフォルトでは、NOPE は 1.14 サーバーにロードされません。 プラグインの yml を変更すると、この問題が修正される可能性がありますが、NOPE は古いバージョンで多くの問題を抱えている可能性があります。
 
-## Features
-* Extensive Movement Checks
-* Complex and thorough configuration abilities
-* Third-Party Plugin Support for mcMMO and AdvancedEnchants
-* Custom Ban Animation
-* Complete customization of checks
-* Consistent updates and developer support
-* Popular Ban Plugin Support
+## 特徴
+* 広範囲な移動チェック
+* 複雑で徹底的な構成能力
+* サードパーティーのプラグインmcMMOとAdvancedEnchantsのサポート
+* カスタム禁止のアニメーション
+* チェックの完全なカスタマイズ
+* 一貫した更新と開発者サポート
+* 人気の禁止プラグインのサポート
 
 ## YouTube
-A YouTube video showcasing NOPE can be found [here](https://www.youtube.com/watch?v=QNumBz-Phwg). Additionally, a video explaining the configuration of NOPE is [here](https://www.youtube.com/watch?v=XVuXKsJEAkQ).
+NOPEを紹介するYouTube動画はこちら [](https://www.youtube.com/watch?v=QNumBz-Phwg)をご覧ください。 また、NOPEの構成について解説する動画はこちら [](https://www.youtube.com/watch?v=XVuXKsJEAkQ)です。
 
-## Support
-Please report any false flags, bugs, or suggestions here. General questions can be asked by joining [my Discord](https://nope.msws.xyz/discord).
+## サポート
+ここに虚偽のフラグ、バグ、または提案を報告してください。 一般的な質問は、 [My Discord](https://nope.msws.xyz/discord) に参加することでできます。
 
 ## API
-A basic guide on NOPE's API is [here](https://github.com/MSWS/NOPE/wiki/API), and the javadoc can be found [here](http://docs.msws.xyz).
+NOPEのAPIの基本的なガイドはこちら [](https://github.com/MSWS/NOPE/wiki/API)で、javadocは [こちら](http://docs.msws.xyz)にあります。
 
-## Permissions / Commands
-The list of permissions and commands are listed [here](https://github.com/MSWS/NOPE/wiki/Permissions).
+## 権限 / コマンド
+権限とコマンドの一覧はこちら [](https://github.com/MSWS/NOPE/wiki/Permissions).
 
 ## Trello
-NOPE has a Trello board where you can view known bugs, features, and changelogs. You can view the trello board [here](https://nope.msws.xyz/trello).
+NOPEには、既知のバグ、機能、変更履歴を見ることができるTrelloボードがあります。 トレッロボード [はこちら](https://nope.msws.xyz/trello)からご覧いただけます。
 
-## Test Server
-A public NOPE Test Server is available at **MSWS.xyz**. Note that this server may not be up-to-date.
+## サーバーテスト
+パブリックNOPEテストサーバーは、 **MSWS.xyz** で利用できます。 このサーバーは最新ではないことに注意してください。
