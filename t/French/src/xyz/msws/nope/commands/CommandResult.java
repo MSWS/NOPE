@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+paquet xyz.msws.nope.commands;
 
-import xyz.msws.nope.utils.MSG;
+Importer xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * Représente le résultat d'une commande.
  * 
  * @author imodm
  *
  */
-public enum CommandResult {
+numéro public CommandResult {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * La commande a été complétée avec succès. Un message personnalisé de succès devrait être
+	 * envoyé.
 	 */
-	SUCCESS,
+	SUCCÈS,
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * L'expéditeur n'a pas les permissions appropriées pour la commande.
 	 */
-	NO_PERMISSION,
+	Vous n'avez pas la permission requise
 	/**
-	 * An argument is missing.
+	 * Un argument est manquant.
 	 */
 	MISSING_ARGUMENT,
 	/**
-	 * An invalid argument is given.
+	 * Un argument invalide est donné.
 	 */
-	INVALID_ARGUMENT,
+	INVALID_ARGUMENT
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * Seul un joueur peut utiliser la commande et l'expéditeur ne l'est pas.
 	 */
-	PLAYER_ONLY,
+	PLAYER_SEULEMENT
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * L'exécuteur n'a pas donné de joueur, identique à
+	 * {@link CommandResult#MISSING_ARGUMENT} mais plus spécifique
 	 */
-	PLAYER_REQUIRED,
+	PLAYER_RESULTANT
 	/**
-	 * An unknown error occured
+	 * Une erreur inconnue est survenue
 	 */
-	ERROR;
+	Erreur;
 
-	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+	chaîne publique getMessage() {
+		basculer (ceci) {
+			cas INVALID_ARGUMENT :
+				return MSG.getString("Command.InvalidArgument", "&cUn argument invalide a été fourni.");
+			format@@0 case MISSING_ARGUMENT :
+				return MSG.getString("Command.MissingArgument", "&cIl vous manque un argument.");
+			format@@0 case NO_PERMISSION :
+				retourner MSG.getString("Command.NoPermission",
+						"&4&l[&c&lNOPE&4&l] &cIl vous manque &a%perm% &cpermission.");
+			cas PLAYER_UNIQUEMENT :
+				retourner MSG.getString("Command.PlayerOnly",
+						"&cVous devez spécifier un joueur pour exécuter cette commande en tant que console.");
+			format@@0 case PLAYER_REQUIRED :
+				retourner MSG.getString("Command.SpecifyPlayer", "&cVous devez spécifier un joueur comme argument.");
+			cas SUCCÈS :
+				retour "";
+			par défaut:
+				casse ;
 		}
-		return "&4An error occured whilst executing the command.";
+		retourne "&4Une erreur est survenue lors de l'exécution de la commande.";
 	}
 }
