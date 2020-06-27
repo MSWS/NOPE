@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+pacchetto xyz.msws.nope.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,16 +26,16 @@ import xyz.msws.nope.commands.sub.WarnSubcommand;
 
 public class NOPECommand extends AbstractCommand {
 
-	private HelpSubcommand help;
+	aiuto privato HelpSubcommand;
 
 	public NOPECommand(NOPE plugin) {
 		super(plugin);
-		help = new HelpSubcommand(plugin, this, 8);
+		help = nuovo HelpSubcommand(plugin, questo, 8);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		label = label.toUpperCase();
+		etichetta = etichetta.toUpperCase();
 		if (super.onCommand(sender, command, label, args))
 			return true;
 		help.execute(sender, args);
@@ -45,14 +45,14 @@ public class NOPECommand extends AbstractCommand {
 	@Override
 	public void enable() {
 		super.enable();
-		cmds.add(new VLSubcommand(plugin));
+		cmds.add(nuovo VLSubcommand(plugin));
 		cmds.add(new ClearSubcommand(plugin));
 		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new ToggleSubcommand(plugin));
 		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new TimeSubcommand(plugin));
-		cmds.add(new BanwaveSubcommand(plugin));
+		cmds.add(nuovo BanwaveSubcommand(plugin));
 		cmds.add(new ReloadSubcommand(plugin));
 		cmds.add(new ResetSubcommand(plugin));
 		cmds.add(new TestlagSubcommand(plugin));
@@ -68,6 +68,6 @@ public class NOPECommand extends AbstractCommand {
 
 	@Override
 	public String getName() {
-		return "nope";
+		restituisce "nope";
 	}
 }
