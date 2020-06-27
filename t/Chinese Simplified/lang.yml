@@ -1,38 +1,38 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  NoPermission: "&4&l[&c&lNOPE&4&l] &c你缺少&a%perm% &cpermission."
   Banwave:
-    Executed: "&eExecuted the banwave"
-    Added: "&7Successfully added &e%player% &7to the banwave."
+    Executed: "&e已执行"
+    Added: "&7成功将 &e%player% &e 7 添加到库存中。"
   Clear:
-    UnknownHack: "&cUnknown hack"
-  EnableChecks: "&aAll checks successfully enabled."
+    UnknownHack: "&c未知哈克"
+  EnableChecks: "&aAll 检查已成功启用。"
   Lookup:
-    Querying: "&7Grabbing ban details..."
-  Reload: "&aSuccessfully reloaded."
+    Querying: "&7抓取封禁详情..."
+  Reload: "&a成功重新加载。"
   Report:
-    RecentlyReported: "&cYou reported &e%player% &calready."
-    TooMany: "&cYou've reported too many players recently."
-    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
+    RecentlyReported: "&c你报告 &e%player% &calready"
+    TooMany: "&c你最近报告了太多的玩家。"
+    Success: "&4报告 #%id% > &7您报告 &a%target% &7为 &b%reason%&7."
   Toggle:
-    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
-    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
-  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
-  InvalidArgument: "&cAn invalid argument was provided."
-  MissingArgument: "&cYou are missing an argument."
-  PlayerOnly: "&cYou must specify a player to run this command as console."
-  SpecifyPlayer: "&cYou must specify a player as an argument."
+    PlayerOption: "&4NOPE > &7成功您的 &a%option%&7 到 &e%value%&7."
+    GlobalOption: "&4NOPE > &7成功的 &a%option%&7 选项&e%value%&7."
+  Warn: "&4NOPE > &7警告&a%player% &c%check%&7 (&3%vl%&7)"
+  InvalidArgument: "提供了无效的参数。"
+  MissingArgument: "&c你缺少一个参数。"
+  PlayerOnly: "&c你必须指定一个玩家作为控制台运行此命令。"
+  SpecifyPlayer: "&c你必须指定一个玩家作为参数。"
   Removebanwave:
-    Success: "&7You removed &e%player% &7from the banwave."
-    NotBanwaved: "&e%player% &7is not in the banwave."
+    Success: "&7您已将 &e%player% &e 从 banwave 中删除。"
+    NotBanwaved: "&e%player% &7不在库存中。"
   TestAnimation:
-    Unknown: "&cUnknown animation."
+    Unknown: "&c未知动画"
   TestLag:
-    Set: "&7Successfully set the delay to &e%delay%&7."
-    Get: "&7The lag is currently set to &a%delay%&7."
-  Time: "&7The next banwave will happen in &e%time%&7."
-  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+    Set: "&7成功地将延迟设置为 &e%delay%&7."
+    Get: "&7延迟当前设置为 &a%delay%&7。"
+  Time: "&7下一波浪将在 &e%time%&7 中发生。"
+  Trust: "&e%player% &7有 &a%trust%&7 的信任系数。"
   VL:
-    NoVLs: "&cThere are no violation levels right now."
+    NoVLs: "&c当前没有违反级别。"
 Report:
-  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."
+  Notification: "&4报告 #%id% > &e%player% &7已报告 &a%target% &7 &b%reason%&7."
