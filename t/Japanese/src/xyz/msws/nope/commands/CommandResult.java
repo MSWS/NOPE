@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+パッケージ xyz.msws.nope.commands;
 
 import xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * コマンドの結果を表します。
  * 
  * @author imodm
  *
  */
 public enum CommandResult {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * コマンドは正常に完了しました。 カスタム成功メッセージは
+	 * 送信済み
 	 */
-	SUCCESS,
+	成功しました。
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * 送信者にはコマンドに対する適切な権限がありません。
 	 */
-	NO_PERMISSION,
+	アクセス許可がありません。
 	/**
-	 * An argument is missing.
+	 * 引数がありません。
 	 */
-	MISSING_ARGUMENT,
+	アルゴリズムがありません。
 	/**
-	 * An invalid argument is given.
+	 * 無効な引数が与えられています。
 	 */
-	INVALID_ARGUMENT,
+	無効な引数
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * プレイヤーのみがコマンドを使用でき、送信者は1つではありません。
 	 */
-	PLAYER_ONLY,
+	プレイヤーのみ
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * 実行者はプレイヤーを与えませんでした。
+	 * {@link CommandResult#MISSING_ARGUMENT} ですが、もっと具体的に
 	 */
-	PLAYER_REQUIRED,
+	必要なプレイヤー:
 	/**
-	 * An unknown error occured
+	 * 不明なエラーが発生しました
 	 */
-	ERROR;
+	エラー;
 
 	public String getMessage() {
 		switch (this) {
 			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
+				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument");
+			case MISSIING_ARGUMENT:
+				return MSG.getString("Command.MissingArgument", "&cYou are missing an argent.");
+			case NOMISSION:
 				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
+						"&4&l[&c&lNOPE&4&l] &cあなたは &a%perm% &cpermission.");
+			case Playerのみ:
 				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
+						"&cこのコマンドを実行するプレイヤーをコンソールとして指定する必要があります。
 			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
+				return MSG.getString("Command.SpecifyPlayer", "&cプレイヤーを引数として指定する必要があります。
+			caseSuccess:
 				return "";
-			default:
-				break;
+			デフォルト:
+				休憩;
 		}
-		return "&4An error occured whilst executing the command.";
+		return "&4コマンド実行中にエラーが発生しました。
 	}
 }
