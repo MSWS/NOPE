@@ -1,38 +1,38 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission."
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cChybí vám &a%perm% &cpermission."
   Banwave:
-    Executed: "&eExecuted the banwave"
-    Added: "&7Successfully added &e%player% &7to the banwave."
+    Executed: "&eProvedeno banwave"
+    Added: "&7Úspěšně přidáno &e%player% &7do banwave."
   Clear:
-    UnknownHack: "&cUnknown hack"
-  EnableChecks: "&aAll checks successfully enabled."
+    UnknownHack: "&cNeznámý hack"
+  EnableChecks: "&aVšechny kontroly byly úspěšně povoleny."
   Lookup:
-    Querying: "&7Grabbing ban details..."
-  Reload: "&aSuccessfully reloaded."
+    Querying: "&7Získávání podrobností o zákazu..."
+  Reload: "&aÚspěšně obnoveno."
   Report:
-    RecentlyReported: "&cYou reported &e%player% &calready."
-    TooMany: "&cYou've reported too many players recently."
-    Success: "&4Report #%id% > &7You reported &a%target% &7for &b%reason%&7."
+    RecentlyReported: "&cNahlášeno &e%player% &calready."
+    TooMany: "&cNedávno jste nahlásili příliš mnoho hráčů."
+    Success: "&4Report #%id% > &7Nahlásili jste &a%target% &7pro &b%reason%&7."
   Toggle:
-    PlayerOption: "&4NOPE > &7Successfully your &a%option%&7 to &e%value%&7."
-    GlobalOption: "&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7."
-  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
-  InvalidArgument: "&cAn invalid argument was provided."
-  MissingArgument: "&cYou are missing an argument."
-  PlayerOnly: "&cYou must specify a player to run this command as console."
-  SpecifyPlayer: "&cYou must specify a player as an argument."
+    PlayerOption: "&4NOPE > &7Úspěšně &a%option%&7 až &e%value%&7."
+    GlobalOption: "&4NOPE > &7Úspěšně volba &%option%&7 pro &e%value%&7."
+  Warn: "&4NOPE > &7Varováno &a%player% &7pro &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cByl poskytnut neplatný argument."
+  MissingArgument: "&cChybí vám argument."
+  PlayerOnly: "&cMusíte zadat hráče pro spuštění tohoto příkazu jako konzoli."
+  SpecifyPlayer: "&cMusíte zadat hráče jako argument."
   Removebanwave:
-    Success: "&7You removed &e%player% &7from the banwave."
-    NotBanwaved: "&e%player% &7is not in the banwave."
+    Success: "&7Odstranili jste &e%player% &7z banwave."
+    NotBanwaved: "&e%player% &7není v banwave."
   TestAnimation:
-    Unknown: "&cUnknown animation."
+    Unknown: "&cNeznámá animace."
   TestLag:
-    Set: "&7Successfully set the delay to &e%delay%&7."
-    Get: "&7The lag is currently set to &a%delay%&7."
-  Time: "&7The next banwave will happen in &e%time%&7."
-  Trust: "&e%player% &7has a trust factor of &a%trust%&7."
+    Set: "&7Zpoždění bylo úspěšně nastaveno na &e%delay%&7."
+    Get: "&7Známka je nastavena na &%delay%&7."
+  Time: "&7Další banwave se stane v &e%time%&7."
+  Trust: "&e%player% &7má faktor důvěry &a%trust%&7."
   VL:
-    NoVLs: "&cThere are no violation levels right now."
+    NoVLs: "&cMomentálně nejsou žádné úrovně porušení."
 Report:
-  Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."
+  Notification: "&4Report #%id% > &e%player% &7 nahlásil &a%target% &7pro &b%reason%&7."
