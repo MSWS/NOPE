@@ -1,22 +1,22 @@
 ---
-name: NOPE
+name: افتح
 main: xyz.msws.nope.NOPE
 version: 1.6.4
-description: 1.15.2 Minecraft Anticheat
+description: 1-13-2 أنتيشيت ماينكرافت
 api-version: 1.15
 author: MSWS
 softdepend:
   - ProtocolLib
-  - MaxBans
-  - AdvancedBan
-  - LapisBans
+  - ماكس حظر
+  - متقدم
+  - لابيسبانز
   - LiteBans
-  - BanManagement
-  - PlaceholderAPI
+  - إدارة المصارف
+  - API حامل الموقع
   - mcMMO
-  - CrazyEnchantments
-  - TrainCarts
-  - Train_Carts
+  - جنون
+  - التدريب
+  - القطار_التسوق
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: منح حق الوصول إلى جميع ميزات NOPE وتجاوز جميع عمليات التحقق من NOPE
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: يسمح للاعب بتجاوز جميع عمليات التحقق من الحركة
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: يسمح للاعب بتجاوز جميع فحوصات الطيران
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'يسمح للاعب بتجاوز جميع عمليات التحقق من الرحلة#4'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: يسمح للاعب بتبديل لوحة النتائج الخاصة به
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: يسمح للاعب بتبديل لوحة نتائج الخادم
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: السماح للاعب بالوصول إلى أمر الفارق الاختباري
