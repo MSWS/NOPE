@@ -19,3 +19,5 @@ files:
     translation: /t/%language%/%original_path%/%original_file_name%
   - source: /src/xyz/msws/nope/*/*/*.java
     translation: /t/%language%/%original_path%/%original_file_name%
+  - source: /src/xyz/msws/nope/*/*/*/*.java
+    translation: /t/%language%/%original_path%/%original_file_name%
