@@ -1,0 +1,40 @@
+---
+name: NOPE
+main: xyz.msws.nope.NOPE
+version: 1.6.4
+description: 1.15.2 Antycheat Minecraft
+api-version: 1.15
+author: MSWS
+softdepend:
+  - ProtocolLib
+  - MaxBanki
+  - ZaawansowanedBan
+  - LapisBany
+  - LiteBans
+  - Banowanie
+  - Symbol zastępczy
+  - mcMMO
+  - Enchantacje
+  - Kartki pociągowe
+  - Koszyki_Pociąg
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+permissions:
+  nope.*:
+    description: Daje dostęp do wszystkich funkcji NOPE i omija wszystkie funkcje NOPE
+  nope.bypass.movement:
+    description: Pozwala graczowi omijać wszystkie kontrole ruchu
+  nope.bypass.flight:
+    description: Pozwala graczowi omijać wszystkie sprawdziany lotu
+  "nope.bypass.movement.flight#4":
+    description: 'Pozwala graczowi omijać wszystkie sprawdziany#4'
+  nope.command.toggle.scoreboard:
+    description: Pozwala graczowi na przełączenie własnej tabeli wyników
+  nope.command.toggle.gscoreboard:
+    description: Pozwala graczowi przełączyć tablicę wyników serwera
+  nope.command.testlag:
+    description: Zezwala graczowi na dostęp do polecenia testlag
