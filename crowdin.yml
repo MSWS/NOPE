@@ -1,3 +1,7 @@
 files:
   - source: /src/*
     translation: /t/%language%/%original_path%/%original_file_name%.%file_extension%
+  - source: /config.yml
+    translation: /t/%language%/%original_path%/%original_file_name%.%file_extension%
+  - source: /lang.yml
+    translation: /t/%language%/%original_path%/%original_file_name%.%file_extension%
