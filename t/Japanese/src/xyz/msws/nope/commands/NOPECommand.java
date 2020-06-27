@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+パッケージ xyz.msws.nope.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -68,6 +68,6 @@ public class NOPECommand extends AbstractCommand {
 
 	@Override
 	public String getName() {
-		return "nope";
+		"nope"を返します;
 	}
 }
