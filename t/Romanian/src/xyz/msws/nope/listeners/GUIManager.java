@@ -1,4 +1,4 @@
-package xyz.msws.nope.listeners;
+pachetul xyz.msws.nope.listeners;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+importă org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
@@ -26,152 +26,152 @@ import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.utils.MSG;
 
 /**
- * Listens to and manages the player's /nope stats GUI
+ * Ascultă și gestionează statisticile jucătorului /nope GUI
  * 
- * @author imodm
+ * @autor imodm
  *
  */
-public class GUIManager extends AbstractModule implements Listener {
-	private Stats stats;
+public class GUIManager extinde AbstractModule implementează Listener {
+	statistici statistice private;
 
 	public GUIManager(NOPE plugin) {
 		super(plugin);
 	}
 
-	private Map<UUID, String> openCheckType = new HashMap<>();
-	private Map<UUID, String> openHackCategory = new HashMap<>();
+	Harta privată<UUID, String> openCheckType = noua HashMap<>();
+	Harta privată<UUID, String> openHackcategory = hashMap nou<>();
 
-	private HashSet<UUID> ignore = new HashSet<>();
+	HashSet privat<UUID> ignore = new HashSet<>();
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
-		if (!(event.getWhoClicked() instanceof Player))
-			return;
-		Player player = (Player) event.getWhoClicked();
-		ItemStack item = event.getCurrentItem();
-		if (item == null || item.getType() == Material.AIR)
-			return;
+		dacă (!(event.getWhoClicked() instanță Player))
+			întoarcere;
+		Player = (Player) event.getWhoClicked();
+		Element ItemStack = event.getCurrent Item();
+		if (item == null <unk> item.getType() == Material.AIR)
+			întoarcere;
 
-		CPlayer cp = plugin.getCPlayer(player);
+		CPlayer cp = plugin.getCPlayer(jucător);
 
-		if (cp.getInventory() == null)
-			return;
+		dacă (cp.getInventory() == null)
+			întoarcere;
 
 		event.setCancelled(true);
 
-		if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName())
-			return;
+		dacă (!item.hasItemMeta() <unk> !item.getItemMeta().hasDisplayName())
+			întoarcere;
 
 		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
-		switch (cp.getInventory()) {
-			case "stats":
-				CheckType type;
-				try {
-					type = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				} catch (Exception e) {
-					break;
+		comutator (cp.getInventory()) {
+			(state) cazul "statistici":
+				Tip de verificare;
+				încercaţi {
+					tip = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
+				} captura (excepţie) {
+					pauză;
 				}
-				if (event.getClick() == ClickType.RIGHT) {
-					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
-							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
-					player.openInventory(stats.getInventory());
+				dacă (event.getClick() == ClickType.RIGHT) {
+					plugin.getConfig().set("Checks." + MSG.camelCase(tip + "") + ".Enabled",
+							!plugin.getConfig().getBoolean("Checks" + MSG.camelCase(type + "") + ".Enabled"));
+					jucator.openInventory(stats.getInventory());
 					cp.setInventory("stats");
-					break;
+					pauză;
 				}
-				player.openInventory(stats.getInventory(type));
+				jucator.openInventory(stats.getInventory(tip));
 				cp.setInventory("hackType");
-				openCheckType.put(player.getUniqueId(),
-						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				break;
-			case "hackType":
+				openCheckType.put(jucator.getUniqueId(),
+						ChatColor.stripColor(item.getItemMeta().getDisplayName().toUpperCase());
+				pauză;
+			cazul "hackType":
 				String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-				if (event.getClick() == ClickType.RIGHT) {
+				dacă (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set(
-							"Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
-									+ ".Enabled",
+							"Checks." + MSG.camelCase(openCheckType.get(jucator.getUniqueId())) + "." + hack
+									+ ".Activat",
 							!plugin.getConfig()
-									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
-											+ hack + ".Enabled"));
+									.getBoolean("Checks" + MSG.camelCase[openCheckType.get(jucator.getUniqueId())) + "."
+											<unk> <unk> <unk> <unk> <unk> + hack + ".Enabled"));
 					ignore.add(player.getUniqueId());
-					player.openInventory(
-							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+					player.openInventoriy(
+							stats.getInventory(CheckType.valueOf(openCheckType.get(jucator.getUniqueId())));
 					cp.setInventory("hackType");
-					break;
+					pauză;
 				}
 				ignore.add(player.getUniqueId());
-				player.openInventory(stats.getInventory(hack));
-				cp.setInventory("hackCategory");
-				openHackCategory.put(player.getUniqueId(), hack);
-				break;
-			case "hackCategory":
-				String hackCategory = openHackCategory.get(player.getUniqueId());
-				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId()));
+				jucator.openInventory(stats.getInventory(hack));
+				cp.setInventar ("hackCategoriy");
+				openHackCategory.put(jucator.getUniqueId(), hack);
+				pauză;
+			cazul "hackCategorie":
+				String hackCategory = openHackCategory.get(jucator.getUniqueId());
+				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId());
 				String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
 						!plugin.getConfig()
-								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
+								.getBoolean("Checks." + hackType + "." + hackcategory + "." + debugName + ".Enabled"));
 				ignore.add(player.getUniqueId());
-				player.openInventory(stats.getInventory(hackCategory));
-				cp.setInventory("hackCategory");
-				break;
+				jucator.openInventory(stats.getInventory(hackCategory));
+				cp.setInventar ("hackCategoriy");
+				pauză;
 		}
 	}
 
 	@EventHandler
 	public void onClose(InventoryCloseEvent event) {
-		if (!(event.getPlayer() instanceof Player))
-			return;
-		Player player = (Player) event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
+		if (!(event.getPlayer() instanța Player))
+			întoarcere;
+		Player = (Player) event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(jucător);
 
-		if (cp.getInventory() == null)
-			return;
+		dacă (cp.getInventory() == null)
+			întoarcere;
 
-		String inv = cp.getInventory();
+		şir inv = cp.getInventory();
 
-		if (ignore.contains(player.getUniqueId())) {
+		dacă (ignore.contains(player.getUniqueId())) {
 			ignore.remove(player.getUniqueId());
-			return;
+			întoarcere;
 		}
 
 		plugin.saveConfig();
 
-		switch (inv) {
-			case "hackType":
+		comutați (inv) {
+			cazul "hackType":
 				ignore.add(player.getUniqueId());
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						player.openInventory(stats.getInventory());
+				BukkitRunnable() nou {
+					@Suprascriere
+					vid public run() {
+						jucator.openInventory(stats.getInventory());
 						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			case "hackCategory":
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						player.openInventory(
-								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+				întoarcere;
+			cazul "hackCategorie":
+				BukkitRunnable() nou {
+					@Suprascriere
+					vid public run() {
+						player.openInventoriy(
+								stats.getInventory(CheckType.valueOf(openCheckType.get(jucator.getUniqueId())));
 						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			default:
-				break;
+				întoarcere;
+			implicit:
+				pauză;
 		}
 
 		cp.setInventory(null);
 	}
 
-	@Override
-	public void enable() {
+	@Suprascriere
+	evitați public enable() {
 		this.stats = plugin.getModule(Stats.class);
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(aceasta, plugin);
 	}
 
-	@Override
-	public void disable() {
+	@Suprascriere
+	anulați dezactivarea publică() {
 	}
 }
