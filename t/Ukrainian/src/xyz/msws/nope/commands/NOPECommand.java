@@ -1,73 +1,73 @@
-package xyz.msws.nope.commands;
+пакет xyz.msw.nope.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.commands.sub.BanwaveSubcommand;
-import xyz.msws.nope.commands.sub.ChecksSubcommand;
-import xyz.msws.nope.commands.sub.ClearSubcommand;
-import xyz.msws.nope.commands.sub.EnablechecksSubcommand;
-import xyz.msws.nope.commands.sub.HelpSubcommand;
-import xyz.msws.nope.commands.sub.LookupSubcommand;
-import xyz.msws.nope.commands.sub.OnlineSubcommand;
-import xyz.msws.nope.commands.sub.ReloadSubcommand;
-import xyz.msws.nope.commands.sub.RemovebanwaveSubcommand;
-import xyz.msws.nope.commands.sub.ReportSubcommand;
-import xyz.msws.nope.commands.sub.ResetSubcommand;
-import xyz.msws.nope.commands.sub.StatsSubcommand;
-import xyz.msws.nope.commands.sub.TestAnimationSubcommand;
-import xyz.msws.nope.commands.sub.TestlagSubcommand;
-import xyz.msws.nope.commands.sub.TimeSubcommand;
-import xyz.msws.nope.commands.sub.ToggleSubcommand;
-import xyz.msws.nope.commands.sub.TrustSubcommand;
-import xyz.msws.nope.commands.sub.VLSubcommand;
-import xyz.msws.nope.commands.sub.WarnSubcommand;
+імпортувати xyz.msws.nope;
+імпортувати xyz.msws.nope.commands.sub.BanwaveSubcommand;
+імпортувати xyz.msws.nope.commands.sub.ChecksSubcommand;
+імпортувати файли xyz.msw.nope.command.sub.ClearSubcommand;
+імпортувати xyz.msws.nope.commands.sub.EnablechecksSubcommand;
+імпортувати xyz.msws.nope.commands.sub.HelpSubcommand;
+імпортувати xyz.msws.nope.commands.sub.LookupSubcommand;
+імпортувати файли xyz.msws.nope.command.sub.OnlineSubcommand;
+імпортувати xyz.msw.nope.commands.sub.ReloadSubcommand;
+імпортувати команди xyz.msws.nope.command.RemovebanwaveSubcommand;
+імпортувати xyz.msws.nope.command.ReportSubcommand;
+імпортувати xyz.msws.nope.command.ResetSubcommand;
+імпортувати xyz.msws.nope.commands.sub.StatsSubcommand;
+імпортувати xyz.msws.nope.commands.sub.TestAnimationSubcommand;
+імпортувати xyz.msws.nope.commands.sub.TestlagSubcommand;
+імпортувати xyz.msws.nope.commands.sub.TimeSubcommand;
+імпортувати файли xyz.msws.nope.command.sub.ToggleSubcommand;
+імпортувати xyz.msws.nope.commands.sub.TrustSubcommand;
+імпортувати xyz.msws.nope.command.VLSubcommand;
+імпортувати файли xyz.msw.nope.command.WarnSubcommand;
 
-public class NOPECommand extends AbstractCommand {
+публічний клас NOPECommand розширює AbstractCommand {
 
-	private HelpSubcommand help;
+	внутрішня допомога по команді;
 
-	public NOPECommand(NOPE plugin) {
-		super(plugin);
-		help = new HelpSubcommand(plugin, this, 8);
+	публічна NOPECommand(NOPE плагін) {
+		супер(плагін);
+		help = new HelpSubcommand(plugin, це, 8);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	@Перевизначити
+	публічний логічний onCommand(CommandSender відправник, командна команда, рядкова етикетка, String[] args) {
 		label = label.toUpperCase();
-		if (super.onCommand(sender, command, label, args))
-			return true;
+		якщо (super.onCommand(sender, команда, мітка, арг))
+			повернути вірну;
 		help.execute(sender, args);
-		return true;
+		повернути вірну;
 	}
 
-	@Override
-	public void enable() {
+	@Перевизначити
+	публічний void enable() {
 		super.enable();
-		cmds.add(new VLSubcommand(plugin));
-		cmds.add(new ClearSubcommand(plugin));
-		cmds.add(new ReportSubcommand(plugin));
-		cmds.add(new LookupSubcommand(plugin));
-		cmds.add(new ToggleSubcommand(plugin));
+		cmds.add(нова VLSubcommand(plugin));
+		cmds.add(новий ClearSubcommand(plugin));
+		cmds.add(новий ReportSubcommand(plugin));
+		cmds.add(новий LookupSubcommand(plugin));
+		cmds.add(новий ToggleSubcommand(plugin));
 		cmds.add(new StatsSubcommand(plugin));
-		cmds.add(new TimeSubcommand(plugin));
-		cmds.add(new BanwaveSubcommand(plugin));
+		cmds.add(новий TimeSubcommand(plugin));
+		cmds.add(нова BanwaveSubcommand(plugin));
 		cmds.add(new ReloadSubcommand(plugin));
-		cmds.add(new ResetSubcommand(plugin));
-		cmds.add(new TestlagSubcommand(plugin));
-		cmds.add(new RemovebanwaveSubcommand(plugin));
-		cmds.add(new EnablechecksSubcommand(plugin));
-		cmds.add(new OnlineSubcommand(plugin));
-		cmds.add(new TestAnimationSubcommand(plugin));
+		cmds.add(новий ResetSubcommand(plugin));
+		cmds.add(новий TestlagSubcommand(plugin));
+		cmds.add(новий RemovebanwavwaveSubcommand(плагін));
+		cmds.add(новий EnablechecksSubcommand(plugin));
+		cmds.add(нова OnlineSubcommand(plugin));
+		cmds.add(новий TestAnimationSubcommand(plugin));
 		cmds.add(new WarnSubcommand(plugin));
 		cmds.add(new ChecksSubcommand(plugin));
-		cmds.add(new TrustSubcommand(plugin));
-		cmds.add(help);
+		cmds.add(новий TrustSubcommand(plugin));
+		cmds.add(допомога);
 	}
 
-	@Override
-	public String getName() {
+	@Перевизначити
+	публічний рядок getName() {
 		return "nope";
 	}
 }
