@@ -1,32 +1,32 @@
-# NOPE Anti-Cheat
-A pretty cool Minecraft anti-cheat.
+# NOPE 反作弊模式
+一个相当酷的Minecraft反作弊。
 
-### Disclaimer
-NOPE supports 1.15.X **only**. By default NOPE will not load on 1.14- servers. While altering the plugin yml may fix this issue, it is likely that NOPE will have many issues on outdated versions.
+### 免责声明
+NOPE支持1.15。X **只是**。 默认情况下，NOPE将不会在 1.14 上加载 - 服务器。 在更改插件yml 时可能解决这个问题，NOPE 可能会在过时版本上产生许多问题。
 
-## Features
-* Extensive Movement Checks
-* Complex and thorough configuration abilities
-* Third-Party Plugin Support for mcMMO and AdvancedEnchants
-* Custom Ban Animation
-* Complete customization of checks
-* Consistent updates and developer support
-* Popular Ban Plugin Support
+## 功能
+* 广泛的移动检查
+* 复杂和彻底的配置能力
+* 第三方插件支持 mcMMO 和 AdvancedEnchants
+* 自定义封禁动画
+* 完全自定义检查
+* 前后一致的更新和开发者支持
+* 热门封禁插件支持
 
 ## YouTube
-A YouTube video showcasing NOPE can be found [here](https://www.youtube.com/watch?v=QNumBz-Phwg). Additionally, a video explaining the configuration of NOPE is [here](https://www.youtube.com/watch?v=XVuXKsJEAkQ).
+YouTube视频展示NOPE可以在这里找到 [](https://www.youtube.com/watch?v=QNumBz-Phwg)。 此外，解释NOPE配置的视频是 [这里](https://www.youtube.com/watch?v=XVuXKsJEAkQ)。
 
-## Support
-Please report any false flags, bugs, or suggestions here. General questions can be asked by joining [my Discord](https://nope.msws.xyz/discord).
+## 支持
+请在此报告任何虚假标志、错误或建议。 可以通过加入 [我的 Discord](https://nope.msws.xyz/discord) 来提问一般问题。
 
 ## API
-A basic guide on NOPE's API is [here](https://github.com/MSWS/NOPE/wiki/API), and the javadoc can be found [here](http://docs.msws.xyz).
+NOPE API的基本指南是 [这里](https://github.com/MSWS/NOPE/wiki/API), 这里可以找到 javadoc [](http://docs.msws.xyz)。
 
-## Permissions / Commands
-The list of permissions and commands are listed [here](https://github.com/MSWS/NOPE/wiki/Permissions).
+## 权限/命令
+权限和命令列表列出 [这里](https://github.com/MSWS/NOPE/wiki/Permissions)。
 
-## Trello
-NOPE has a Trello board where you can view known bugs, features, and changelogs. You can view the trello board [here](https://nope.msws.xyz/trello).
+## 特雷洛文
+NOPE 有一个Trello 棋盘，您可以查看已知的bug、功能和更新日志。 您可以在这里查看 trello 棋盘 [](https://nope.msws.xyz/trello)。
 
-## Test Server
-A public NOPE Test Server is available at **MSWS.xyz**. Note that this server may not be up-to-date.
+## 测试服务器
+在 **MSWS.xyz** 上有一个公开的 NOPE 测试服务器。 请注意，此服务器可能不是最新的。
