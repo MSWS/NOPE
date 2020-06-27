@@ -13,18 +13,18 @@
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
-				<filtering>true</filtering>
+				<filtering>sann</filtering>
 				<directory>${basedir}</directory>
 				<includes>
 					<include>plugin.yml</include>
-					<include>config.yml</include>
+					<include>oppsett.yml</include>
 					<include>lang.yml</include>
 				</includes>
 			</resource>
 		</resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-kompiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
@@ -41,9 +41,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>pakke</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>skygge</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -52,28 +52,28 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
+			<id>piggete repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
 			<id>mojang</id>
-			<name>Mojang's Repository</name>
+			<name>Mojang sitt repository</name>
 			<url>https://libraries.minecraft.net/</url>
 		</repository>
 		<repository>
-			<id>shadowvolt-repo</id>
+			<id>skyggvolt-repoet</id>
 			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
 		</repository>
 		<repository>
-			<id>confuser-repo</id>
-			<url>http://ci.frostcast.net/plugin/repository/everything</url>
+			<id>forvirre-repo</id>
+			<url>http://ci.frostcast.net/plugin/repository/alt</url>
 		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
-			<id>placeholderapi</id>
+			<id>plassholderapi</id>
 			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
 		<repository>
@@ -99,21 +99,21 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.15.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.1.50.Final</version>
-			<scope>provided</scope>
+			<groupId>io.nety</groupId>
+			<artifactId>nett-alt</artifactId>
+			<version>4.1.50.Finale</version>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mojang</groupId>
 			<artifactId>authlib</artifactId>
 			<version>1.5.21</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.dmulloy2</groupId>
@@ -121,32 +121,32 @@
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 		<dependency>
-			<groupId>me.confuser</groupId>
-			<artifactId>BanManager</artifactId>
+			<groupId>meg.confuser</groupId>
+			<artifactId>Baner</artifactId>
 			<version>5.10.0</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gitlab.ruany</groupId>
 			<artifactId>LiteBansAPI</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.lapismc</groupId>
+			<groupId>net.lapismec</groupId>
 			<artifactId>LapisBansAPI</artifactId>
 			<version>2.0.3</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
+			<groupId>me.klipp</groupId>
+			<artifactId>plassholderapi</artifactId>
 			<version>2.10.6</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.DevLeoko</groupId>
-	    <artifactId>Advancedban</artifactId>
+	    <artifactId>Avansertban</artifactId>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	<dependency>
@@ -157,11 +157,11 @@
 
 		<dependency>
 			<groupId>me.badbones69</groupId>
-			<artifactId>crazyenchantments-plugin</artifactId>
+			<artifactId>crazyenchants-plugin</artifactId>
 			<version>1.8-Dev-Build-v8</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -169,9 +169,9 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.mcdb</groupId>
-			<artifactId>spicord-common</artifactId>
+			<artifactId>spikord-vanlig</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>oppgitt</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.netherfoam</groupId>
@@ -180,7 +180,7 @@
 	</dependency>
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
-	    <artifactId>MaxBans</artifactId>
+	    <artifactId>Maksbier</artifactId>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	</dependencies>
