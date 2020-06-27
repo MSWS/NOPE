@@ -117,11 +117,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib</artifactId>
-			<version>4.5.0</version>
-			<scope>provided</scope>
-		</dependency>
+	    <groupId>com.github.dmulloy2</groupId>
+	    <artifactId>ProtocolLib</artifactId>
+	    <version>Tag</version>
+	</dependency>
 		<dependency>
 			<groupId>me.confuser</groupId>
 			<artifactId>BanManager</artifactId>
@@ -183,11 +182,6 @@
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans</artifactId>
-	    <version>master-SNAPSHOT</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.github.steviebeenz</groupId>
-	    <artifactId>NOPE</artifactId>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	</dependencies>
