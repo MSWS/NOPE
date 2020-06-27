@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+包 xyz.msws.nope.commands;
 
-import xyz.msws.nope.utils.MSG;
+导入 xyz.msws.nope.utils.MSG;
 
 /**
- * Represents the result of a command.
+ * 代表命令的结果。
  * 
  * @author imodm
  *
  */
-public enum CommandResult {
+公开编号CommandResults
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * 命令已成功完成。 自定义成功消息应该是
+	 * 已发送。
 	 */
-	SUCCESS,
+	订阅：
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * 发件人对命令没有适当的权限。
 	 */
-	NO_PERMISSION,
+	NO_PERMISSSION
 	/**
-	 * An argument is missing.
+	 * 缺少一个参数。
 	 */
-	MISSING_ARGUMENT,
+	MISSION_ARGUMENT,
 	/**
-	 * An invalid argument is given.
+	 * 给出的参数无效。
 	 */
 	INVALID_ARGUMENT,
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * 只有玩家可以使用命令，而发件人不是。
 	 */
 	PLAYER_ONLY,
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * 执行者没有给玩家相同的
+	 * {@link CommandResult#MISSIG_ARGUMENT} 但更加具体。
 	 */
 	PLAYER_REQUIRED,
 	/**
-	 * An unknown error occured
+	 * 发生未知错误
 	 */
-	ERROR;
+	错误；
 
-	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+	public String getMessage()
+		切换(这个)
+			大小写：
+				返回 MSG.getString("Command.InvalidArgument", "&c提供了无效的参数");
+			大小写：
+				返回 MSG.getString("Command.MissingArgument", "&cYou 缺少一个参数");
+			案例NO_PERMISSION：
+				返回 MSG.getString("Command.NoPermission")，
+						"&4&l[&c&lNOPE&4&l] &c你缺少&a%perm% &cpermission.");
+			PLAYER_ONLY：
+				返回 MSG.getString("Command.PlayerOnly")，
+						"&c你必须指定一个玩家作为控制台运行此命令。");
+			PLAYER_REQUIRED：
+				返回 MSG.getString("Command.SpecifyPlayer", "&c你必须指定一个玩家作为参数");
+			客户反馈：
+				返回 "";
+			默认值：
+				2. 间歇；
 		}
-		return "&4An error occured whilst executing the command.";
+		返回 "&4在执行命令时发生错误";
 	}
 }
