@@ -1,4 +1,4 @@
-package xyz.msws.nope.commands;
+パッケージ xyz.msws.nope.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,16 @@ import org.bukkit.command.CommandSender;
 import xyz.msws.nope.NOPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * メインコマンドのサブコマンドを表します。 それぞれのサブコマンドが期待されています
+ * 内部でロジックを処理します。 サブコマンドを含めることができます
+ * コマンド
  * 
  * @author imodm
  *
  */
 public abstract class Subcommand {
 
-	protected NOPE plugin;
+	保護された NOPE プラグイン;
 
 	public Subcommand(NOPE plugin) {
 		this.plugin = plugin;
