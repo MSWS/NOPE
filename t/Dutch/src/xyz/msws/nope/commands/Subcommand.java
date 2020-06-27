@@ -1,46 +1,46 @@
-package xyz.msws.nope.commands;
+pakket xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+importeer java.util.ArrayList;
+importeer java.util.List;
 
-import javax.annotation.Nullable;
+importeer javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+importeer xyz.msws.nope.NEPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Vertegenwoordigt een subcommando van een hoofdopdracht. Er wordt elk subcommando verwacht
+ * behandelt de logica intern. Dit kan inclusief het hebben van subcommando's
+ * commando's.
  * 
- * @author imodm
+ * @auteur imodm
  *
  */
-public abstract class Subcommand {
+openbare abstract class Subcommand {
 
-	protected NOPE plugin;
+	bescherming van NOPE plugin;
 
-	public Subcommand(NOPE plugin) {
+	publieke Subcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@Nulbaar
+	openbare abstract Lijst<String[]> tabCompletions(opdrachtzender);
 
-	public abstract String getName();
+	openbare abstracte tekenreeks getName();
 
-	public abstract String getUsage();
+	openbare abstract String getUge();
 
-	public abstract String getDescription();
+	openbare abstract tekenreeks getOmschrijving();
 
-	public List<String> getAliases() {
-		return new ArrayList<>();
+	openbare lijst<String> getAliases() {
+		retourneert nieuwe ArrayList<>();
 	}
 
-	public String getPermission() {
-		return null;
+	publieke String getPermission() {
+		retourneer null;
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	openbare abstract opdrachtresultaat uitvoering (verzender van opdrachtzender, String[] args);
 }
