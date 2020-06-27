@@ -1,15 +1,15 @@
-package xyz.msws.nope.listeners;
+balíček xyz.msws.nope.listeners;
 
-import java.util.HashMap;
+importovat java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.UUID;
+importovat java.util.Map;
+importovat java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+importovat org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
@@ -18,160 +18,160 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import xyz.msws.nope.NOPE;
-import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.modules.checks.CheckType;
-import xyz.msws.nope.modules.data.CPlayer;
-import xyz.msws.nope.modules.data.Stats;
-import xyz.msws.nope.utils.MSG;
+importovat xyz.msws.nope.NOPE;
+importovat xyz.msws.nope.modules.AbstractModule;
+importovat xyz.msws.nope.modules.checks.CheckType;
+importovat xyz.msws.nope.modules.data.CPlayer;
+importovat xyz.msws.nope.modules.data.Stats;
+importovat xyz.msws.nope.utils.MSG;
 
 /**
- * Listens to and manages the player's /nope stats GUI
+ * Poslouchá a spravuje hráčovy statistiky / nope GUI
  * 
- * @author imodm
+ * @autor imodm
  *
  */
-public class GUIManager extends AbstractModule implements Listener {
-	private Stats stats;
+veřejná třída GUIManager rozšiřuje AbstractModul implementuje Listener {
+	soukromé statistiky;
 
-	public GUIManager(NOPE plugin) {
+	veřejný GUIManager(NOPE plugin) {
 		super(plugin);
 	}
 
-	private Map<UUID, String> openCheckType = new HashMap<>();
-	private Map<UUID, String> openHackCategory = new HashMap<>();
+	soukromá mapa<UUID, String> openCheckType = nový HashMap<>();
+	soukromá mapa<UUID, String> openHackCategory = nový HashMap<>();
 
-	private HashSet<UUID> ignore = new HashSet<>();
+	soukromý HashSet<UUID> ignorovat = nový HashSet<>();
 
 	@EventHandler
-	public void onClick(InventoryClickEvent event) {
+	public void onClick(InventoryClickEvent událost) {
 		if (!(event.getWhoClicked() instanceof Player))
-			return;
-		Player player = (Player) event.getWhoClicked();
-		ItemStack item = event.getCurrentItem();
-		if (item == null || item.getType() == Material.AIR)
-			return;
+			návrat;
+		Hráč = (Player) event.getWhoClicked();
+		ItemStack položka = event.getCurrentItem();
+		if (položka == null || item.getType() == Material.AIR)
+			návrat;
 
-		CPlayer cp = plugin.getCPlayer(player);
+		CPlayer cp = plugin.getCPlayer(hráč);
 
-		if (cp.getInventory() == null)
-			return;
+		Pokud (cp.getInventory() == null)
+			návrat;
 
 		event.setCancelled(true);
 
 		if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName())
-			return;
+			návrat;
 
 		player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 2, 1);
 
-		switch (cp.getInventory()) {
-			case "stats":
-				CheckType type;
-				try {
-					type = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				} catch (Exception e) {
-					break;
+		Přepínač (cp.getInventory()) {
+			písmena "statistiky":
+				typ kontroly;
+				zkus {
+					typ = CheckType.valueOf(ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
+				} úlovek (xception e) {
+					přerušení;
 				}
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set("Checks." + MSG.camelCase(type + "") + ".Enabled",
 							!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(type + "") + ".Enabled"));
 					player.openInventory(stats.getInventory());
 					cp.setInventory("stats");
-					break;
+					přerušení;
 				}
 				player.openInventory(stats.getInventory(type));
 				cp.setInventory("hackType");
 				openCheckType.put(player.getUniqueId(),
 						ChatColor.stripColor(item.getItemMeta().getDisplayName()).toUpperCase());
-				break;
-			case "hackType":
+				přerušení;
+			případ "hackType":
 				String hack = ChatColor.stripColor(item.getItemMeta().getDisplayName());
 				if (event.getClick() == ClickType.RIGHT) {
 					plugin.getConfig().set(
-							"Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
-									+ ".Enabled",
+							"Kontrolní" + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "." + hack
+									+ ".Povoleno",
 							!plugin.getConfig()
-									.getBoolean("Checks." + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
-											+ hack + ".Enabled"));
+									.getBoolean("Kontrola" + MSG.camelCase(openCheckType.get(player.getUniqueId())) + "."
+											+ hack + ".Povoleno"));
 					ignore.add(player.getUniqueId());
 					player.openInventory(
-							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+							stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId())));
 					cp.setInventory("hackType");
-					break;
+					přerušení;
 				}
 				ignore.add(player.getUniqueId());
 				player.openInventory(stats.getInventory(hack));
 				cp.setInventory("hackCategory");
 				openHackCategory.put(player.getUniqueId(), hack);
-				break;
-			case "hackCategory":
+				přerušení;
+			případ "hackCategory":
 				String hackCategory = openHackCategory.get(player.getUniqueId());
 				String hackType = MSG.camelCase(openCheckType.get(player.getUniqueId()));
 				String debugName = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled",
+				plugin.getConfig().set("Checks." + hackType + "." + hackCategory + "." + debugName + ".Epovoleno",
 						!plugin.getConfig()
-								.getBoolean("Checks." + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
+								.getBoolean("Kontrola" + hackType + "." + hackCategory + "." + debugName + ".Enabled"));
 				ignore.add(player.getUniqueId());
 				player.openInventory(stats.getInventory(hackCategory));
 				cp.setInventory("hackCategory");
-				break;
+				přerušení;
 		}
 	}
 
 	@EventHandler
 	public void onClose(InventoryCloseEvent event) {
 		if (!(event.getPlayer() instanceof Player))
-			return;
-		Player player = (Player) event.getPlayer();
-		CPlayer cp = plugin.getCPlayer(player);
+			návrat;
+		Přehrávač = (Player) event.getPlayer();
+		CPlayer cp = plugin.getCPlayer(hráč);
 
-		if (cp.getInventory() == null)
-			return;
+		Pokud (cp.getInventory() == null)
+			návrat;
 
 		String inv = cp.getInventory();
 
 		if (ignore.contains(player.getUniqueId())) {
 			ignore.remove(player.getUniqueId());
-			return;
+			návrat;
 		}
 
 		plugin.saveConfig();
 
-		switch (inv) {
-			case "hackType":
+		přepínač (inv) {
+			případ "hackType":
 				ignore.add(player.getUniqueId());
-				new BukkitRunnable() {
-					@Override
+				nový BukkitRunnable() {
+					@override
 					public void run() {
 						player.openInventory(stats.getInventory());
 						cp.setInventory("stats");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			case "hackCategory":
-				new BukkitRunnable() {
-					@Override
+				návrat;
+			případ "hackCategory":
+				nový BukkitRunnable() {
+					@override
 					public void run() {
 						player.openInventory(
-								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId()))));
+								stats.getInventory(CheckType.valueOf(openCheckType.get(player.getUniqueId())));
 						cp.setInventory("hackType");
 					}
 				}.runTaskLater(plugin, 1);
-				return;
-			default:
-				break;
+				návrat;
+			výchozí:
+				přerušení;
 		}
 
 		cp.setInventory(null);
 	}
 
-	@Override
+	@override
 	public void enable() {
 		this.stats = plugin.getModule(Stats.class);
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@Override
+	@override
 	public void disable() {
 	}
 }
