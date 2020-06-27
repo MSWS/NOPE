@@ -1,64 +1,64 @@
-package xyz.msws.nope.commands;
+حزمة xyz.msws.nope.command;
 
-import xyz.msws.nope.utils.MSG;
+استيراد xyz.msws.nope.utils.MSG؛
 
 /**
- * Represents the result of a command.
+ * يمثل نتيجة أمر ما.
  * 
- * @author imodm
+ * المؤلف Modm
  *
  */
-public enum CommandResult {
+نتيجة القائد العام {
 	/**
-	 * The command was completed successfully. A custom success message should be
-	 * sent.
+	 * تم إكمال الأمر بنجاح. رسالة نجاح مخصصة يجب أن تكون
+	 * تم إرسالها.
 	 */
-	SUCCESS,
+	مكشوف
 	/**
-	 * The sender does not have the proper permissions for the command.
+	 * لا يملك المرسل الصلاحيات المناسبة للأوامر.
 	 */
-	NO_PERMISSION,
+	لا_تمهيد,
 	/**
-	 * An argument is missing.
+	 * هناك حجة مفقودة.
 	 */
-	MISSING_ARGUMENT,
+	الأرضية_المكانية،
 	/**
-	 * An invalid argument is given.
+	 * قدمت حجة غير صحيحة.
 	 */
-	INVALID_ARGUMENT,
+	INVALID_ARGUMENT،
 	/**
-	 * Only a player can use the command and the sender is not one.
+	 * يمكن فقط للاعب استخدام الأمر و المرسل ليس واحد.
 	 */
-	PLAYER_ONLY,
+	لاعب_احد،
 	/**
-	 * The executor did not give a player, same as
-	 * {@link CommandResult#MISSING_ARGUMENT} but more specific
+	 * لم يعط المنفذ اللاعب، كما هو الحال
+	 * {@link commandResult#MISSING_ARGUMENT} ولكن أكثر تحديداً
 	 */
-	PLAYER_REQUIRED,
+	اللعب_REQUIRED،
 	/**
-	 * An unknown error occured
+	 * حدث خطأ غير معروف
 	 */
-	ERROR;
+	خطأ؛
 
-	public String getMessage() {
-		switch (this) {
-			case INVALID_ARGUMENT:
-				return MSG.getString("Command.InvalidArgument", "&cAn invalid argument was provided.");
-			case MISSING_ARGUMENT:
-				return MSG.getString("Command.MissingArgument", "&cYou are missing an argument.");
-			case NO_PERMISSION:
-				return MSG.getString("Command.NoPermission",
-						"&4&l[&c&lNOPE&4&l] &cYou lack the &a%perm% &cpermission.");
-			case PLAYER_ONLY:
-				return MSG.getString("Command.PlayerOnly",
-						"&cYou must specify a player to run this command as console.");
-			case PLAYER_REQUIRED:
-				return MSG.getString("Command.SpecifyPlayer", "&cYou must specify a player as an argument.");
-			case SUCCESS:
-				return "";
-			default:
-				break;
+	سلسلة عامة getMessage() {
+		تبديل (هذا) {
+			القضية INVALID_ARGUMENT:
+				إرجاع MSG.getString("command.InvalidArgument", "&cAn invغير صالح تم تقديم حجة ")؛
+			قضية MISSING_ARGUMENT:
+				إرجاع MSG.getString("command.MissingArgument", "&cYou تفقد حجة.");
+			القضية NO_PERMISSION:
+				إرجاع MSG.getString("command.Nopermission",
+						"&4&l[&c&lNOPE&4&l] &cأنت تفتقر إلى &a%perm% &cpermission.");
+			PLAYER_ONLY:
+				إرجاع MSG.getString("command.PlayerOnly",
+						"&cيجب عليك تحديد مشغل لتشغيل هذا الأمر كوحدة تحكم.");
+			قضية PLAYER_REQUIRED:
+				إرجاع MSG.getString("command.SpecifyPlayer", "&cيجب عليك تحديد لاعب كحجة.")؛
+			القضية الفرعية:
+				إرجاع ""؛
+			الافتراضي:
+				استراحة؛
 		}
-		return "&4An error occured whilst executing the command.";
+		إرجاع "&4A حدث خطأ أثناء تنفيذ الأمر.";
 	}
 }
