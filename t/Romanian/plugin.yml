@@ -8,15 +8,15 @@ author: MSWS
 softdepend:
   - ProtocolLib
   - MaxBans
-  - AdvancedBan
-  - LapisBans
+  - Avansator
+  - LapisBani
   - LiteBans
-  - BanManagement
+  - Gestionare banale
   - PlaceholderAPI
   - mcMMO
   - CrazyEnchantments
-  - TrainCarts
-  - Train_Carts
+  - Antrenor
+  - Cosuri
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: Permite accesul la toate caracteristicile NOPE-urilor și ocolește toate verificările NOPE
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: Permite jucătorului să ocolească toate verificările mișcării
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: Permite jucătorului să ocolească toate verificările de zbor
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'Permite jucătorului să treacă peste toate verificările zborului #4'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: Permite jucătorului să își comode propriul tablou de bord
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: Permite jucătorului să comute tabloul de bord al serverului
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: Permite jucătorului să acceseze comanda de testare
