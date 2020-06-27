@@ -1,22 +1,22 @@
 ---
-name: NOPE
-main: xyz.msws.nope.NOPE
+name: НІ
+main: xyz.msw.nope.NOPE
 version: 1.6.4
-description: 1.15.2 Minecraft Anticheat
+description: 1.15.2 Майнкрафт
 api-version: 1.15
-author: MSWS
+author: ВІДХИЛИТИ
 softdepend:
   - ProtocolLib
-  - MaxBans
-  - AdvancedBan
-  - LapisBans
+  - Максбан
+  - Адванседбан
+  - Лапісбан
   - LiteBans
-  - BanManagement
-  - PlaceholderAPI
+  - Банківські послуги
+  - API заповнювача
   - mcMMO
-  - CrazyEnchantments
-  - TrainCarts
-  - Train_Carts
+  - Божевільні чари
+  - Тренування
+  - Транспортні візки
 commands:
   NOPE:
     usage: /<command>
@@ -25,16 +25,16 @@ commands:
       - anticheat
 permissions:
   nope.*:
-    description: Gives access to all of NOPEs features and bypasses all NOPE checks
+    description: Надає доступ до всіх функцій і обходу NOPEs усіх перевірок NOPE
   nope.bypass.movement:
-    description: Allows the player to bypass all movement checks
+    description: Дозволяє гравцю обходити всі перевірки руху
   nope.bypass.flight:
-    description: Allows the player to bypass all flight checks
+    description: Дозволяє гравцю обходити всі перевірки польотів
   "nope.bypass.movement.flight#4":
-    description: "Allows the player to bypass all flight#4 checks"
+    description: 'Дозволяє гравцю обходити всі польоти #4 перевірки'
   nope.command.toggle.scoreboard:
-    description: Allows the player to toggle their own scoreboard
+    description: Дозволяє гравцю перемикати їх власну таблетку
   nope.command.toggle.gscoreboard:
-    description: Allows the player to toggle the server's scoreboard
+    description: Дозволяє гравцю перемикати табло серверу
   nope.command.testlag:
-    description: Allows the player access to the testlag command
+    description: Дозволяє гравцю доступ до тестової команди
