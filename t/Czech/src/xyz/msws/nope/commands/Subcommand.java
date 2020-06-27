@@ -1,46 +1,46 @@
-package xyz.msws.nope.commands;
+balíček xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+importovat java.util.ArrayList;
+importovat java.util.List;
 
-import javax.annotation.Nullable;
+importovat javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+importovat xyz.msws.nope.NOPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Představuje podpříkaz hlavního příkazu. Očekává se, že každý subpříkaz
+ * interně zpracovává svou logiku. To může zahrnovat podpříkazy subb
+ * příkazy.
  * 
- * @author imodm
+ * @autor imodm
  *
  */
-public abstract class Subcommand {
+veřejný abstraktní třída Subcommand {
 
-	protected NOPE plugin;
+	chráněný zásuvný modul NOPE;
 
 	public Subcommand(NOPE plugin) {
 		this.plugin = plugin;
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@Neullable
+	veřejný abstraktní seznam<String[]> tabCompletions(CommandSender sender);
 
-	public abstract String getName();
+	veřejný abstract String getName();
 
-	public abstract String getUsage();
+	veřejný abstract String getUsage();
 
-	public abstract String getDescription();
+	veřejný abstract String getDescription();
 
-	public List<String> getAliases() {
-		return new ArrayList<>();
+	veřejný seznam<String> getAliases() {
+		vrátit nový ArrayList<>();
 	}
 
 	public String getPermission() {
-		return null;
+		nulová hodnota;
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	abstraktní execute(CommandSender sender, String[] náklady);
 }
