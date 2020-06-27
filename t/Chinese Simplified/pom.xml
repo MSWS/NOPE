@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>NOPE</groupId>
-	<artifactId>NOPE</artifactId>
+	<groupId>无</groupId>
+	<artifactId>无</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
-		<finalName>NOPE</finalName>
+		<finalName>无</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
@@ -16,15 +16,15 @@
 				<filtering>true</filtering>
 				<directory>${basedir}</directory>
 				<includes>
-					<include>plugin.yml</include>
-					<include>config.yml</include>
+					<include>yml</include>
+					<include>yml</include>
 					<include>lang.yml</include>
 				</includes>
 			</resource>
 		</resources>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-compiler-插件</artifactId>
 				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
@@ -41,9 +41,9 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>包</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>阴影</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -52,32 +52,32 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
+			<id>脊椎骨</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
 			<id>mojang</id>
-			<name>Mojang's Repository</name>
+			<name>Mojang的仓库</name>
 			<url>https://libraries.minecraft.net/</url>
 		</repository>
 		<repository>
-			<id>shadowvolt-repo</id>
+			<id>影子伏特-repo</id>
 			<url>http://ci.shadowvolt.com/plugin/repository/everything/</url>
 		</repository>
 		<repository>
-			<id>confuser-repo</id>
-			<url>http://ci.frostcast.net/plugin/repository/everything</url>
+			<id>令人迷惑的用户 repo</id>
+			<url>http://ci.frostcast.net/plugin/repository/all</url>
 		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 		<repository>
-			<id>placeholderapi</id>
-			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+			<id>占位符api</id>
+			<url>https://repo.extendedclip.com/content/reposinies/placeholderapi/</url>
 		</repository>
 		<repository>
-			<id>spicord-repo</id>
+			<id>香料-repo</id>
 			<url>https://repo.mcdb.eu/</url>
 		</repository>
 		<repository>
@@ -99,69 +99,69 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.15.2-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-			<version>4.1.50.Final</version>
-			<scope>provided</scope>
+			<artifactId>所有网络</artifactId>
+			<version>4.1.50.最后的</version>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mojang</groupId>
 			<artifactId>authlib</artifactId>
 			<version>1.5.21</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.dmulloy2</groupId>
 	    <artifactId>ProtocolLib</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>主SNAPSHOT</version>
 	</dependency>
 		<dependency>
-			<groupId>me.confuser</groupId>
+			<groupId>困惑者</groupId>
 			<artifactId>BanManager</artifactId>
 			<version>5.10.0</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gitlab.ruany</groupId>
 			<artifactId>LiteBansAPI</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.lapismc</groupId>
 			<artifactId>LapisBansAPI</artifactId>
 			<version>2.0.3</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
+			<groupId>素材</groupId>
+			<artifactId>占位符api</artifactId>
 			<version>2.10.6</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
-	    <groupId>com.github.DevLeoko</groupId>
-	    <artifactId>Advancedban</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <groupId>com.github。DevLeoko</groupId>
+	    <artifactId>高级封禁</artifactId>
+	    <version>主SNAPSHOT</version>
 	</dependency>
 	<dependency>
-	    <groupId>com.github.mcMMO-Dev</groupId>
+	    <groupId>com.github.mcMO-Dev</groupId>
 	    <artifactId>mcMMO</artifactId>
-	    <version>master</version>
+	    <version>大师</version>
 	</dependency>
 
 		<dependency>
-			<groupId>me.badbones69</groupId>
+			<groupId>我的徽章69</groupId>
 			<artifactId>crazyenchantments-plugin</artifactId>
 			<version>1.8-Dev-Build-v8</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -169,19 +169,19 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.mcdb</groupId>
-			<artifactId>spicord-common</artifactId>
+			<artifactId>香料常用的</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
+			<scope>提供</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans-plus</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>主SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
 	    <artifactId>MaxBans</artifactId>
-	    <version>master-SNAPSHOT</version>
+	    <version>主SNAPSHOT</version>
 	</dependency>
 	</dependencies>
 </project>
