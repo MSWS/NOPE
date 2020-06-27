@@ -1,46 +1,46 @@
-package xyz.msws.nope.commands;
+Paket xyz.msws.nope.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+importiere java.util.ArrayList;
+importiere java.util.List;
 
-import javax.annotation.Nullable;
+importiere javax.annotation.Nullable;
 
 import org.bukkit.command.CommandSender;
 
-import xyz.msws.nope.NOPE;
+importieren xyz.msws.nope.NOPE;
 
 /**
- * Represents a subcommand of a main command. It is expected each subcommand
- * handles its logic internally. This can include having sub commands of sub
- * commands.
+ * Stellt einen Unterbefehl eines Hauptkommandos dar. Es wird von jedem Unterbefehl erwartet
+ * behandelt seine Logik intern. Dies kann Unterbefehle von Unterbefehle beinhalten
+ * Befehle.
  * 
  * @author imodm
  *
  */
-public abstract class Subcommand {
+öffentlicher abstrakter Klassenunterbefehl {
 
-	protected NOPE plugin;
+	geschütztes NOPE-Plugin;
 
-	public Subcommand(NOPE plugin) {
+	öffentlicher Unterbefehl (NOPE-Plugin) {
 		this.plugin = plugin;
 	}
 
-	@Nullable
-	public abstract List<String[]> tabCompletions(CommandSender sender);
+	@Nullbar
+	öffentliche abstrakte Liste<String[]> TabCompletions(CommandSender Absender);
 
-	public abstract String getName();
+	öffentliche abstrakte Zeichenkette getName();
 
-	public abstract String getUsage();
+	öffentliche abstrakte Zeichenkette();
 
-	public abstract String getDescription();
+	öffentliche abstrakte Zeichenkette();
 
-	public List<String> getAliases() {
+	öffentliche Liste<String> getAliases() {
 		return new ArrayList<>();
 	}
 
-	public String getPermission() {
-		return null;
+	öffentliche String getPermission() {
+		zurück null;
 	}
 
-	public abstract CommandResult execute(CommandSender sender, String[] args);
+	öffentliche abstrakte CommandResult ausgeführt (CommandSender sender, String[] args);
 }
