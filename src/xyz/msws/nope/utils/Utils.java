@@ -23,6 +23,43 @@ public class Utils {
 	private static Method getHandle;
 	private static Field pingMethod;
 
+	public static String nms;
+
+	static {
+		try {
+			switch (Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().lastIndexOf("."))) {
+				case "1.13-R0":
+					nms = "v1_13_R1";
+					break;
+				case "1.13.2-R0":
+				case "1.13.1-R0":
+					nms = "v1_13_R2";
+					break;
+				case "1.14-R0":
+				case "1.14.1-R0":
+				case "1.14.2-R0":
+				case "1.14.3-R0":
+				case "1.14.4-R0":
+					nms = "v1_14_R1";
+					break;
+				case "1.15-R0":
+				case "1.15.1-R0":
+				case "1.15.2-R0":
+					nms = "v1_15_R1";
+					break;
+				case "1.16-R0":
+				case "1.16.1-R0":
+					nms = "v1_16_R1";
+					break;
+				default:
+					MSG.warn("Unknown NMS version: " + Bukkit.getBukkitVersion());
+					break;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static int getPing(Player player) {
 		try {
 			if (getHandle == null) {

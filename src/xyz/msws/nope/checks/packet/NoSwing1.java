@@ -81,6 +81,8 @@ public class NoSwing1 implements Check, Listener {
 
 	private EnumSet<Material> odd = Sets.newEnumSet(Sets.newHashSet(Material.COMMAND_BLOCK, Material.STRUCTURE_BLOCK,
 			Material.LILY_PAD, Material.LADDER, Material.VINE), Material.class);
+	private EnumSet<Material> oddBlocks = Sets.newEnumSet(
+			Sets.newHashSet(Material.LADDER, Material.VINE, Material.REDSTONE_WIRE, Material.LILY_PAD), Material.class);
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
@@ -108,9 +110,9 @@ public class NoSwing1 implements Check, Listener {
 		Block clicked = event.getClickedBlock();
 
 		if (clicked != null) {
-			if (clicked.getType().isInteractable() && !player.isSneaking()) // Signs
+			if (oddBlocks.contains(clicked.getType()))
 				return;
-			if (clicked.getType() == Material.REDSTONE_WIRE || clicked.getType() == Material.LILY_PAD)
+			if (clicked.getType().isInteractable() && !player.isSneaking()) // Signs
 				return;
 			Material next = clicked.getRelative(event.getBlockFace()).getType();
 			if (next.isInteractable())
