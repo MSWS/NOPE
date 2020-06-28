@@ -33,6 +33,7 @@ import xyz.msws.nope.protocols.WrapperPlayServerEntityTeleport;
 import xyz.msws.nope.protocols.WrapperPlayServerNamedEntitySpawn;
 import xyz.msws.nope.protocols.WrapperPlayServerPlayerInfo;
 import xyz.msws.nope.protocols.WrapperPlayServerRelEntityMoveLook;
+import xyz.msws.nope.utils.Utils;
 
 /**
  * Easy to use object that handles the packets internally, NPCs should ideally
@@ -106,6 +107,7 @@ public class NPC {
 	 * 
 	 * @param player
 	 */
+	@SuppressWarnings("deprecation") // Client sided
 	public void spawn(Player player) {
 		List<Player> online = new ArrayList<>(Bukkit.getOnlinePlayers());
 		online.remove(player);
@@ -146,7 +148,7 @@ public class NPC {
 
 		if (STANDING == null) {
 			try {
-				Class<?> pose = Class.forName("net.minecraft.server.v1_15_R1.EntityPose");
+				Class<?> pose = Class.forName("net.minecraft.server." + Utils.nms + ".EntityPose");
 				STANDING = pose.getEnumConstants()[0];
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

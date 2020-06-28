@@ -73,7 +73,7 @@ public class NOPE extends JavaPlugin {
 	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
 			langYml = new File(getDataFolder(), "lang.yml");
 
-	private String serverName = "Unknown Server";
+	private String serverName = "Unknown Server", nmsVersion = "v_1_UNKNOWN";
 
 	private PluginInfo pluginInfo;
 
@@ -107,6 +107,7 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.6.3":
 			case "1.6.2":
 			case "1.6.1":
 				return "Nothing new has been changed in the config.";
@@ -469,5 +470,9 @@ public class NOPE extends JavaPlugin {
 	 */
 	public Map<String, Option> getOptionMappings() {
 		return options;
+	}
+
+	public String nms() {
+		return nmsVersion;
 	}
 }
