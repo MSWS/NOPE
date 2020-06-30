@@ -1,6 +1,6 @@
 name: NOPE
 main: xyz.msws.nope.NOPE
-version: 1.7
+version: 1.7.1
 description: 1.15.2-1.16.1 Minecraft Anticheat
 api-version: 1.15
 author: MSWS
@@ -14,7 +14,6 @@ softdepend:
 - PlaceholderAPI
 - mcMMO
 - CrazyEnchantments
-- TrainCarts
 - Train_Carts
 commands:
   NOPE:

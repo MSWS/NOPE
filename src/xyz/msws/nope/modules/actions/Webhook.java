@@ -32,6 +32,32 @@ public class Webhook {
 	private Map<String, Object> data = new HashMap<>();
 	private NOPE plugin;
 
+	public Webhook(NOPE plugin, String url) {
+		this.plugin = plugin;
+
+		try {
+			this.url = new URL(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Webhook(NOPE plugin, String url, String name) {
+		this(plugin, url);
+	}
+
+	public void setAttribute(String key, Object value) {
+		data.put(key, value);
+	}
+
+	public void setUsername(String name) {
+		data.put("username", name);
+	}
+
+	public void setAvatarURL(String url) {
+		data.put("avatar_url", url);
+	}
+
 	public Webhook(NOPE plugin, ConfigurationSection config) {
 		if (!config.isSet("URL")) {
 			MSG.error("Invalid webhook config for " + config.getName() + ", missing URL value.");
@@ -151,5 +177,52 @@ public class Webhook {
 				}
 			}
 		}.runTaskAsynchronously(plugin);
+	}
+
+	/**
+	 * Asynchronously sends a POST request to the specified URL
+	 * 
+	 * @param content
+	 * @param cp
+	 * @param check
+	 */
+	public void sendMessage(String content) {
+		if (url == null || url.toString().equals("https://discordapp.com/api/webhooks/"))
+			return;
+		data.put("content", content);
+		if (!plugin.isEnabled())
+			return;
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				try {
+					URLConnection con = url.openConnection();
+					HttpURLConnection http = (HttpURLConnection) con;
+					http.setRequestMethod("POST");
+					http.setDoOutput(true);
+
+					String d = new JSONObject(data).toString();
+
+					byte[] out = d.getBytes(StandardCharsets.UTF_8);
+					int length = out.length;
+
+					http.setFixedLengthStreamingMode(length);
+					http.addRequestProperty("Content-Type", "application/json; charset=UTF-8");
+					http.addRequestProperty("User-Agent", "Java-NOPEWebhook");
+					http.connect();
+					try (OutputStream os = http.getOutputStream()) {
+						os.write(out);
+					}
+					if (http.getResponseCode() != 204) {
+						MSG.warn("Got response code " + http.getResponseCode() + " when sending webhook.");
+						MSG.warn("Message: &e" + http.getResponseMessage());
+					}
+				} catch (IOException e) {
+					MSG.error("An error occured sending the webhook message");
+					e.printStackTrace();
+				}
+			}
+		}.runTaskAsynchronously(plugin);
+
 	}
 }

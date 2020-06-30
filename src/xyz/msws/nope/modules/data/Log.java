@@ -38,12 +38,18 @@ public class Log {
 		log.put(System.currentTimeMillis(), line);
 	}
 
+	/**
+	 * Returns the log lines within a specified timespan
+	 * 
+	 * @param time -1 or lower for all lines
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getLinesFrom(long time) {
 		if (time <= 0)
 			return new ArrayList<>(log.values());
 		long minTime = System.currentTimeMillis() - time;
-		Entry<Long, String>[] arr = (Entry<Long, String>[]) log.entrySet().toArray();
+		Entry<Long, String>[] arr = (Entry<Long, String>[]) log.entrySet().toArray(new Entry[0]);
 		List<String> result = new ArrayList<>();
 		for (int i = log.size() - 1; i >= 0; i--) {
 			Entry<Long, String> v = arr[i];

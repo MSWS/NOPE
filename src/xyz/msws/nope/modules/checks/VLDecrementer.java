@@ -56,11 +56,12 @@ public class VLDecrementer extends AbstractModule {
 		} else {
 			for (Entry<String, Object> entry : plugin.getConfig().getConfigurationSection("VLDecrement.Periods")
 					.getValues(false).entrySet()) {
-				if (!NumberUtils.isDigits(entry.getKey())) {
+				// IsNumber instead of IsDigits to allow negatives
+				if (!NumberUtils.isNumber(entry.getKey())) {
 					MSG.warn("Invalid decrement key: " + entry.getKey());
 					continue;
 				}
-				if (!NumberUtils.isDigits(entry.getValue() + "")) {
+				if (!NumberUtils.isNumber(entry.getValue() + "")) {
 					MSG.warn("Invalid decrement value: " + entry.getValue());
 					continue;
 				}
