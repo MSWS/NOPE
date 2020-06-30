@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
+import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
@@ -92,7 +93,11 @@ public class NPC {
 		WrapperPlayServerEntityEquipment equipment = new WrapperPlayServerEntityEquipment();
 		equipment.setEntityID(id);
 		equipment.setSlot(slot);
-		equipment.setItem(item);
+		try {
+			equipment.setItem(item);
+		} catch (FieldAccessException expected) {
+			// ProtocolLib isn't updated
+		}
 		equipment.broadcastPacket();
 		return result;
 	}

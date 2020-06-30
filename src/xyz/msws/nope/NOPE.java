@@ -20,7 +20,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.msws.nope.commands.NOPECommand;
-import xyz.msws.nope.listeners.GUIManager;
 import xyz.msws.nope.listeners.LogImplementation;
 import xyz.msws.nope.listeners.LoginAndQuit;
 import xyz.msws.nope.listeners.MessageListener;
@@ -73,7 +72,7 @@ public class NOPE extends JavaPlugin {
 	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
 			langYml = new File(getDataFolder(), "lang.yml");
 
-	private String serverName = "Unknown Server", nmsVersion = "v_1_UNKNOWN";
+	private String serverName = "Unknown Server", nmsVersion = "v1_UNKNOWN";
 
 	private PluginInfo pluginInfo;
 
@@ -149,7 +148,6 @@ public class NOPE extends JavaPlugin {
 		modules.add(hookBans());
 		modules.add(new LogImplementation(this));
 		modules.add(new LoginAndQuit(this));
-		modules.add(new GUIManager(this));
 		modules.add(new MessageListener(this));
 		modules.add(new NOPECommand(this));
 		if (options.get("gscoreboard").asBoolean()) {
@@ -408,6 +406,10 @@ public class NOPE extends JavaPlugin {
 
 	public FileConfiguration getConfig() {
 		return config;
+	}
+	
+	public File getConfigFile() {
+		return configYml;
 	}
 
 	public void setConfig(FileConfiguration config) {
