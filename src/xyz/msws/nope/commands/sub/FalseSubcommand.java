@@ -108,7 +108,7 @@ public class FalseSubcommand extends Subcommand {
 		}
 
 		Log log = plugin.getCPlayer(target).getLog();
-		List<String> lines = log.getLinesFrom(60000);
+		List<String> lines = log.getLinesFrom(120000);
 		if (lines.size() < 10) {
 			MSG.tell(sender, MSG.getString("Command.FalsePositive.Insufficient",
 					"&cThere isn't enough data to report as a false positives."));
@@ -124,6 +124,8 @@ public class FalseSubcommand extends Subcommand {
 		if (message != null)
 			header.add("Description: " + message);
 		header.add("");
+		header.add("Armor: " + target.getInventory().getArmorContents());
+		header.add("Potions: " + target.getActivePotionEffects());
 		StringBuilder pbuilder = new StringBuilder();
 		for (Plugin p : Bukkit.getPluginManager().getPlugins()) {
 			pbuilder.append(p.getName() + ":" + p.getDescription().getVersion()).append(" ");

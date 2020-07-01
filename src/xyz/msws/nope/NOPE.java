@@ -407,7 +407,7 @@ public class NOPE extends JavaPlugin {
 	public FileConfiguration getConfig() {
 		return config;
 	}
-	
+
 	public File getConfigFile() {
 		return configYml;
 	}

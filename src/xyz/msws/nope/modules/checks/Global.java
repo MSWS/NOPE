@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import org.bukkit.event.player.PlayerRiptideEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
@@ -32,12 +34,22 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.utils.MSG;
 
 public class Global extends AbstractModule implements Listener {
+
+	private boolean checkSoul = true;
+
 	public Global(NOPE plugin) {
 		super(plugin);
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			CPlayer cp = plugin.getCPlayer(player);
 			cp.setTempData(Stat.JOIN_TIME, System.currentTimeMillis());
+		}
+
+		try {
+			@SuppressWarnings("unused")
+			Object unused = Enchantment.SOUL_SPEED;
+		} catch (NoSuchFieldError e) {
+			checkSoul = false;
 		}
 	}
 
@@ -120,7 +132,7 @@ public class Global extends AbstractModule implements Listener {
 
 		if (cp.isBlockNearby(Material.COBWEB) || cp.isBlockNearby(Material.COBWEB, 1.0)
 				|| cp.isBlockNearby(Material.COBWEB, 2.0))
-			cp.setTempData(Stat.COBWEB, System.currentTimeMillis());
+			cp.setTempData(Stat.COBWEB, time);
 
 		if (climbing)
 			cp.setTempData(Stat.CLIMBING, time);
@@ -139,6 +151,14 @@ public class Global extends AbstractModule implements Listener {
 
 		if (player.isRiptiding())
 			cp.setTempData(Stat.RIPTIDE, time);
+
+		if (checkSoul) {
+			ItemStack boots = player.getInventory().getBoots();
+			if (boots != null && boots.getType() != Material.AIR && boots.containsEnchantment(Enchantment.SOUL_SPEED)) {
+				if (cp.isBlockNearby(Material.SOUL_SAND, -1))
+					cp.setTempData(Stat.SOUL_SPEED, time);
+			}
+		}
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
 			cp.setTempData(Stat.HORIZONTAL_BLOCKCHANGE, time);
@@ -401,7 +421,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player was on top of a shulker
 		 */
-		SHULKER;
+		SHULKER,
+		/**
+		 * Last time the player was sped up by the SOUL_SPEED enchantment
+		 */
+		SOUL_SPEED;
 	}
 
 	@Override
