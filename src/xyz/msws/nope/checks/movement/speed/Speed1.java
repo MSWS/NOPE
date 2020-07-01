@@ -54,6 +54,8 @@ public class Speed1 implements Check, Listener {
 
 		if (cp.timeSince(Stat.VERTICAL_CHANGE) < 1000)
 			return;
+		if (cp.timeSince(Stat.SOUL_SPEED) < 500)
+			return;
 
 		double dist = to.distanceSquared(from);
 
