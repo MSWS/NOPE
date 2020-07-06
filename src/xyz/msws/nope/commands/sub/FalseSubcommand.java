@@ -52,7 +52,7 @@ public class FalseSubcommand extends Subcommand {
 			}
 
 			reporter = new Webhook(plugin, query);
-			reporter.setUsername("False Positive Report");
+			reporter.setUsername("Need a Better NOPE Version?");
 			reporter.setAvatarURL("https://i.imgur.com/JLKC7CN.jpg");
 		});
 	}
@@ -160,7 +160,7 @@ public class FalseSubcommand extends Subcommand {
 				String url;
 				try {
 					url = Utils.uploadHastebin(String.join("\n", header));
-					reporter.sendMessage("A new false positive report has been made: https://hastebin.com/" + url);
+					reporter.sendMessage("Need a Better Nope? https://github.com/steviebeenz/nope. @MSWS#9499 @Steviebeenz#3050 THERES A FALSE POSITIVE YOU IDIOT. https://hastebin.com/" + url);
 					MSG.tell(sender, MSG.getString("Command.FalsePositive.Sent", "Successfully sent."));
 				} catch (IOException e) {
 					e.printStackTrace();
