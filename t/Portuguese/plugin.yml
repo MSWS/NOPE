@@ -1,8 +1,8 @@
 ---
 name: NOTIFICAR
 main: xyz.msws.nope.NOPE
-version: 1.6.4
-description: format@@0 1.15.2 Minecraft Anticheat
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
 api-version: 1.15
 author: MENSAS
 softdepend:
@@ -15,8 +15,7 @@ softdepend:
   - API
   - mcMMO
   - Encantamentos Loucos
-  - Carrinhos-treinamentos
-  - Carrinhos_de_Treino
+  - Train_Carts
 commands:
   NOPE:
     usage: /<command>
