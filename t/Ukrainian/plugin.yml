@@ -1,8 +1,8 @@
 ---
 name: НІ
 main: xyz.msw.nope.NOPE
-version: 1.6.4
-description: 1.15.2 Майнкрафт
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
 api-version: 1.15
 author: ВІДХИЛИТИ
 softdepend:
@@ -15,8 +15,7 @@ softdepend:
   - API заповнювача
   - mcMMO
   - Божевільні чари
-  - Тренування
-  - Транспортні візки
+  - Train_Carts
 commands:
   NOPE:
     usage: /<command>
