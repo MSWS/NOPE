@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import com.rabbitcompany.adminbans.AdminBans;
+
 import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
@@ -58,7 +60,6 @@ import xyz.msws.nope.modules.trust.TrustFactor;
 import xyz.msws.nope.utils.MSG;
 import xyz.msws.nope.utils.Metrics;
 import xyz.msws.nope.utils.Metrics.CustomChart;
-
 /**
  * NOPE is a 1.15.2 Minecraft Anti-Cheat NOPE relies purely on Dependency
  * Injection and Modularity, get modules with {@link NOPE#getModule(Class)}.

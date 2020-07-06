@@ -8,7 +8,7 @@ import xyz.msws.nope.modules.AbstractModule;
 /**
  * Used to register bans in ban plugins.
  * 
- * @author imodm
+ * @author steviebeenz
  *
  */
 public abstract class BanHook extends AbstractModule {
