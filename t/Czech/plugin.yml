@@ -3,7 +3,7 @@ name: NOP
 main: NETÝKÁ SE TÉTO DOHODY
 version: 1.7.2
 description: 1.15.2-1.16.1 Minecraft Anticheat
-api-version: 1.15
+api-version: 1.14
 author: MSWS
 softdepend:
   - ProtocolLib
@@ -22,6 +22,7 @@ commands:
     aliases:
       - ac
       - anticheat
+      - ncp
 permissions:
   nope.*:
     description: Umožňuje přístup ke všem funkcím NOP a obchází všechny kontroly NOPE
@@ -37,3 +38,5 @@ permissions:
     description: Umožňuje přehrávači přepnout skóre serveru
   nope.command.testlag:
     description: Umožňuje hráči přístup k příkazu testlag
+  nope.command.false:
+    description: Allows the player access to the false command
