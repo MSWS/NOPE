@@ -3,7 +3,7 @@ name: NU
 main: xyz.msws.nope.nPE
 version: 1.7.2
 description: 1.15.2-1.16.1 Minecraft Anticheat
-api-version: 1.15
+api-version: 1.14
 author: MWOON
 softdepend:
   - ProtocolLib
@@ -22,6 +22,7 @@ commands:
     aliases:
       - ac
       - anticheat
+      - ncp
 permissions:
   nope.*:
     description: Geeft toegang tot alle NOPEs-functies en passaties alle NOPE-controles
@@ -37,3 +38,5 @@ permissions:
     description: Staat de speler toe om het scorebord van de server om te schakelen
   nope.command.testlag:
     description: Staat de speler toegang toe tot de testlag opdracht
+  nope.command.false:
+    description: Allows the player access to the false command
