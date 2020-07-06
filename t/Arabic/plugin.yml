@@ -1,8 +1,8 @@
 ---
 name: افتح
 main: xyz.msws.nope.NOPE
-version: 1.6.4
-description: 1-13-2 أنتيشيت ماينكرافت
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
 api-version: 1.15
 author: MSWS
 softdepend:
@@ -15,8 +15,7 @@ softdepend:
   - API حامل الموقع
   - mcMMO
   - جنون
-  - التدريب
-  - القطار_التسوق
+  - Train_Carts
 commands:
   NOPE:
     usage: /<command>
