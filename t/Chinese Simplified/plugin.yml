@@ -1,8 +1,8 @@
 ---
 name: 无
 main: xyz.msws.nope.NOPE
-version: 1.6.4
-description: 1.15.2 Minecraft Anticheat
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
 api-version: 1.15
 author: MSWS
 softdepend:
@@ -15,7 +15,6 @@ softdepend:
   - 占位符API
   - mcMMO
   - 合成魔法
-  - 训练车
   - Train_Carts
 commands:
   NOPE:
