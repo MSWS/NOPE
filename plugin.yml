@@ -2,7 +2,7 @@ name: NOPE
 main: xyz.msws.nope.NOPE
 version: 1.7.2
 description: 1.15.2-1.16.1 Minecraft Anticheat
-api-version: 1.15
+api-version: 1.14
 author: MSWS
 softdepend:
 - ProtocolLib
@@ -21,6 +21,7 @@ commands:
     aliases:
     - ac
     - anticheat
+    - ncp
 permissions:
   nope.*:
     description: Gives access to all of NOPEs features and bypasses all NOPE checks
@@ -36,3 +37,5 @@ permissions:
     description: Allows the player to toggle the server's scoreboard
   nope.command.testlag:
     description: Allows the player access to the testlag command
+  nope.command.false:
+    description: Allows the player access to the false command
