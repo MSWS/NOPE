@@ -45,6 +45,8 @@ public class AutoBuild1 implements Check, Listener {
 		Vector aim = player.getEyeLocation().getDirection().normalize()
 				.multiply(player.getEyeLocation().distance(block.getLocation()));
 		Block actual = player.getEyeLocation().clone().add(aim).getBlock();
+		if (!event.getBlockAgainst().getType().isSolid())
+			return;
 		if (block.equals(actual))
 			return;
 		if (block.getType().toString().contains("BED"))

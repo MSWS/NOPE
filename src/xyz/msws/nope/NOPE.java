@@ -20,7 +20,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import xyz.msws.nope.commands.NOPECommand;
-import xyz.msws.nope.listeners.GUIManager;
 import xyz.msws.nope.listeners.LogImplementation;
 import xyz.msws.nope.listeners.LoginAndQuit;
 import xyz.msws.nope.listeners.MessageListener;
@@ -73,7 +72,7 @@ public class NOPE extends JavaPlugin {
 	private File configYml = new File(getDataFolder(), "config.yml"), dataYml = new File(getDataFolder(), "data.yml"),
 			langYml = new File(getDataFolder(), "lang.yml");
 
-	private String serverName = "Unknown Server";
+	private String serverName = "Unknown Server", nmsVersion = "v1_UNKNOWN";
 
 	private PluginInfo pluginInfo;
 
@@ -107,6 +106,9 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.7.1":
+			case "1.7":
+			case "1.6.3":
 			case "1.6.2":
 			case "1.6.1":
 				return "Nothing new has been changed in the config.";
@@ -148,7 +150,6 @@ public class NOPE extends JavaPlugin {
 		modules.add(hookBans());
 		modules.add(new LogImplementation(this));
 		modules.add(new LoginAndQuit(this));
-		modules.add(new GUIManager(this));
 		modules.add(new MessageListener(this));
 		modules.add(new NOPECommand(this));
 		if (options.get("gscoreboard").asBoolean()) {
@@ -409,6 +410,10 @@ public class NOPE extends JavaPlugin {
 		return config;
 	}
 
+	public File getConfigFile() {
+		return configYml;
+	}
+
 	public void setConfig(FileConfiguration config) {
 		this.config = config;
 	}
@@ -469,5 +474,9 @@ public class NOPE extends JavaPlugin {
 	 */
 	public Map<String, Option> getOptionMappings() {
 		return options;
+	}
+
+	public String nms() {
+		return nmsVersion;
 	}
 }

@@ -339,7 +339,6 @@ public class CPlayer {
 	 * @param vl
 	 * @param debug
 	 */
-	@SuppressWarnings("unchecked")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
 			return;
@@ -369,6 +368,7 @@ public class CPlayer {
 		}
 
 		setTempData(Stat.FLAGGED, System.currentTimeMillis());
+		addLogMessage("Flagged " + check.getDebugName() + ": " + ChatColor.stripColor(MSG.color(debug)));
 
 		if (plugin.getOption("dev").asBoolean()) {
 			TextComponent component = new TextComponent(MSG.color("&4&l[&c&lDEV&4&l] &e" + getPlayer().getName()
@@ -398,12 +398,6 @@ public class CPlayer {
 
 		plugin.getModule(Stats.class).addTrigger(check);
 		plugin.getModule(Stats.class).addVl(check, vl);
-
-		List<String> lines = getSaveData("log", List.class);
-		if (lines == null)
-			lines = new ArrayList<>();
-
-		setSaveData("log", lines);
 	}
 
 	/**
@@ -475,6 +469,10 @@ public class CPlayer {
 
 	public void addLogMessage(String msg) {
 		log.addLine(msg);
+	}
+
+	public Log getLog() {
+		return log;
 	}
 
 	@Nullable

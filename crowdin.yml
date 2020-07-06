@@ -1,11 +1,5 @@
 files:
-  - source: /src/xyz/msws/nope/*/*.java
-    translation: /t/%language%/%original_path%/%original_file_name%
   - source: /*.yml
-    translation: /t/%language%/%original_path%/%original_file_name%
-  - source: /*.xml
-    translation: /t/%language%/%original_path%/%original_file_name%
-  - source: /pom.xml
     translation: /t/%language%/%original_path%/%original_file_name%
   - source: /lang.yml
     translation: /t/%language%/%original_path%/%original_file_name%
@@ -14,10 +8,4 @@ files:
   - source: /plugin.yml
     translation: /t/%language%/%original_path%/%original_file_name%
   - source: /*.md
-    translation: /t/%language%/%original_path%/%original_file_name%
-  - source: /src/xyz/msws/nope/*.java
-    translation: /t/%language%/%original_path%/%original_file_name%
-  - source: /src/xyz/msws/nope/*/*/*.java
-    translation: /t/%language%/%original_path%/%original_file_name%
-  - source: /src/xyz/msws/nope/*/*/*/*.java
     translation: /t/%language%/%original_path%/%original_file_name%
