@@ -3,7 +3,7 @@ name: НІ
 main: xyz.msw.nope.NOPE
 version: 1.7.2
 description: 1.15.2-1.16.1 Minecraft Anticheat
-api-version: 1.15
+api-version: 1.14
 author: ВІДХИЛИТИ
 softdepend:
   - ProtocolLib
@@ -22,6 +22,7 @@ commands:
     aliases:
       - ac
       - anticheat
+      - ncp
 permissions:
   nope.*:
     description: Надає доступ до всіх функцій і обходу NOPEs усіх перевірок NOPE
@@ -37,3 +38,5 @@ permissions:
     description: Дозволяє гравцю перемикати табло серверу
   nope.command.testlag:
     description: Дозволяє гравцю доступ до тестової команди
+  nope.command.false:
+    description: Allows the player access to the false command
