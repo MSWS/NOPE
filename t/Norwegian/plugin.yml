@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Tillater spilleren å forbigå alle flysikringstiltak
   "nope.bypass.movement.flight#4":
-    description: 'Tillater spilleren å omgå alle flight#4 kontroller'
+    description: "Tillater spilleren å omgå alle flight#4 kontroller"
   nope.command.toggle.scoreboard:
     description: Tillater spilleren å veksle mellom sitt eget resultattavle
   nope.command.toggle.gscoreboard:

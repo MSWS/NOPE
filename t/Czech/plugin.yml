@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Umožňuje hráči obejít všechny kontroly letu
   "nope.bypass.movement.flight#4":
-    description: 'Umožňuje hráči obejít veškerý let#4 kontrolu'
+    description: "Umožňuje hráči obejít veškerý let#4 kontrolu"
   nope.command.toggle.scoreboard:
     description: Umožňuje hráči přepnout vlastní tabulku skóre
   nope.command.toggle.gscoreboard:

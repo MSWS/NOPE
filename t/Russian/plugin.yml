@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Позволяет игроку обходить все полетные проверки
   "nope.bypass.movement.flight#4":
-    description: 'Позволяет игроку обходить все проверки полёта #4'
+    description: "Позволяет игроку обходить все проверки полёта #4"
   nope.command.toggle.scoreboard:
     description: Позволяет игроку переключать свой рейтинг
   nope.command.toggle.gscoreboard:

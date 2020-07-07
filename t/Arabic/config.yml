@@ -19,7 +19,7 @@ Log: ملف #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: '' #If not empty this will override the server name
+BungeeNameOverride: "" #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'افتح'
-    avatar_url: 'https://crowdin.com/translate/nope/4/en-ar#8392'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "افتح"
+    avatar_url: "https://crowdin.com/translate/nope/4/en-ar#8392"
     embeds:
       author:
         name: "حظر %player%"
-        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
-      title: 'تم حظر %player% لـ %check%'
+        avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+      title: "تم حظر %player% لـ %check%"
       color: 14483456
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "%vl%"
           inline: false
   flagExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'افتح'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "افتح"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player%"
-        icon_url: 'https://crafatar.com/avatars/%uuid%'
-      title: '%player% علم %check%'
+        icon_url: "https://crafatar.com/avatars/%uuid%"
+      title: "%player% علم %check%"
       color: 751818
       fields:
         1:
@@ -152,27 +152,27 @@ Webhooks:
 #-------------------------------
 Actions:
   FastBreak:
-    - 'أساسيةLog<unk> cancel<unk> vl>100<unk> tpsdecrement<unk> التأخير:40000<unk> tpskick<unk> vl>400<unk> تأخير:20000<unk> lagkick<unk> flog:FILE:Kicked %player% ل %check%<unk> tps>15<unk> vl>600<unk> cban'
+    - "أساسيةLog<unk> cancel<unk> vl>100<unk> tpsdecrement<unk> التأخير:40000<unk> tpskick<unk> vl>400<unk> تأخير:20000<unk> lagkick<unk> flog:FILE:Kicked %player% ل %check%<unk> tps>15<unk> vl>600<unk> cban"
   FastClimb:
-    - 'أساسيةLog<unk> vl>50<unk> تأخير:500<unk> إلغاء vl>200<unk> إلغاء vl>400<unk> ikick<unk> vl>600<unk> cban'
+    - "أساسيةLog<unk> vl>50<unk> تأخير:500<unk> إلغاء vl>200<unk> إلغاء vl>400<unk> ikick<unk> vl>600<unk> cban"
   Blink:
-    - 'المستوى الأساسي>200<unk> تأخير:2000<unk> إلغاء التأخير:15000<unk> tpsdecrement<unk> tps>15<unk> vl>250<unk> lagkick<unk> vl>500<unk> cancel<unk> vl>800<unk> cban'
+    - "المستوى الأساسي>200<unk> تأخير:2000<unk> إلغاء التأخير:15000<unk> tpsdecrement<unk> tps>15<unk> vl>250<unk> lagkick<unk> vl>500<unk> cancel<unk> vl>800<unk> cban"
   NoSwing:
-    - 'أساسيات vl>500<unk> ikick<unk> vl>1000<unk> cban'
+    - "أساسيات vl>500<unk> ikick<unk> vl>1000<unk> cban"
   Speed:
-    - 'أساسيةlog<unk> rndcancel<unk> vl>100<unk> cancel<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban'
+    - "أساسيةlog<unk> rndcancel<unk> vl>100<unk> cancel<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban"
   ElytraFlight:
-    - 'أساسيات vl>500<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1000<unk> cban'
+    - "أساسيات vl>500<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1000<unk> cban"
   Timer:
-    - 'المستوى الأساسي>300<unk> rndcancel<unk> تأخير:10000<unk> tpsdecrement<unk> vl>500<unk> lagkick<unk> vl>600<unk> ikick<unk> vl>800<unk> cban'
+    - "المستوى الأساسي>300<unk> rndcancel<unk> تأخير:10000<unk> tpsdecrement<unk> vl>500<unk> lagkick<unk> vl>600<unk> ikick<unk> vl>800<unk> cban"
   KillAura:
-    - 'المستوى الأساسي>200<unk> ikick<unk> vl>500<unk> تأخير:120000<unk> kick:Gameplay<unk> vl>600<unk> cban'
+    - "المستوى الأساسي>200<unk> ikick<unk> vl>500<unk> تأخير:120000<unk> kick:Gameplay<unk> vl>600<unk> cban"
   NoFall:
-    - 'أساسيات vl>300<unk> ikick<unk> vl>800<unk> cban'
+    - "أساسيات vl>300<unk> ikick<unk> vl>800<unk> cban"
   SafeWalk:
-    - 'المستوى الاساسي> 500<unk> يكيك'
+    - "المستوى الاساسي> 500<unk> يكيك"
   Default:
-    - 'المستوى الأساسي>20<unk> إلغاء vl>100<unk> flog<unk> vl>200<unk> lagkick<unk> tps>15<unk> vl>400<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban'
+    - "المستوى الأساسي>20<unk> إلغاء vl>100<unk> flog<unk> vl>200<unk> lagkick<unk> tps>15<unk> vl>400<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban"
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'سجل: فشل%player% %debug% (%vl%) <unk> تأخير:5000<unk> سجل :CONSOLE:%player% فشل %debug%'
+  flog: "سجل: فشل%player% %debug% (%vl%) <unk> تأخير:5000<unk> سجل :CONSOLE:%player% فشل %debug%"
   #the below actions log ingame an appropriate warning message to staff
-  alog: 'Vl>100<unk> vl<300<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &a%check%&7 فحص (VL: &e%vl%&7)'
-  elog: 'Vl>300<unk> vl<500<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &e%check%&7 تحقق (VL: &e%vl%&7)'
-  clog: 'Vl>500<unk> vl<700<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &c%check%&7 فحص (VL: &e%vl%&7)'
-  4log: 'مستوى > 700<unk> تأخير:500<unk> flog<unk> التأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &4%check%&7 تحقق (VL: &e%vl%&7)'
+  alog: "Vl>100<unk> vl<300<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &a%check%&7 فحص (VL: &e%vl%&7)"
+  elog: "Vl>300<unk> vl<500<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &e%check%&7 تحقق (VL: &e%vl%&7)"
+  clog: "Vl>500<unk> vl<700<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &c%check%&7 فحص (VL: &e%vl%&7)"
+  4log: "مستوى > 700<unk> تأخير:500<unk> flog<unk> التأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &4%check%&7 تحقق (VL: &e%vl%&7)"
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "notdev<unk> vl>400<unk> تأخير:120000<unk> log:flagexample:"
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: 'الورجة<unk> كلوغ<unk> flog<unk> 4log<unk> weblog'
+  basiclog: "الورجة<unk> كلوغ<unk> flog<unk> 4log<unk> weblog"
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7تم حظره لـ &b%check%&7.<unk> تسجيل الدخول:FILE:حظر %player% %debug% %vl%<unk> تأخير:5000<unk> تسجيل الدخول:مثال:'
+  logban: "تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7تم حظره لـ &b%check%&7.<unk> تسجيل الدخول:FILE:حظر %player% %debug% %vl%<unk> تأخير:5000<unk> تسجيل الدخول:مثال:"
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: 'notdev<unk> تأخير:60000<unk> kick:اللعب غير المنتظم'
+  ikick: "notdev<unk> تأخير:60000<unk> kick:اللعب غير المنتظم"
   #lagkick Kicks the player if their ping is too high
-  lagkick: 'ping>150<unk> kick:يبدو أنك متقاعس جداً، الرجاء محاولة إعادة تشغيل اتصالك.'
+  lagkick: "ping>150<unk> kick:يبدو أنك متقاعس جداً، الرجاء محاولة إعادة تشغيل اتصالك."
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<=16<unk> kick:الخادم متقلب للغاية، الرجاء محاولة الانتظار قليلا قبل إعادة التسجيل.'
-  tpsdecrement: 'tps<=16<unk> إضافة:-50'
+  tpskick: "tps<=16<unk> kick:الخادم متقلب للغاية، الرجاء محاولة الانتظار قليلا قبل إعادة التسجيل."
+  tpsdecrement: "tps<=16<unk> إضافة:-50"
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: 'rnd:.80<unk> إلغاء'
+  rndcancel: "rnd:.80<unk> إلغاء"
   canimate: "حظر التوزيع: 2628000000:&4NOPE مضاد للتسخين و\n&7Token: &e%token%"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first

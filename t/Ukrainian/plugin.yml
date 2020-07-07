@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Дозволяє гравцю обходити всі перевірки польотів
   "nope.bypass.movement.flight#4":
-    description: 'Дозволяє гравцю обходити всі польоти #4 перевірки'
+    description: "Дозволяє гравцю обходити всі польоти #4 перевірки"
   nope.command.toggle.scoreboard:
     description: Дозволяє гравцю перемикати їх власну таблетку
   nope.command.toggle.gscoreboard:

@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Permite que o jogador ignore todas as verificações de voo
   "nope.bypass.movement.flight#4":
-    description: 'Permite que o jogador ignore todas as verificações de voo #4'
+    description: "Permite que o jogador ignore todas as verificações de voo #4"
   nope.command.toggle.scoreboard:
     description: Permite que o jogador alterne seu próprio placar
   nope.command.toggle.gscoreboard:

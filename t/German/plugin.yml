@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Erlaubt dem Spieler alle Flugkontrollen zu umgehen
   "nope.bypass.movement.flight#4":
-    description: 'Ermöglicht dem Spieler, alle Überprüfungen im Flight#4 zu umgehen'
+    description: "Ermöglicht dem Spieler, alle Überprüfungen im Flight#4 zu umgehen"
   nope.command.toggle.scoreboard:
     description: Erlaubt es dem Spieler, sein eigenes Scoreboard umzuschalten
   nope.command.toggle.gscoreboard:

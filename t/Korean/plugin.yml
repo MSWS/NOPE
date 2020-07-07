@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Allows the player to bypass all flight checks
   "nope.bypass.movement.flight#4":
-    description: 'Allows the player to bypass all flight#4 checks'
+    description: "Allows the player to bypass all flight#4 checks"
   nope.command.toggle.scoreboard:
     description: Allows the player to toggle their own scoreboard
   nope.command.toggle.gscoreboard:

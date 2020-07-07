@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: يسمح للاعب بتجاوز جميع فحوصات الطيران
   "nope.bypass.movement.flight#4":
-    description: 'يسمح للاعب بتجاوز جميع عمليات التحقق من الرحلة#4'
+    description: "يسمح للاعب بتجاوز جميع عمليات التحقق من الرحلة#4"
   nope.command.toggle.scoreboard:
     description: يسمح للاعب بتبديل لوحة النتائج الخاصة به
   nope.command.toggle.gscoreboard:

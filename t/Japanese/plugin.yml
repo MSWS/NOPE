@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: プレイヤーがすべてのフライトチェックをバイパスできるようにする
   "nope.bypass.movement.flight#4":
-    description: 'すべてのフライト#4チェックをバイパスすることをプレイヤーに許可する'
+    description: "すべてのフライト#4チェックをバイパスすることをプレイヤーに許可する"
   nope.command.toggle.scoreboard:
     description: プレイヤーが自分のスコアボードを切り替えられるようにします
   nope.command.toggle.gscoreboard:

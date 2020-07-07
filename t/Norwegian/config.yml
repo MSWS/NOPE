@@ -19,7 +19,7 @@ Log: fil #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: '' #If not empty this will override the server name
+BungeeNameOverride: "" #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'NOPE'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "NOPE"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player% utestengelse"
-        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
-      title: '%player% ble utestengt for %check%'
+        avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+      title: "%player% ble utestengt for %check%"
       color: 14483456
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "%vl%"
           inline: false
   flagExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'NOPE'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "NOPE"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player%"
-        icon_url: 'https://crafatar.com/avatars/%uuid%'
-      title: '%player% markert %check%'
+        icon_url: "https://crafatar.com/avatars/%uuid%"
+      title: "%player% markert %check%"
       color: 751818
       fields:
         1:
@@ -154,25 +154,25 @@ Actions:
   FastBreak:
     - 'basiklogloglog cancelεvl>100 tpsreduksjon forsinkelse: 40000europatpskickephalvl>400quad\\forsinket :20000εlagkick5-fluorouracil log:FILE:Kicked %player% for %check%minecrafttps>15butivl>600εcban'
   FastClimb:
-    - 'basiclogloglog vl>50″delay:500″cancelεvl>200εcancel″vl>400ephalikickephalvl>600∙cban'
+    - "basiclogloglog vl>50″delay:500″cancelεvl>200εcancel″vl>400ephalikickephalvl>600∙cban"
   Blink:
-    - 'basicloglog(G3/4: vl>200akonstans:15000Dailtpsdecrement>15107vl>250γ lagkickredivl>500´ cancelALIMvl>800∙cban'
+    - "basicloglog(G3/4: vl>200akonstans:15000Dailtpsdecrement>15107vl>250γ lagkickredivl>500´ cancelALIMvl>800∙cban"
   NoSwing:
-    - 'basiklog(G3/4: vl>500 x ikick∞vl>1000 cban'
+    - "basiklog(G3/4: vl>500 x ikick∞vl>1000 cban"
   Speed:
-    - 'basicloglog(G3/4: rndcancel″vl>100εcancelALIMvl>800ALIMaddbanwave″vl>1200εcban'
+    - "basicloglog(G3/4: rndcancel″vl>100εcancelALIMvl>800ALIMaddbanwave″vl>1200εcban"
   ElytraFlight:
-    - 'basicloglogó vl>500εikick″vl>800ALIMaddbanwave″vl>1000εcban'
+    - "basicloglogó vl>500εikick″vl>800ALIMaddbanwave″vl>1000εcban"
   Timer:
-    - 'basicloglog(G3/4: vl>300εrndcancelephaldelay:10000εtpsdecrement>500εlagkickephalvl>600ephalikickó vl>800800****cban'
+    - "basicloglog(G3/4: vl>300εrndcancelephaldelay:10000εtpsdecrement>500εlagkickephalvl>600ephalikickó vl>800800****cban"
   KillAura:
-    - 'basicloglog″vl>200ALIMikick″vl>500₂-delay:120000ephalkick:Irregular Gameplayephalvl>600″cban'
+    - "basicloglog″vl>200ALIMikick″vl>500₂-delay:120000ephalkick:Irregular Gameplayephalvl>600″cban"
   NoFall:
-    - 'basiklog(G3/4: vl>300ALIMikick″vl>800ALIMcban'
+    - "basiklog(G3/4: vl>300ALIMikick″vl>800ALIMcban"
   SafeWalk:
-    - 'basiclogñvl>500εikick'
+    - "basiclogñvl>500εikick"
   Default:
-    - 'basicloglog(G3/4: vl>20 perccancel″vl>100ALIMflog″vl>200″lagkickεtps>15ephalvl>400ARS vl>800ARS addbanwave∙vl>1200).cban'
+    - "basicloglog(G3/4: vl>20 perccancel″vl>100ALIMflog″vl>200″lagkickεtps>15ephalvl>400ARS vl>800ARS addbanwave∙vl>1200).cban"
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'logg:FILE:%player% mislyktes %debug% (%vl%)reserved delay:5000Dashboard log:CONSOLE:%player% mislyktes %debug%'
+  flog: "logg:FILE:%player% mislyktes %debug% (%vl%)reserved delay:5000Dashboard log:CONSOLE:%player% mislyktes %debug%"
   #the below actions log ingame an appropriate warning message to staff
-  alog: 'vl>100εvl<300″delay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7Mislyste en &a%check%&7 sjakk. (VL: &e%vl%&7)'
-  elog: 'vl>300εvl<500″delay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7Mislyste en &e%check%&7 sjekk. (VL: &e%vl%&7)'
-  clog: 'vl>500εvl<700ptomdelay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7mislyktes en &c%check%&7 sjekk. (VL: &e%vl%&7)'
-  4log: 'vl>700Ultidelay:500″flogStockdelay:60000Funclog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7mislyktes en &4%check%&7 sjekk. (VL: &e%vl%&7)'
+  alog: "vl>100εvl<300″delay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7Mislyste en &a%check%&7 sjakk. (VL: &e%vl%&7)"
+  elog: "vl>300εvl<500″delay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7Mislyste en &e%check%&7 sjekk. (VL: &e%vl%&7)"
+  clog: "vl>500εvl<700ptomdelay:60000εlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7mislyktes en &c%check%&7 sjekk. (VL: &e%vl%&7)"
+  4log: "vl>700Ultidelay:500″flogStockdelay:60000Funclog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7mislyktes en &4%check%&7 sjekk. (VL: &e%vl%&7)"
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "ikkefortetning-vl>400 mg/dag forsinkelse: 120000εlog:flagEksempel:"
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: 'alog″elogεclogunnelbflogephal4logεweblogg'
+  basiclog: "alog″elogεclogunnelbflogephal4logεweblogg"
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'logg:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7ble utestengt for &b%check%&7.log:FILE:Banned %player% for %debug% %vl%fluorourdelay:5000parenteral log:Eksempel:'
+  logban: "logg:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7ble utestengt for &b%check%&7.log:FILE:Banned %player% for %debug% %vl%fluorourdelay:5000parenteral log:Eksempel:"
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: 'ikkefarge forsinkelse: 60000° kick:Irregular Gameplay'
+  ikick: "ikkefarge forsinkelse: 60000° kick:Irregular Gameplay"
   #lagkick Kicks the player if their ping is too high
-  lagkick: 'ping>150εkick:Du ser ut til å ha stor lagring. Prøv å starte tilkoblingen på nytt.'
+  lagkick: "ping>150εkick:Du ser ut til å ha stor lagring. Prøv å starte tilkoblingen på nytt."
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<=16εkick:Serveren er ekstremt laggisk, prøv å vente litt før du logger på igjen.'
-  tpsdecrement: 'tps<=16 addvl:-50'
+  tpskick: "tps<=16εkick:Serveren er ekstremt laggisk, prøv å vente litt før du logger på igjen."
+  tpsdecrement: "tps<=16 addvl:-50"
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: 'rnd:80° kansellering'
+  rndcancel: "rnd:80° kansellering"
   canimate: "logban :2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first

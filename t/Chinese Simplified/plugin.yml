@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: 允许玩家绕过所有飞行检查
   "nope.bypass.movement.flight#4":
-    description: '允许玩家绕过所有的飞行#4 检查'
+    description: "允许玩家绕过所有的飞行#4 检查"
   nope.command.toggle.scoreboard:
     description: 允许玩家切换自己的记分板
   nope.command.toggle.gscoreboard:

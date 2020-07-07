@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Permet au joueur de contourner toutes les vérifications de vol
   "nope.bypass.movement.flight#4":
-    description: 'Permet au joueur de contourner tous les tests de vol #4'
+    description: "Permet au joueur de contourner tous les tests de vol #4"
   nope.command.toggle.scoreboard:
     description: Permet au joueur de basculer son propre tableau de scores
   nope.command.toggle.gscoreboard:

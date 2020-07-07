@@ -31,7 +31,7 @@ permissions:
   nope.bypass.flight:
     description: Consente al giocatore di bypassare tutti i controlli dei voli
   "nope.bypass.movement.flight#4":
-    description: 'Permette al giocatore di aggirare tutti i controlli volo#4'
+    description: "Permette al giocatore di aggirare tutti i controlli volo#4"
   nope.command.toggle.scoreboard:
     description: Permette al giocatore di attivare/disattivare il proprio scoreboard
   nope.command.toggle.gscoreboard:
