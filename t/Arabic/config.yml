@@ -1,0 +1,456 @@
+---
+#----------------------------------------------------------
+#NOPE Anti-Cheat Configuration
+#This is the configuration for NOPE. I recommend keeping
+#the default values unless you know what you're doing.
+#There is a YouTube tutorial available at
+#https://www.youtube.com/watch?v=XVuXKsJEAkQ
+#There is a GitHub wiki tutorial also
+#available at https://NOPE.MSWS.xyz/wiki
+#----------------------------------------------------------
+ConfigVersion: 1.7.2
+#-------------------------------
+#Global Configuration
+#-------------------------------
+Global: true #If disabled, NOPE will be disabled
+Scoreboard: true
+Log: ملف #NONE, file, or hastebin
+#Permission to be notified ingame is nope.message.udpate
+UpdateChecker:
+  Enabled: true
+  InGame: true
+BungeeNameOverride: '' #If not empty this will override the server name
+#This is useful for replacing %server% if the server is not bungeecord
+#VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
+#The key is the time in milliseconds since the player last flagged for a hack. For example
+#if a player hasn't flagged for 20000 milliseconds, their VL will be decreased by 2 every second
+VLDecrement:
+  Enabled: true
+  Rate: 40 #Ticks
+  Periods:
+    1000: 0
+    10000: 1
+    20000: 2
+    60000: 5
+    120000: 10
+    -1: 20
+#-------------------------------
+#Banwave Configuration
+#-------------------------------
+BanwaveRate: 36000 #Rate of banwave (in ticks) -1 to disable
+#If enabled, developer messages will be sent to the player and commands will not execute
+DevMode: false
+DebugMode: false
+#-------------------------------
+#Webhook Configuration
+#Webhooks allow a server to send POST requests to a webhook.
+#If you do not know about this then I recommend
+#Googling or asking someone for help regarding this.
+#For Discord specific configuration you can look at
+#https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html
+#and https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks?page=1
+#for help. All arguments are supported that are defined in the first link.
+#Placeholders listed below in Actions are supported
+#-------------------------------
+Webhooks:
+  banExample:
+    URL: 'https://discordapp.com/api/webhooks/'
+    username: 'افتح'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    embeds:
+      author:
+        name: "حظر %player%"
+        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+      title: 'تم حظر %player% لـ %check%'
+      color: 14483456
+      fields:
+        check:
+          name: "تحقق"
+          value: "%debug%"
+        world:
+          name: "العالم"
+          value: "%world%"
+        vl:
+          name: "VL"
+          value: "%vl%"
+          inline: false
+  flagExample:
+    URL: 'https://discordapp.com/api/webhooks/'
+    username: 'افتح'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    embeds:
+      author:
+        name: "%player%"
+        icon_url: 'https://crafatar.com/avatars/%uuid%'
+      title: '%player% علم %check%'
+      color: 751818
+      fields:
+        1:
+          name: "لاعب"
+          value: "%player%"
+        2:
+          name: "العالم"
+          value: "%world%"
+        3:
+          name: "خادم"
+          value: "%server%"
+          inline: true
+        4:
+          name: "VL"
+          value: "%vl%"
+        5:
+          name: "تحقق"
+          value: "%debug%"
+        6:
+          name: "UUID"
+          value: "%uuid%"
+      #thumbnail:
+      #url: ''
+      #image:
+      #url: ''
+      footer:
+        text: "MSWS.XYZ"
+#icon_url: ''
+#-------------------------------
+#Action Configuration
+#Please note that bans are not necesssarily instantaneous.
+#Please add a delay to prevent duplicate bans.
+#animation:[TYPE]:Action         | TYPEs are NOPE or GWEN, the Action should be a custom command
+#kick:Reason                     | Kick the player for the specified reason
+#ban:Time:Reason                 | Ban the player for the specified time/reason
+#banwave:Time:Reason             | Add the player to the banwave
+#cancel                          | Teleport the player back
+#pmsg:[Message]                  | Send a message to the player
+#msg:[all/Permission]:[Message]  | Can also specify all
+#cmd:[Command]                   | Run a command as the player
+#ccmd:[Command]                  | Run a command from console
+#log:type:message                | Logs the message either to FILE, INGAME, or CONSOLE (perm: nope.message.normal)
+#log:WEBHOOK:message             | Logs the message to the specified webhook
+#setvl:VL                        | Sets the player's VL for the category hack
+#addvl:VL                        | Adds/Modifies the player's VL for the category hack
+#Conditions: (<, <=, =, !=, >=, >)
+#If a condition is not fullfilled, none of the following actions will be run
+#The ones with > you can replace with the appropriate operator
+#vl>[Amo]       | If the VL matches the threshold
+#tps>[Amo]      | If the server's TPS matches the threshold
+#ping>[Amo]     | If the player's ping matches (NOT RECOMMENDED) players can spoof their ping
+#delay:[Delay]  | Wait X milliseconds before executing the NEXT action (eg: kick a player if the last call of this was > 60 seconds ago)
+#notdev         | Will not run the next actions if the in dev mode
+#isdev          | Will run the next actions if in dev mode
+#rnd:.40        | Will run the actions 40% of the time
+#Placeholders
+#%player%  | The name of the player that was banned
+#%uuid%    | The UUID of the player (-'s included)
+#%nuuid%   | The UUID of the player (-'s not included)
+#%check%   | What hack the player was banned for
+#%debug%   | The debug ID of the check
+#%vl%      | The VL of the hack that the player was at when they were banned
+#%world%   | What world the player was in when they were banned, this may be null if they were offline
+#%token%   | The ban token (only for ban)
+#%server%  | The server name, useful for webhooks
+#PAPI is also supported
+#-------------------------------
+Actions:
+  FastBreak:
+    - 'أساسيةLog<unk> cancel<unk> vl>100<unk> tpsdecrement<unk> التأخير:40000<unk> tpskick<unk> vl>400<unk> تأخير:20000<unk> lagkick<unk> flog:FILE:Kicked %player% ل %check%<unk> tps>15<unk> vl>600<unk> cban'
+  FastClimb:
+    - 'أساسيةLog<unk> vl>50<unk> تأخير:500<unk> إلغاء vl>200<unk> إلغاء vl>400<unk> ikick<unk> vl>600<unk> cban'
+  Blink:
+    - 'المستوى الأساسي>200<unk> تأخير:2000<unk> إلغاء التأخير:15000<unk> tpsdecrement<unk> tps>15<unk> vl>250<unk> lagkick<unk> vl>500<unk> cancel<unk> vl>800<unk> cban'
+  NoSwing:
+    - 'أساسيات vl>500<unk> ikick<unk> vl>1000<unk> cban'
+  Speed:
+    - 'أساسيةlog<unk> rndcancel<unk> vl>100<unk> cancel<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban'
+  ElytraFlight:
+    - 'أساسيات vl>500<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1000<unk> cban'
+  Timer:
+    - 'المستوى الأساسي>300<unk> rndcancel<unk> تأخير:10000<unk> tpsdecrement<unk> vl>500<unk> lagkick<unk> vl>600<unk> ikick<unk> vl>800<unk> cban'
+  KillAura:
+    - 'المستوى الأساسي>200<unk> ikick<unk> vl>500<unk> تأخير:120000<unk> kick:Gameplay<unk> vl>600<unk> cban'
+  NoFall:
+    - 'أساسيات vl>300<unk> ikick<unk> vl>800<unk> cban'
+  SafeWalk:
+    - 'المستوى الاساسي> 500<unk> يكيك'
+  Default:
+    - 'المستوى الأساسي>20<unk> إلغاء vl>100<unk> flog<unk> vl>200<unk> lagkick<unk> tps>15<unk> vl>400<unk> ikick<unk> vl>800<unk> addbanwave<unk> vl>1200<unk> cban'
+#You can specify multiple actiongroups for one category
+#- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
+#This would only kick players and decrement their VL by 200
+#- 'basiclog|vl>100|cancel|vl>600|ikick|addvl:-200'
+#You can also specify a specific debug name and that these actions will be run instead
+#Flight#3:
+#- 'basiclog|delay:60000|say %player% flagged a %debug% check!'
+#Commands are loaded and created in order. Define a custom command first before using it in another custom command.
+Commands:
+  #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
+  flog: 'سجل: فشل%player% %debug% (%vl%) <unk> تأخير:5000<unk> سجل :CONSOLE:%player% فشل %debug%'
+  #the below actions log ingame an appropriate warning message to staff
+  alog: 'Vl>100<unk> vl<300<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &a%check%&7 فحص (VL: &e%vl%&7)'
+  elog: 'Vl>300<unk> vl<500<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &e%check%&7 تحقق (VL: &e%vl%&7)'
+  clog: 'Vl>500<unk> vl<700<unk> تأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &c%check%&7 فحص (VL: &e%vl%&7)'
+  4log: 'مستوى > 700<unk> تأخير:500<unk> flog<unk> التأخير:60000<unk> تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7فشلت &4%check%&7 تحقق (VL: &e%vl%&7)'
+  #weblog Logs the action to the specified webhook (in this case flagExample)
+  weblog: "notdev<unk> vl>400<unk> تأخير:120000<unk> log:flagexample:"
+  #basiclog combines all above log commands into 1 for simple usage
+  basiclog: 'الورجة<unk> كلوغ<unk> flog<unk> 4log<unk> weblog'
+  #logban Logs ingame that the player was banned both ingame and to a file
+  logban: 'تسجيل الدخول:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7تم حظره لـ &b%check%&7.<unk> تسجيل الدخول:FILE:حظر %player% %debug% %vl%<unk> تأخير:5000<unk> تسجيل الدخول:مثال:'
+  #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
+  ikick: 'notdev<unk> تأخير:60000<unk> kick:اللعب غير المنتظم'
+  #lagkick Kicks the player if their ping is too high
+  lagkick: 'ping>150<unk> kick:يبدو أنك متقاعس جداً، الرجاء محاولة إعادة تشغيل اتصالك.'
+  #tpskick Kicks the player if the server's TPS is too low
+  tpskick: 'tps<=16<unk> kick:الخادم متقلب للغاية، الرجاء محاولة الانتظار قليلا قبل إعادة التسجيل.'
+  tpsdecrement: 'tps<=16<unk> إضافة:-50'
+  #rndcancel Has an 80% chance of teleporting the player back
+  rndcancel: 'rnd:.80<unk> إلغاء'
+  canimate: "حظر التوزيع: 2628000000:&4NOPE مضاد للتسخين و\n&7Token: &e%token%"
+  #cban Only bans the player if dev mode is disabled, it also logs the ban
+  #We log the ban first so we can get the VL data first
+  cban: "notdev<unk> تأخير:5000<unk> الرسوم المتحركة:NOPE:canimate"
+  addbanwave: "notdev<unk> banwave:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
+#-------------------------------
+#Check Configuration
+#Here you can configure which checks are/aren't enabled
+#You can also toggle these ingame with /nope stats
+#make sure to restart your server after modifying these settings
+#-------------------------------
+Checks:
+  Packet:
+    Enabled: true
+    SkinBlinker:
+      Enabled: true
+      "SkinBlinker#1":
+        Enabled: true
+    Spinbot:
+      Enabled: true
+      "Spinbot#1":
+        Enabled: true
+    NoSwing:
+      Enabled: true
+      "NoSwing#1":
+        Enabled: true
+    PlayerESP:
+      Enabled: true
+      "PlayerESP#2":
+        Enabled: true
+      "PlayerESP#1":
+        Enabled: true
+    AutoSneak:
+      Enabled: true
+      "AutoSneak#1":
+        Enabled: true
+    InvalidMovement:
+      Enabled: true
+      "InvalidMovement#1":
+        Enabled: true
+    Timer:
+      Enabled: true
+      "Timer#1":
+        Enabled: true
+    Blink:
+      Enabled: true
+      "Blink#1":
+        Enabled: true
+  Movement:
+    Enabled: true
+    Speed:
+      Enabled: true
+      "Speed#3":
+        Enabled: true
+      "Speed#4":
+        Enabled: true
+      "Speed#1":
+        Enabled: true
+      "Speed#5":
+        Enabled: true
+      "Speed#2":
+        Enabled: true
+    InventoryMove:
+      Enabled: true
+      "InventoryMove#1":
+        Enabled: true
+    FastSneak:
+      Enabled: true
+      "FastSneak#1":
+        Enabled: true
+    AutoWalk:
+      Enabled: true
+      "AutoWalk#1":
+        Enabled: true
+    Glide:
+      Enabled: true
+      "Glide#1":
+        Enabled: true
+    Flight:
+      Enabled: true
+      "Flight#6":
+        Enabled: true
+      "Flight#1":
+        Enabled: true
+      "Flight#4":
+        Enabled: true
+      "Flight#2":
+        Enabled: true
+      "Flight#5":
+        Enabled: true
+      "Flight#3":
+        Enabled: true
+    BHop:
+      Enabled: true
+      "BHop#1":
+        Enabled: true
+    ElytraFlight:
+      Enabled: true
+      "ElytraFlight#1":
+        Enabled: true
+    AntiRotate:
+      Enabled: true
+      "AntiRotate#1":
+        Enabled: true
+    Jesus:
+      Enabled: true
+      "Jesus#1":
+        Enabled: true
+      "Jesus#2":
+        Enabled: true
+    AntiAFK:
+      Enabled: true
+      "AntiAFK#1":
+        Enabled: true
+    NoSlowDown:
+      Enabled: true
+      "NoSlowDown#1":
+        Enabled: true
+      "NoSlowDown#2":
+        Enabled: true
+      "NoSlowDown#5":
+        Enabled: true
+      "NoSlowDown#3":
+        Enabled: true
+      "NoSlowDown#4":
+        Enabled: true
+    Step:
+      Enabled: true
+      "Step#1":
+        Enabled: true
+    Spider:
+      Enabled: true
+      "Spider#1":
+        Enabled: true
+    NoWeb:
+      Enabled: true
+      "NoWeb#1":
+        Enabled: true
+    ClonedMovements:
+      Enabled: true
+      "ClonedMovement#1":
+        Enabled: true
+    FastClimb:
+      Enabled: true
+      "FastClimb#1":
+        Enabled: true
+  Combat:
+    Enabled: true
+    HighCPS:
+      Enabled: true
+      "HighCPS#1":
+        Enabled: true
+      "HighCPS#3":
+        Enabled: true
+      "HighCPS#2":
+        Enabled: true
+    AutoClicker:
+      Enabled: true
+      "AutoClicker#1":
+        Enabled: true
+    AntiKB:
+      Enabled: true
+      "AntiKB#1":
+        Enabled: true
+    AutoArmor:
+      Enabled: true
+      "AutoArmor#1":
+        Enabled: true
+    KillAura:
+      Enabled: true
+      "KillAura#3":
+        Enabled: true
+      "KillAura#5":
+        Enabled: true
+      "KillAura#2":
+        Enabled: true
+      "KillAura#4":
+        Enabled: true
+      "KillAura#1":
+        Enabled: true
+    FastBow:
+      Enabled: true
+      "FastBow#1":
+        Enabled: true
+  Player:
+    Enabled: true
+    NoFall:
+      Enabled: true
+      "NoFall#1":
+        Enabled: true
+      "NoFall#2":
+        Enabled: true
+    AutoTool:
+      Enabled: true
+      "AutoTool#1":
+        Enabled: true
+    GhostHand:
+      Enabled: true
+      "GhostHand#1":
+        Enabled: true
+    SafeWalk:
+      Enabled: true
+      "SafeWalk#1":
+        Enabled: true
+    AntiFire:
+      Enabled: true
+      "AntiFire#1":
+        Enabled: true
+    FastEat:
+      Enabled: true
+      "FastEat#1":
+        Enabled: true
+    SelfHarm:
+      Enabled: true
+      "SelfHarm#1":
+        Enabled: true
+    Zoot:
+      Enabled: true
+      "Zoot#1":
+        Enabled: true
+    HealthTag:
+      Enabled: true
+      "HealthTag#1":
+        Enabled: true
+  World:
+    Enabled: true
+    Scaffold:
+      Enabled: true
+      "Scaffold#3":
+        Enabled: true
+      "Scaffold#1":
+        Enabled: true
+      "Scaffold#2":
+        Enabled: true
+    AutoBuild:
+      Enabled: true
+      "AutoBuild#1":
+        Enabled: true
+    IllegalBlockPlace:
+      Enabled: true
+      "IllegalBlockPlace#1":
+        Enabled: true
+    FastBreak:
+      Enabled: true
+      "FastBreak#1":
+        Enabled: true
+    IllegalBlockBreak:
+      Enabled: true
+      "IllegalBlockBreak#1":
+        Enabled: true

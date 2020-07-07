@@ -13,7 +13,7 @@
 #                                                                                    
 #             ----------------------------------------------------------             
 
-ConfigVersion: 1.6.3
+ConfigVersion: 1.7.2
 
 #                           -------------------------------                          
 #                                Global Configuration                                
@@ -75,11 +75,11 @@ Webhooks:
   banExample:
     URL: 'https://discordapp.com/api/webhooks/'
     username: 'NOPE'
-    avatar_url: 'https://i.imgur.com/U33fgPg.png'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
     embeds:
       author:
         name: "%player% Ban"
-        avatar_url: 'https://i.imgur.com/U33fgPg.png'
+        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
       title: '%player% was banned for %check%'
       color: 14483456
       fields:
@@ -96,7 +96,7 @@ Webhooks:
   flagExample:
     URL: 'https://discordapp.com/api/webhooks/'
     username: 'NOPE'
-    avatar_url: 'https://i.imgur.com/U33fgPg.png'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
     embeds:
       author:
         name: "%player%"

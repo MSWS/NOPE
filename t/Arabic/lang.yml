@@ -1,0 +1,44 @@
+---
+Command:
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cأنت تفتقر إلى &a%perm% &cperإذن"
+  Banwave:
+    Executed: "&eتنفيذ الموجة"
+    Added: "&7 تمت إضافة &e%player% &7 بنجاح إلى الموجة."
+  Clear:
+    UnknownHack: "&cاختراق مجهول"
+  EnableChecks: "&aجميع الفحوص مفعّلة بنجاح."
+  Lookup:
+    Querying: "&7أخذ تفاصيل الحظر..."
+  Reload: "&aإعادة التحميل بنجاح."
+  Report:
+    RecentlyReported: "&cلقد أبلغت &e%player% &calready."
+    TooMany: "&cلقد أبلغت عن عدد كبير من اللاعبين مؤخراً."
+    Success: "&4تقرير #%id% > &7لقد أبلغت &a%target% &7ل &b%reason%&7."
+  Toggle:
+    PlayerOption: "&4NOPE > &7بنجاح &a%option%&7 إلى &e%value%&7."
+    GlobalOption: "&4NOPE > &7بنجاح خيار &a%option%&7 ل &e%value%&7."
+  Warn: "&4NOPE > &7حذرت &a%player% &7 لـ &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cتم تقديم حجة غير صالحة."
+  MissingArgument: "&cأنت تفتقد حاجة."
+  PlayerOnly: "&cيجب عليك تحديد مشغل لتشغيل هذا الأمر كوحدة تحكم."
+  SpecifyPlayer: "&cيجب عليك تحديد مشغل كحاجة."
+  Removebanwave:
+    Success: "&7 قمت بإزالة &e%player% &7من الموجة."
+    NotBanwaved: "&e%player% &7 ليس في الموجة."
+  TestAnimation:
+    Unknown: "&cالرسوم المتحركة غير معروفة."
+  TestLag:
+    Set: "&7 تعيين التأخير بنجاح إلى &e%delay%&7."
+    Get: "&7 يتم تعيين الفارق حاليًا إلى &a%delay%&7."
+  Time: "&7 ستحدث الموجة القادمة في &e%time%&7."
+  Trust: "&e%player% &7 لديه عامل ثقة من &a%trust%&7."
+  VL:
+    NoVLs: "&cلا توجد مستويات انتهاك الآن."
+  FalsePositive:
+    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
+    Insufficient: "&cThere isn't enough data to report as a false positive."
+    Sending: "&eGathering report logs..."
+    Sent: "&aSuccessfully sent false report message!"
+    Error: "&cAn unknown error occured when sending the false positive report."
+Report:
+  Notification: "&4تقرير #%id% > &e%player% &7قد أبلغ &a%target% &7لـ &b%reason%&7."
