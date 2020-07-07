@@ -1,6 +1,6 @@
 ---
 Command:
-  NoPermission: "&4&l[&c&lNOPE&4&l] &cTe falta &a%perm% &cpermiso."
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cTe falta &a%perm% &cpermisión."
   Banwave:
     Executed: "&eEjecutado la onda baneada"
     Added: "&7Se ha añadido &e%player% &7a la onda baneada."
@@ -35,10 +35,10 @@ Command:
   VL:
     NoVLs: "&cNo hay niveles de violación en este momento."
   FalsePositive:
-    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
-    Insufficient: "&cThere isn't enough data to report as a false positive."
-    Sending: "&eGathering report logs..."
-    Sent: "&aSuccessfully sent false report message!"
-    Error: "&cAn unknown error occured when sending the false positive report."
+    TooMany: "&e%player% &chas causaron demasiados falsos positivos recientemente, por favor espere para reportar más."
+    Insufficient: "&cNo hay suficientes datos para reportar como falsos positivos."
+    Sending: "&eGathering registros de informes..."
+    Sent: "&aEnviado correctamente mensaje de reporte falso!"
+    Error: "&cSe ha producido un error desconocido al enviar el reporte falso positivo."
 Report:
   Notification: "&4Reportar #%id% > &e%player% &7ha reportado &a%target% &7para &b%reason%&7."
