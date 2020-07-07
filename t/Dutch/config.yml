@@ -19,7 +19,7 @@ Log: bestand #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: '' #If not empty this will override the server name
+BungeeNameOverride: "" #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'NU'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "NU"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player% Verban"
-        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
-      title: '%player% is verbannen voor %check%'
+        avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+      title: "%player% is verbannen voor %check%"
       color: 14483456
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "%vl%"
           inline: false
   flagExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: 'NU'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "NU"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player%"
-        icon_url: 'https://crafatar.com/avatars/%uuid%'
-      title: '%player% heeft %check% gemeld'
+        icon_url: "https://crafatar.com/avatars/%uuid%"
+      title: "%player% heeft %check% gemeld"
       color: 751818
       fields:
         1:
@@ -152,27 +152,27 @@ Webhooks:
 #-------------------------------
 Actions:
   FastBreak:
-    - 'basiclog₀ annuleert vl>100ight tpsdecrementsize vertraging:40000Vienna tpskick︎ vl>400wiki vertraging:20000credentials log: FILE:BESTAND:BESTAND %player% voor %check%Rastps>15A3cban'
+    - "basiclog₀ annuleert vl>100ight tpsdecrementsize vertraging:40000Vienna tpskick︎ vl>400wiki vertraging:20000credentials log: FILE:BESTAND:BESTAND %player% voor %check%Rastps>15A3cban"
   FastClimb:
-    - 'basiclogiewu vl>50foodh vertraging:500+unnamed@@0 annuleert vl>200 annuleert u vl>400credentials vl>600githubcban'
+    - "basiclogiewu vl>50foodh vertraging:500+unnamed@@0 annuleert vl>200 annuleert u vl>400credentials vl>600githubcban"
   Blink:
-    - 'basiclogover vl>200︎ vertraging:2000₀ annuleert vertraging:15000CONTROL__tpsdecrementeable tps>150credentials vl>250credentials vl>500ö cancelcredentials vl>800vrees cban'
+    - "basiclogover vl>200︎ vertraging:2000₀ annuleert vertraging:15000CONTROL__tpsdecrementeable tps>150credentials vl>250credentials vl>500ö cancelcredentials vl>800vrees cban"
   NoSwing:
-    - 'basiclogover vl>500ρikickρvl>1000ρcban'
+    - "basiclogover vl>500ρikickρvl>1000ρcban"
   Speed:
-    - 'basiclogover rndannuleert vl>100affairs annuleert vl>800/h vl>1200 cban'
+    - "basiclogover rndannuleert vl>100affairs annuleert vl>800/h vl>1200 cban"
   ElytraFlight:
-    - 'basiclogude vl>500+unnamed@@0 ikickρvl>800‧ vl>800ľvl>1000×cban'
+    - "basiclogude vl>500+unnamed@@0 ikickρvl>800‧ vl>800ľvl>1000×cban"
   Timer:
-    - 'basiclogö vl>300Ø rndcancelVienna vertraging:10000・tpsdecrementglegg>500UN, lagkl>600︎ vl>800/98 cban'
+    - "basiclogö vl>300Ø rndcancelVienna vertraging:10000・tpsdecrementglegg>500UN, lagkl>600︎ vl>800/98 cban"
   KillAura:
-    - 'basiclogude vl>200½ ikickeable vl>500ach, vertraging:120000/h kick:Irregulaire GameplayØ vl>600hcban'
+    - "basiclogude vl>200½ ikickeable vl>500ach, vertraging:120000/h kick:Irregulaire GameplayØ vl>600hcban"
   NoFall:
-    - 'basiclogover vl>300ρikickρvl>800ρcban'
+    - "basiclogover vl>300ρikickρvl>800ρcban"
   SafeWalk:
-    - 'basiclogItevl>500÷ikick'
+    - "basiclogItevl>500÷ikick"
   Default:
-    - 'basiclogReference vl>20Ø annuleert vl>100A30, vl>200stry vl>200stry lagkickDailtps>15affairs vl>400ö ikick︎ vl>800github.com/vl>1200A3cban'
+    - "basiclogReference vl>20Ø annuleert vl>100A30, vl>200stry vl>200stry lagkickDailtps>15affairs vl>400ö ikick︎ vl>800github.com/vl>1200A3cban"
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'log: BESTANDEL:%player% mislukte %debug% (%vl%)cracy-vertraging:5000→log:CONSOLE:%player% mislukte %debug%'
+  flog: "log: BESTANDEL:%player% mislukte %debug% (%vl%)cracy-vertraging:5000→log:CONSOLE:%player% mislukte %debug%"
   #the below actions log ingame an appropriate warning message to staff
-  alog: 'vl>100Ø vl<300ude vertraging:60000A39:INGAME:&4&l[&c&lNOPE&l] &e%player% &7mislukt een &a%check%&7 controle. (VL: &e%vl%&7)'
-  elog: 'vl>300Strafbare vl<500gry vertraging:60000Agency, INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7heeft een &e%check%&7 controle gefaald. (VL: &e%vl%&7)'
-  clog: 'vl>500Ø vl<700~ vertraging:60000A3+ log:INGAME:&4&l[&c&lNOPE&l] &e%player% &7mislukt een &c%check%&7 controle. (VL: &e%vl%&7)'
-  4log: 'vl>700gry vertraging:500Ø vertraging:60000《log: INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &4%check%&7 check. (VL:%vl%&7)'
+  alog: "vl>100Ø vl<300ude vertraging:60000A39:INGAME:&4&l[&c&lNOPE&l] &e%player% &7mislukt een &a%check%&7 controle. (VL: &e%vl%&7)"
+  elog: "vl>300Strafbare vl<500gry vertraging:60000Agency, INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7heeft een &e%check%&7 controle gefaald. (VL: &e%vl%&7)"
+  clog: "vl>500Ø vl<700~ vertraging:60000A3+ log:INGAME:&4&l[&c&lNOPE&l] &e%player% &7mislukt een &c%check%&7 controle. (VL: &e%vl%&7)"
+  4log: "vl>700gry vertraging:500Ø vertraging:60000《log: INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &4%check%&7 check. (VL:%vl%&7)"
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "notdevwomvl>400²-vertraging:120000womel:flagVoorbeeld:"
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: 'alogρelogρclogρflogρ4logcredentials weblog'
+  basiclog: "alogρelogρclogρflogρ4logcredentials weblog"
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was verbannen voor &b%check%&7.∙ log: FILE:FILE:Verbannen %player% voor %debug% %vl%hoofdvertraging:5000lid log: banVoorbeeld:'
+  logban: "log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7was verbannen voor &b%check%&7.∙ log: FILE:FILE:Verbannen %player% voor %debug% %vl%hoofdvertraging:5000lid log: banVoorbeeld:"
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: 'notdev/h vertraging:60000×kick:Irregulaire Gameplay'
+  ikick: "notdev/h vertraging:60000×kick:Irregulaire Gameplay"
   #lagkick Kicks the player if their ping is too high
-  lagkick: 'Ping>150wwkick:Je lijkt erg traag te zijn, probeer de verbinding opnieuw te starten.'
+  lagkick: "Ping>150wwkick:Je lijkt erg traag te zijn, probeer de verbinding opnieuw te starten."
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<=16Bad kick:De server is extreem langzaam, probeer alstublieft een beetje te wachten voordat u opnieuw logt.'
-  tpsdecrement: 'tps<=16000000addvl:-50'
+  tpskick: "tps<=16Bad kick:De server is extreem langzaam, probeer alstublieft een beetje te wachten voordat u opnieuw logt."
+  tpsdecrement: "tps<=16000000addvl:-50"
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: 'annulering rnd:.80/98'
+  rndcancel: "annulering rnd:.80/98"
   canimate: "logverbod:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first

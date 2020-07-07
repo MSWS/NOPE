@@ -19,7 +19,7 @@ Log: 文件 #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: '' #If not empty this will override the server name
+BungeeNameOverride: "" #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: '无'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "无"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player% 封禁"
-        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
-      title: '%player% 在 %check% 被封禁'
+        avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+      title: "%player% 在 %check% 被封禁"
       color: 14483456
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "%vl%"
           inline: false
   flagExample:
-    URL: 'https://discordapp.com/api/webhooks/'
-    username: '无'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    URL: "https://discordapp.com/api/webhooks/"
+    username: "无"
+    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
     embeds:
       author:
         name: "%player%"
-        icon_url: 'https://crafatar.com/avatars/%uuid%'
-      title: '%player% 标记了 %check%'
+        icon_url: "https://crafatar.com/avatars/%uuid%"
+      title: "%player% 标记了 %check%"
       color: 751818
       fields:
         1:
@@ -152,27 +152,27 @@ Webhooks:
 #-------------------------------
 Actions:
   FastBreak:
-    - 'basiclog|canclog|vl>100|tpsdeclarment|delay:40000|tpskick|vl>400|延迟：20000|lagkick|flog|log:FILE:Kicked %player% for %check%|tps>15|vl>600|cban'
+    - "basiclog|canclog|vl>100|tpsdeclarment|delay:40000|tpskick|vl>400|延迟：20000|lagkick|flog|log:FILE:Kicked %player% for %check%|tps>15|vl>600|cban"
   FastClimb:
-    - 'basiclog|vl>50|延迟：500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
+    - "basiclog|vl>50|延迟：500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban"
   Blink:
-    - '基本日志|vl>200|延迟：2000|取消|延迟：15000|tpsDeclarment|tps>15|vl>250|lagkick|vl>500|取消|vl>800|cban'
+    - "基本日志|vl>200|延迟：2000|取消|延迟：15000|tpsDeclarment|tps>15|vl>250|lagkick|vl>500|取消|vl>800|cban"
   NoSwing:
-    - '基本log|vl>500|ikick|vl>1000|cban'
+    - "基本log|vl>500|ikick|vl>1000|cban"
   Speed:
-    - '基本日志|rndcancel|vl>100|cancel|vl>800|addbanwave|vl>1200|cban'
+    - "基本日志|rndcancel|vl>100|cancel|vl>800|addbanwave|vl>1200|cban"
   ElytraFlight:
-    - '基本日志|vl>500|ikick|vl>800|addbanwave|vl>1000|cban'
+    - "基本日志|vl>500|ikick|vl>800|addbanwave|vl>1000|cban"
   Timer:
-    - 'basiclog|vl>300|rndcancel|延迟：10000|tpsdeclarment|vl>500|lagkick|vl>600|ikick|vl>800|cban'
+    - "basiclog|vl>300|rndcancel|延迟：10000|tpsdeclarment|vl>500|lagkick|vl>600|ikick|vl>800|cban"
   KillAura:
-    - '基本日志|vl>200|ikick|vl>500|延迟：120000|kick:Irregular Gameplay|vl>600|cban'
+    - "基本日志|vl>200|ikick|vl>500|延迟：120000|kick:Irregular Gameplay|vl>600|cban"
   NoFall:
-    - '基本log|vl>300|ikick|vl>800|cban'
+    - "基本log|vl>300|ikick|vl>800|cban"
   SafeWalk:
-    - '基本log|vl>500|ikick'
+    - "基本log|vl>500|ikick"
   Default:
-    - 'basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
+    - "basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban"
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'log:FILE:%player% 失败 %debug% (%vl%)|延迟:5000|log:CONSOLE:%player% 失败 %debug%'
+  flog: "log:FILE:%player% 失败 %debug% (%vl%)|延迟:5000|log:CONSOLE:%player% 失败 %debug%"
   #the below actions log ingame an appropriate warning message to staff
-  alog: 'vl>100|vl<300|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&a%check%&7 check。(VL: &e%vl%&7)'
-  elog: 'vl>300|vl<500|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&e%check%&e 7 check。(&e%vl%&7)'
-  clog: 'vl>500|vl<700|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&c%check%&7 check。(&e%vl%&7)'
-  4log: 'vl>700|延迟：500|flog|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败 &4%check%&7 check。(VL: &e%vl%&7)'
+  alog: "vl>100|vl<300|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&a%check%&7 check。(VL: &e%vl%&7)"
+  elog: "vl>300|vl<500|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&e%check%&e 7 check。(&e%vl%&7)"
+  clog: "vl>500|vl<700|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败&c%check%&7 check。(&e%vl%&7)"
+  4log: "vl>700|延迟：500|flog|延迟：60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7失败 &4%check%&7 check。(VL: &e%vl%&7)"
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "notdev|vl>400|延迟:120000|log:flag例如："
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: '|elog|blog|flog|4log|weblog'
+  basiclog: "|elog|blog|flog|4log|weblog"
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7被封禁于&b%check%&7.|log:FILE:封禁 %player% %debug% %vl%|延迟:5000|log:ban示例:'
+  logban: "log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7被封禁于&b%check%&7.|log:FILE:封禁 %player% %debug% %vl%|延迟:5000|log:ban示例:"
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: 'notdev|delay:60000|kick:Irregular Gameblay'
+  ikick: "notdev|delay:60000|kick:Irregular Gameblay"
   #lagkick Kicks the player if their ping is too high
-  lagkick: 'ping>150|kick:您似乎很落后，请尝试重新启动您的连接。'
+  lagkick: "ping>150|kick:您似乎很落后，请尝试重新启动您的连接。"
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<=16|kick:服务器过于落后，请尝试稍候后再重新登录。'
-  tpsdecrement: 'tps<=16|addvl:-50'
+  tpskick: "tps<=16|kick:服务器过于落后，请尝试稍候后再重新登录。"
+  tpsdecrement: "tps<=16|addvl:-50"
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: 'rnd:.80|取消'
+  rndcancel: "rnd:.80|取消"
   canimate: "blogban|ban:26280000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first

@@ -19,7 +19,7 @@ Log: crwdns4:0crwdne4:0 #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: 'crwdns6:0crwdne6:0' #If not empty this will override the server name
+BungeeNameOverride: "crwdns6:0crwdne6:0" #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: 'crwdns24:0crwdne24:0'
-    username: 'crwdns26:0crwdne26:0'
-    avatar_url: 'crwdns8392:0crwdne8392:0'
+    URL: "crwdns24:0crwdne24:0"
+    username: "crwdns26:0crwdne26:0"
+    avatar_url: "crwdns8392:0crwdne8392:0"
     embeds:
       author:
         name: "crwdns30:0%player%crwdne30:0"
-        avatar_url: 'crwdns8394:0crwdne8394:0'
-      title: 'crwdns34:0%player%crwdnd34:0%check%crwdne34:0'
+        avatar_url: "crwdns8394:0crwdne8394:0"
+      title: "crwdns34:0%player%crwdnd34:0%check%crwdne34:0"
       color: 0
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "crwdns48:0%vl%crwdne48:0"
           inline: false
   flagExample:
-    URL: 'crwdns50:0crwdne50:0'
-    username: 'crwdns52:0crwdne52:0'
-    avatar_url: 'crwdns8396:0crwdne8396:0'
+    URL: "crwdns50:0crwdne50:0"
+    username: "crwdns52:0crwdne52:0"
+    avatar_url: "crwdns8396:0crwdne8396:0"
     embeds:
       author:
         name: "crwdns56:0%player%crwdne56:0"
-        icon_url: 'crwdns58:0%uuid%crwdne58:0'
-      title: 'crwdns60:0%player%crwdnd60:0%check%crwdne60:0'
+        icon_url: "crwdns58:0%uuid%crwdne58:0"
+      title: "crwdns60:0%player%crwdnd60:0%check%crwdne60:0"
       color: 0
       fields:
         1:
@@ -152,27 +152,27 @@ Webhooks:
 #-------------------------------
 Actions:
   FastBreak:
-    - 'crwdns90:0%player%crwdnd90:0%check%crwdne90:0'
+    - "crwdns90:0%player%crwdnd90:0%check%crwdne90:0"
   FastClimb:
-    - 'crwdns92:0crwdne92:0'
+    - "crwdns92:0crwdne92:0"
   Blink:
-    - 'crwdns94:0crwdne94:0'
+    - "crwdns94:0crwdne94:0"
   NoSwing:
-    - 'crwdns96:0crwdne96:0'
+    - "crwdns96:0crwdne96:0"
   Speed:
-    - 'crwdns98:0crwdne98:0'
+    - "crwdns98:0crwdne98:0"
   ElytraFlight:
-    - 'crwdns100:0crwdne100:0'
+    - "crwdns100:0crwdne100:0"
   Timer:
-    - 'crwdns102:0crwdne102:0'
+    - "crwdns102:0crwdne102:0"
   KillAura:
-    - 'crwdns104:0crwdne104:0'
+    - "crwdns104:0crwdne104:0"
   NoFall:
-    - 'crwdns106:0crwdne106:0'
+    - "crwdns106:0crwdne106:0"
   SafeWalk:
-    - 'crwdns108:0crwdne108:0'
+    - "crwdns108:0crwdne108:0"
   Default:
-    - 'crwdns110:0crwdne110:0'
+    - "crwdns110:0crwdne110:0"
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'crwdns112:0%player%crwdnd112:0%debug%crwdnd112:0%vl%crwdnd112:0%player%crwdnd112:0%debug%crwdne112:0'
+  flog: "crwdns112:0%player%crwdnd112:0%debug%crwdnd112:0%vl%crwdnd112:0%player%crwdnd112:0%debug%crwdne112:0"
   #the below actions log ingame an appropriate warning message to staff
-  alog: 'crwdns114:0&c&crwdnd114:0%player%crwdnd114:0%check%crwdnd114:0%vl%crwdne114:0'
-  elog: 'crwdns116:0&c&crwdnd116:0%player%crwdnd116:0%check%crwdnd116:0%vl%crwdne116:0'
-  clog: 'crwdns118:0&c&crwdnd118:0%player%crwdnd118:0%check%crwdnd118:0%vl%crwdne118:0'
-  4log: 'crwdns120:0&c&crwdnd120:0%player%crwdnd120:0%check%crwdnd120:0%vl%crwdne120:0'
+  alog: "crwdns114:0&c&crwdnd114:0%player%crwdnd114:0%check%crwdnd114:0%vl%crwdne114:0"
+  elog: "crwdns116:0&c&crwdnd116:0%player%crwdnd116:0%check%crwdnd116:0%vl%crwdne116:0"
+  clog: "crwdns118:0&c&crwdnd118:0%player%crwdnd118:0%check%crwdnd118:0%vl%crwdne118:0"
+  4log: "crwdns120:0&c&crwdnd120:0%player%crwdnd120:0%check%crwdnd120:0%vl%crwdne120:0"
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "crwdns122:0crwdne122:0"
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: 'crwdns124:0crwdne124:0'
+  basiclog: "crwdns124:0crwdne124:0"
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: 'crwdns126:0&c&crwdnd126:0%player%crwdnd126:0%check%crwdnd126:0%player%crwdnd126:0%debug%crwdnd126:0%vl%crwdne126:0'
+  logban: "crwdns126:0&c&crwdnd126:0%player%crwdnd126:0%check%crwdnd126:0%player%crwdnd126:0%debug%crwdnd126:0%vl%crwdne126:0"
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: 'crwdns128:0crwdne128:0'
+  ikick: "crwdns128:0crwdne128:0"
   #lagkick Kicks the player if their ping is too high
-  lagkick: 'crwdns130:0crwdne130:0'
+  lagkick: "crwdns130:0crwdne130:0"
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'crwdns132:0crwdne132:0'
-  tpsdecrement: 'crwdns134:0crwdne134:0'
+  tpskick: "crwdns132:0crwdne132:0"
+  tpsdecrement: "crwdns134:0crwdne134:0"
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: 'crwdns136:0crwdne136:0'
+  rndcancel: "crwdns136:0crwdne136:0"
   canimate: "crwdns138:0%token%crwdne138:0"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first
