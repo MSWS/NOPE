@@ -1,0 +1,42 @@
+---
+name: NOTE
+main: NOUVEAU
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: MSWS
+softdepend:
+  - ProtocolLib
+  - Bannissements MaxBans
+  - Ban avancé
+  - LapisBans
+  - LiteBans
+  - Gestion des banquiers
+  - PlaceholderAPI
+  - mcMMO
+  - Enchantements
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: Donne accès à toutes les fonctionnalités NOPEs et contourne toutes les vérifications NOPE
+  nope.bypass.movement:
+    description: Permet au joueur de contourner tous les tests de déplacement
+  nope.bypass.flight:
+    description: Permet au joueur de contourner toutes les vérifications de vol
+  "nope.bypass.movement.flight#4":
+    description: 'Permet au joueur de contourner tous les tests de vol #4'
+  nope.command.toggle.scoreboard:
+    description: Permet au joueur de basculer son propre tableau de scores
+  nope.command.toggle.gscoreboard:
+    description: Permet au joueur d'activer/désactiver le tableau de bord du serveur
+  nope.command.testlag:
+    description: Permet au joueur d'accéder à la commande testlag
+  nope.command.false:
+    description: Allows the player access to the false command
