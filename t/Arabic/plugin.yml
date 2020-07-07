@@ -1,0 +1,42 @@
+---
+name: افتح
+main: xyz.msws.nope.NOPE
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: MSWS
+softdepend:
+  - ProtocolLib
+  - ماكس حظر
+  - متقدم
+  - لابيسبانز
+  - LiteBans
+  - إدارة المصارف
+  - API حامل الموقع
+  - mcMMO
+  - جنون
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: منح حق الوصول إلى جميع ميزات NOPE وتجاوز جميع عمليات التحقق من NOPE
+  nope.bypass.movement:
+    description: يسمح للاعب بتجاوز جميع عمليات التحقق من الحركة
+  nope.bypass.flight:
+    description: يسمح للاعب بتجاوز جميع فحوصات الطيران
+  "nope.bypass.movement.flight#4":
+    description: 'يسمح للاعب بتجاوز جميع عمليات التحقق من الرحلة#4'
+  nope.command.toggle.scoreboard:
+    description: يسمح للاعب بتبديل لوحة النتائج الخاصة به
+  nope.command.toggle.gscoreboard:
+    description: يسمح للاعب بتبديل لوحة نتائج الخادم
+  nope.command.testlag:
+    description: السماح للاعب بالوصول إلى أمر الفارق الاختباري
+  nope.command.false:
+    description: Allows the player access to the false command
