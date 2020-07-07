@@ -35,10 +35,10 @@ Command:
   VL:
     NoVLs: "&cIl n'y a pas de niveaux de violation pour le moment."
   FalsePositive:
-    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
-    Insufficient: "&cThere isn't enough data to report as a false positive."
-    Sending: "&eGathering report logs..."
-    Sent: "&aSuccessfully sent false report message!"
-    Error: "&cAn unknown error occured when sending the false positive report."
+    TooMany: "&e%player% &chas a causé trop de faux positifs récemment, veuillez patienter pour en signaler plus."
+    Insufficient: "&cIl n'y a pas assez de données pour signaler un faux positif."
+    Sending: "&eRécupération des journaux de rapports..."
+    Sent: "&aMessage de faux signalement envoyé avec succès !"
+    Error: "&cUne erreur inconnue s'est produite lors de l'envoi du rapport positif faux."
 Report:
   Notification: "&4Rapport #%id% > &e%player% &7a signalé &a%target% &7pour &b%reason%&7."
