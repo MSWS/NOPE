@@ -56,7 +56,7 @@ Webhooks:
   banExample:
     URL: 'https://discordapp.com/api/webhooks/'
     username: 'افتح'
-    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+    avatar_url: 'https://crowdin.com/translate/nope/4/en-ar#8392'
     embeds:
       author:
         name: "حظر %player%"
