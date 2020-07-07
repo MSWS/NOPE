@@ -49,12 +49,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>			
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<version>3.0.0</version>
+			<configuration>
+				<source>1.8</source>
+				<target>1.8</target>
+			</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>spigot-hub</id>
+			<url>https://hub.spigotmc.org/stash/projects/SPIGOT/</url>
 		</repository>
 		<repository>
 			<id>mojang</id>
@@ -89,10 +102,7 @@
     		<id>dmulloy2-repo</id>
     		<url>https://repo.dmulloy2.net/nexus/repository/public/</url>
   		</repository>
-   <repository>
-            <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
+
 		<repository>
     		<id>viaversion-repo</id>
     		<url>https://repo.viaversion.com</url>
@@ -122,7 +132,8 @@
 		</dependency>
 		<dependency>
 	    <groupId>com.github.dmulloy2</groupId>
-	    <artifactId>ProtocolLib</artifactId>
+		<artifactId>ProtocolLib</artifactId>
+			<scope>provided</scope>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 		<dependency>
@@ -151,13 +162,16 @@
 		</dependency>
 		<dependency>
 	    <groupId>com.github.DevLeoko</groupId>
-	    <artifactId>Advancedban</artifactId>
+		<artifactId>Advancedban</artifactId>
+		<scope>provided</scope>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	<dependency>
-	    <groupId>com.github.mcMMO-Dev</groupId>
-	    <artifactId>mcMMO</artifactId>
-	    <version>master-SNAPSHOT</version>
+		<groupId>com.gmail.nossr50.mcMMO</groupId>
+		<artifactId>mcMMO</artifactId>
+		<version>2.1.2</version>
+		<scope>system</scope>
+		<systemPath>${basedir}/libs/mcMMO.jar</systemPath>
 	</dependency>
 
 		<dependency>
@@ -165,32 +179,38 @@
 			<artifactId>crazyenchantments-plugin</artifactId>
 			<version>1.8-Dev-Build-v8</version>
 			<scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
+			<scope>provided</scope>
 			<version>20200518</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.mcdb</groupId>
 			<artifactId>spicord-common</artifactId>
+			<scope>provided</scope>
 			<version>3.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 	    <groupId>com.github.netherfoam</groupId>
-	    <artifactId>MaxBans-plus</artifactId>
+		<artifactId>MaxBans-plus</artifactId>
+			<scope>provided</scope>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.netherfoam</groupId>
-	    <artifactId>MaxBans</artifactId>
+		<artifactId>MaxBans</artifactId>
+		<scope>provided</scope>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 	    <groupId>com.github.zigazajc007</groupId>
-	    <artifactId>adminbans</artifactId>
+		<artifactId>adminbans</artifactId>
+		<scope>provided</scope>
 	    <version>master-SNAPSHOT</version>
 	</dependency>
 	<dependency>
@@ -198,7 +218,8 @@
 		<artifactId>bukkit</artifactId>
 		<version>1.16.1-R0.1-SNAPSHOT</version>		<!--change this value depending on the version or use LATEST-->
 		<type>jar</type>
-		<scope>provided</scope>
+		<scope>system</scope>
+		<systemPath>${basedir}/libs/craftbukkit-.jar</systemPath>
 	</dependency>
 	</dependencies>
 </project>
