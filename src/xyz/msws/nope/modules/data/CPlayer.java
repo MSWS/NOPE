@@ -690,7 +690,26 @@ public class CPlayer {
 		return block.getType() == Material.LADDER || block.getType() == Material.VINE
 				|| block.getType() == Material.SCAFFOLDING;
 	}
-
+	
+	/**
+	 * Check if the player is in a nether vine.
+	 * 
+	 * @return
+	 */
+	public boolean isInNetherVines() {
+		if (!getPlayer().isOnline())
+			return false;
+		
+		Player online = getPlayer().getPlayer()
+			
+		Block block = online.getLocation.getBlock()
+			
+		return block.getType() == Material.WEEPING_VINES
+			|| block.getType() == Material.TWISTING_VINES 
+			|| block.getType() == Material.TWISTING_VINES_PLANT
+			|| block.getType() == Material.WEEPING_VINES_PLANT
+	}
+	
 	/**
 	 * Checks any <b>surrounding</b> blocks to see if they are
 	 * {@link Material#isSolid()}.
