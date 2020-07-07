@@ -1,0 +1,42 @@
+---
+name: НІ
+main: xyz.msw.nope.NOPE
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: ВІДХИЛИТИ
+softdepend:
+  - ProtocolLib
+  - Максбан
+  - Адванседбан
+  - Лапісбан
+  - LiteBans
+  - Банківські послуги
+  - API заповнювача
+  - mcMMO
+  - Божевільні чари
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: Надає доступ до всіх функцій і обходу NOPEs усіх перевірок NOPE
+  nope.bypass.movement:
+    description: Дозволяє гравцю обходити всі перевірки руху
+  nope.bypass.flight:
+    description: Дозволяє гравцю обходити всі перевірки польотів
+  "nope.bypass.movement.flight#4":
+    description: 'Дозволяє гравцю обходити всі польоти #4 перевірки'
+  nope.command.toggle.scoreboard:
+    description: Дозволяє гравцю перемикати їх власну таблетку
+  nope.command.toggle.gscoreboard:
+    description: Дозволяє гравцю перемикати табло серверу
+  nope.command.testlag:
+    description: Дозволяє гравцю доступ до тестової команди
+  nope.command.false:
+    description: Allows the player access to the false command
