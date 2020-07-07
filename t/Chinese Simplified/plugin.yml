@@ -1,0 +1,42 @@
+---
+name: �
+main: xyz.msws.nope.NOPE
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: MSWS
+softdepend:
+  - ProtocolLib
+  - MaxBans
+  - 高级封禁
+  - LapisBans
+  - LiteBans
+  - BanManagement
+  - 占位符API
+  - mcMMO
+  - 合成魔法
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: 允许访问所有NOPE功能并绕过所有NOPE检查
+  nope.bypass.movement:
+    description: 允许玩家绕过所有移动检查
+  nope.bypass.flight:
+    description: 允许玩家绕过所有飞行检查
+  "nope.bypass.movement.flight#4":
+    description: "允许玩家绕过所有的飞行#4 检查"
+  nope.command.toggle.scoreboard:
+    description: 允许玩家切换自己的记分板
+  nope.command.toggle.gscoreboard:
+    description: 允许玩家切换服务器的记分板
+  nope.command.testlag:
+    description: 允许玩家访问测试延迟命令
+  nope.command.false:
+    description: Allows the player access to the false command

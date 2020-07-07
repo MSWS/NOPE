@@ -1,0 +1,42 @@
+---
+name: NOPE
+main: xyz.msws.nope.NOPE
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: MSWS
+softdepend:
+  - ProtocolLib
+  - MaxBans
+  - Erweiterter Bann
+  - LapisBans
+  - LiteBans
+  - BanManagement
+  - PlatzhalterAPI
+  - mcMMO
+  - Verzauberungen
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: Gibt Zugriff auf alle NOPE-Funktionen und umgeht alle NOPE-Prüfungen
+  nope.bypass.movement:
+    description: Erlaubt dem Spieler alle Bewegungsüberprüfungen zu umgehen
+  nope.bypass.flight:
+    description: Erlaubt dem Spieler alle Flugkontrollen zu umgehen
+  "nope.bypass.movement.flight#4":
+    description: "Ermöglicht dem Spieler, alle Überprüfungen im Flight#4 zu umgehen"
+  nope.command.toggle.scoreboard:
+    description: Erlaubt es dem Spieler, sein eigenes Scoreboard umzuschalten
+  nope.command.toggle.gscoreboard:
+    description: Erlaubt dem Spieler das Scoreboard des Servers umzuschalten
+  nope.command.testlag:
+    description: Erlaubt dem Spieler Zugriff auf den Testlag-Befehl
+  nope.command.false:
+    description: Allows the player access to the false command

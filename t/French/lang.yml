@@ -1,0 +1,44 @@
+---
+Command:
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cIl vous manque &a%perm% &cpermission."
+  Banwave:
+    Executed: "&eA exécuté la banwave"
+    Added: "&7Ajouté avec succès &e%player% &7à la banwave."
+  Clear:
+    UnknownHack: "&cHack inconnu"
+  EnableChecks: "&aToutes les vérifications ont bien été activées."
+  Lookup:
+    Querying: "&7Saisie des détails du bannissement..."
+  Reload: "&aRechargé avec succès."
+  Report:
+    RecentlyReported: "&cVous avez signalé &e%player% &calready."
+    TooMany: "&cVous avez signalé trop de joueurs récemment."
+    Success: "&4Signaler #%id% > &7Vous avez signalé &a%target% &7pour &b%reason%&7."
+  Toggle:
+    PlayerOption: "&4NOPE > &7Votre &a%option%&7 à &e%value%&7."
+    GlobalOption: "&4NOPE > &7L'option &a%option%&7 a réussi à &e%value%&7."
+  Warn: "&4NOPE > &7Avertissement &a%player% &7pour &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cUn argument invalide a été fourni."
+  MissingArgument: "&cIl vous manque un argument."
+  PlayerOnly: "&cVous devez spécifier un joueur pour exécuter cette commande en tant que console."
+  SpecifyPlayer: "&cVous devez spécifier un joueur en tant qu'argument."
+  Removebanwave:
+    Success: "&7Vous avez supprimé &e%player% &7de la banwave."
+    NotBanwaved: "&e%player% &7n'est pas dans la banwave."
+  TestAnimation:
+    Unknown: "&cAnimation inconnue."
+  TestLag:
+    Set: "&7Le délai a été réglé avec succès à &e%delay%&7."
+    Get: "&7Le décalage est actuellement réglé sur &a%delay%&7."
+  Time: "&7La prochaine vague de bannissement aura lieu dans &e%time%&7."
+  Trust: "&e%player% &7a un facteur de &a%trust%&7."
+  VL:
+    NoVLs: "&cIl n'y a pas de niveaux de violation pour le moment."
+  FalsePositive:
+    TooMany: "&e%player% &chas a causé trop de faux positifs récemment, veuillez patienter pour en signaler plus."
+    Insufficient: "&cIl n'y a pas assez de données pour signaler un faux positif."
+    Sending: "&eRécupération des journaux de rapports..."
+    Sent: "&aMessage de faux signalement envoyé avec succès !"
+    Error: "&cUne erreur inconnue s'est produite lors de l'envoi du rapport positif faux."
+Report:
+  Notification: "&4Rapport #%id% > &e%player% &7a signalé &a%target% &7pour &b%reason%&7."

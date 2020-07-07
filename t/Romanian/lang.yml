@@ -1,0 +1,44 @@
+---
+Command:
+  NoPermission: "&4&xiz[&c&lNOPE&4&} &cNu ai &o permisiune%perm%."
+  Banwave:
+    Executed: "&eExecuta banwave"
+    Added: "&7Ai adaugat cu succes &%player% &7 la banwav."
+  Clear:
+    UnknownHack: "&cHack necunoscut"
+  EnableChecks: "&aToate verificarile au fost activate."
+  Lookup:
+    Querying: "&7Obtinerea detaliilor banilor..."
+  Reload: "&Reincarcare reusita."
+  Report:
+    RecentlyReported: "&cAi raportat &%player% &caldy."
+    TooMany: "&cAi raportat prea multi jucatori recent."
+    Success: "&4Raporturi #%id% > &7Ai raportat &%target% &7pentru &b%reason%&7."
+  Toggle:
+    PlayerOption: "&4NOPE > &7Cu succes &un%option%&7 pentru a &e%value%&7."
+    GlobalOption: "&4NOPE > &7Cu succes &o optiune%option%&7 pentru &e%value%&7."
+  Warn: "&4NOPE > &7A Avertizat &%player% &7pentru &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cUn argument invalid a fost furnizat."
+  MissingArgument: "&cNu ai un argument."
+  PlayerOnly: "&cTrebuie sa specifici un jucator pentru a rula comanda ca consola."
+  SpecifyPlayer: "&cTrebuie sa specifici un jucator ca un argument."
+  Removebanwave:
+    Success: "&7Ai scos &%player% &7 din zona banundului."
+    NotBanwaved: "&e%player% &7 nu se află în zona banundului."
+  TestAnimation:
+    Unknown: "&cAnimatie necunoscuta."
+  TestLag:
+    Set: "&7Intarzierea a fost setata cu succes la &%delay%&7."
+    Get: "&7Distanta este setata la &un%delay%&7."
+  Time: "&7Urmatorul val de banuri se va intampla in &e%time%&7."
+  Trust: "&e%player% &7are un factor de încredere de%trust%&7."
+  VL:
+    NoVLs: "&cNu exista nivele de violare momentan."
+  FalsePositive:
+    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
+    Insufficient: "&cThere isn't enough data to report as a false positive."
+    Sending: "&eGathering report logs..."
+    Sent: "&aSuccessfully sent false report message!"
+    Error: "&cAn unknown error occured when sending the false positive report."
+Report:
+  Notification: "&4Raportul #%id% > &e%player% &7a raportat &a%target% &7pentru &b%reason%&7."

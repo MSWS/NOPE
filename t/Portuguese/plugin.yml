@@ -1,0 +1,42 @@
+---
+name: NOTIFICAR
+main: xyz.msws.nope.NOPE
+version: 1.7.2
+description: 1.15.2-1.16.1 Minecraft Anticheat
+api-version: 1.14
+author: MENSAS
+softdepend:
+  - ProtocolLib
+  - Banimentos
+  - Banir Avançado
+  - LapisBans
+  - LiteBans
+  - BanGerenciador
+  - API
+  - mcMMO
+  - Encantamentos Loucos
+  - Train_Carts
+commands:
+  NOPE:
+    usage: /<command>
+    aliases:
+      - ac
+      - anticheat
+      - ncp
+permissions:
+  nope.*:
+    description: Dá acesso a todos os recursos de NOPEs e ignora todas as verificações NOPE
+  nope.bypass.movement:
+    description: Permite que o jogador ignore todas as verificações de movimento
+  nope.bypass.flight:
+    description: Permite que o jogador ignore todas as verificações de voo
+  "nope.bypass.movement.flight#4":
+    description: "Permite que o jogador ignore todas as verificações de voo #4"
+  nope.command.toggle.scoreboard:
+    description: Permite que o jogador alterne seu próprio placar
+  nope.command.toggle.gscoreboard:
+    description: Permite que o jogador alterne o placar do servidor
+  nope.command.testlag:
+    description: Permite o acesso do jogador ao comando de testlag
+  nope.command.false:
+    description: Allows the player access to the false command

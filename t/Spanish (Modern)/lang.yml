@@ -1,0 +1,44 @@
+---
+Command:
+  NoPermission: "crwdns144:0&c&crwdnd144:0%perm%crwdne144:0"
+  Banwave:
+    Executed: "crwdns146:0crwdne146:0"
+    Added: "crwdns148:0%player%crwdne148:0"
+  Clear:
+    UnknownHack: "crwdns150:0crwdne150:0"
+  EnableChecks: "crwdns152:0crwdne152:0"
+  Lookup:
+    Querying: "crwdns154:0crwdne154:0"
+  Reload: "crwdns156:0crwdne156:0"
+  Report:
+    RecentlyReported: "crwdns158:0%player%crwdne158:0"
+    TooMany: "crwdns160:0crwdne160:0"
+    Success: "crwdns162:0%id%crwdnd162:0%target%crwdnd162:0%reason%crwdne162:0"
+  Toggle:
+    PlayerOption: "crwdns164:0%option%crwdnd164:0%value%crwdne164:0"
+    GlobalOption: "crwdns166:0%option%crwdnd166:0%value%crwdne166:0"
+  Warn: "crwdns168:0%player%crwdnd168:0%check%crwdnd168:0%vl%crwdne168:0"
+  InvalidArgument: "crwdns170:0crwdne170:0"
+  MissingArgument: "crwdns172:0crwdne172:0"
+  PlayerOnly: "crwdns174:0crwdne174:0"
+  SpecifyPlayer: "crwdns176:0crwdne176:0"
+  Removebanwave:
+    Success: "crwdns178:0%player%crwdne178:0"
+    NotBanwaved: "crwdns180:0%player%crwdne180:0"
+  TestAnimation:
+    Unknown: "crwdns182:0crwdne182:0"
+  TestLag:
+    Set: "crwdns184:0%delay%crwdne184:0"
+    Get: "crwdns186:0%delay%crwdne186:0"
+  Time: "crwdns188:0%time%crwdne188:0"
+  Trust: "crwdns190:0%player%crwdnd190:0%trust%crwdne190:0"
+  VL:
+    NoVLs: "crwdns192:0crwdne192:0"
+  FalsePositive:
+    TooMany: "crwdns11472:0%player%crwdne11472:0"
+    Insufficient: "crwdns11474:0crwdne11474:0"
+    Sending: "crwdns11476:0crwdne11476:0"
+    Sent: "crwdns11478:0crwdne11478:0"
+    Error: "crwdns11480:0crwdne11480:0"
+Report:
+  Notification: "crwdns194:0%id%crwdnd194:0%player%crwdnd194:0%target%crwdnd194:0%reason%crwdne194:0"
