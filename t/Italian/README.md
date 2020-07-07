@@ -4,7 +4,7 @@ Un abbastanza fresco Minecraft anti-trucco.
 
 ### Disclaimer
 
-NOPE supporta 1,15.X **solo**. Per impostazione predefinita NOPE non verrà
+NOPE supporta 1,15.X **solo**. Per impostazione predefinita NOPE non verr�
 caricato su 1.14- server. Durante la modifica del plugin yml può risolvere
 questo problema, è probabile che NOPE avrà molti problemi su versioni obsolete.
 
