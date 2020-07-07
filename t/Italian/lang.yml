@@ -1,0 +1,44 @@
+---
+Command:
+  NoPermission: "&4&l[&c&lNOPE&4&l] &cTi manca &a%perm% &cpermission."
+  Banwave:
+    Executed: "&eEseguito il banwave"
+    Added: "&7Aggiunto con successo &e%player% &7al banwave."
+  Clear:
+    UnknownHack: "&cHack sconosciuto"
+  EnableChecks: "&aTutti i controlli sono abilitati correttamente."
+  Lookup:
+    Querying: "&7Grabbing ban details..."
+  Reload: "&aRicaricato con successo."
+  Report:
+    RecentlyReported: "&cHai segnalato &e%player% &calready."
+    TooMany: "&cHai segnalato troppi giocatori di recente."
+    Success: "&4Report #%id% > &7Hai segnalato &a%target% &7per &b%reason%&7."
+  Toggle:
+    PlayerOption: "&4NOPE > &7con successo il tuo &a%option%&7 a &e%value%&7."
+    GlobalOption: "&4NOPE > &7con successo l'opzione &a%option%&7 per &e%value%&7."
+  Warn: "&4NOPE > &7Warned &a%player% &7for &c%check%&7 (&3%vl%&7)."
+  InvalidArgument: "&cÈ stato fornito un argomento non valido."
+  MissingArgument: "&cTi manca un argomento."
+  PlayerOnly: "&cDevi specificare un giocatore per eseguire questo comando come console."
+  SpecifyPlayer: "&cDevi specificare un giocatore come argomento."
+  Removebanwave:
+    Success: "&7Hai rimosso &e%player% &7dal banwave."
+    NotBanwaved: "&e%player% &7non è nell'onda di bano."
+  TestAnimation:
+    Unknown: "&cAnimazione sconosciuta."
+  TestLag:
+    Set: "&7Il ritardo è stato impostato con successo su &e%delay%&7."
+    Get: "&7Il ritardo è attualmente impostato su &a%delay%&7."
+  Time: "&7Il prossimo banwave avverrà in &e%time%&7."
+  Trust: "&e%player% &7ha un fattore di fiducia di &a%trust%&7."
+  VL:
+    NoVLs: "&cNon ci sono livelli di violazione in questo momento."
+  FalsePositive:
+    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
+    Insufficient: "&cThere isn't enough data to report as a false positive."
+    Sending: "&eGathering report logs..."
+    Sent: "&aSuccessfully sent false report message!"
+    Error: "&cAn unknown error occured when sending the false positive report."
+Report:
+  Notification: "&4Report #%id% > &e%player% &7ha segnalato &a%target% &7per &b%reason%&7."
