@@ -19,7 +19,7 @@ Log: arquivo #NONE, file, or hastebin
 UpdateChecker:
   Enabled: true
   InGame: true
-BungeeNameOverride: "" #If not empty this will override the server name
+BungeeNameOverride: '' #If not empty this will override the server name
 #This is useful for replacing %server% if the server is not bungeecord
 #VL Decrement is responsible for decrementing VL levels for players that haven't flagged for a while
 #The key is the time in milliseconds since the player last flagged for a hack. For example
@@ -54,14 +54,14 @@ DebugMode: false
 #-------------------------------
 Webhooks:
   banExample:
-    URL: "https://discordapp.com/pt.api/webhooks/"
-    username: "NOTIFICAR"
-    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+    URL: 'https://discordapp.com/pt.api/webhooks/'
+    username: 'NOTIFICAR'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
     embeds:
       author:
         name: "%player% Banimento"
-        avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
-      title: "%player% foi banido por %check%"
+        avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
+      title: '%player% foi banido por %check%'
       color: 14483456
       fields:
         check:
@@ -75,14 +75,14 @@ Webhooks:
           value: "%vl%"
           inline: false
   flagExample:
-    URL: "https://discordapp.com/pt.api/webhooks/"
-    username: "NOTIFICAR"
-    avatar_url: "https://i.imgur.com/JLKC7CN.jpg"
+    URL: 'https://discordapp.com/pt.api/webhooks/'
+    username: 'NOTIFICAR'
+    avatar_url: 'https://i.imgur.com/JLKC7CN.jpg'
     embeds:
       author:
         name: "%player%"
-        icon_url: "https://crafatar.com/avatars/%uuid%"
-      title: "%player% sinalizou %check%"
+        icon_url: 'https://crafatar.com/avatars/%uuid%'
+      title: '%player% sinalizou %check%'
       color: 751818
       fields:
         1:
@@ -152,9 +152,9 @@ Webhooks:
 #-------------------------------
 Actions:
   FastBreak:
-    - "o básico cancelamento: cancelamento vl>100➲ tpsdecrement.&#xA;&#xA;Atraso:40000ëtpskick-of-vl>400 atraso:20000Min lagkick├flog:FILE:Kicked %player% para %check%shrtps>15ish, vl>600bban"
+    - 'o básico cancelamento: cancelamento vl>100➲ tpsdecrement.&#xA;&#xA;Atraso:40000ëtpskick-of-vl>400 atraso:20000Min lagkick├flog:FILE:Kicked %player% para %check%shrtps>15ish, vl>600bban'
   FastClimb:
-    - "parâmetro de logon vl>50% atraso:500├cancelct, vl>200├cancelement. vl>400├ikickvl>600eban"
+    - 'parâmetro de logon vl>50% atraso:500├cancelct, vl>200├cancelement. vl>400├ikickvl>600eban'
   Blink:
     - 'o básico vl>200Min atraso:2000ūAtras:15000^\\tpsdecrementėtps>15├vl>250^\\lagkickrvl>500^\\cancelement, vl>800cban'
   NoSwing:
@@ -162,17 +162,17 @@ Actions:
   Speed:
     - 'básico_rndcancel├vl>100├cancelct, vl>800^\\addbanwave├vl>1200³cban'
   ElytraFlight:
-    - "básico_vl>500├ikickėvl>800ct, addbanwave├vl>1000eban"
+    - 'básico_vl>500├ikickėvl>800ct, addbanwave├vl>1000eban'
   Timer:
-    - "logon básicochar@@0vl>300 rndcancelar atraso: 10000e:tpsdecrement├vl>500├lagkickvl>600├ikick'yvl>800p.mcban"
+    - 'logon básicochar@@0vl>300 rndcancelar atraso: 10000e:tpsdecrement├vl>500├lagkickvl>600├ikick''yvl>800p.mcban'
   KillAura:
-    - "básico vl>200eicickėvl>500'Atraso:120000kick:Gameplay Irregular vl>600eban"
+    - 'básico vl>200eicickėvl>500''Atraso:120000kick:Gameplay Irregular vl>600eban'
   NoFall:
-    - "essencial,vl>300eicick-vl>800cban"
+    - 'essencial,vl>300eicick-vl>800cban'
   SafeWalk:
-    - "básico vl>500eicick"
+    - 'básico vl>500eicick'
   Default:
-    - "básico vl>20├vl>100├flog├vl>200├lagkickëtps>15├vl>400ikick'yvl>800├addbanwaveoparvl>1200Banimencban"
+    - 'básico vl>20├vl>100├flog├vl>200├lagkickëtps>15├vl>400ikick''yvl>800├addbanwaveoparvl>1200Banimencban'
 #You can specify multiple actiongroups for one category
 #- 'vl>50|delay:10000|ccmd:say %player% is suspected of using %check%'
 #This would only kick players and decrement their VL by 200
@@ -183,27 +183,27 @@ Actions:
 #Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
   #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: "log:FILE:%player% falhou %debug% (%vl%)Lógico atraso:5000➲ log:CONSOLE:%player% falhou %debug%"
+  flog: 'log:FILE:%player% falhou %debug% (%vl%)Lógico atraso:5000➲ log:CONSOLE:%player% falhou %debug%'
   #the below actions log ingame an appropriate warning message to staff
-  alog: "vl>100├vl<300ct. delay:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em &a verificação de%check%&7. (VL: &e%vl%&7)"
-  elog: "vl>300├vl<500➲ atraso:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &e%check%&7. (VL: &e%vl%&7)"
-  clog: "vl>500├vl<700eAtras:60000Liikanlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &c%check%&7. (VL: &e%vl%&7)"
-  4log: "vl>700° atraso:500├flog.&#xA;&#xA;atraso:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &4%check%&7. (VL: &e%vl%&7)"
+  alog: 'vl>100├vl<300ct. delay:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em &a verificação de%check%&7. (VL: &e%vl%&7)'
+  elog: 'vl>300├vl<500➲ atraso:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &e%check%&7. (VL: &e%vl%&7)'
+  clog: 'vl>500├vl<700eAtras:60000Liikanlog:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &c%check%&7. (VL: &e%vl%&7)'
+  4log: 'vl>700° atraso:500├flog.&#xA;&#xA;atraso:60000├log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7falhou em uma verificação &4%check%&7. (VL: &e%vl%&7)'
   #weblog Logs the action to the specified webhook (in this case flagExample)
   weblog: "notdev├vl>400├atraso:120000:snowlog:flagExample:"
   #basiclog combines all above log commands into 1 for simple usage
-  basiclog: "elog├clog├flog├4log├weblog"
+  basiclog: 'elog├clog├flog├4log├weblog'
   #logban Logs ingame that the player was banned both ingame and to a file
-  logban: "log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7foi banido para &b%check%&7.xlog:FILE:Banido %player% para %debug% %vl%delay :5000xlog:banExemplo:"
+  logban: 'log:INGAME:&4&l[&c&lNOPE&4&l] &c%player% &7foi banido para &b%check%&7.xlog:FILE:Banido %player% para %debug% %vl%delay :5000xlog:banExemplo:'
   #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging
-  ikick: "notdev├atraso:60000├kick:Gameplay Irregular"
+  ikick: 'notdev├atraso:60000├kick:Gameplay Irregular'
   #lagkick Kicks the player if their ping is too high
-  lagkick: "ping>150➲ kick: Você parece estar muito atrasado, por favor, tente reiniciar sua conexão."
+  lagkick: 'ping>150➲ kick: Você parece estar muito atrasado, por favor, tente reiniciar sua conexão.'
   #tpskick Kicks the player if the server's TPS is too low
-  tpskick: "tps<=16format@@0kick: O servidor está extremamente lento, por favor, tente esperar um pouco antes de relogar."
-  tpsdecrement: "tps<=16├addvl:-50"
+  tpskick: 'tps<=16format@@0kick: O servidor está extremamente lento, por favor, tente esperar um pouco antes de relogar.'
+  tpsdecrement: 'tps<=16├addvl:-50'
   #rndcancel Has an 80% chance of teleporting the player back
-  rndcancel: "rnd:.80 cancelamento"
+  rndcancel: 'rnd:.80 cancelamento'
   canimate: "logbanish, ban:2628000000:&4NOPE Anti-Cheat&r\n&7Token: &e%token%"
   #cban Only bans the player if dev mode is disabled, it also logs the ban
   #We log the ban first so we can get the VL data first
