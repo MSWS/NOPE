@@ -4,18 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
+import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
+import xyz.msws.nope.utils.Utils;
 
-public class TestlagSubcommand extends Subcommand {
+public class TestlagSubcommand extends Subcommand implements Listener {
 
 	public TestlagSubcommand(NOPE plugin) {
 		super(plugin);
+
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
@@ -33,9 +40,6 @@ public class TestlagSubcommand extends Subcommand {
 		if (!sender.hasPermission("nope.command.lag"))
 			return CommandResult.NO_PERMISSION;
 
-		if (args[1].equals("roll"))
-			throw new IllegalArgumentException();
-
 		if (!StringUtils.isNumeric(args[1]))
 			return CommandResult.INVALID_ARGUMENT;
 
@@ -45,6 +49,12 @@ public class TestlagSubcommand extends Subcommand {
 		MSG.tell(sender, MSG.getString("Command.TestLag.Set", "Successfully set the delay to &e%delay%&7.")
 				.replace("%delay%", delay + ""));
 		return CommandResult.SUCCESS;
+	}
+
+	@EventHandler
+	public void onTrigger(PlayerFlagEvent event) {
+		if (plugin.getModule(TPSManager.class).getDelay() != 0)
+			MSG.tell(event.getPlayer(), "Ping", Utils.getPing(event.getPlayer()) + "");
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 name: NOPE
 main: xyz.msws.nope.NOPE
-version: 1.7.2
+version: 1.7.3
 description: 1.15.2-1.16.1 Minecraft Anticheat
-api-version: 1.15
+api-version: 1.16
 author: MSWS
 softdepend:
 - ProtocolLib

@@ -13,7 +13,7 @@
 #                                                                                    
 #             ----------------------------------------------------------             
 
-ConfigVersion: 1.7.2
+ConfigVersion: 1.7.3
 
 #                           -------------------------------                          
 #                                Global Configuration                                
@@ -179,7 +179,7 @@ Webhooks:
 
 Actions:
   FastBreak:
-  - 'basiclog|cancel|vl>100|tpsdecrement|delay:40000|tpskick|vl>400|delay:20000|lagkick|flog|log:FILE:Kicked %player% for %check%|tps>15|vl>600|cban'
+  - 'basiclog|cancel|vl>100|tpsdecrement|delay:40000|tpskick|vl>400|delay:20000|lagkick|flog|tps>15|vl>600|cban'
   FastClimb:
   - 'basiclog|vl>50|delay:500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
   Blink:
@@ -187,7 +187,7 @@ Actions:
   NoSwing:
   - 'basiclog|vl>500|ikick|vl>1000|cban'
   Speed:
-  - 'basiclog|rndcancel|vl>100|cancel|vl>800|addbanwave|vl>1200|cban'
+  - 'basiclog|rndcancel|vl>100|cancel|vl>300|lagkick|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   ElytraFlight:
   - 'basiclog|vl>500|ikick|vl>800|addbanwave|vl>1000|cban'
   Timer:

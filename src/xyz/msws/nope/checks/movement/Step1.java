@@ -48,18 +48,24 @@ public class Step1 implements Check, Listener {
 				Location loc = player.getLocation();
 				CPlayer cp = plugin.getCPlayer(player);
 
-				if (cp.hasMovementRelatedPotion())
+				if (cp.hasMovementRelatedPotion() || cp.timeSince(Stat.MOVEMENT_POTION) < 200) {
+					yVals.put(player.getUniqueId(), new TreeMap<>());
 					continue;
+				}
 				if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
 					continue;
 				if (cp.timeSince(Stat.TELEPORT) < 1000)
 					yVals.put(player.getUniqueId(), new TreeMap<>());
 				if (player.isFlying() || player.isGliding())
 					continue;
-				if (cp.timeSince(Stat.FLYING) < 2000)
+				if (cp.timeSince(Stat.FLYING) < 2000) {
+					yVals.put(player.getUniqueId(), new TreeMap<>());
 					continue;
-				if (cp.timeSince(Stat.RESPAWN) < 2000)
+				}
+				if (cp.timeSince(Stat.RESPAWN) < 5000) {
+					yVals.put(player.getUniqueId(), new TreeMap<>());
 					continue;
+				}
 				if (cp.timeSince(Stat.REDSTONE) < 500)
 					continue;
 				if (player.isRiptiding())
@@ -78,9 +84,11 @@ public class Step1 implements Check, Listener {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				CPlayer cp = plugin.getCPlayer(player);
+				if (cp.timeSince(Stat.MOVEMENT_POTION) < 3000)
+					continue;
 				if (cp.timeSince(Stat.FLYING) < 10000)
 					continue;
-				if (cp.timeSince(Stat.RESPAWN) < 2000)
+				if (cp.timeSince(Stat.RESPAWN) < 5000)
 					continue;
 				if (cp.timeSince(Stat.TELEPORT) < 2000)
 					continue;

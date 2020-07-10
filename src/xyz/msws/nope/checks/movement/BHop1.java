@@ -48,7 +48,7 @@ public class BHop1 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (player.isFlying() || player.isGliding() || player.isRiptiding()) {
+		if (player.isFlying() || player.isGliding() || player.isRiptiding() || cp.hasMovementRelatedPotion()) {
 			lastGround.remove(player.getUniqueId());
 			return;
 		}

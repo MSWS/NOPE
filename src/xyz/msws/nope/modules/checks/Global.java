@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -35,21 +36,12 @@ import xyz.msws.nope.utils.MSG;
 
 public class Global extends AbstractModule implements Listener {
 
-	private boolean checkSoul = true;
-
 	public Global(NOPE plugin) {
 		super(plugin);
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			CPlayer cp = plugin.getCPlayer(player);
 			cp.setTempData(Stat.JOIN_TIME, System.currentTimeMillis());
-		}
-
-		try {
-			@SuppressWarnings("unused")
-			Object unused = Enchantment.SOUL_SPEED;
-		} catch (NoSuchFieldError e) {
-			checkSoul = false;
 		}
 	}
 
@@ -152,12 +144,10 @@ public class Global extends AbstractModule implements Listener {
 		if (player.isRiptiding())
 			cp.setTempData(Stat.RIPTIDE, time);
 
-		if (checkSoul) {
-			ItemStack boots = player.getInventory().getBoots();
-			if (boots != null && boots.getType() != Material.AIR && boots.containsEnchantment(Enchantment.SOUL_SPEED)) {
-				if (cp.isBlockNearby(Material.SOUL_SAND, -1))
-					cp.setTempData(Stat.SOUL_SPEED, time);
-			}
+		ItemStack boots = player.getInventory().getBoots();
+		if (boots != null && boots.getType() != Material.AIR && boots.containsEnchantment(Enchantment.SOUL_SPEED)) {
+			if (cp.isBlockNearby(Material.SOUL_SAND, -1))
+				cp.setTempData(Stat.SOUL_SPEED, time);
 		}
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())
@@ -171,6 +161,14 @@ public class Global extends AbstractModule implements Listener {
 
 		if (lowestBlock.getType() == Material.SLIME_BLOCK || lowestBlock.getType() == Material.HONEY_BLOCK)
 			cp.setTempData(Stat.ON_SLIMEBLOCK, time);
+	}
+
+	@EventHandler
+	public void onPotion(EntityPotionEffectEvent event) {
+		if (!(event.getEntity() instanceof Player))
+			return;
+		CPlayer cp = plugin.getCPlayer((Player) event.getEntity());
+		cp.setTempData(Stat.MOVEMENT_POTION, System.currentTimeMillis());
 	}
 
 	@EventHandler
@@ -425,7 +423,11 @@ public class Global extends AbstractModule implements Listener {
 		/**
 		 * Last time the player was sped up by the SOUL_SPEED enchantment
 		 */
-		SOUL_SPEED;
+		SOUL_SPEED,
+		/**
+		 * Last time the player had a movement related potion
+		 */
+		MOVEMENT_POTION;
 	}
 
 	@Override

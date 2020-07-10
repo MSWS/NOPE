@@ -56,7 +56,6 @@ import xyz.msws.nope.checks.movement.speed.Speed1;
 import xyz.msws.nope.checks.movement.speed.Speed2;
 import xyz.msws.nope.checks.movement.speed.Speed3;
 import xyz.msws.nope.checks.movement.speed.Speed4;
-import xyz.msws.nope.checks.movement.speed.Speed5;
 import xyz.msws.nope.checks.packet.AutoSneak1;
 import xyz.msws.nope.checks.packet.Blink1;
 import xyz.msws.nope.checks.packet.HealthTags1;
@@ -189,7 +188,7 @@ public class Checks extends AbstractModule {
 				new AntiAFK1(), new AutoSneak1(), new InventoryMove1(), new AntiRotate1(), new NoSlowDown1(),
 				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(), new AntiKB1(),
 				new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
-				new Glide1(), new BHop1(), new GhostHand2(), new Speed5(), new AutoBuild1(), new Speed4(), new Jesus1(),
+				new Glide1(), new BHop1(), new GhostHand2(), new Speed4(), new AutoBuild1(), new Speed4(), new Jesus1(),
 				new Jesus2(), new Step1(), new ElytraFlight1(), new KillAura1(), new KillAura2(), new NoFall1(),
 				new NoFall2()));
 

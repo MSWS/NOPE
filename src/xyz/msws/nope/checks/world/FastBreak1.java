@@ -198,7 +198,7 @@ public class FastBreak1 implements Check, Listener {
 			case IRON_PICKAXE:
 			case STONE_PICKAXE:
 			case WOODEN_PICKAXE:
-				for (String res : new String[] { "ICE", "ORE", "CONCRETE", "TERRACOTTA", "SLAB" }) {
+				for (String res : new String[] { "ICE", "ORE", "CONCRETE", "TERRACOTTA", "SLAB", "WALL", "POLISHED" }) {
 					if (type.toString().contains(res))
 						return true;
 				}
@@ -267,6 +267,9 @@ public class FastBreak1 implements Check, Listener {
 					case STONE_BUTTON:
 					case STONE_PRESSURE_PLATE:
 					case OBSIDIAN:
+					case BASALT:
+					case BLACKSTONE:
+					case GILDED_BLACKSTONE:
 						return true;
 					default:
 						return false;
@@ -335,9 +338,13 @@ public class FastBreak1 implements Check, Listener {
 						return false;
 				}
 			default:
-				break;
+				switch (type) {
+					case VINE:
+						return true;
+					default:
+						return false;
+				}
 		}
-		return false;
 	}
 
 	@Override

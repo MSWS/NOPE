@@ -56,7 +56,7 @@ public class Spider1 implements Check, Listener {
 		if (cp.timeSince(Stat.COBWEB) < 500)
 			return;
 
-		if (cp.hasMovementRelatedPotion())
+		if (cp.hasMovementRelatedPotion() || cp.timeSince(Stat.MOVEMENT_POTION) < 1000)
 			return;
 
 		if (cp.timeSince(Stat.FLYING) < 2000 || cp.timeSince(Stat.RIPTIDE) < 2000)

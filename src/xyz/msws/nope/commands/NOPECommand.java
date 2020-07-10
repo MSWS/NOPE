@@ -16,7 +16,6 @@ import xyz.msws.nope.commands.sub.ReloadSubcommand;
 import xyz.msws.nope.commands.sub.RemovebanwaveSubcommand;
 import xyz.msws.nope.commands.sub.ReportSubcommand;
 import xyz.msws.nope.commands.sub.ResetSubcommand;
-import xyz.msws.nope.commands.sub.StatsSubcommand;
 import xyz.msws.nope.commands.sub.TestAnimationSubcommand;
 import xyz.msws.nope.commands.sub.TestlagSubcommand;
 import xyz.msws.nope.commands.sub.TimeSubcommand;
@@ -52,7 +51,7 @@ public class NOPECommand extends AbstractCommand {
 		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new ToggleSubcommand(plugin));
-		cmds.add(new StatsSubcommand(plugin));
+//		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new TimeSubcommand(plugin));
 		cmds.add(new BanwaveSubcommand(plugin));
 		cmds.add(new ReloadSubcommand(plugin));

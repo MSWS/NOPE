@@ -44,7 +44,7 @@ public class Flight3 implements Check, Listener {
 		if (player.isFlying() || cp.isInWeirdBlock() || player.isInsideVehicle() || player.isRiptiding())
 			return;
 
-		if (cp.hasMovementRelatedPotion())
+		if (cp.hasMovementRelatedPotion() || cp.timeSince(Stat.MOVEMENT_POTION) < 1000)
 			return;
 
 		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 2000)

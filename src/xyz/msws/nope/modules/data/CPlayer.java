@@ -688,7 +688,8 @@ public class CPlayer {
 		Block block = online.getLocation().getBlock();
 
 		return block.getType() == Material.LADDER || block.getType() == Material.VINE
-				|| block.getType() == Material.SCAFFOLDING;
+				|| block.getType() == Material.SCAFFOLDING || block.getType() == Material.TWISTING_VINES_PLANT
+				|| block.getType() == Material.WEEPING_VINES_PLANT;
 	}
 
 	/**

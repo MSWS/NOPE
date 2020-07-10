@@ -13,6 +13,7 @@ import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.Stats;
 import xyz.msws.nope.utils.MSG;
 
+@Deprecated
 public class StatsSubcommand extends Subcommand {
 
 	public StatsSubcommand(NOPE plugin) {

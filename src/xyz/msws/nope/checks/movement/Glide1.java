@@ -58,6 +58,9 @@ public class Glide1 implements Check, Listener {
 		if (cp.isInClimbingBlock() || cp.isInWeirdBlock() || player.isFlying() || player.isOnGround())
 			return;
 
+		if (cp.hasMovementRelatedPotion())
+			return;
+
 		if (player.isSwimming())
 			return;
 

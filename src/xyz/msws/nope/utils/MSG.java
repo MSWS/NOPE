@@ -139,6 +139,11 @@ public class MSG {
 		else
 			sender.sendMessage(color(msg));
 	}
+	
+
+	public static void tell(CommandSender sender, String module, String message) {
+		tell(sender, PREFIX + module + "> " + DEFAULT + message);
+	}
 
 	/**
 	 * Replaces all PAPI placeholders appropriate, automatically makes sure PAPI is

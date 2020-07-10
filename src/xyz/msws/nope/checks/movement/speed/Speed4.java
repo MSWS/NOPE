@@ -1,12 +1,15 @@
 package xyz.msws.nope.checks.movement.speed;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
@@ -15,7 +18,7 @@ import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 
 /**
- * Checks instantaneous speeds
+ * Checks if a player is sprinting in the direction that they aren't looking in
  * 
  * @author imodm
  *
@@ -30,49 +33,48 @@ public class Speed4 implements Check, Listener {
 	}
 
 	@Override
-	public void register(NOPE plugin) {
+	public void register(NOPE plugin) throws OperationNotSupportedException {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
-
-		if (player.isFlying() || player.isGliding())
+		if (player.isFlying() || player.isInsideVehicle())
 			return;
 
-		if (cp.timeSince(Stat.RIPTIDE) < 2000)
+		if (cp.timeSince(Stat.FLYING) < 1000)
+			return;
+
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
 		if (cp.hasMovementRelatedPotion())
 			return;
 
-		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 500)
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
 			return;
 
-		if (cp.timeSince(Stat.MOVE) < 500)
+		if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().toString().contains("ICE"))
 			return;
 
-		if (cp.timeSince(Stat.TOGGLE_GLIDE) < 500)
-			return;
+		Location to = event.getTo(), from = event.getFrom();
 
-		if (cp.timeSince(Stat.IN_VEHICLE) < 2000)
-			return;
+		Vector moveDiff = to.toVector().subtract(from.toVector());
+		Vector look = player.getLocation().getDirection();
 
-		double maxDist = 0.02500431987726535;
+		moveDiff.setY(0);
+		look.setY(0);
+		look.normalize();
+		moveDiff.normalize();
 
-		Location to = event.getTo().clone(), from = event.getFrom().clone();
-		to.setY(0);
-		from.setY(0);
+		double diff = moveDiff.distanceSquared(look);
 
-		double dist = to.distanceSquared(from);
-
-		if (dist <= maxDist)
-			return;
-
-		cp.flagHack(this, (int) ((dist - maxDist) * 100) + 5, "Dist: " + dist + " > " + maxDist);
+		if ((diff + "").contains("0000000000")) {
+			cp.flagHack(this, 20);
+		}
 	}
 
 	@Override
@@ -82,11 +84,12 @@ public class Speed4 implements Check, Listener {
 
 	@Override
 	public String getDebugName() {
-		return getCategory() + "#4";
+		return getCategory() + "#5";
 	}
 
 	@Override
 	public boolean lagBack() {
 		return true;
 	}
+
 }

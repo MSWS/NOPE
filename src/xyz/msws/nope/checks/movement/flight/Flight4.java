@@ -43,7 +43,7 @@ public class Flight4 implements Check, Listener {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
-		if (cp.hasMovementRelatedPotion())
+		if (cp.hasMovementRelatedPotion() || cp.timeSince(Stat.MOVEMENT_POTION) < 3000)
 			return;
 
 		if (cp.isBlockNearby(Material.SCAFFOLDING))

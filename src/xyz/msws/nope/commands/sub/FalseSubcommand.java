@@ -154,6 +154,7 @@ public class FalseSubcommand extends Subcommand {
 
 		lastReport.put(target.getUniqueId(), System.currentTimeMillis());
 		MSG.tell(sender, MSG.getString("Command.FalsePositive.Sending", "Sending..."));
+		final String name = target.getName();
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -161,7 +162,8 @@ public class FalseSubcommand extends Subcommand {
 				try {
 					url = Utils.uploadHastebin(String.join("\n", header));
 					reporter.sendMessage("A new false positive report has been made: https://hastebin.com/" + url);
-					MSG.tell(sender, MSG.getString("Command.FalsePositive.Sent", "Successfully sent."));
+					MSG.tell(sender, MSG.getString("Command.FalsePositive.Sent", "Successfully sent.")
+							.replace("%player%", name));
 				} catch (IOException e) {
 					e.printStackTrace();
 					MSG.tell(sender, MSG.getString("Command.FalsePositive.Error", "An unknown error occured."));
