@@ -8,7 +8,7 @@ import xyz.msws.nope.commands.sub.BanwaveSubcommand;
 import xyz.msws.nope.commands.sub.ChecksSubcommand;
 import xyz.msws.nope.commands.sub.ClearSubcommand;
 import xyz.msws.nope.commands.sub.EnablechecksSubcommand;
-import xyz.msws.nope.commands.sub.FalseSubcommand;
+// import xyz.msws.nope.commands.sub.FalseSubcommand;
 import xyz.msws.nope.commands.sub.HelpSubcommand;
 import xyz.msws.nope.commands.sub.LookupSubcommand;
 import xyz.msws.nope.commands.sub.OnlineSubcommand;
