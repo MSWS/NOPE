@@ -72,7 +72,9 @@ public class HighCPS1 implements Check, Listener {
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
 			return;
 
-		if (block != null && (!block.getType().isSolid() || block.getType() == Material.SLIME_BLOCK))
+		if (block != null && (!block.getType().isSolid()
+				|| block.getType() == Material.SLIME_BLOCK
+				|| block.getType() == Material.REDSTONE_ORE)) // redstone ore triggers a false positive
 			return;
 
 		int c = clicks.getOrDefault(player.getUniqueId(), 0);
