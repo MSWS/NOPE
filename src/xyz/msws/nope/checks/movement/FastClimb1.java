@@ -51,6 +51,9 @@ public class FastClimb1 implements Check, Listener {
 		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
+		if (cp.timeSince(Stat.IN_LIQUID) < 500)
+			return;
+
 		if (!cp.isInClimbingBlock())
 			return;
 
