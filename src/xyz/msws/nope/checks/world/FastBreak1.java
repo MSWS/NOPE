@@ -50,7 +50,7 @@ public class FastBreak1 implements Check, Listener {
 	}
 
 	private boolean ignoreMat(Material mat) {
-		for (String res : new String[] { "BED", "GLASS", "LEAVES", "ICE" }) {
+		for (String res : new String[] { "BED", "GLASS", "LEAVES", "ICE", "PLATE" }) {
 			if (mat.toString().contains(res))
 				return true;
 		}

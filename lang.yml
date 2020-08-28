@@ -33,11 +33,5 @@ Command:
   Trust: "&e%player% &7has a trust factor of &a%trust%&7."
   VL:
     NoVLs: "&cThere are no violation levels right now."
-  FalsePositive:
-    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
-    Insufficient: "&cThere isn't enough data to report as a false positive."
-    Sending: "&eGathering report logs..."
-    Sent: "&aSuccessfully sent false report message for &e%player%&a!"
-    Error: "&cAn unknown error occured when sending the false positive report."
 Report:
   Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."

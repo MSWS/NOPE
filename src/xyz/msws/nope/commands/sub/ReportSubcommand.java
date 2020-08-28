@@ -31,7 +31,7 @@ public class ReportSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		result.add(null); // First argument is a player
 		result.add(cs.toArray(new String[0]));

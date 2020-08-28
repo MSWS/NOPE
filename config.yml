@@ -198,6 +198,8 @@ Actions:
   - 'basiclog|vl>300|ikick|vl>800|cban'
   SafeWalk:
   - 'basiclog|vl>500|ikick'
+  AntiKB:
+  - 'basiclog|tps>15|delay:20000|lagkick|vl>500|ikick|vl>800|cban'
   Default:
   - 'basiclog|vl>20|cancel|vl>100|flog|vl>200|lagkick|tps>15|vl>400|ikick|vl>800|addbanwave|vl>1200|cban'
   # You can specify multiple actiongroups for one category

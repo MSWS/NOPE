@@ -23,7 +23,7 @@ public class WarnSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		result.add(null);
 		result.add(new String[] { "h:" });

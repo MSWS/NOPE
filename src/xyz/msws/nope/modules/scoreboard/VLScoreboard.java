@@ -32,8 +32,6 @@ public class VLScoreboard extends CScoreboard {
 
 	@Override
 	public void onTick() {
-//		ticks++;
-
 		lines.clear();
 
 		Map<UUID, Integer> vls = new HashMap<>();
@@ -77,5 +75,4 @@ public class VLScoreboard extends CScoreboard {
 
 		return result;
 	}
-
 }

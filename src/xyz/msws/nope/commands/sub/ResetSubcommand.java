@@ -19,7 +19,7 @@ public class ResetSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		result.add(new String[] { "config", "lang", "all" });
 		return result;

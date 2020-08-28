@@ -41,7 +41,7 @@ public class AutoArmor1 implements Check, Listener {
 		return CheckType.COMBAT;
 	}
 
-	private final int CHECK_EVERY = 200, WAIT_FOR = 1;
+	private final int CHECK_EVERY = 400, WAIT_FOR = 1;
 
 	@Override
 	public void register(NOPE plugin) {

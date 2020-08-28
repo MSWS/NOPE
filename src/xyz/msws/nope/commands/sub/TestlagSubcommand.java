@@ -52,7 +52,7 @@ public class TestlagSubcommand extends Subcommand implements Listener {
 	}
 	
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		return new ArrayList<>();
 	}
 

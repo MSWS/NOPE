@@ -60,7 +60,7 @@ public class ScoreboardModule extends AbstractModule {
 				}
 			}
 		};
-		runner.runTaskTimer(plugin, 0, 1);
+		runner.runTaskTimer(plugin, 0, 5);
 
 		new BukkitRunnable() {
 			@Override

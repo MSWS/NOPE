@@ -55,7 +55,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		result.add(tokens.toArray(new String[0]));
 		return result;
