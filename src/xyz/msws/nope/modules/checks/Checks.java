@@ -38,7 +38,6 @@ import xyz.msws.nope.checks.movement.Glide1;
 import xyz.msws.nope.checks.movement.InventoryMove1;
 import xyz.msws.nope.checks.movement.NoWeb1;
 import xyz.msws.nope.checks.movement.Spider1;
-import xyz.msws.nope.checks.movement.Step1;
 import xyz.msws.nope.checks.movement.flight.Flight1;
 import xyz.msws.nope.checks.movement.flight.Flight2;
 import xyz.msws.nope.checks.movement.flight.Flight3;
@@ -189,7 +188,7 @@ public class Checks extends AbstractModule {
 				new NoSlowDown2(), new NoSlowDown3(), new NoSlowDown4(), new FastEat1(), new AntiFire1(), new AntiKB1(),
 				new Zoot1(), new SafeWalk1(), new AutoTool1(), new AutoSwitch1(), new FastBreak1(), new Spider1(),
 				new Glide1(), new BHop1(), new GhostHand2(), new Speed4(), new AutoBuild1(), new Speed4(), new Jesus1(),
-				new Jesus2(), new Step1(), new ElytraFlight1(), new KillAura1(), new KillAura2(), new NoFall1(),
+				new Jesus2(), new ElytraFlight1(), new KillAura1(), new KillAura2(), new NoFall1(),
 				new NoFall2()));
 
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {

@@ -49,6 +49,7 @@ public class Utils {
 					break;
 				case "1.16-R0":
 				case "1.16.1-R0":
+				case "1.16.2-R0":
 					nms = "v1_16_R1";
 					break;
 				default:

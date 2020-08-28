@@ -8,7 +8,6 @@ import xyz.msws.nope.commands.sub.BanwaveSubcommand;
 import xyz.msws.nope.commands.sub.ChecksSubcommand;
 import xyz.msws.nope.commands.sub.ClearSubcommand;
 import xyz.msws.nope.commands.sub.EnablechecksSubcommand;
-import xyz.msws.nope.commands.sub.FalseSubcommand;
 import xyz.msws.nope.commands.sub.HelpSubcommand;
 import xyz.msws.nope.commands.sub.LookupSubcommand;
 import xyz.msws.nope.commands.sub.OnlineSubcommand;
@@ -45,13 +44,11 @@ public class NOPECommand extends AbstractCommand {
 	@Override
 	public void enable() {
 		super.enable();
-		cmds.add(new FalseSubcommand(plugin));
 		cmds.add(new VLSubcommand(plugin));
 		cmds.add(new ClearSubcommand(plugin));
 		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new ToggleSubcommand(plugin));
-//		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new TimeSubcommand(plugin));
 		cmds.add(new BanwaveSubcommand(plugin));
 		cmds.add(new ReloadSubcommand(plugin));
