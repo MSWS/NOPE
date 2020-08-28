@@ -50,13 +50,7 @@ public class TestlagSubcommand extends Subcommand implements Listener {
 				.replace("%delay%", delay + ""));
 		return CommandResult.SUCCESS;
 	}
-
-	@EventHandler
-	public void onTrigger(PlayerFlagEvent event) {
-		if (plugin.getModule(TPSManager.class).getDelay() != 0)
-			MSG.tell(event.getPlayer(), "Ping", Utils.getPing(event.getPlayer()) + "");
-	}
-
+	
 	@Override
 	public List<String[]> tabCompletions(CommandSender sender) {
 		return new ArrayList<>();

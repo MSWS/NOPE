@@ -1,7 +1,9 @@
 package xyz.msws.nope.modules.scoreboard;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
@@ -44,18 +46,37 @@ public class ScoreboardModule extends AbstractModule {
 		runner = new BukkitRunnable() {
 			@Override
 			public void run() {
-				for (Player p : Bukkit.getOnlinePlayers()) {
-					if (!assigned.containsKey(p.getUniqueId()))
+				Iterator<Entry<UUID, CScoreboard>> it = assigned.entrySet().iterator();
+				while (it.hasNext()) {
+					Entry<UUID, CScoreboard> entry = it.next();
+					Player p = Bukkit.getPlayer(entry.getKey());
+					if (p == null || !p.isValid()) {
+						it.remove();
 						continue;
-
+					}
 					assigned.get(p.getUniqueId()).onTick();
-					for (int i = 1; i <= 15; i++)
+					for (int i = 1; i <= assigned.get(p.getUniqueId()).getLines().size(); i++)
 						setLine(p, i, assigned.get(p.getUniqueId()).getLine(i));
-					setTitle(p, assigned.get(p.getUniqueId()).getTitle());
 				}
 			}
 		};
 		runner.runTaskTimer(plugin, 0, 1);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				Iterator<Entry<UUID, CScoreboard>> it = assigned.entrySet().iterator();
+				while (it.hasNext()) {
+					Entry<UUID, CScoreboard> entry = it.next();
+					Player p = Bukkit.getPlayer(entry.getKey());
+					if (p == null || !p.isValid()) {
+						it.remove();
+						continue;
+					}
+					setTitle(p, assigned.get(p.getUniqueId()).getTitle());
+				}
+			}
+		}.runTaskTimer(plugin, 0, 20);
 	}
 
 	@Override
@@ -79,6 +100,8 @@ public class ScoreboardModule extends AbstractModule {
 		obj.setDisplayName(MSG.color(value));
 	}
 
+	private ChatColor[] vals = ChatColor.values();
+
 	private void setLine(Player player, int line, String value) {
 		Scoreboard board = player.getScoreboard();
 		Objective obj;
@@ -93,8 +116,6 @@ public class ScoreboardModule extends AbstractModule {
 			obj = board.registerNewObjective("nope", "dummy", "nope");
 			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		}
-
-		ChatColor[] vals = ChatColor.values();
 
 		if (value == null) {
 			if (!board.getScores(vals[line] + "" + ChatColor.RESET).isEmpty())

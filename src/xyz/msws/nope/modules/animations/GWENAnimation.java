@@ -55,7 +55,6 @@ public class GWENAnimation extends AbstractAnimation {
 		Location origin = player.getLocation().clone();
 
 		task = new BukkitRunnable() {
-
 			long ticks = 0;
 
 			@Override
@@ -126,13 +125,16 @@ public class GWENAnimation extends AbstractAnimation {
 		}
 
 		player.stopSound(Sound.ENTITY_GUARDIAN_ATTACK);
-		task.cancel();
+		if (task != null)
+			task.cancel();
 		if (action != null)
 			action.activate(player, check);
 	}
 
 	@Override
 	public boolean completed() {
+		if (task == null)
+			return true;
 		return task.isCancelled();
 	}
 

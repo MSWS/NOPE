@@ -42,6 +42,11 @@ public class Jesus2 implements Check, Listener {
 		if (!player.isOnGround())
 			return;
 
+		if (!player.getLocation().getBlock().isLiquid())
+			return;
+		if (player.getLocation().add(0, 1, 0).getBlock().isLiquid())
+			return;
+
 		for (int x = -1; x <= 1; x++) {
 			for (int z = -1; z <= 1; z++) {
 				Block b = player.getLocation().clone().add(x, -1, z).getBlock();
@@ -49,10 +54,6 @@ public class Jesus2 implements Check, Listener {
 					return;
 			}
 		}
-		if (!player.getLocation().getBlock().isLiquid())
-			return;
-		if (player.getLocation().add(0, 1, 0).getBlock().isLiquid())
-			return;
 
 		cp.flagHack(this, 50);
 

@@ -90,7 +90,7 @@ public class FalseSubcommand extends Subcommand {
 				return CommandResult.PLAYER_REQUIRED;
 			target = Bukkit.getPlayer(args[0]);
 		} else {
-			target = args.length == 2 ? Bukkit.getPlayer(args[0]) : (Player) sender;
+			target = args.length >= 2 ? Bukkit.getPlayer(args[1]) : (Player) sender;
 		}
 
 		String message = args.length > 2 ? String.join(" ", (String[]) ArrayUtils.subarray(args, 1, args.length))
