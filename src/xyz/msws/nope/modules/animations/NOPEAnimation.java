@@ -62,12 +62,13 @@ public class NOPEAnimation extends AbstractAnimation implements Listener {
 			l.setDirection(dir);
 
 			Evoker e = (Evoker) player.getWorld().spawnEntity(l, EntityType.EVOKER);
-
+			
 			evokers[i] = e;
 
 			e.setAI(false);
 			e.setSilent(true);
 			e.setInvulnerable(true);
+			e.setMetadata("isAnimation", new FixedMetadataValue(plugin, true));
 		}
 
 		task = new BukkitRunnable() {
@@ -144,7 +145,6 @@ public class NOPEAnimation extends AbstractAnimation implements Listener {
 			task.cancel();
 		if (action != null)
 			action.activate(player, check);
-
 	}
 
 	@Override

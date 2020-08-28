@@ -29,6 +29,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
@@ -80,7 +81,6 @@ public class LookupSubcommand extends Subcommand implements Listener {
 		MSG.tell(sender, MSG.getString("Command.Lookup.Querying", "Grabbing ban details..."));
 
 		new BukkitRunnable() {
-			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
 				if (key.length() == 16) {
@@ -133,6 +133,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 				} catch (IOException e) {
 					e.printStackTrace();
 					MSG.tell(sender, CommandResult.INVALID_ARGUMENT.getMessage());
+					return;
 				}
 
 				List<String> res = parseLog(result, key);
@@ -147,7 +148,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 					ComponentBuilder here = new ComponentBuilder("here").color(ChatColor.YELLOW);
 					here.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://hastebin.com/" + key));
 					here.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-							new ComponentBuilder(MSG.color("&7Goto &ehttps://hastebin.com" + key)).create()));
+							new Text(MSG.color("&7Goto &ehttps://hastebin.com/" + key))));
 					comp.append(here.create(), FormatRetention.NONE);
 					comp.append(".", FormatRetention.NONE).color(ChatColor.GRAY);
 					((Player) sender).spigot().sendMessage(comp.create());
@@ -159,7 +160,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 	}
 
 	public List<String> parseLog(List<String> log, String key) {
-		if (!log.get(0).startsWith("Starting new log for "))
+		if (log.isEmpty() || !log.get(0).startsWith("Starting new log for "))
 			return null;
 		List<String> result = new ArrayList<>();
 		String player = log.get(0).substring("Starting new log for ".length(), log.get(0).indexOf(" ("));

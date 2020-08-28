@@ -85,7 +85,7 @@ public class WarnSubcommand extends Subcommand {
 		cp.flagHack(new Check() {
 			@Override
 			public boolean lagBack() {
-				return true;
+				return false;
 			}
 
 			@Override

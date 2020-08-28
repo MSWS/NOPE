@@ -352,7 +352,8 @@ public class CPlayer {
 		if (pfe.isCancelled())
 			return;
 
-		if (!check.getDebugName().equals("ManuallyIssued")) {
+		if (!check.getDebugName().contains("ManuallyIssued")) {
+			MSG.announce("Checking configs...");
 			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				return;
 			if (!plugin.getConfig().getBoolean(

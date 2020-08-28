@@ -65,8 +65,7 @@ public class HelpSubcommand extends Subcommand {
 
 	public void sendHelp(CommandSender sender, int page) {
 		List<String> lines = new ArrayList<>();
-		for (int i = 0; i < 2; i++)
-			MSG.tell(sender, " ");
+		MSG.tell(sender, " ");
 
 		for (Subcommand cmd : main.getSubCommands()) {
 			if (cmd.getPermission() == null || sender.hasPermission(cmd.getPermission()))

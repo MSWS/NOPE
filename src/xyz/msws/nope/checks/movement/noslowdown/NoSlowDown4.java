@@ -44,6 +44,9 @@ public class NoSlowDown4 implements Check, Listener {
 		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
+		if (cp.timeSince(Stat.DAMAGE_TAKEN) < 1000)
+			return;
+
 		if (!player.isBlocking())
 			return;
 
