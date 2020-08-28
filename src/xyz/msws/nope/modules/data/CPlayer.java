@@ -339,6 +339,7 @@ public class CPlayer {
 	 * @param vl
 	 * @param debug
 	 */
+	@SuppressWarnings("deprecation")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
 			return;

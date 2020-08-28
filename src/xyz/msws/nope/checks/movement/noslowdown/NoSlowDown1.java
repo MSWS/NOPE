@@ -44,6 +44,7 @@ public class NoSlowDown1 implements Check, Listener {
 
 	private final int SIZE = 40;
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();

@@ -29,6 +29,7 @@ public class UpdateCheckerListener extends AbstractModule implements Listener {
 		super(plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();

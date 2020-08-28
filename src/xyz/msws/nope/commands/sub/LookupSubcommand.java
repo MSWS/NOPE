@@ -80,6 +80,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 		MSG.tell(sender, MSG.getString("Command.Lookup.Querying", "Grabbing ban details..."));
 
 		new BukkitRunnable() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
 				if (key.length() == 16) {

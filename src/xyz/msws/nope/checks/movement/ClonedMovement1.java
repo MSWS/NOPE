@@ -47,6 +47,7 @@ public class ClonedMovement1 implements Check, Listener {
 
 	private final int SIZE = 20;
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
