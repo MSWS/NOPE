@@ -106,6 +106,7 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.8":
 			case "1.7.3":
 			case "1.7.2":
 			case "1.7.1":
