@@ -353,7 +353,6 @@ public class CPlayer {
 			return;
 
 		if (!check.getDebugName().contains("ManuallyIssued")) {
-			MSG.announce("Checking configs...");
 			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				return;
 			if (!plugin.getConfig().getBoolean(

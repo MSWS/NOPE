@@ -33,5 +33,12 @@ Command:
   Trust: "&e%player% &7has a trust factor of &a%trust%&7."
   VL:
     NoVLs: "&cThere are no violation levels right now."
+  FalsePositive:
+    Checking: "&7Checking duplicate reports..."
+    Success: "&aYou have successfully reported &e%id% &aas a false positive."
+    Duplicate: "&cYou have already reported &e%id%&7."
+    Querying: "&7Grabbing ban details..."
+    Reporting: "&7Ban details obtained... reporting to GitHub..."
+    Disabled: "&cAutomatic reporting to GitHub has been disabled, please contact your server administrator."
 Report:
   Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."

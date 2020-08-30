@@ -176,5 +176,11 @@
 			<version>3.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>github-api</artifactId>
+			<version>1.116</version>
+		</dependency>
 	</dependencies>
 </project>

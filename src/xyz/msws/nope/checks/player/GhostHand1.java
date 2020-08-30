@@ -26,7 +26,7 @@ import xyz.msws.nope.modules.data.CPlayer;
  *
  *
  */
-public class GhostHand2 implements Check, Listener {
+public class GhostHand1 implements Check, Listener {
 
 	private NOPE plugin;
 

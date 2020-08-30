@@ -16,12 +16,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
@@ -33,32 +29,19 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
-import xyz.msws.nope.events.actions.ActionExecuteEvent;
-import xyz.msws.nope.modules.actions.actions.BanAction;
+import xyz.msws.nope.listeners.TokenCreationListener;
 import xyz.msws.nope.utils.MSG;
 
-public class LookupSubcommand extends Subcommand implements Listener {
-	private List<String> tokens = new ArrayList<>();
-
-	private File logs;
+public class LookupSubcommand extends Subcommand {
 
 	public LookupSubcommand(NOPE plugin) {
 		super(plugin);
-
-		logs = new File(plugin.getDataFolder(), "logs");
-		if (logs == null || !logs.exists() || logs.list() == null)
-			return;
-		for (String f : logs.list()) {
-			tokens.add(f.substring(0, f.length() - 4));
-		}
-
-		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
 	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
-		result.add(tokens.toArray(new String[0]));
+		result.add(plugin.getModule(TokenCreationListener.class).getTokens().toArray(new String[0]));
 		return result;
 	}
 
@@ -201,24 +184,6 @@ public class LookupSubcommand extends Subcommand implements Listener {
 		}
 
 		return result;
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onAction(ActionExecuteEvent event) {
-		if (!event.getAction().getClass().equals(BanAction.class))
-			return;
-		if (logs == null || !logs.exists() || logs.list() == null)
-			return;
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-
-				tokens.clear();
-				for (String f : logs.list()) {
-					tokens.add(f.substring(0, f.length() - 4));
-				}
-			}
-		}.runTaskLaterAsynchronously(plugin, 20);
 	}
 
 	@Override

@@ -13,7 +13,7 @@
 #                                                                                    
 #             ----------------------------------------------------------             
 
-ConfigVersion: 1.8.0.1
+ConfigVersion: 1.8.1
 
 #                           -------------------------------                          
 #                                Global Configuration                                
@@ -25,6 +25,9 @@ Global: true # If disabled, NOPE will be disabled
 Scoreboard: true # The scoreboard uses the vanilla scoreboard and shouldn't mess with other plugins
 
 Log: file # NONE, file, or hastebin
+GitHub: # Fill out these fields to enable /nope false, leave Password blanke to use a TAP (recommended), see https://github.com/settings/tokens for more details
+  Username: ''
+  Password: ''
 
 # Permission to be notified ingame is nope.message.udpate
 UpdateChecker:
@@ -49,8 +52,6 @@ VLDecrement:
 #                           -------------------------------                          
 #                                Banwave Configuration                               
 #                           -------------------------------                          
-
-
 
 BanwaveRate: 36000 # Rate of banwave (in ticks) -1 to disable
 
@@ -179,11 +180,11 @@ Webhooks:
 
 Actions:
   FastBreak:
-  - 'basiclog|cancel|vl>100|tpsdecrement|delay:40000|tpskick|vl>400|delay:20000|lagkick|flog|tps>15|vl>600|cban'
+  - 'basiclog|cancel|vl>100|tpsdecrement|tpskick|vl>400|lagkick|tps>15|vl>600|cban'
   FastClimb:
-  - 'basiclog|vl>50|delay:500|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
+  - 'basiclog|vl>50|delay:1000|cancel|vl>200|cancel|vl>400|ikick|vl>600|cban'
   Blink:
-  - 'basiclog|vl>200|delay:2000|cancel|delay:15000|tpsdecrement|tps>15|vl>250|lagkick|vl>500|cancel|vl>800|cban'
+  - 'basiclog|delay:30000|cancel|vl>200|delay:2000|cancel|delay:15000|tpsdecrement|tps>15|vl>300|lagkick|vl>500|cancel|vl>800|cban'
   NoSwing:
   - 'basiclog|vl>500|ikick|vl>1000|cban'
   Speed:
@@ -213,7 +214,7 @@ Actions:
 # Commands are loaded and created in order. Define a custom command first before using it in another custom command.
 Commands:
  #log Logs to a file that the player failed a check, and logs in console every 5 seconds that they failed the check
-  flog: 'log:FILE:%player% failed %debug% (%vl%)|delay:5000|log:CONSOLE:%player% failed %debug%'
+  flog: 'log:FILE:%player% failed %debug% (%vl%)'
  #the below actions log ingame an appropriate warning message to staff
   alog: 'vl>100|vl<300|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &a%check%&7 check. (VL: &e%vl%&7)'
   elog: 'vl>300|vl<500|delay:60000|log:INGAME:&4&l[&c&lNOPE&4&l] &e%player% &7failed a &e%check%&7 check. (VL: &e%vl%&7)'
@@ -228,9 +229,9 @@ Commands:
  #ikick Kicks the player once every minute (to avoid constant kicking) in case they are stuck/otherwise false flagging 
   ikick: 'notdev|delay:60000|kick:Irregular Gameplay'
  #lagkick Kicks the player if their ping is too high
-  lagkick: 'ping>150|kick:You seem to be very laggy, please try restarting your connection.'
+  lagkick: 'ping>150|delay:20000|kick:You seem to be very laggy, please try restarting your connection.'
  #tpskick Kicks the player if the server's TPS is too low
-  tpskick: 'tps<=16|kick:The server is extremely laggy, please try waiting a bit before relogging.'
+  tpskick: 'tps<=16|delay:40000|kick:The server is extremely laggy, please try waiting a bit before relogging.'
   tpsdecrement: 'tps<=16|addvl:-50'
  #rndcancel Has an 80% chance of teleporting the player back
   rndcancel: 'rnd:.80|cancel'

@@ -234,6 +234,16 @@ public class FastBreak1 implements Check, Listener {
 					case COAL:
 					case COBBLESTONE:
 					case COBBLESTONE_WALL:
+					case COBBLESTONE_STAIRS:
+					case STONE_STAIRS:
+					case BRICK_STAIRS:
+					case DIORITE_STAIRS:
+					case DARK_PRISMARINE_STAIRS:
+					case CRIMSON_STAIRS:
+					case BLACKSTONE_STAIRS:
+					case END_STONE_BRICK_STAIRS:
+					case ANDESITE_STAIRS:
+					case NETHER_BRICK_STAIRS:
 					case DARK_PRISMARINE:
 					case DIORITE:
 					case DISPENSER:
