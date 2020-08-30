@@ -109,7 +109,7 @@ public class NOPE extends JavaPlugin {
 		switch (config.getString("ConfigVersion", "")) {
 			case "1.8.0.1":
 			case "1.8":
-				return "Nothing new has been changed in the config.";
+				return "If you would like to allow /nope false then please reset your config.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}

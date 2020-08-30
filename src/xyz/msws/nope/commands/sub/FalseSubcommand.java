@@ -19,6 +19,7 @@ import org.kohsuke.github.GHIssueBuilder;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
+import org.kohsuke.github.HttpException;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
@@ -52,6 +53,9 @@ public class FalseSubcommand extends Subcommand {
 					git = GitHub.connectUsingPassword(user, pass);
 				}
 				repo = git.getRepository("MSWS/NOPE");
+			} catch (HttpException e) {
+				MSG.log("An error occured when attempting to authenticate with GitHub: " + e.getResponseCode());
+				MSG.log(e.getMessage());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
