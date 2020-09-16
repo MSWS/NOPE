@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,6 +70,9 @@ public class Scaffold2 implements Check, Listener {
 			return;
 
 		if (event.getBlock().getRelative(BlockFace.DOWN).getType().isSolid())
+			return;
+
+		if (event.getBlock().getType() == Material.SCAFFOLDING)
 			return;
 
 		double total = 0;
