@@ -369,6 +369,7 @@ public class CPlayer {
 		}
 
 		setTempData(Stat.FLAGGED, System.currentTimeMillis());
+		setSaveData("lastFlag", System.currentTimeMillis());
 		addLogMessage("Flagged " + check.getDebugName() + ": " + ChatColor.stripColor(MSG.color(debug)));
 
 		if (plugin.getOption("dev").asBoolean()) {

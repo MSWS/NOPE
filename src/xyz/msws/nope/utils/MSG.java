@@ -116,6 +116,7 @@ public class MSG {
 	 * @param id  key id of the string to get
 	 * @param def default string in case lang.yml doesn't have the key
 	 * @return
+	 * @deprecated Will likely be replaced in the future
 	 */
 	public static String getString(String id, String def) {
 		return plugin.getLang().contains(id) ? plugin.getLang().getString(id) : "[" + id + "] " + def;
@@ -139,7 +140,6 @@ public class MSG {
 		else
 			sender.sendMessage(color(msg));
 	}
-	
 
 	public static void tell(CommandSender sender, String module, String message) {
 		tell(sender, PREFIX + module + "> " + DEFAULT + message);
