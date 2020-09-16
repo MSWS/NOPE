@@ -339,6 +339,7 @@ public class CPlayer {
 	 * @param vl
 	 * @param debug
 	 */
+	@SuppressWarnings("deprecation")
 	public void flagHack(Check check, int vl, String debug) {
 		if (!plugin.getConfig().getBoolean("Global"))
 			return;
@@ -351,7 +352,7 @@ public class CPlayer {
 		if (pfe.isCancelled())
 			return;
 
-		if (!check.getDebugName().equals("ManuallyIssued")) {
+		if (!check.getDebugName().contains("ManuallyIssued")) {
 			if (!plugin.getConfig().getBoolean("Checks." + MSG.camelCase(check.getType() + "") + ".Enabled"))
 				return;
 			if (!plugin.getConfig().getBoolean(
@@ -368,6 +369,7 @@ public class CPlayer {
 		}
 
 		setTempData(Stat.FLAGGED, System.currentTimeMillis());
+		setSaveData("lastFlag", System.currentTimeMillis());
 		addLogMessage("Flagged " + check.getDebugName() + ": " + ChatColor.stripColor(MSG.color(debug)));
 
 		if (plugin.getOption("dev").asBoolean()) {

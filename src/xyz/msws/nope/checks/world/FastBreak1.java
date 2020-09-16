@@ -23,7 +23,6 @@ import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.checks.Check;
 import xyz.msws.nope.modules.checks.CheckType;
 import xyz.msws.nope.modules.data.CPlayer;
-import xyz.msws.nope.utils.MSG;
 
 /**
  * Checks if player breaks block too quickly
@@ -54,7 +53,7 @@ public class FastBreak1 implements Check, Listener {
 			if (mat.toString().contains(res))
 				return true;
 		}
-		return mat == Material.SPAWNER;
+		return mat == Material.SPAWNER || mat == Material.VINE || mat == Material.WEEPING_VINES;
 	}
 
 	@EventHandler
@@ -91,8 +90,9 @@ public class FastBreak1 implements Check, Listener {
 		if (offset > -100)
 			return;
 		cp.flagHack(this, Math.min((int) Math.abs(offset) / 10 + 25, 100),
-				"Type: &e" + MSG.camelCase(block.getType().toString()) + "\n&7Time diff: &a" + offset
-						+ "\n&7Hardness: &e" + block.getType().getHardness());
+				String.format("Type: &e%s\n&7Time diff: &a%.2f\n&7Hardness: &e%.1f\n&7Harevestable: %s",
+						block.getType(), offset, block.getType().getHardness(),
+						canHarvest(block.getType(), player.getInventory().getItemInMainHand().getType())));
 	}
 
 	private long getDigTime(Block block, Player player) {
@@ -135,8 +135,6 @@ public class FastBreak1 implements Check, Listener {
 
 			seconds *= 5;
 		}
-//		if (!player.isOnGround())
-//			seconds *= 5;
 
 		return (long) (seconds * 1000);
 	}
@@ -198,7 +196,8 @@ public class FastBreak1 implements Check, Listener {
 			case IRON_PICKAXE:
 			case STONE_PICKAXE:
 			case WOODEN_PICKAXE:
-				for (String res : new String[] { "ICE", "ORE", "CONCRETE", "TERRACOTTA", "SLAB", "WALL", "POLISHED" }) {
+				for (String res : new String[] { "ICE", "ORE", "CONCRETE", "TERRACOTTA", "SLAB", "WALL", "POLISHED",
+						"SANDSTONE", "PRESSURE_PLATE" }) {
 					if (type.toString().contains(res))
 						return true;
 				}
@@ -213,8 +212,6 @@ public class FastBreak1 implements Check, Listener {
 					case IRON_DOOR:
 					case IRON_TRAPDOOR:
 					case LANTERN:
-					case LIGHT_WEIGHTED_PRESSURE_PLATE:
-					case HEAVY_WEIGHTED_PRESSURE_PLATE:
 					case IRON_BLOCK:
 					case LAPIS_BLOCK:
 					case DIAMOND_BLOCK:
@@ -237,6 +234,16 @@ public class FastBreak1 implements Check, Listener {
 					case COAL:
 					case COBBLESTONE:
 					case COBBLESTONE_WALL:
+					case COBBLESTONE_STAIRS:
+					case STONE_STAIRS:
+					case BRICK_STAIRS:
+					case DIORITE_STAIRS:
+					case DARK_PRISMARINE_STAIRS:
+					case CRIMSON_STAIRS:
+					case BLACKSTONE_STAIRS:
+					case END_STONE_BRICK_STAIRS:
+					case ANDESITE_STAIRS:
+					case NETHER_BRICK_STAIRS:
 					case DARK_PRISMARINE:
 					case DIORITE:
 					case DISPENSER:
@@ -257,15 +264,12 @@ public class FastBreak1 implements Check, Listener {
 					case POLISHED_ANDESITE:
 					case POLISHED_DIORITE:
 					case POLISHED_GRANITE:
-					case RED_SANDSTONE:
-					case SANDSTONE_SLAB:
 					case SMOKER:
 					case SPAWNER:
 					case STONECUTTER:
 					case STONE:
 					case STONE_BRICKS:
 					case STONE_BUTTON:
-					case STONE_PRESSURE_PLATE:
 					case OBSIDIAN:
 					case BASALT:
 					case BLACKSTONE:

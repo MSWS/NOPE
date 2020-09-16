@@ -34,12 +34,18 @@ public class Jesus2 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		CPlayer cp = plugin.getCPlayer(player);
 
 		if (!player.isOnGround())
+			return;
+
+		if (!player.getLocation().getBlock().isLiquid())
+			return;
+		if (player.getLocation().add(0, 1, 0).getBlock().isLiquid())
 			return;
 
 		for (int x = -1; x <= 1; x++) {
@@ -49,10 +55,6 @@ public class Jesus2 implements Check, Listener {
 					return;
 			}
 		}
-		if (!player.getLocation().getBlock().isLiquid())
-			return;
-		if (player.getLocation().add(0, 1, 0).getBlock().isLiquid())
-			return;
 
 		cp.flagHack(this, 50);
 

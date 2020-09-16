@@ -52,7 +52,7 @@ public class ConfigOption implements Option {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object toggle() {
-		if (options == null)
+		if (options == null || options.isEmpty())
 			return null;
 		set(options.get((options.indexOf(value) + 1) % options.size()));
 		return value;

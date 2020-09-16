@@ -2,7 +2,7 @@
 A pretty cool Minecraft anti-cheat.
 
 ### Disclaimer
-NOPE supports 1.15.X **only**. By default NOPE will not load on 1.14- servers. While altering the plugin yml may fix this issue, it is likely that NOPE will have many issues on outdated versions.
+NOPE supports 1.16.X **only**. By default NOPE will not load on 1.15- servers. While altering the plugin yml may fix this issue, it is likely that NOPE will have many issues on outdated versions.
 
 ## Features
 * Extensive Movement Checks

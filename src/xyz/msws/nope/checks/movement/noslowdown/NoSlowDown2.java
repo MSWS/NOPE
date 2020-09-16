@@ -34,6 +34,7 @@ public class NoSlowDown2 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -44,10 +45,10 @@ public class NoSlowDown2 implements Check, Listener {
 		if (!player.isOnGround())
 			return;
 
-		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
-			return;
-
 		if (!player.isBlocking())
+			return;
+		
+		if (cp.timeSince(Stat.DISABLE_FLIGHT) < 2000)
 			return;
 
 		if (cp.timeSince(Stat.IN_LIQUID) < 500)

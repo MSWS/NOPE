@@ -92,8 +92,9 @@ public class NPC {
 		ItemStack result = contents.put(slot, item);
 		WrapperPlayServerEntityEquipment equipment = new WrapperPlayServerEntityEquipment();
 		equipment.setEntityID(id);
-		equipment.setSlot(slot);
+
 		try {
+			equipment.setSlot(slot);
 			equipment.setItem(item);
 		} catch (FieldAccessException expected) {
 			// ProtocolLib isn't updated

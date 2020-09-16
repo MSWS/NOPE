@@ -52,6 +52,7 @@ public class Global extends AbstractModule implements Listener {
 		cp.setTempData(Stat.RIPTIDE, System.currentTimeMillis());
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();

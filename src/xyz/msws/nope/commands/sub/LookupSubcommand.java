@@ -16,12 +16,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.md_5.bungee.api.ChatColor;
@@ -29,35 +25,23 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
-import xyz.msws.nope.events.actions.ActionExecuteEvent;
-import xyz.msws.nope.modules.actions.actions.BanAction;
+import xyz.msws.nope.listeners.TokenCreationListener;
 import xyz.msws.nope.utils.MSG;
 
-public class LookupSubcommand extends Subcommand implements Listener {
-	private List<String> tokens = new ArrayList<>();
-
-	private File logs;
+public class LookupSubcommand extends Subcommand {
 
 	public LookupSubcommand(NOPE plugin) {
 		super(plugin);
-
-		logs = new File(plugin.getDataFolder(), "logs");
-		if (logs == null || !logs.exists() || logs.list() == null)
-			return;
-		for (String f : logs.list()) {
-			tokens.add(f.substring(0, f.length() - 4));
-		}
-
-		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
-		result.add(tokens.toArray(new String[0]));
+		result.add(plugin.getModule(TokenCreationListener.class).getTokens().toArray(new String[0]));
 		return result;
 	}
 
@@ -132,6 +116,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 				} catch (IOException e) {
 					e.printStackTrace();
 					MSG.tell(sender, CommandResult.INVALID_ARGUMENT.getMessage());
+					return;
 				}
 
 				List<String> res = parseLog(result, key);
@@ -146,7 +131,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 					ComponentBuilder here = new ComponentBuilder("here").color(ChatColor.YELLOW);
 					here.event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://hastebin.com/" + key));
 					here.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-							new ComponentBuilder(MSG.color("&7Goto &ehttps://hastebin.com" + key)).create()));
+							new Text(MSG.color("&7Goto &ehttps://hastebin.com/" + key))));
 					comp.append(here.create(), FormatRetention.NONE);
 					comp.append(".", FormatRetention.NONE).color(ChatColor.GRAY);
 					((Player) sender).spigot().sendMessage(comp.create());
@@ -158,7 +143,7 @@ public class LookupSubcommand extends Subcommand implements Listener {
 	}
 
 	public List<String> parseLog(List<String> log, String key) {
-		if (!log.get(0).startsWith("Starting new log for "))
+		if (log.isEmpty() || !log.get(0).startsWith("Starting new log for "))
 			return null;
 		List<String> result = new ArrayList<>();
 		String player = log.get(0).substring("Starting new log for ".length(), log.get(0).indexOf(" ("));
@@ -199,24 +184,6 @@ public class LookupSubcommand extends Subcommand implements Listener {
 		}
 
 		return result;
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onAction(ActionExecuteEvent event) {
-		if (!event.getAction().getClass().equals(BanAction.class))
-			return;
-		if (logs == null || !logs.exists() || logs.list() == null)
-			return;
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-
-				tokens.clear();
-				for (String f : logs.list()) {
-					tokens.add(f.substring(0, f.length() - 4));
-				}
-			}
-		}.runTaskLaterAsynchronously(plugin, 20);
 	}
 
 	@Override

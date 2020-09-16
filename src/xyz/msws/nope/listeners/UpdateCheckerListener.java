@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.utils.MSG;
@@ -45,8 +45,8 @@ public class UpdateCheckerListener extends AbstractModule implements Listener {
 		here.setColor(ChatColor.AQUA);
 		here.setItalic(true);
 		here.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/64671/"));
-		here.setHoverEvent(
-				new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Visit NOPE on Spigot").create()));
+		here.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit NOPE on Spigot")));
+
 		message.addExtra(here);
 		message.addExtra(MSG.color("&7."));
 

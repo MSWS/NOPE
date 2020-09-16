@@ -13,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.modules.AbstractModule;
-import xyz.msws.nope.modules.checks.Global.Stat;
 import xyz.msws.nope.modules.data.CPlayer;
 import xyz.msws.nope.modules.data.PlayerManager;
 import xyz.msws.nope.utils.MSG;
@@ -80,8 +79,9 @@ public class VLDecrementer extends AbstractModule {
 					if (vlSection == null)
 						continue;
 
-					long lastFlag = cp.timeSince(Stat.FLAGGED);
-
+					long lastFlag = cp.hasSaveData("lastFlag")
+							? System.currentTimeMillis() - cp.getSaveData("lastFlag", Number.class).longValue()
+							: 0;
 					int diff = 1;
 
 					for (Entry<Long, Integer> entry : values.entrySet()) {

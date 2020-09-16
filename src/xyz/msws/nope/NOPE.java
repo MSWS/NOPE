@@ -23,6 +23,7 @@ import xyz.msws.nope.commands.NOPECommand;
 import xyz.msws.nope.listeners.LogImplementation;
 import xyz.msws.nope.listeners.LoginAndQuit;
 import xyz.msws.nope.listeners.MessageListener;
+import xyz.msws.nope.listeners.TokenCreationListener;
 import xyz.msws.nope.listeners.UpdateCheckerListener;
 import xyz.msws.nope.modules.AbstractModule;
 import xyz.msws.nope.modules.actions.ActionManager;
@@ -106,16 +107,10 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
-			case "1.7.2":
-			case "1.7.1":
-			case "1.7":
-			case "1.6.3":
-			case "1.6.2":
-			case "1.6.1":
-				return "Nothing new has been changed in the config.";
-			case "1.6.0.1":
-			case "1.6":
-				return "Your lang file, you should reset your language file for message to work.";
+			case "1.8.1":
+			case "1.8.0.1":
+			case "1.8":
+				return "If you would like to allow /nope false then please reset your config.";
 			default:
 				return "Your config version is unknown, it is strongly recommended you reset your config.";
 		}
@@ -161,6 +156,7 @@ public class NOPE extends JavaPlugin {
 		modules.add(new ReportTracker(this));
 		modules.add(new VLDecrementer(this));
 		modules.add(new ExtensionModule(this));
+		modules.add(new TokenCreationListener(this));
 
 		modules.add(new AnimationManager(this));
 		if (Bukkit.getPluginManager().isPluginEnabled("ProtocolLib"))
@@ -177,6 +173,8 @@ public class NOPE extends JavaPlugin {
 		options.put("bungeename", new ConfigOption(config, "BungeeNameOverride", (Object[]) null));
 		options.put("dev", new ConfigOption(config, "DevMode", false, true));
 		options.put("debug", new ConfigOption(config, "DebugMode", Arrays.asList(false, true)));
+		options.put("gusername", new ConfigOption(config, "GitHub.Username"));
+		options.put("gpassword", new ConfigOption(config, "GitHub.Password"));
 	}
 
 	private void enableModules() {

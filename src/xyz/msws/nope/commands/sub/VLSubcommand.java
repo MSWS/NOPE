@@ -85,7 +85,7 @@ public class VLSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		return new ArrayList<>();
 	}
 

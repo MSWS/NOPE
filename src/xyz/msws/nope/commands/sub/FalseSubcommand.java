@@ -8,58 +8,65 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.StringJoiner;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHIssueBuilder;
+import org.kohsuke.github.GHIssueState;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
+import org.kohsuke.github.HttpException;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
-import xyz.msws.nope.modules.actions.Webhook;
-import xyz.msws.nope.modules.data.Log;
+import xyz.msws.nope.listeners.TokenCreationListener;
 import xyz.msws.nope.utils.MSG;
-import xyz.msws.nope.utils.Utils;
 
 public class FalseSubcommand extends Subcommand {
 
-	private Webhook reporter;
+	private GitHub git;
+	private GHRepository repo;
 
+	@SuppressWarnings("deprecation")
 	public FalseSubcommand(NOPE plugin) {
 		super(plugin);
 
+		String user = plugin.getOption("gusername").getValue(), pass = plugin.getOption("gpassword").getValue();
+
+		if (user.isEmpty())
+			return;
+
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-			String query = null;
 			try {
-				// Get the updated webhook URL
-				URL url = new URL("https://pastebin.com/raw/jqVCM1Q0");
-				URLConnection conn = url.openConnection();
-				conn.setRequestProperty("User-Agent", "NOPE/MC-" + plugin.getDescription().getVersion());
-				InputStreamReader iread = new InputStreamReader(conn.getInputStream());
-				BufferedReader reader = new BufferedReader(iread);
-				query = reader.readLine();
-				reader.close();
-				iread.close();
+				if (pass.isEmpty()) {
+					MSG.log("Attempting to login to GitHub via PAT");
+					git = GitHub.connect("NOPE", user);
+				} else {
+					MSG.warn("It is strongly recommended to use a PAT instead of username/password!");
+					MSG.warn(
+							"See https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token");
+					git = GitHub.connectUsingPassword(user, pass);
+				}
+				repo = git.getRepository("MSWS/NOPE");
+			} catch (HttpException e) {
+				MSG.log("An error occured when attempting to authenticate with GitHub: " + e.getResponseCode());
+				MSG.log(e.getMessage());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			reporter = new Webhook(plugin, query);
-			reporter.setUsername("False Positive Report");
-			reporter.setAvatarURL("https://i.imgur.com/JLKC7CN.jpg");
 		});
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
-		return null;
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
+		List<String[]> result = new ArrayList<>();
+		result.add(plugin.getModule(TokenCreationListener.class).getTokens().toArray(new String[0]));
+		return result;
 	}
 
 	@Override
@@ -69,114 +76,154 @@ public class FalseSubcommand extends Subcommand {
 
 	@Override
 	public String getUsage() {
-		return "<player> <message>";
+		return "[token]";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Report a recent false positive";
+		return "report a false ban";
 	}
-
-	private Map<UUID, Long> lastReport = new HashMap<>();
 
 	@Override
 	public CommandResult execute(CommandSender sender, String[] args) {
-		if (reporter == null)
-			return CommandResult.ERROR;
-
-		Player target = null;
-		if (!(sender instanceof Player)) {
-			if (args.length == 0)
-				return CommandResult.PLAYER_REQUIRED;
-			target = Bukkit.getPlayer(args[0]);
-		} else {
-			target = args.length == 2 ? Bukkit.getPlayer(args[0]) : (Player) sender;
-		}
-
-		String message = args.length > 2 ? String.join(" ", (String[]) ArrayUtils.subarray(args, 1, args.length))
-				: null;
-
-		if (target == null)
-			return CommandResult.INVALID_ARGUMENT;
-
-		if (System.currentTimeMillis() - lastReport.getOrDefault(target.getUniqueId(), 0L) < 120000) {
-			MSG.tell(sender,
-					MSG.getString("Command.FalsePositive.TooMany",
-							"&e%player% &chas caused too many false positives recently, please wait to report more.")
-							.replace("%player%", target.getName()));
+		if (args.length != 2)
+			return CommandResult.MISSING_ARGUMENT;
+		if (git == null || repo == null) {
+			MSG.tell(sender, MSG.getString("Command.FalsePositive.Disabled", "Unable to report"));
 			return CommandResult.SUCCESS;
 		}
 
-		Log log = plugin.getCPlayer(target).getLog();
-		List<String> lines = log.getLinesFrom(120000);
-		if (lines.size() < 10) {
-			MSG.tell(sender, MSG.getString("Command.FalsePositive.Insufficient",
-					"&cThere isn't enough data to report as a false positives."));
-			return CommandResult.SUCCESS;
-		}
+		String id = args[1];
 
-		List<String> header = new ArrayList<>();
-		header.add("New false report on " + target.getName());
-		header.add("Reporter: " + sender.getName() + " Online Players: " + Bukkit.getOnlinePlayers().size() + " Owner: "
-				+ Bukkit.getOfflinePlayers()[0].getName());
-		header.add("Bukkit Version: " + Bukkit.getBukkitVersion() + " MC: " + Bukkit.getVersion());
-		header.add("NOPE Version: " + plugin.getDescription().getVersion() + " Online: " + plugin.getNewVersion());
-		if (message != null)
-			header.add("Description: " + message);
-		header.add("");
-		header.add("Armor: " + target.getInventory().getArmorContents());
-		header.add("Potions: " + target.getActivePotionEffects());
-		StringBuilder pbuilder = new StringBuilder();
-		for (Plugin p : Bukkit.getPluginManager().getPlugins()) {
-			pbuilder.append(p.getName() + ":" + p.getDescription().getVersion()).append(" ");
-		}
-		header.add("Plugins: " + pbuilder.toString());
-		header.addAll(lines);
-		header.add("--- END OF PLAYER LOG ---");
-		header.add("");
-		File file = plugin.getConfigFile();
-		try {
-			StringBuilder builder = new StringBuilder();
-			FileReader reader = new FileReader(file);
-			BufferedReader breader = new BufferedReader(reader);
-			String line;
-
-			while ((line = breader.readLine()) != null) {
-				builder.append(line).append("\n");
-			}
-			header.add(builder.toString());
-			breader.close();
-			reader.close();
-		} catch (IOException e1) {
-			header.add("Unable to read config: " + e1.getMessage());
-			e1.printStackTrace();
-		}
-
-		lastReport.put(target.getUniqueId(), System.currentTimeMillis());
-		MSG.tell(sender, MSG.getString("Command.FalsePositive.Sending", "Sending..."));
-		final String name = target.getName();
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				String url;
-				try {
-					url = Utils.uploadHastebin(String.join("\n", header));
-					reporter.sendMessage("A new false positive report has been made: https://hastebin.com/" + url);
-					MSG.tell(sender, MSG.getString("Command.FalsePositive.Sent", "Successfully sent.")
-							.replace("%player%", name));
-				} catch (IOException e) {
-					e.printStackTrace();
-					MSG.tell(sender, MSG.getString("Command.FalsePositive.Error", "An unknown error occured."));
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+			MSG.tell(sender, MSG.getString("Command.FalsePositive.Checking", "Checking duplicate reports..."));
+			try {
+				if (repo.getIssues(GHIssueState.ALL).parallelStream().anyMatch(i -> i.getTitle().contains(id))) {
+					MSG.tell(sender, MSG.getString("Command.FalsePositive.Duplicate", "You have already reported %id%")
+							.replace("%id%", id));
 					return;
 				}
+
+				List<GHIssue> issues = repo.getIssues(GHIssueState.OPEN);
+				long open = (long) issues.parallelStream().filter(t -> {
+					try {
+						return t.getUser().getId() == git.getMyself().getId();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					return false;
+				}).count();
+
+				if (open >= 5) {
+					MSG.tell(sender, "You have too many open false positive reports.");
+					return;
+				}
+			} catch (IOException e2) {
+				e2.printStackTrace();
+				MSG.tell(sender, CommandResult.ERROR.getMessage());
+				return;
 			}
-		}.runTaskAsynchronously(plugin);
+
+			MSG.tell(sender, MSG.getString("Command.FalsePositive.Querying", "Gathering ban logs..."));
+			List<String> result = getLogs(id);
+			if (result == null || result.isEmpty()) {
+				MSG.tell(sender, CommandResult.INVALID_ARGUMENT.getMessage());
+				return;
+			}
+
+			GHIssueBuilder builder = repo.createIssue(id + ": " + sender.getName());
+			List<String> data = new ArrayList<>();
+			data.add("Reporter: " + sender.getName() + " Online Players: " + Bukkit.getOnlinePlayers().size()
+					+ " Owner: " + Bukkit.getOfflinePlayers()[0].getName());
+			data.add("NOPE Version: " + plugin.getDescription().getVersion() + " Online: " + plugin.getNewVersion());
+
+			StringJoiner pbuilder = new StringJoiner(", ");
+			for (Plugin p : Bukkit.getPluginManager().getPlugins()) {
+				pbuilder.add(p.getName() + ": " + p.getDescription().getVersion());
+			}
+			data.add("Plugins: " + pbuilder.toString());
+
+			data.addAll(result);
+
+			File file = plugin.getConfigFile();
+			try {
+				StringBuilder sb = new StringBuilder();
+				FileReader reader = new FileReader(file);
+				BufferedReader breader = new BufferedReader(reader);
+				String line;
+
+				while ((line = breader.readLine()) != null) {
+					sb.append(line).append("\n");
+				}
+				data.add(sb.toString());
+				breader.close();
+				reader.close();
+			} catch (IOException e1) {
+				data.add("Unable to read config: " + e1.getMessage());
+				e1.printStackTrace();
+			}
+
+			MSG.tell(sender, MSG.getString("Command.FalsePositive.Reporting", "Reporting..."));
+
+			builder.body(String.join("\n", data));
+			builder.label("False Positive");
+			try {
+				builder.create();
+				MSG.tell(sender,
+						MSG.getString("Command.FalsePositive.Success", "Successfully reported %id% as a false positive")
+								.replace("%id%", id));
+			} catch (IOException e) {
+				e.printStackTrace();
+				MSG.tell(sender, CommandResult.ERROR.getMessage());
+			}
+		});
 		return CommandResult.SUCCESS;
 	}
 
-	@Override
-	public String getPermission() {
-		return "nope.command.false";
+	List<String> getLogs(String id) {
+		if (id.length() == 16) {
+			File logs = new File(plugin.getDataFolder(), "logs");
+			File log = new File(logs, id + ".log");
+			if (!log.exists())
+				return null;
+
+			List<String> result = new ArrayList<>();
+
+			try {
+				FileReader fread = new FileReader(log);
+				BufferedReader reader = new BufferedReader(new FileReader(log));
+
+				String line;
+				while ((line = reader.readLine()) != null)
+					result.add(line.trim());
+
+				reader.close();
+				fread.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		List<String> result = new ArrayList<>();
+		try {
+			URL url = new URL("https://hastebin.com/raw/" + id);
+			URLConnection conn = url.openConnection();
+			conn.setRequestProperty("User-Agent", "NOPE/MC-" + plugin.getDescription().getVersion());
+			InputStreamReader iread = new InputStreamReader(conn.getInputStream());
+			BufferedReader reader = new BufferedReader(iread);
+			String line;
+
+			while ((line = reader.readLine()) != null)
+				result.add(line.trim());
+
+			reader.close();
+			iread.close();
+		} catch (IOException e) {
+			return null;
+		}
+
+		return result;
 	}
 
 }

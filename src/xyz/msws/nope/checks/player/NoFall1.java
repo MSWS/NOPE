@@ -40,6 +40,7 @@ public class NoFall1 implements Check, Listener {
 	private Map<UUID, Double> highest = new HashMap<>();
 	private Map<UUID, Long> change = new HashMap<>();
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();

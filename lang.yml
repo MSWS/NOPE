@@ -34,10 +34,11 @@ Command:
   VL:
     NoVLs: "&cThere are no violation levels right now."
   FalsePositive:
-    TooMany: "&e%player% &chas caused too many false positives recently, please wait to report more."
-    Insufficient: "&cThere isn't enough data to report as a false positive."
-    Sending: "&eGathering report logs..."
-    Sent: "&aSuccessfully sent false report message for &e%player%&a!"
-    Error: "&cAn unknown error occured when sending the false positive report."
+    Checking: "&7Checking duplicate reports..."
+    Success: "&aYou have successfully reported &e%id% &aas a false positive."
+    Duplicate: "&cYou have already reported &e%id%&7."
+    Querying: "&7Grabbing ban details..."
+    Reporting: "&7Ban details obtained... reporting to GitHub..."
+    Disabled: "&cAutomatic reporting to GitHub has been disabled, please contact your server administrator."
 Report:
   Notification: "&4Report #%id% > &e%player% &7has reported &a%target% &7for &b%reason%&7."

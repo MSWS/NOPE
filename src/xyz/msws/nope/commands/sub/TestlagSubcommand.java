@@ -6,16 +6,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import xyz.msws.nope.NOPE;
 import xyz.msws.nope.commands.CommandResult;
 import xyz.msws.nope.commands.Subcommand;
-import xyz.msws.nope.events.player.PlayerFlagEvent;
 import xyz.msws.nope.modules.checks.TPSManager;
 import xyz.msws.nope.utils.MSG;
-import xyz.msws.nope.utils.Utils;
 
 public class TestlagSubcommand extends Subcommand implements Listener {
 
@@ -50,15 +47,9 @@ public class TestlagSubcommand extends Subcommand implements Listener {
 				.replace("%delay%", delay + ""));
 		return CommandResult.SUCCESS;
 	}
-
-	@EventHandler
-	public void onTrigger(PlayerFlagEvent event) {
-		if (plugin.getModule(TPSManager.class).getDelay() != 0)
-			MSG.tell(event.getPlayer(), "Ping", Utils.getPing(event.getPlayer()) + "");
-	}
-
+	
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		return new ArrayList<>();
 	}
 

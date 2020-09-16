@@ -31,7 +31,7 @@ public class ReportSubcommand extends Subcommand {
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		result.add(null); // First argument is a player
 		result.add(cs.toArray(new String[0]));
@@ -81,7 +81,7 @@ public class ReportSubcommand extends Subcommand {
 
 		old = tracker.getReports(reporter.getUniqueId());
 		if (old.stream().filter(o -> o.getAge() < TimeUnit.MINUTES.toMillis(3)).count() >= 3) {
-			MSG.tell(sender, MSG.getString("Command.eport.TooMany", "You've reported too many players recently.")
+			MSG.tell(sender, MSG.getString("Command.Report.TooMany", "You've reported too many players recently.")
 					.replace("%player%", target.getName()));
 			return CommandResult.SUCCESS;
 		}
@@ -89,8 +89,8 @@ public class ReportSubcommand extends Subcommand {
 		Report report = new Report(((Player) sender).getUniqueId(), target.getUniqueId(), reason);
 
 		tracker.addReport(report);
-		MSG.tell(sender, MSG.getString("Command.Report.Success", "(%id%) Reported %player% for %reason%")
-				.replace("%player%", target.getName()).replace("%reason%", reason).replace("%id%", report.getId()));
+		MSG.tell(sender, MSG.getString("Command.Report.Success", "(%id%) Reported %target% for %reason%")
+				.replace("%target%", target.getName()).replace("%reason%", reason).replace("%id%", report.getId()));
 		return CommandResult.SUCCESS;
 	}
 

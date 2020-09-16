@@ -2,6 +2,8 @@ package xyz.msws.nope.commands.sub;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -75,15 +77,19 @@ public class ToggleSubcommand extends Subcommand {
 		MSG.tell(sender,
 				MSG.getString("Command.Toggle.GlobalOption",
 						"&4NOPE > &7Successfully the &a%option%&7 option to &e%value%&7.").replace("%option%", id)
-						.replace("%value%", value.toString()));
+						.replace("%value%",
+								value.toString().equalsIgnoreCase("true") || value.toString().equalsIgnoreCase("false")
+										? MSG.TorF(Boolean.valueOf(value.toString()))
+										: value.toString()));
 		plugin.saveConfig();
 		return CommandResult.SUCCESS;
 	}
 
 	@Override
-	public List<String[]> tabCompletions(CommandSender sender) {
+	public List<String[]> tabCompletions(CommandSender sender, String[] args) {
 		List<String[]> result = new ArrayList<>();
 		List<String> first = new ArrayList<>();
+		List<String> second = new ArrayList<>();
 		first.addAll(plugin.getOptionMappings().keySet());
 
 		if (sender instanceof Player) {
@@ -91,6 +97,34 @@ public class ToggleSubcommand extends Subcommand {
 			first.addAll(cp.getOptionMappings().keySet());
 		}
 		result.add(first.toArray(new String[0]));
+
+		if (args.length != 3)
+			return result;
+
+		// Add support for server-specific tab completion settings
+
+		for (Entry<String, Option> entry : plugin.getOptionMappings().entrySet()) {
+			if (entry.getKey().equalsIgnoreCase(args[1]) && entry.getValue().getOptions() != null
+					&& !entry.getValue().getOptions().isEmpty()) {
+				second.addAll(
+						entry.getValue().getOptions().stream().map(s -> s.toString()).collect(Collectors.toList()));
+			}
+		}
+
+		// Add support for player-specific tab completion settings
+
+		if (sender instanceof Player) {
+			CPlayer cp = plugin.getCPlayer((Player) sender);
+			for (Entry<String, PlayerOption> entry : cp.getOptionMappings().entrySet()) {
+				if (entry.getKey().equalsIgnoreCase(args[1])) {
+					second.addAll(
+							entry.getValue().getOptions().stream().map(s -> s.toString()).collect(Collectors.toList()));
+				}
+			}
+		}
+
+		result.add(second.toArray(new String[0]));
+
 		return result;
 	}
 

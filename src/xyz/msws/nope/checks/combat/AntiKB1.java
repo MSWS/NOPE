@@ -83,8 +83,6 @@ public class AntiKB1 implements Check, Listener {
 				double dist = player.getLocation().distanceSquared(origin);
 				if (dist > 0)
 					return;
-				if (plugin.getModule(TPSManager.class).getTPS() < 15)
-					return;
 				cp.flagHack(AntiKB1.this, 10, "TPS: &e" + plugin.getModule(TPSManager.class).getTPS());
 			}
 		}.runTaskLater(plugin, 5);

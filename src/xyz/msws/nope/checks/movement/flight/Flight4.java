@@ -38,6 +38,7 @@ public class Flight4 implements Check, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
@@ -59,7 +60,7 @@ public class Flight4 implements Check, Listener {
 				|| cp.timeSince(Stat.FLIGHT_GROUNDED) < 500 || cp.timeSince(Stat.RIPTIDE) < 5000)
 			return;
 
-		if (cp.timeSince(Stat.TELEPORT) < 1000)
+		if (cp.timeSince(Stat.TELEPORT) < 4000)
 			return;
 
 		if (cp.timeSince(Stat.CLIMBING) < 4000)

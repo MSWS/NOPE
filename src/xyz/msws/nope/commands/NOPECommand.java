@@ -51,7 +51,6 @@ public class NOPECommand extends AbstractCommand {
 		cmds.add(new ReportSubcommand(plugin));
 		cmds.add(new LookupSubcommand(plugin));
 		cmds.add(new ToggleSubcommand(plugin));
-//		cmds.add(new StatsSubcommand(plugin));
 		cmds.add(new TimeSubcommand(plugin));
 		cmds.add(new BanwaveSubcommand(plugin));
 		cmds.add(new ReloadSubcommand(plugin));

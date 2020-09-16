@@ -51,6 +51,9 @@ public class Utils {
 				case "1.16.1-R0":
 					nms = "v1_16_R1";
 					break;
+				case "1.16.2-R0":
+					nms = "v1_16_R2";
+					break;
 				default:
 					MSG.warn("Unknown NMS version: " + Bukkit.getBukkitVersion());
 					break;
