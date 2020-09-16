@@ -107,6 +107,7 @@ public class NOPE extends JavaPlugin {
 		if (config.getString("ConfigVersion", "").equals(getDescription().getVersion()))
 			return "You are using an up-to-date version of the config.";
 		switch (config.getString("ConfigVersion", "")) {
+			case "1.8.1":
 			case "1.8.0.1":
 			case "1.8":
 				return "If you would like to allow /nope false then please reset your config.";
