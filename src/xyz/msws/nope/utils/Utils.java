@@ -54,8 +54,11 @@ public class Utils {
 				case "1.16.2-R0":
 					nms = "v1_16_R2";
 					break;
+				case "1.16.3-R0":
+					nms = "v1_16_R2";
+					break;
 				default:
-					MSG.warn("Unknown NMS version: " + Bukkit.getBukkitVersion());
+					MSG.warn("Unknown NMS version: " + Bukkit.getBukkitVersion().substring(0, Bukkit.getBukkitVersion().lastIndexOf(".")));
 					break;
 			}
 		} catch (IndexOutOfBoundsException e) {

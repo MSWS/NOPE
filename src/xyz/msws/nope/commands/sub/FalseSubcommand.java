@@ -131,17 +131,15 @@ public class FalseSubcommand extends Subcommand {
 				return;
 			}
 
-			GHIssueBuilder builder = repo.createIssue(id + ": " + sender.getName());
+			GHIssueBuilder builder = repo.createIssue("FP: " + id);
 			List<String> data = new ArrayList<>();
-			data.add("Reporter: " + sender.getName() + " Online Players: " + Bukkit.getOnlinePlayers().size()
-					+ " Owner: " + Bukkit.getOfflinePlayers()[0].getName());
-			data.add("NOPE Version: " + plugin.getDescription().getVersion() + " Online: " + plugin.getNewVersion());
+			data.add("# Sources\n" + "Reporter:       `" + sender.getName() + "`  \n" + "Online Players: `" + Bukkit.getOnlinePlayers().size() + "`  \n" + "Owner:          `" + Bukkit.getOfflinePlayers()[0].getName() + "`  \n");
 
-			StringJoiner pbuilder = new StringJoiner(", ");
+			StringJoiner pbuilder = new StringJoiner("\n");
 			for (Plugin p : Bukkit.getPluginManager().getPlugins()) {
 				pbuilder.add(p.getName() + ": " + p.getDescription().getVersion());
 			}
-			data.add("Plugins: " + pbuilder.toString());
+			data.add("# Plugins\n" + "```\n" + pbuilder.toString() + "\n```");
 
 			data.addAll(result);
 
@@ -152,9 +150,12 @@ public class FalseSubcommand extends Subcommand {
 				BufferedReader breader = new BufferedReader(reader);
 				String line;
 
+				sb.append("\n# Config\n```yaml\n");
 				while ((line = breader.readLine()) != null) {
+					if(line.contains("Username") || line.contains("Password")) continue;
 					sb.append(line).append("\n");
 				}
+				sb.append("```");
 				data.add(sb.toString());
 				breader.close();
 				reader.close();
@@ -194,9 +195,10 @@ public class FalseSubcommand extends Subcommand {
 				BufferedReader reader = new BufferedReader(new FileReader(log));
 
 				String line;
+				result.add("\n# Flag Log\n```");
 				while ((line = reader.readLine()) != null)
 					result.add(line.trim());
-
+				result.add("\n```");
 				reader.close();
 				fread.close();
 			} catch (IOException e) {

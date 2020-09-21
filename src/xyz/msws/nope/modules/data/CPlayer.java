@@ -428,7 +428,7 @@ public class CPlayer {
 		prefix.addAll(plugin.getConfig().getStringList("Actions." + check.getCategory()));
 
 		prefix.add("");
-		prefix.add("Temporary Data Dumb:");
+		prefix.add("Temporary Data Dump:");
 		for (Entry<Stat, Long> entry : this.getTempData().entrySet()) {
 			prefix.add("  " + entry.getKey() + ": " + entry.getValue() + " ("
 					+ (System.currentTimeMillis() - entry.getValue()) + ")");
