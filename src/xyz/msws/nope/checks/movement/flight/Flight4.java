@@ -47,7 +47,7 @@ public class Flight4 implements Check, Listener {
 		if (cp.hasMovementRelatedPotion() || cp.timeSince(Stat.MOVEMENT_POTION) < 3000)
 			return;
 
-		if (cp.isBlockNearby(Material.SCAFFOLDING))
+		if (cp.isBlockNearby(Material.SCAFFOLDING, 4, -2))
 			return;
 
 		if (cp.timeSince(Stat.COBWEB) < 500)
