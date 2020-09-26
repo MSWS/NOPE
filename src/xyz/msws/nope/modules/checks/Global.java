@@ -149,6 +149,8 @@ public class Global extends AbstractModule implements Listener {
 		if (boots != null && boots.getType() != Material.AIR && boots.containsEnchantment(Enchantment.SOUL_SPEED)) {
 			if (cp.isBlockNearby(Material.SOUL_SAND, -1))
 				cp.setTempData(Stat.SOUL_SPEED, time);
+			if (cp.isBlockNearby(Material.SOUL_SOIL, 0, -0.5f))
+				cp.setTempData(Stat.SOUL_SPEED, time);
 		}
 
 		if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())

@@ -96,6 +96,11 @@ public class BHop1 implements Check, Listener {
 			return;
 		}
 
+		if (cp.timeSince(Stat.SOUL_SPEED) < 1000) {
+			lastGround.remove(player.getUniqueId());
+			return;
+		}
+
 		Location to = event.getTo();
 
 		if (!lastGround.containsKey(player.getUniqueId())) {
