@@ -25,7 +25,7 @@ Global: true # If disabled, NOPE will be disabled
 Scoreboard: true # The scoreboard uses the vanilla scoreboard and shouldn't mess with other plugins
 
 Log: file # NONE, file, or hastebin
-GitHub: # Fill out these fields to enable /nope false, leave Password blank to use a TAP (recommended), see https://github.com/settings/tokens for more details
+GitHub: # Fill out these fields to enable /nope false, leave Password blank to use a PAT (recommended), see https://github.com/settings/tokens for more details
   Username: ''
   Password: ''
 
